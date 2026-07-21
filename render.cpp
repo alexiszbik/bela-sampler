@@ -50,11 +50,15 @@ bool setup(BelaContext *context, void *userData) {
 			continue;
 		}
 
+		player.setPlayingSampleRate(context->audioSampleRate);
+
 		rt_printf("Loaded %s (%u frames, %s, %u Hz)\n",
 			fileName.c_str(),
 			player.getLength(),
 			player.getChannelDescription().c_str(),
 			player.getSampleRate());
+
+		player.setSpeed(0.7);
 		gPlayers.push_back(std::move(player));
 	}
 

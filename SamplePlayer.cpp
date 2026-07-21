@@ -3,6 +3,8 @@
 #include <libraries/AudioFile/AudioFile.h>
 #include <libraries/sndfile/sndfile.h>
 
+#include <cmath>
+
 std::string SamplePlayer::getChannelDescription() const {
 	switch(channelCount)
 	{
@@ -34,8 +36,31 @@ bool SamplePlayer::load(const std::string& filepath) {
 
 	channelCount = static_cast<unsigned int>(numChannels);
 	name = filepath;
-	readPtr = 0;
+	readPos = 0.0;
+	speed = 1.f;
 	return true;
+}
+
+void SamplePlayer::tableRead(double index, size_t tableLength, float* buf, size_t bufSize) {
+	const double p = index;
+	const double q = std::floor(p);
+	const double r = p - q;
+
+	int nextIndex = static_cast<int>(q) + 1;
+	if(nextIndex >= static_cast<int>(tableLength)) {
+		nextIndex = 0;
+	} else if(nextIndex < 0) {
+		nextIndex = static_cast<int>(tableLength) - 1;
+	}
+
+	const int currentIndex = static_cast<int>(q);
+
+	for(size_t channel = 0; channel < bufSize; channel++) {
+		const unsigned int srcChan = channel % channelCount;
+		const float sample0 = sampleData[srcChan][currentIndex];
+		const float sample1 = sampleData[srcChan][nextIndex];
+		buf[channel] += static_cast<float>((1.0 - r) * sample0 + r * sample1);
+	}
 }
 
 void SamplePlayer::nextSamples(float* buf, size_t bufSize) {
@@ -43,12 +68,19 @@ void SamplePlayer::nextSamples(float* buf, size_t bufSize) {
 		return;
 	}
 
-	for (size_t chan = 0; chan < bufSize; chan++) {
-		buf[chan] += sampleData[chan % channelCount][readPtr];
+	if(speed <= 0.f) {
+		return;
 	}
 
-	if(++readPtr >= sampleData[0].size()) {
-		readPtr = 0; //Loop
+	const size_t length = sampleData[0].size();
+	const double srSpeed = static_cast<double>(sampleRate) / playingSampleRate;
+	const double playbackSpeed = static_cast<double>(speed) * srSpeed;
+
+	tableRead(readPos, length, buf, bufSize);
+
+	readPos += playbackSpeed;
+	if(readPos >= static_cast<double>(length)) {
+		readPos = std::fmod(readPos, static_cast<double>(length));
 	}
 }
 
