@@ -1,0 +1,9 @@
+#!/bin/bash
+# Bela Gem connection settings (override in ~/.belarc for all projects)
+
+BBB_USER="${BBB_USER:-root}"
+BBB_HOSTNAME="${BBB_HOSTNAME:-bela.local}"
+BBB_ADDRESS="${BBB_ADDRESS:-$BBB_USER@$BBB_HOSTNAME}"
+BBB_BELA_HOME="${BBB_BELA_HOME:-/root/Bela}"
+BBB_PROJECT_HOME="${BBB_PROJECT_HOME:-$BBB_BELA_HOME/projects}"
+PROJECT_NAME="${PROJECT_NAME:-Sampler}"
