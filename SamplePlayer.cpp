@@ -5,6 +5,9 @@
 
 #include <cmath>
 
+static const double kGrainDurationSec = 0.08;
+static const double twoPi = 2.0 * M_PI;
+
 std::string SamplePlayer::getChannelDescription() const {
 	switch(channelCount)
 	{
@@ -38,7 +41,28 @@ bool SamplePlayer::load(const std::string& filepath) {
 	name = filepath;
 	readPos = 0.0;
 	speed = 1.f;
+	granularSpeed = 1.f;
+	granularPitch = 1.f;
+	sampleLength = sampleData[0].size();
+	dSampleLength =  static_cast<double>(sampleLength);
+	srSpeed = static_cast<double>(sampleRate) / playingSampleRate;
+
+	grainOutputLength = playingSampleRate * kGrainDurationSec;
+	grainPhaseIncrement = 1.0 / grainOutputLength;
+	grainHop = grainOutputLength * 0.5;
+	resetGranularState();
+
 	return true;
+}
+
+void SamplePlayer::resetGranularState() {
+	sequentialPos = 0.0;
+	grainHopCounter = 0.0;
+	nextGrainIndex = 0;
+	for(Grain& grain : grains) {
+		grain.readPos = 0.0;
+		grain.phase = 1.0;
+	}
 }
 
 void SamplePlayer::tableRead(double index, size_t tableLength, float* buf, size_t bufSize) {
@@ -63,35 +87,88 @@ void SamplePlayer::tableRead(double index, size_t tableLength, float* buf, size_
 	}
 }
 
-void SamplePlayer::nextSamples(float* buf, size_t bufSize) {
-	if(sampleData.empty() || sampleData[0].empty()) {
-		return;
-	}
+float SamplePlayer::hannEnvelope(double phase) const {
+	return static_cast<float>(0.5 * (1.0 - std::cos(twoPi * phase)));
+}
 
-	if(speed <= 0.f) {
-		return;
-	}
-
-	const size_t length = sampleData[0].size();
-	const double srSpeed = static_cast<double>(sampleRate) / playingSampleRate;
-	const double playbackSpeed = static_cast<double>(speed) * srSpeed;
-
-	tableRead(readPos, length, buf, bufSize);
-
-	readPos += playbackSpeed;
-	if(readPos >= static_cast<double>(length)) {
-		readPos = std::fmod(readPos, static_cast<double>(length));
+void SamplePlayer::wrapSampleIndex(double& index) const {
+	while(index >= dSampleLength) {
+		index -= dSampleLength;
 	}
 }
 
-unsigned int SamplePlayer::getLength() const {
-	return sampleData.empty() ? 0u : static_cast<unsigned int>(sampleData[0].size());
+void SamplePlayer::spawnGrain(Grain& grain) {
+	grain.readPos = sequentialPos;
+	grain.phase = 0.0;
+
+	sequentialPos += grainHop * srSpeed;
+	wrapSampleIndex(sequentialPos);
+}
+
+void SamplePlayer::processGrain(Grain& grain, float* buf, size_t bufSize, double grainReadSpeed) {
+	if(grain.phase >= 1.0) {
+		return;
+	}
+
+	float grainOut[2] = {0.f, 0.f};
+	tableRead(grain.readPos, sampleLength, grainOut, bufSize);
+
+	const float env = hannEnvelope(grain.phase);
+	for(size_t channel = 0; channel < bufSize; channel++) {
+		buf[channel] += grainOut[channel] * env;
+	}
+
+	grain.readPos += grainReadSpeed;
+	wrapSampleIndex(grain.readPos);
+
+	grain.phase += grainPhaseIncrement;
+}
+
+void SamplePlayer::nextSamplesNormal(float* buf, size_t bufSize) {
+	const double playbackSpeed = static_cast<double>(speed) * srSpeed;
+
+	tableRead(readPos, sampleLength, buf, bufSize);
+
+	readPos += playbackSpeed;
+	wrapSampleIndex(readPos);
+}
+
+void SamplePlayer::nextSamplesGranular(float* buf, size_t bufSize) {
+	if(granularSpeed <= 0.f || granularPitch <= 0.f) {
+		return;
+	}
+
+	const double grainReadSpeed = srSpeed * static_cast<double>(granularPitch);
+	const double hop = grainHop / static_cast<double>(granularSpeed);
+
+	if(grainHopCounter <= 0.0) {
+		spawnGrain(grains[nextGrainIndex]);
+		nextGrainIndex = 1 - nextGrainIndex;
+		grainHopCounter = hop;
+	}
+
+	for(Grain& grain : grains) {
+		processGrain(grain, buf, bufSize, grainReadSpeed);
+	}
+
+	grainHopCounter -= 1.0;
+}
+
+void SamplePlayer::nextSamples(float* buf, size_t bufSize) {
+	if(sampleLength == 0) {
+		return;
+	}
+
+	if(playMode == Normal) {
+		if(speed <= 0.f) {
+			return;
+		}
+		nextSamplesNormal(buf, bufSize);
+	} else {
+		nextSamplesGranular(buf, bufSize);
+	}
 }
 
 size_t SamplePlayer::getRamBytes() const {
-	if(sampleData.empty() || sampleData[0].empty()) {
-		return 0;
-	}
-
-	return sampleData[0].size() * channelCount * sizeof(float);
+	return sampleLength * channelCount * sizeof(float);
 }

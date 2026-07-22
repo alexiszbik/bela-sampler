@@ -63,7 +63,11 @@ bool setup(BelaContext *context, void *userData) {
 
 		totalRamBytes += player.getRamBytes();
 
-		player.setSpeed(0.7);
+		player.setSpeed(0.5);
+		player.setPlayMode(SamplePlayer::Granular);
+		player.setGranularSpeed(0.82f);
+		player.setGranularPitch(0.82f);
+		
 		gPlayers.push_back(std::move(player));
 	}
 
