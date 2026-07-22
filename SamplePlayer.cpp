@@ -25,7 +25,8 @@ void SamplePlayer::setPlayMode(EPlayerMode pm) {
 	}
 
 	playMode = pm;
-	resetPlaybackState();
+	readPos = 0.0;
+	resetGranularState();
 }
 
 void SamplePlayer::updateSrSpeed() {
