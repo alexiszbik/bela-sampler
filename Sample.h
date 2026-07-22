@@ -8,7 +8,7 @@ class Sample
 public:
 	bool load(const std::string& filepath);
 
-	void tableRead(double index, float* buf, size_t bufSize) const;
+	void tableRead(double index, float* buf, size_t bufSize, bool loop = true) const;
 
 	unsigned int getLength() const { return static_cast<unsigned int>(sampleLength); }
 	double getSampleLengthDouble() const { return dSampleLength; }

@@ -10,13 +10,19 @@
 #include <vector>
 
 #include "Sample.h"
-#include "SamplePlayer.h"
+#include "SamplePlayerPool.h"
+#include "Program.h"
+#include "SamplerEngine.h"
+#include "MidiInput.h"
 
 static const char* kSamplesFolder = "samplesfolder";
-static const size_t kNumPlayers = 4;
+static const size_t kNumPlayers = 8;
 
 static std::vector<Sample> gSamples;
-static std::vector<SamplePlayer> gPlayers;
+static SamplePlayerPool gPlayerPool;
+static Program gProgram;
+static SamplerEngine gEngine;
+static MidiInput gMidiInput;
 
 float mix[2] = {0.f, 0.f};
 
@@ -77,23 +83,20 @@ bool setup(BelaContext *context, void *userData) {
 		totalRamBytes / 1024.f,
 		totalRamBytes / (1024.f * 1024.f));
 
-	gPlayers.resize(kNumPlayers);
-	for(size_t i = 0; i < kNumPlayers; i++) {
-		SamplePlayer& player = gPlayers[i];
-		player.init(context->audioSampleRate);
-		player.setSample(&gSamples[i % gSamples.size()]);
+	gPlayerPool.init(context->audioSampleRate, kNumPlayers);
 
-		/*if(i % 2 == 0) {
-			player.setPlayMode(SamplePlayer::Granular);
-			player.setGranularSpeed(0.82f);
-			player.setGranularPitch(0.82f);
-		} else {*/
-			player.setPlayMode(SamplePlayer::Normal);
-			player.setSpeed(0.5f);
-		//}
+	for(size_t i = 0; i < gSamples.size() && i < 8; i++) {
+		gProgram.addSlot(static_cast<int>(36 + i), &gSamples[i]);
 	}
 
-	rt_printf("Playing %zu samples with %zu players\n", gSamples.size(), gPlayers.size());
+	gEngine.init(&gProgram, &gPlayerPool);
+
+	rt_printf("Loaded %zu samples, %zu voice pool, %zu program slots\n",
+		gSamples.size(),
+		gPlayerPool.getCount(),
+		gProgram.getSlotCount());
+
+	gMidiInput.setup(&gEngine);
 	return true;
 }
 
@@ -104,9 +107,7 @@ void render(BelaContext *context, void *userData) {
 			mix[channel] = 0;
 		}
 
-		for(SamplePlayer& player : gPlayers) {
-			player.nextSamples(mix, 2);
-		}
+		gEngine.nextSamples(mix, 2);
 
 		for(unsigned int channel = 0; channel < /*context->audioOutChannels*/2; channel++) {
 			audioWrite(context, n, channel, mix[channel]);
@@ -115,6 +116,5 @@ void render(BelaContext *context, void *userData) {
 }
 
 void cleanup(BelaContext *context, void *userData) {
-	gPlayers.clear();
 	gSamples.clear();
 }

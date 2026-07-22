@@ -41,7 +41,7 @@ bool Sample::load(const std::string& filepath) {
 	return true;
 }
 
-void Sample::tableRead(double index, float* buf, size_t bufSize) const {
+void Sample::tableRead(double index, float* buf, size_t bufSize, bool loop) const {
 	if(sampleLength == 0) {
 		return;
 	}
@@ -50,11 +50,15 @@ void Sample::tableRead(double index, float* buf, size_t bufSize) const {
 	const double q = std::floor(p);
 	const double r = p - q;
 
+	if(!loop && q >= static_cast<double>(sampleLength)) {
+		return;
+	}
+
 	int nextIndex = static_cast<int>(q) + 1;
 	if(nextIndex >= static_cast<int>(sampleLength)) {
-		nextIndex = 0;
+		nextIndex = loop ? 0 : static_cast<int>(sampleLength) - 1;
 	} else if(nextIndex < 0) {
-		nextIndex = static_cast<int>(sampleLength) - 1;
+		nextIndex = loop ? static_cast<int>(sampleLength) - 1 : 0;
 	}
 
 	const int currentIndex = static_cast<int>(q);

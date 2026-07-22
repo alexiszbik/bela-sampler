@@ -21,7 +21,11 @@ public:
 
 	void nextSamples(float* buf, size_t bufSize);
 
+	void trigger();
+	bool getIsPlaying() const { return isPlaying; }
+
 	void setSpeed(float newSpeed) { speed = newSpeed; }
+	void setLoop(bool loopState) { isLoop = loopState; }
 	void setPlayMode(EPlayerMode pm);
 	void setGranularSpeed(float newSpeed) { granularSpeed = newSpeed; }
 	void setGranularPitch(float newPitch) { granularPitch = newPitch; }
@@ -57,4 +61,6 @@ private:
 	float granularPitch = 1.f;
 
 	EPlayerMode playMode = Normal;
+	bool isLoop = false;
+	bool isPlaying = false;
 };
