@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <vector>
+#include "Sample.h"
 
 class SamplePlayer
 {
@@ -17,38 +16,28 @@ public:
 	};
 
 public:
-	void init(double sr) { playingSampleRate = sr; }
-
-	bool load(const std::string& filepath);
+	void init(double playingSampleRate);
+	void setSample(const Sample* sample);
 
 	void nextSamples(float* buf, size_t bufSize);
 
-	unsigned int getLength() const { return static_cast<unsigned int>(sampleLength); }
-	size_t getRamBytes() const;
-
-	unsigned int getChannelCount() const { return channelCount; }
-	unsigned int getSampleRate() const { return sampleRate; }
-
 	void setSpeed(float newSpeed) { speed = newSpeed; }
-	void setPlayMode(EPlayerMode pm) { playMode = pm; }
+	void setPlayMode(EPlayerMode pm);
 	void setGranularSpeed(float newSpeed) { granularSpeed = newSpeed; }
 	void setGranularPitch(float newPitch) { granularPitch = newPitch; }
 
-	std::string getChannelDescription() const;
-	const std::string& getName() const { return name; }
-
 private:
-	void tableRead(double index, size_t tableLength, float* buf, size_t bufSize);
 	void nextSamplesNormal(float* buf, size_t bufSize);
 	void nextSamplesGranular(float* buf, size_t bufSize);
 	void spawnGrain(Grain& grain);
 	void processGrain(Grain& grain, float* buf, size_t bufSize, double grainReadSpeed);
 	float hannEnvelope(double phase) const;
+	void resetPlaybackState();
 	void resetGranularState();
 	void wrapSampleIndex(double& index) const;
+	void updateSrSpeed();
 
-	std::string name;
-	std::vector<std::vector<float>> sampleData;
+	const Sample* sample = nullptr;
 
 	double readPos = 0.0;
 	double playingSampleRate = 44100.0;
@@ -66,11 +55,6 @@ private:
 	float speed = 1.f;
 	float granularSpeed = 1.f;
 	float granularPitch = 1.f;
-
-	size_t sampleLength = 0;
-	double dSampleLength = 0.0;
-	unsigned int channelCount = 0;
-	unsigned int sampleRate = 0;
 
 	EPlayerMode playMode = Normal;
 };

@@ -9,9 +9,13 @@
 #include <string>
 #include <vector>
 
+#include "Sample.h"
 #include "SamplePlayer.h"
 
 static const char* kSamplesFolder = "samplesfolder";
+static const size_t kNumPlayers = 4;
+
+static std::vector<Sample> gSamples;
 static std::vector<SamplePlayer> gPlayers;
 
 float mix[2] = {0.f, 0.f};
@@ -45,43 +49,51 @@ bool setup(BelaContext *context, void *userData) {
 		}
 
 		const std::string path = std::string(kSamplesFolder) + "/" + fileName;
-		SamplePlayer player;
-
-		player.init(context->audioSampleRate);
-
-		if(!player.load(path)) {
+		Sample sample;
+		if(!sample.load(path)) {
 			rt_printf("Failed to load %s\n", path.c_str());
 			continue;
 		}
 
 		rt_printf("Loaded %s (%u frames, %s, %u Hz, %.1f KB RAM)\n",
 			fileName.c_str(),
-			player.getLength(),
-			player.getChannelDescription().c_str(),
-			player.getSampleRate(),
-			player.getRamBytes() / 1024.f);
+			sample.getLength(),
+			sample.getChannelDescription().c_str(),
+			sample.getSampleRate(),
+			sample.getRamBytes() / 1024.f);
 
-		totalRamBytes += player.getRamBytes();
-
-		player.setSpeed(0.5);
-		player.setPlayMode(SamplePlayer::Granular);
-		player.setGranularSpeed(0.82f);
-		player.setGranularPitch(0.82f);
-		
-		gPlayers.push_back(std::move(player));
+		totalRamBytes += sample.getRamBytes();
+		gSamples.push_back(std::move(sample));
 	}
 
 	closedir(dir);
 
-	if(gPlayers.empty()) {
+	if(gSamples.empty()) {
 		rt_printf("No samples found in %s\n", kSamplesFolder);
 		return false;
 	}
 
-	rt_printf("Playing %zu samples in loop\n", gPlayers.size());
 	rt_printf("Total samples RAM: %.1f KB (%.2f MB)\n",
 		totalRamBytes / 1024.f,
 		totalRamBytes / (1024.f * 1024.f));
+
+	gPlayers.resize(kNumPlayers);
+	for(size_t i = 0; i < kNumPlayers; i++) {
+		SamplePlayer& player = gPlayers[i];
+		player.init(context->audioSampleRate);
+		player.setSample(&gSamples[i % gSamples.size()]);
+
+		/*if(i % 2 == 0) {
+			player.setPlayMode(SamplePlayer::Granular);
+			player.setGranularSpeed(0.82f);
+			player.setGranularPitch(0.82f);
+		} else {*/
+			player.setPlayMode(SamplePlayer::Normal);
+			player.setSpeed(0.5f);
+		//}
+	}
+
+	rt_printf("Playing %zu samples with %zu players\n", gSamples.size(), gPlayers.size());
 	return true;
 }
 
@@ -104,4 +116,5 @@ void render(BelaContext *context, void *userData) {
 
 void cleanup(BelaContext *context, void *userData) {
 	gPlayers.clear();
+	gSamples.clear();
 }
