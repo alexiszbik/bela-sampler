@@ -87,3 +87,11 @@ void SamplePlayer::nextSamples(float* buf, size_t bufSize) {
 unsigned int SamplePlayer::getLength() const {
 	return sampleData.empty() ? 0u : static_cast<unsigned int>(sampleData[0].size());
 }
+
+size_t SamplePlayer::getRamBytes() const {
+	if(sampleData.empty() || sampleData[0].empty()) {
+		return 0;
+	}
+
+	return sampleData[0].size() * channelCount * sizeof(float);
+}

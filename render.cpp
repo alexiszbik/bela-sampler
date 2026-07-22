@@ -33,6 +33,7 @@ bool setup(BelaContext *context, void *userData) {
 	}
 
 	struct dirent* entry;
+	size_t totalRamBytes = 0;
 	while((entry = readdir(dir)) != nullptr)
 	{
 		const std::string fileName = entry->d_name;
@@ -45,18 +46,22 @@ bool setup(BelaContext *context, void *userData) {
 
 		const std::string path = std::string(kSamplesFolder) + "/" + fileName;
 		SamplePlayer player;
+
+		player.init(context->audioSampleRate);
+
 		if(!player.load(path)) {
 			rt_printf("Failed to load %s\n", path.c_str());
 			continue;
 		}
 
-		player.setPlayingSampleRate(context->audioSampleRate);
-
-		rt_printf("Loaded %s (%u frames, %s, %u Hz)\n",
+		rt_printf("Loaded %s (%u frames, %s, %u Hz, %.1f KB RAM)\n",
 			fileName.c_str(),
 			player.getLength(),
 			player.getChannelDescription().c_str(),
-			player.getSampleRate());
+			player.getSampleRate(),
+			player.getRamBytes() / 1024.f);
+
+		totalRamBytes += player.getRamBytes();
 
 		player.setSpeed(0.7);
 		gPlayers.push_back(std::move(player));
@@ -70,6 +75,9 @@ bool setup(BelaContext *context, void *userData) {
 	}
 
 	rt_printf("Playing %zu samples in loop\n", gPlayers.size());
+	rt_printf("Total samples RAM: %.1f KB (%.2f MB)\n",
+		totalRamBytes / 1024.f,
+		totalRamBytes / (1024.f * 1024.f));
 	return true;
 }
 

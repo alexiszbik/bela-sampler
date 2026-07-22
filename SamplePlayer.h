@@ -6,16 +6,19 @@
 class SamplePlayer
 {
 public:
+	void init(double sr) { playingSampleRate = sr; }
+
 	bool load(const std::string& filepath);
 
 	void nextSamples(float* buf, size_t bufSize);
 
 	unsigned int getLength() const;
+	size_t getRamBytes() const;
+
 	unsigned int getChannelCount() const { return channelCount; }
 	unsigned int getSampleRate() const { return sampleRate; }
-	float getSpeed() const { return speed; }
+
 	void setSpeed(float newSpeed) { speed = newSpeed; }
-	void setPlayingSampleRate(double rate) { playingSampleRate = rate; }
 
 	std::string getChannelDescription() const;
 	const std::string& getName() const { return name; }
