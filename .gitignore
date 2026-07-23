@@ -4,6 +4,9 @@ build/
 *.d
 RenderTest
 
+# Sample assets (local / board-specific)
+samplesfolder/
+
 # IDE / OS
 .DS_Store
 .vscode/
