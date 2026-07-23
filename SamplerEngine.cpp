@@ -26,11 +26,7 @@ void SamplerEngine::onNoteOn(int note, int velocity) {
 		return;
 	}
 
-	playerPool.playOn(player, slot->sample, slot->mode == Program::SlotMode::Gate);
-
-	if(slot->muteGroup != MuteGroup::None) {
-		player->setActiveSlot(slot->id);
-	}
+	playerPool.playOn(player, *slot);
 }
 
 void SamplerEngine::onNoteOff(int note) {

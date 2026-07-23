@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Program.h"
 #include "SamplePlayer.h"
 
 #include <vector>
@@ -8,7 +9,7 @@ class SamplePlayerPool
 {
 public:
 	void init(double sampleRate, size_t count);
-	void playOn(SamplePlayer* player, const Sample* sample, bool loop = false);
+	void playOn(SamplePlayer* player, const Program::Slot& slot);
 	void stop(SamplePlayer* player);
 	void nextSamples(float* buf, size_t bufSize);
 

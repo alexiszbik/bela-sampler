@@ -1,5 +1,7 @@
 #include "ProgramJson.h"
 
+#include "PitchHelper.h"
+
 #include <Bela.h>
 
 #include <cctype>
@@ -66,6 +68,19 @@ bool ProgramJson::parseInt(int& out) {
 	}
 
 	out = static_cast<int>(value);
+	cursor = end;
+	return true;
+}
+
+bool ProgramJson::parseFloat(float& out) {
+	skipSpace();
+	char* end = nullptr;
+	const double value = std::strtod(cursor, &end);
+	if(end == cursor) {
+		return false;
+	}
+
+	out = static_cast<float>(value);
 	cursor = end;
 	return true;
 }
@@ -207,6 +222,15 @@ bool ProgramJson::parseMuteGroup(MuteGroup& muteGroup) {
 	return true;
 }
 
+bool ProgramJson::parsePitch(float& pitch) {
+	if(!parseFloat(pitch)) {
+		return false;
+	}
+
+	pitch = clampPitchSemitones(pitch);
+	return true;
+}
+
 bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	if(!matchLiteral('{')) {
 		return false;
@@ -242,6 +266,10 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 				return false;
 			}
 			hasMuteGroup = slot.muteGroup != MuteGroup::None;
+		} else if(matchKey(kPitch)) {
+			if(!matchLiteral(':') || !parsePitch(slot.pitchSemitones)) {
+				return false;
+			}
 		} else {
 			skipValue();
 		}

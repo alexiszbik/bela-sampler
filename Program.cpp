@@ -63,8 +63,9 @@ const char* muteGroupName(MuteGroup muteGroup) {
 }
 }
 
-void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode, MuteGroup muteGroup) {
-	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup});
+void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode, MuteGroup muteGroup,
+	float pitchSemitones) {
+	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup, pitchSemitones});
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
@@ -86,7 +87,7 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 				continue;
 			}
 
-			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup);
+			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup, slotDesc.pitchSemitones);
 			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s\n",
 				slots.back().id,
 				slotDesc.midiNote,
@@ -100,15 +101,23 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			continue;
 		}
 
-		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup);
+		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup, slotDesc.pitchSemitones);
 
 		if(groupName != nullptr) {
-			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s muteGroup=%s\n",
+			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s muteGroup=%s pitch=%.2f\n",
 				slots.back().id,
 				slotDesc.midiNote,
 				slotDesc.sample.c_str(),
 				slotModeName(mode),
-				groupName);
+				groupName,
+				slotDesc.pitchSemitones);
+		} else if(slotDesc.pitchSemitones != 0.f) {
+			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s pitch=%.2f\n",
+				slots.back().id,
+				slotDesc.midiNote,
+				slotDesc.sample.c_str(),
+				slotModeName(mode),
+				slotDesc.pitchSemitones);
 		} else {
 			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s\n",
 				slots.back().id,

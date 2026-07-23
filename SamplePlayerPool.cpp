@@ -1,5 +1,7 @@
 #include "SamplePlayerPool.h"
 
+#include "PitchHelper.h"
+
 #include <Bela.h>
 
 void SamplePlayerPool::init(double sampleRate, size_t count) {
@@ -9,18 +11,24 @@ void SamplePlayerPool::init(double sampleRate, size_t count) {
 	}
 }
 
-void SamplePlayerPool::playOn(SamplePlayer* player, const Sample* sample, bool loop) {
-	if(sample == nullptr || player == nullptr) {
+void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot) {
+	if(player == nullptr || slot.sample == nullptr) {
 		return;
 	}
 
-	player->setSample(sample);
+	const bool loop = slot.mode == Program::SlotMode::Gate;
+	player->setSample(slot.sample);
 	player->setLoop(loop);
+	player->setSpeed(semitonesToPlaybackSpeed(slot.pitchSemitones));
 	player->trigger();
 
+	if(slot.muteGroup != MuteGroup::None) {
+		player->setActiveSlot(slot.id);
+	}
+
 	const size_t playerIndex = static_cast<size_t>(player - &players[0]);
-	rt_printf("Play sample %s on player %zu loop=%d\n",
-		sample->getName().c_str(), playerIndex, loop ? 1 : 0);
+	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f\n",
+		slot.sample->getName().c_str(), playerIndex, loop ? 1 : 0, slot.pitchSemitones);
 }
 
 void SamplePlayerPool::stop(SamplePlayer* player) {

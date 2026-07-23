@@ -16,6 +16,7 @@ struct ProgramSlotDesc {
 	std::string sample;
 	ProgramSlotMode mode = ProgramSlotMode::Poly;
 	MuteGroup muteGroup = MuteGroup::None;
+	float pitchSemitones = 0.f;
 };
 
 class ProgramJson
@@ -38,10 +39,12 @@ private:
 	bool parseSlotObject(ProgramSlotDesc& slot);
 	bool parseMode(ProgramSlotMode& mode);
 	bool parseMuteGroup(MuteGroup& muteGroup);
+	bool parsePitch(float& pitch);
 
 	void skipSpace();
 	bool matchLiteral(char expected);
 	bool parseInt(int& out);
+	bool parseFloat(float& out);
 	bool parseQuotedString(std::string& out);
 	bool matchKey(const char* key);
 	void skipValue();
@@ -53,5 +56,6 @@ private:
 	static constexpr const char* kSample = "sample";
 	static constexpr const char* kMode = "mode";
 	static constexpr const char* kMuteGroup = "muteGroup";
+	static constexpr const char* kPitch = "pitch";
 	static constexpr const char* kSlots = "slots";
 };

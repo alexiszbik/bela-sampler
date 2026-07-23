@@ -9,6 +9,10 @@
 		{ "midiNote": 44, "sample": "sample.wav", "mode": "poly" },
 		{ "midiNote": 45, "sample": "sample.wav", "mode": "mono" },
 		{ "midiNote": 46, "sample": "weird hat.wav", "mode": "poly", "muteGroup": "A" },
-		{ "midiNote": 47, "muteGroup": "A" }
+		{ "midiNote": 47, "muteGroup": "A" },
+		{ "midiNote": 48, "sample": "eguitar.wav", "mode": "mono", "pitch": 12 },
+		{ "midiNote": 49, "sample": "eguitar.wav", "mode": "mono", "pitch": 0 },
+		{ "midiNote": 50, "sample": "eguitar.wav", "mode": "mono", "pitch": -7 },
+		{ "midiNote": 51, "sample": "eguitar.wav", "mode": "mono", "pitch": 3 }
 	]
 }
