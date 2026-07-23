@@ -3,20 +3,20 @@
 void SamplerEngine::init(Program* inProgram, double sampleRate, size_t playerCount) {
 	program = inProgram;
 	playerPool.init(sampleRate, playerCount);
-	monoPlayerBySlotId.clear();
+	monoPlayerBySlot.clear();
 
 	if(program != nullptr) {
-		monoPlayerBySlotId.assign(program->getSlotCount(), playerPool.getCount());
+		monoPlayerBySlot.assign(program->getSlotCount(), nullptr);
 	}
 }
 
-bool SamplerEngine::isPlayerReservedForMono(size_t playerIndex) const {
-	for(size_t slotId = 0; slotId < monoPlayerBySlotId.size(); slotId++) {
-		if(monoPlayerBySlotId[slotId] != playerIndex || playerIndex >= playerPool.getCount()) {
-			continue;
-		}
+bool SamplerEngine::isPlayerReservedForMono(const SamplePlayer* player) const {
+	if(player == nullptr) {
+		return false;
+	}
 
-		if(playerPool.isPlaying(playerIndex)) {
+	for(const SamplePlayer* monoPlayer : monoPlayerBySlot) {
+		if(monoPlayer == player && player->getIsPlaying()) {
 			return true;
 		}
 	}
@@ -24,45 +24,44 @@ bool SamplerEngine::isPlayerReservedForMono(size_t playerIndex) const {
 	return false;
 }
 
-size_t SamplerEngine::findFreePlayerIndex() const {
+SamplePlayer* SamplerEngine::findFreePlayer() {
 	for(size_t i = 0; i < playerPool.getCount(); i++) {
-		if(isPlayerReservedForMono(i)) {
+		SamplePlayer* player = playerPool.getPlayer(i);
+		if(isPlayerReservedForMono(player)) {
 			continue;
 		}
 
-		if(!playerPool.isPlaying(i)) {
-			return i;
+		if(!player->getIsPlaying()) {
+			return player;
 		}
 	}
 
-	return playerPool.getCount();
+	return nullptr;
 }
 
 void SamplerEngine::playPoly(const Program::Slot& slot) {
-	const size_t playerIndex = findFreePlayerIndex();
-	if(playerIndex >= playerPool.getCount()) {
+	SamplePlayer* player = findFreePlayer();
+	if(player == nullptr) {
 		return;
 	}
 
-	playerPool.playOn(playerIndex, slot.sample);
+	playerPool.playOn(player, slot.sample);
 }
 
 void SamplerEngine::playMono(const Program::Slot& slot) {
-	if(slot.id >= monoPlayerBySlotId.size()) {
+	if(slot.id >= monoPlayerBySlot.size()) {
 		return;
 	}
 
-	size_t playerIndex = monoPlayerBySlotId[slot.id];
-	if(playerIndex >= playerPool.getCount()) {
-		playerIndex = findFreePlayerIndex();
-		if(playerIndex >= playerPool.getCount()) {
+	SamplePlayer*& player = monoPlayerBySlot[slot.id];
+	if(player == nullptr) {
+		player = findFreePlayer();
+		if(player == nullptr) {
 			return;
 		}
-
-		monoPlayerBySlotId[slot.id] = playerIndex;
 	}
 
-	playerPool.playOn(playerIndex, slot.sample);
+	playerPool.playOn(player, slot.sample);
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity) {

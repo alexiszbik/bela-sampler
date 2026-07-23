@@ -9,47 +9,24 @@ void SamplePlayerPool::init(double sampleRate, size_t count) {
 	}
 }
 
-size_t SamplePlayerPool::findIdlePlayerIndex() {
-	for(size_t i = 0; i < players.size(); i++) {
-		if(!players[i].getIsPlaying()) {
-			return i;
-		}
-	}
-
-	return players.size();
-}
-
-bool SamplePlayerPool::isPlaying(size_t playerIndex) const {
+SamplePlayer* SamplePlayerPool::getPlayer(size_t playerIndex) {
 	if(playerIndex >= players.size()) {
-		return false;
+		return nullptr;
 	}
 
-	return players[playerIndex].getIsPlaying();
+	return &players[playerIndex];
 }
 
-void SamplePlayerPool::playOn(size_t playerIndex, const Sample* sample) {
-	if(sample == nullptr || playerIndex >= players.size()) {
+void SamplePlayerPool::playOn(SamplePlayer* player, const Sample* sample) {
+	if(sample == nullptr || player == nullptr) {
 		return;
 	}
 
-	SamplePlayer& player = players[playerIndex];
-	player.setSample(sample);
-	player.trigger();
+	player->setSample(sample);
+	player->trigger();
 
+	const size_t playerIndex = static_cast<size_t>(player - &players[0]);
 	rt_printf("Play sample %s on player %zu\n", sample->getName().c_str(), playerIndex);
-}
-
-void SamplePlayerPool::play(const Sample* sample) {
-	if(sample == nullptr) {
-		return;
-	}
-
-	const size_t playerIndex = findIdlePlayerIndex();
-	if(playerIndex >= players.size()) {
-		return;
-	}
-
-	playOn(playerIndex, sample);
 }
 
 void SamplePlayerPool::nextSamples(float* buf, size_t bufSize) {

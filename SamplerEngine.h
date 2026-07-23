@@ -17,10 +17,10 @@ public:
 private:
 	void playMono(const Program::Slot& slot);
 	void playPoly(const Program::Slot& slot);
-	bool isPlayerReservedForMono(size_t playerIndex) const;
-	size_t findFreePlayerIndex() const;
+	bool isPlayerReservedForMono(const SamplePlayer* player) const;
+	SamplePlayer* findFreePlayer();
 
 	Program* program = nullptr;
 	SamplePlayerPool playerPool;
-	std::vector<size_t> monoPlayerBySlotId;
+	std::vector<SamplePlayer*> monoPlayerBySlot;
 };
