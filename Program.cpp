@@ -26,11 +26,25 @@ const Sample* findSampleByName(const std::vector<Sample>& samples, const std::st
 }
 
 Program::SlotMode toProgramSlotMode(ProgramSlotMode mode) {
-	return mode == ProgramSlotMode::Mono ? Program::SlotMode::Mono : Program::SlotMode::Poly;
+	switch(mode) {
+		case ProgramSlotMode::Mono:
+			return Program::SlotMode::Mono;
+		case ProgramSlotMode::Gate:
+			return Program::SlotMode::Gate;
+		default:
+			return Program::SlotMode::Poly;
+	}
 }
 
 const char* slotModeName(Program::SlotMode mode) {
-	return mode == Program::SlotMode::Mono ? "mono" : "poly";
+	switch(mode) {
+		case Program::SlotMode::Mono:
+			return ProgramJson::kModeMono;
+		case Program::SlotMode::Gate:
+			return ProgramJson::kModeGate;
+		default:
+			return ProgramJson::kModePoly;
+	}
 }
 }
 

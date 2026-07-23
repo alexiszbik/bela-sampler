@@ -5,7 +5,8 @@
 
 enum class ProgramSlotMode {
 	Poly,
-	Mono
+	Mono,
+	Gate
 };
 
 struct ProgramSlotDesc {
@@ -17,6 +18,10 @@ struct ProgramSlotDesc {
 class ProgramJson
 {
 public:
+	static constexpr const char* kModePoly = "poly";
+	static constexpr const char* kModeMono = "mono";
+	static constexpr const char* kModeGate = "gate";
+
 	bool parseFile(const std::string& filepath, std::vector<ProgramSlotDesc>& slots);
 
 private:

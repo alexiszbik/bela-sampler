@@ -9,7 +9,8 @@ class Program
 public:
 	enum class SlotMode {
 		Poly,
-		Mono
+		Mono,
+		Gate
 	};
 
 	struct Slot {

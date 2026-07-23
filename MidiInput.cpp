@@ -26,6 +26,9 @@ void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
 			} else {
 				rt_printf("MIDI Note Off ch=%d note=%d\n",
 					message.getChannel(), note);
+				if(engine != nullptr) {
+					engine->onNoteOff(note);
+				}
 			}
 			break;
 		}
@@ -34,6 +37,9 @@ void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
 				message.getChannel(),
 				message.getDataByte(0),
 				message.getDataByte(1));
+			if(engine != nullptr) {
+				engine->onNoteOff(message.getDataByte(0));
+			}
 			break;
 		}
 		case kmmControlChange: {

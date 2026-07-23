@@ -173,10 +173,12 @@ bool ProgramJson::parseMode(ProgramSlotMode& mode) {
 		return false;
 	}
 
-	if(modeName == "mono") {
+	if(modeName == kModeMono) {
 		mode = ProgramSlotMode::Mono;
-	} else if(modeName == "poly") {
+	} else if(modeName == kModePoly) {
 		mode = ProgramSlotMode::Poly;
+	} else if(modeName == kModeGate) {
+		mode = ProgramSlotMode::Gate;
 	} else {
 		return false;
 	}

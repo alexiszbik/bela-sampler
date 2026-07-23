@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Sample.h"
+#include "VoiceBinding.h"
 
 class SamplePlayer
 {
@@ -22,7 +23,12 @@ public:
 	void nextSamples(float* buf, size_t bufSize);
 
 	void trigger();
+	void stop();
 	bool getIsPlaying() const { return isPlaying; }
+
+	void setVoiceBinding(const VoiceBinding& binding);
+	void clearVoiceBinding();
+	const VoiceBinding& getVoiceBinding() const { return voiceBinding; }
 
 	void setSpeed(float newSpeed) { speed = newSpeed; }
 	void setLoop(bool loopState) { isLoop = loopState; }
@@ -63,4 +69,5 @@ private:
 	EPlayerMode playMode = Normal;
 	bool isLoop = false;
 	bool isPlaying = false;
+	VoiceBinding voiceBinding;
 };

@@ -1,9 +1,9 @@
 {
 	"slots": [
 		{ "midiNote": 36, "sample": "casta.wav", "mode": "poly" },
-		{ "midiNote": 37, "sample": "epiano.wav", "mode": "mono" },
-		{ "midiNote": 38, "sample": "epiano.wav", "mode": "mono" },
-		{ "midiNote": 39, "sample": "epiano.wav", "mode": "mono" },
+		{ "midiNote": 37, "sample": "epiano.wav", "mode": "gate" },
+		{ "midiNote": 38, "sample": "epiano.wav", "mode": "gate" },
+		{ "midiNote": 39, "sample": "epiano.wav", "mode": "gate" },
 		{ "midiNote": 40, "sample": "spectrdrum.wav", "mode": "poly" },
 		{ "midiNote": 42, "sample": "voxo.wav", "mode": "poly" },
 		{ "midiNote": 44, "sample": "sample.wav", "mode": "poly" },

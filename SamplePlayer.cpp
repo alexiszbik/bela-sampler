@@ -26,6 +26,19 @@ void SamplePlayer::trigger() {
 	isPlaying = true;
 }
 
+void SamplePlayer::stop() {
+	isPlaying = false;
+	isLoop = false;
+}
+
+void SamplePlayer::setVoiceBinding(const VoiceBinding& binding) {
+	voiceBinding = binding;
+}
+
+void SamplePlayer::clearVoiceBinding() {
+	voiceBinding = VoiceBinding{};
+}
+
 void SamplePlayer::setPlayMode(EPlayerMode pm) {
 	if(playMode == pm) {
 		return;
