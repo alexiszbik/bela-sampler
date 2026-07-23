@@ -38,6 +38,7 @@ public:
 	void setPlayMode(EPlayerMode pm);
 	void setGranularSpeed(float newSpeed) { granularSpeed = newSpeed; }
 	void setGranularPitch(float newPitch) { granularPitch = newPitch; }
+	void setGain(float newGain) { gain = newGain; }
 
 private:
 	void nextSamplesNormal(float* buf, size_t bufSize);
@@ -68,6 +69,7 @@ private:
 	float speed = 1.f;
 	float granularSpeed = 1.f;
 	float granularPitch = 1.f;
+	float gain = 1.f;
 
 	EPlayerMode playMode = Normal;
 	bool isLoop = false;

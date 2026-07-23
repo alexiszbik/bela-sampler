@@ -78,6 +78,7 @@ void SamplePlayer::resetPlaybackState() {
 	speed = 1.f;
 	granularSpeed = 1.f;
 	granularPitch = 1.f;
+	gain = 1.f;
 	isReversed = false;
 	isPlaying = false;
 	resetGranularState();
@@ -155,7 +156,7 @@ void SamplePlayer::processGrain(Grain& grain, float* buf, size_t bufSize, double
 
 	const float env = hannEnvelope(grain.phase);
 	for(size_t channel = 0; channel < bufSize; channel++) {
-		buf[channel] += grainOut[channel] * env;
+		buf[channel] += grainOut[channel] * env * gain;
 	}
 
 	const double direction = isReversed ? -1.0 : 1.0;
@@ -175,7 +176,12 @@ void SamplePlayer::nextSamplesNormal(float* buf, size_t bufSize) {
 	const double playbackSpeed = static_cast<double>(speed) * srSpeed;
 	const double direction = isReversed ? -1.0 : 1.0;
 
-	sample->tableRead(readPos, buf, bufSize, isLoop);
+	float voiceOut[2] = {0.f, 0.f};
+	sample->tableRead(readPos, voiceOut, bufSize, isLoop);
+
+	for(size_t channel = 0; channel < bufSize; channel++) {
+		buf[channel] += voiceOut[channel] * gain;
+	}
 
 	readPos += playbackSpeed * direction;
 	wrapSampleIndex(readPos);

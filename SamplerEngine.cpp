@@ -26,7 +26,7 @@ void SamplerEngine::onNoteOn(int note, int velocity) {
 		return;
 	}
 
-	playerPool.playOn(player, *slot);
+	playerPool.playOn(player, *slot, velocity);
 }
 
 void SamplerEngine::onNoteOff(int note) {
