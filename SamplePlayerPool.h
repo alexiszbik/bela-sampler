@@ -14,7 +14,7 @@ public:
 	size_t getCount() const { return players.size(); }
 
 private:
-	SamplePlayer* findIdlePlayer();
+	size_t findIdlePlayerIndex();
 
 	std::vector<SamplePlayer> players;
 };

@@ -55,11 +55,12 @@ done
 REMOTE_PROJECT="$BBB_PROJECT_HOME/$PROJECT_NAME"
 
 echo "→ Syncing to $BBB_ADDRESS:$REMOTE_PROJECT"
-ssh "$BBB_ADDRESS" "mkdir -p '$REMOTE_PROJECT'"
+ssh "$BBB_ADDRESS" "mkdir -p '$REMOTE_PROJECT' && rm -rf '$REMOTE_PROJECT/external' '$REMOTE_PROJECT/vendor'"
 rsync -ac --no-t --delete-after \
 	--exclude='build/' \
 	--exclude='.git/' \
 	--exclude='scripts/' \
+	--exclude='external/' \
 	--exclude='*.md' \
 	"$PROJECT_DIR/" "$BBB_ADDRESS:$REMOTE_PROJECT/"
 

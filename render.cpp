@@ -10,16 +10,15 @@
 #include <vector>
 
 #include "Sample.h"
-#include "SamplePlayerPool.h"
 #include "Program.h"
 #include "SamplerEngine.h"
 #include "MidiInput.h"
 
 static const char* kSamplesFolder = "samplesfolder";
+static const char* kProgramFile = "program.json";
 static const size_t kNumPlayers = 8;
 
 static std::vector<Sample> gSamples;
-static SamplePlayerPool gPlayerPool;
 static Program gProgram;
 static SamplerEngine gEngine;
 static MidiInput gMidiInput;
@@ -83,17 +82,15 @@ bool setup(BelaContext *context, void *userData) {
 		totalRamBytes / 1024.f,
 		totalRamBytes / (1024.f * 1024.f));
 
-	gPlayerPool.init(context->audioSampleRate, kNumPlayers);
-
-	for(size_t i = 0; i < gSamples.size() && i < 8; i++) {
-		gProgram.addSlot(static_cast<int>(36 + i), &gSamples[i]);
+	if(!gProgram.loadFromFile(kProgramFile, gSamples)) {
+		return false;
 	}
 
-	gEngine.init(&gProgram, &gPlayerPool);
+	gEngine.init(&gProgram, context->audioSampleRate, kNumPlayers);
 
 	rt_printf("Loaded %zu samples, %zu voice pool, %zu program slots\n",
 		gSamples.size(),
-		gPlayerPool.getCount(),
+		gEngine.getPlayerCount(),
 		gProgram.getSlotCount());
 
 	gMidiInput.setup(&gEngine);

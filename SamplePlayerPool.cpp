@@ -1,5 +1,7 @@
 #include "SamplePlayerPool.h"
 
+#include <Bela.h>
+
 void SamplePlayerPool::init(double sampleRate, size_t count) {
 	players.resize(count);
 	for(SamplePlayer& player : players) {
@@ -7,14 +9,14 @@ void SamplePlayerPool::init(double sampleRate, size_t count) {
 	}
 }
 
-SamplePlayer* SamplePlayerPool::findIdlePlayer() {
-	for(SamplePlayer& player : players) {
-		if(!player.getIsPlaying()) {
-			return &player;
+size_t SamplePlayerPool::findIdlePlayerIndex() {
+	for(size_t i = 0; i < players.size(); i++) {
+		if(!players[i].getIsPlaying()) {
+			return i;
 		}
 	}
 
-	return nullptr;
+	return players.size();
 }
 
 void SamplePlayerPool::play(const Sample* sample) {
@@ -22,13 +24,16 @@ void SamplePlayerPool::play(const Sample* sample) {
 		return;
 	}
 
-	SamplePlayer* player = findIdlePlayer();
-	if(player == nullptr) {
+	const size_t playerIndex = findIdlePlayerIndex();
+	if(playerIndex >= players.size()) {
 		return;
 	}
 
-	player->setSample(sample);
-	player->trigger();
+	SamplePlayer& player = players[playerIndex];
+	player.setSample(sample);
+	player.trigger();
+
+	rt_printf("Play sample %s on player %zu\n", sample->getName().c_str(), playerIndex);
 }
 
 void SamplePlayerPool::nextSamples(float* buf, size_t bufSize) {

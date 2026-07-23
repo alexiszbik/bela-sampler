@@ -1,12 +1,12 @@
 #include "SamplerEngine.h"
 
-void SamplerEngine::init(Program* inProgram, SamplePlayerPool* pool) {
+void SamplerEngine::init(Program* inProgram, double sampleRate, size_t playerCount) {
 	program = inProgram;
-	playerPool = pool;
+	playerPool.init(sampleRate, playerCount);
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity) {
-	if(program == nullptr || playerPool == nullptr || velocity <= 0) {
+	if(program == nullptr || velocity <= 0) {
 		return;
 	}
 
@@ -15,13 +15,9 @@ void SamplerEngine::onNoteOn(int note, int velocity) {
 		return;
 	}
 
-	playerPool->play(sample);
+	playerPool.play(sample);
 }
 
 void SamplerEngine::nextSamples(float* buf, size_t bufSize) {
-	if(playerPool == nullptr) {
-		return;
-	}
-
-	playerPool->nextSamples(buf, bufSize);
+	playerPool.nextSamples(buf, bufSize);
 }

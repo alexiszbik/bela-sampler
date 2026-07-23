@@ -13,6 +13,7 @@ public:
 	};
 
 	void addSlot(int midiNote, const Sample* sample);
+	bool loadFromFile(const std::string& filepath, const std::vector<Sample>& samples);
 	const Sample* getSampleForNote(int note) const;
 	size_t getSlotCount() const { return slots.size(); }
 
