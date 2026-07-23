@@ -21,7 +21,7 @@ void SamplerEngine::onNoteOn(int note, int velocity) {
 		return;
 	}
 
-	SamplePlayer* player = voiceAllocator.acquire(*slot);
+	SamplerVoice* player = voiceAllocator.acquire(*slot);
 	if(player == nullptr) {
 		return;
 	}

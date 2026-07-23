@@ -1,54 +1,28 @@
 #include "SamplePlayerPool.h"
 
-#include "GainHelper.h"
-#include "PitchHelper.h"
 #include "ProgramJson.h"
 
 #include <Bela.h>
 
 void SamplePlayerPool::init(double sampleRate, size_t count) {
-	players.resize(count);
-	for(SamplePlayer& player : players) {
-		player.init(sampleRate);
+	voices.resize(count);
+	for(SamplerVoice& voice : voices) {
+		voice.init(sampleRate);
 	}
 }
 
-void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot, int velocity) {
-	if(player == nullptr || slot.sample == nullptr) {
+void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity) {
+	if(voice == nullptr || slot.sample == nullptr) {
 		return;
 	}
 
+	voice->playOn(slot, velocity);
+
+	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
 	const bool loop = slot.mode == Program::SlotMode::Gate;
-	const float pitchSpeed = semitonesToPlaybackSpeed(slot.pitchSemitones);
-	const SamplePlayer::EPlayerMode playerMode = slot.playMode == Program::SlotPlayMode::Granular
-		? SamplePlayer::Granular
-		: SamplePlayer::Normal;
-	const float velocityGain = static_cast<float>(velocity) / 127.f;
-	const float gain = velocityGain * velocityGain * dBtoRMS(slot.volumeDb);
-
-	player->setSample(slot.sample);
-	player->setLoop(loop);
-	player->setReversed(slot.reversed);
-	player->setPlayMode(playerMode);
-	player->setGain(gain);
-
-	if(slot.playMode == Program::SlotPlayMode::Granular) {
-		player->setGranularSpeed(slot.granularSpeed);
-		player->setGranularPitch(pitchSpeed);
-	} else {
-		player->setSpeed(pitchSpeed);
-	}
-
-	player->trigger();
-
-	if(slot.muteGroup != MuteGroup::None) {
-		player->setActiveSlot(slot.id);
-	}
-
-	const size_t playerIndex = static_cast<size_t>(player - &players[0]);
 	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s reversed=%d vel=%d\n",
 		slot.sample->getName().c_str(),
-		playerIndex,
+		voiceIndex,
 		loop ? 1 : 0,
 		slot.pitchSemitones,
 		slot.playMode == Program::SlotPlayMode::Granular
@@ -58,19 +32,19 @@ void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot, i
 		velocity);
 }
 
-void SamplePlayerPool::stop(SamplePlayer* player) {
-	if(player == nullptr) {
+void SamplePlayerPool::stop(SamplerVoice* voice) {
+	if(voice == nullptr) {
 		return;
 	}
 
-	player->stop();
+	voice->stop();
 
-	const size_t playerIndex = static_cast<size_t>(player - &players[0]);
-	rt_printf("Stop player %zu\n", playerIndex);
+	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
+	rt_printf("Stop player %zu\n", voiceIndex);
 }
 
 void SamplePlayerPool::nextSamples(float* buf, size_t bufSize) {
-	for(SamplePlayer& player : players) {
-		player.nextSamples(buf, bufSize);
+	for(SamplerVoice& voice : voices) {
+		voice.nextSamples(buf, bufSize);
 	}
 }

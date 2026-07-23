@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Program.h"
-#include "SamplePlayer.h"
+#include "SamplerVoice.h"
 
 #include <vector>
 
@@ -9,20 +9,20 @@ class SamplePlayerPool
 {
 public:
 	void init(double sampleRate, size_t count);
-	void playOn(SamplePlayer* player, const Program::Slot& slot, int velocity);
-	void stop(SamplePlayer* player);
+	void playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity);
+	void stop(SamplerVoice* voice);
 	void nextSamples(float* buf, size_t bufSize);
 
-	size_t getCount() const { return players.size(); }
+	size_t getCount() const { return voices.size(); }
 
-	using PlayerIterator = std::vector<SamplePlayer>::iterator;
-	using PlayerConstIterator = std::vector<SamplePlayer>::const_iterator;
+	using VoiceIterator = std::vector<SamplerVoice>::iterator;
+	using VoiceConstIterator = std::vector<SamplerVoice>::const_iterator;
 
-	PlayerIterator begin() { return players.begin(); }
-	PlayerIterator end() { return players.end(); }
-	PlayerConstIterator begin() const { return players.begin(); }
-	PlayerConstIterator end() const { return players.end(); }
+	VoiceIterator begin() { return voices.begin(); }
+	VoiceIterator end() { return voices.end(); }
+	VoiceConstIterator begin() const { return voices.begin(); }
+	VoiceConstIterator end() const { return voices.end(); }
 
 private:
-	std::vector<SamplePlayer> players;
+	std::vector<SamplerVoice> voices;
 };

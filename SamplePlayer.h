@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Sample.h"
-#include "VoiceBinding.h"
 
 class SamplePlayer
 {
@@ -26,30 +25,25 @@ public:
 	void stop();
 	bool getIsPlaying() const { return isPlaying; }
 
-	void setVoiceBinding(const VoiceBinding& binding);
-	void clearVoiceBinding();
-	const VoiceBinding& getVoiceBinding() const { return voiceBinding; }
-	void setActiveSlot(size_t slotId);
-	void clearActiveSlot();
-
 	void setSpeed(float newSpeed) { speed = newSpeed; }
 	void setLoop(bool loopState) { isLoop = loopState; }
 	void setReversed(bool reversedState) { isReversed = reversedState; }
 	void setPlayMode(EPlayerMode pm);
 	void setGranularSpeed(float newSpeed) { granularSpeed = newSpeed; }
 	void setGranularPitch(float newPitch) { granularPitch = newPitch; }
-	void setGain(float newGain) { gain = newGain; }
 
 private:
 	void nextSamplesNormal(float* buf, size_t bufSize);
 	void nextSamplesGranular(float* buf, size_t bufSize);
 	void spawnGrain(Grain& grain);
-	void processGrain(Grain& grain, float* buf, size_t bufSize, double grainReadSpeed);
+	void processGrain(Grain& grain, float* grainMix, size_t mixChannelCount, double grainReadSpeed);
+	void accumulateGrainOutput(float* grainMix, size_t mixChannelCount, const float* voiceOut, float level);
 	float hannEnvelope(double phase) const;
 	void resetPlaybackState();
 	void resetGranularState();
 	void wrapSampleIndex(double& index) const;
 	void updateSrSpeed();
+	unsigned int getOutputChannelCount() const;
 
 	const Sample* sample = nullptr;
 
@@ -69,11 +63,9 @@ private:
 	float speed = 1.f;
 	float granularSpeed = 1.f;
 	float granularPitch = 1.f;
-	float gain = 1.f;
 
 	EPlayerMode playMode = Normal;
 	bool isLoop = false;
 	bool isReversed = false;
 	bool isPlaying = false;
-	VoiceBinding voiceBinding;
 };

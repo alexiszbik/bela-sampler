@@ -16,7 +16,7 @@
 
 static const char* kSamplesFolder = "samplesfolder";
 static const char* kProgramFile = "program.json";
-static const size_t kNumPlayers = 8;
+static const size_t kNumPlayers = 24;
 
 static std::vector<Sample> gSamples;
 static Program gProgram;
