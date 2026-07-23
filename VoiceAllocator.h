@@ -10,6 +10,7 @@ public:
 
 	SamplePlayer* acquire(const Program::Slot& slot);
 	void releaseGate(const Program::Slot& slot);
+	void stopMuteGroup(MuteGroup group);
 
 private:
 	SamplePlayer* acquireDedicatedPlayer(size_t slotId);

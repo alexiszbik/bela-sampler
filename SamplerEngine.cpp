@@ -16,12 +16,21 @@ void SamplerEngine::onNoteOn(int note, int velocity) {
 		return;
 	}
 
+	if(slot->isMuteOnly()) {
+		voiceAllocator.stopMuteGroup(slot->muteGroup);
+		return;
+	}
+
 	SamplePlayer* player = voiceAllocator.acquire(*slot);
 	if(player == nullptr) {
 		return;
 	}
 
 	playerPool.playOn(player, slot->sample, slot->mode == Program::SlotMode::Gate);
+
+	if(slot->muteGroup != MuteGroup::None) {
+		player->setActiveSlot(slot->id);
+	}
 }
 
 void SamplerEngine::onNoteOff(int note) {

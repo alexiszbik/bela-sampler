@@ -3,11 +3,12 @@
 		{ "midiNote": 36, "sample": "casta.wav", "mode": "poly" },
 		{ "midiNote": 37, "sample": "epiano.wav", "mode": "gate" },
 		{ "midiNote": 38, "sample": "epiano.wav", "mode": "gate" },
-		{ "midiNote": 39, "sample": "epiano.wav", "mode": "gate" },
-		{ "midiNote": 40, "sample": "spectrdrum.wav", "mode": "poly" },
+		{ "midiNote": 39, "sample": "epiano.wav", "mode": "gate", "muteGroup": "A" },
+		{ "midiNote": 40, "sample": "spectrdrum.wav", "mode": "poly", "muteGroup": "A" },
 		{ "midiNote": 42, "sample": "voxo.wav", "mode": "poly" },
 		{ "midiNote": 44, "sample": "sample.wav", "mode": "poly" },
 		{ "midiNote": 45, "sample": "sample.wav", "mode": "mono" },
-		{ "midiNote": 46, "sample": "weird hat.wav", "mode": "poly" }
+		{ "midiNote": 46, "sample": "weird hat.wav", "mode": "poly", "muteGroup": "A" },
+		{ "midiNote": 47, "muteGroup": "A" }
 	]
 }

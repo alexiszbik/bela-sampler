@@ -77,16 +77,31 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 	}
 
 	for(const ProgramSlotDesc& slotDesc : slotDescs) {
+		const SlotMode mode = toProgramSlotMode(slotDesc.mode);
+		const char* groupName = muteGroupName(slotDesc.muteGroup);
+
+		if(slotDesc.sample.empty()) {
+			if(slotDesc.muteGroup == MuteGroup::None) {
+				rt_printf("Program: slot note=%d missing sample\n", slotDesc.midiNote);
+				continue;
+			}
+
+			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup);
+			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s\n",
+				slots.back().id,
+				slotDesc.midiNote,
+				groupName);
+			continue;
+		}
+
 		const Sample* sample = findSampleByName(samples, slotDesc.sample);
 		if(sample == nullptr) {
 			rt_printf("Program: sample not found: %s\n", slotDesc.sample.c_str());
 			continue;
 		}
 
-		const SlotMode mode = toProgramSlotMode(slotDesc.mode);
 		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup);
 
-		const char* groupName = muteGroupName(slotDesc.muteGroup);
 		if(groupName != nullptr) {
 			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s muteGroup=%s\n",
 				slots.back().id,

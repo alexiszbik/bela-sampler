@@ -29,6 +29,8 @@ public:
 	void setVoiceBinding(const VoiceBinding& binding);
 	void clearVoiceBinding();
 	const VoiceBinding& getVoiceBinding() const { return voiceBinding; }
+	void setActiveSlot(size_t slotId);
+	void clearActiveSlot();
 
 	void setSpeed(float newSpeed) { speed = newSpeed; }
 	void setLoop(bool loopState) { isLoop = loopState; }

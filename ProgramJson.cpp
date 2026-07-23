@@ -214,6 +214,7 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 
 	bool hasNote = false;
 	bool hasSample = false;
+	bool hasMuteGroup = false;
 
 	while(*cursor != '\0') {
 		skipSpace();
@@ -240,6 +241,7 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			if(!matchLiteral(':') || !parseMuteGroup(slot.muteGroup)) {
 				return false;
 			}
+			hasMuteGroup = slot.muteGroup != MuteGroup::None;
 		} else {
 			skipValue();
 		}
@@ -250,7 +252,7 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 		}
 	}
 
-	return hasNote && hasSample;
+	return hasNote && (hasSample || hasMuteGroup);
 }
 
 bool ProgramJson::findSlotsArray() {

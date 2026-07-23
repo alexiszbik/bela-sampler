@@ -20,6 +20,8 @@ public:
 		const Sample* sample;
 		SlotMode mode = SlotMode::Poly;
 		MuteGroup muteGroup = MuteGroup::None;
+
+		bool isMuteOnly() const { return sample == nullptr; }
 	};
 
 	void addSlot(int midiNote, const Sample* sample, SlotMode mode = SlotMode::Poly,

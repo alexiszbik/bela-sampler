@@ -29,6 +29,7 @@ void SamplePlayer::trigger() {
 void SamplePlayer::stop() {
 	isPlaying = false;
 	isLoop = false;
+	clearActiveSlot();
 }
 
 void SamplePlayer::setVoiceBinding(const VoiceBinding& binding) {
@@ -37,6 +38,14 @@ void SamplePlayer::setVoiceBinding(const VoiceBinding& binding) {
 
 void SamplePlayer::clearVoiceBinding() {
 	voiceBinding = VoiceBinding{};
+}
+
+void SamplePlayer::setActiveSlot(size_t slotId) {
+	voiceBinding.activeSlotId = slotId;
+}
+
+void SamplePlayer::clearActiveSlot() {
+	voiceBinding.activeSlotId = VoiceBinding::kInvalidSlot;
 }
 
 void SamplePlayer::setPlayMode(EPlayerMode pm) {

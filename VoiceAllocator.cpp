@@ -112,6 +112,17 @@ SamplePlayer* VoiceAllocator::acquire(const Program::Slot& slot) {
 	return acquireDedicatedPlayer(slot.id);
 }
 
+void VoiceAllocator::stopMuteGroup(MuteGroup group) {
+	if(playerPool == nullptr || group == MuteGroup::None) {
+		return;
+	}
+
+	SamplePlayer* player = findMuteGroupPlayer(group);
+	if(player != nullptr) {
+		playerPool->stop(player);
+	}
+}
+
 void VoiceAllocator::releaseGate(const Program::Slot& slot) {
 	if(playerPool == nullptr) {
 		return;
@@ -119,7 +130,7 @@ void VoiceAllocator::releaseGate(const Program::Slot& slot) {
 
 	if(slot.muteGroup != MuteGroup::None) {
 		SamplePlayer* player = findMuteGroupPlayer(slot.muteGroup);
-		if(player != nullptr) {
+		if(player != nullptr && player->getVoiceBinding().isActiveSlot(slot.id)) {
 			playerPool->stop(player);
 		}
 
