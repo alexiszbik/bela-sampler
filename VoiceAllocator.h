@@ -13,7 +13,9 @@ public:
 	void stopMuteGroup(MuteGroup group);
 
 private:
+	void releaseFinishedMonoVoices();
 	SamplePlayer* acquireDedicatedPlayer(size_t slotId);
+	SamplePlayer* acquireGatePlayer(size_t slotId);
 	SamplePlayer* acquireMuteGroupPlayer(MuteGroup group);
 	SamplePlayer* findDedicatedPlayerForSlot(size_t slotId) const;
 	SamplePlayer* findMuteGroupPlayer(MuteGroup group) const;

@@ -7,14 +7,15 @@
 		{ "midiNote": 40, "sample": "spectrdrum.wav", "mode": "poly", "muteGroup": "A" },
 		{ "midiNote": 41, "sample": "spectrdrum.wav", "mode": "poly", "muteGroup": "A", 
 		"playmode": "granular", "pitch": -7, "reversed":1 },
-		{ "midiNote": 42, "sample": "voxo.wav", "mode": "poly", "playmode": "granular", "granularSpeed": 0.5 },
+		{ "midiNote": 42, "sample": "voxo.wav", "mode": "poly", "playmode": "granular", "granularSpeed": 0.85 },
+		{ "midiNote": 43, "sample": "voxmono.wav", "mode": "poly", "playmode": "granular", "granularSpeed": 0.5, "reversed": 1 },
 		{ "midiNote": 44, "sample": "sample.wav", "mode": "poly", "muteGroup": "B" },
 		{ "midiNote": 45, "sample": "sample.wav", "mode": "mono", "reversed": 1, "muteGroup": "B" },
 		{ "midiNote": 46, "sample": "weird hat.wav", "mode": "poly", "muteGroup": "A" },
 		{ "midiNote": 47, "muteGroup": "A" },
 		{ "midiNote": 48, "sample": "eguitar.wav", "mode": "mono", "pitch": 12 },
 		{ "midiNote": 49, "sample": "eguitar.wav", "mode": "mono", "pitch": 0 },
-		{ "midiNote": 50, "sample": "eguitar.wav", "mode": "mono", "pitch": -7 },
-		{ "midiNote": 51, "sample": "eguitar.wav", "mode": "mono", "pitch": 3 }
+		{ "midiNote": 50, "sample": "piano_mono.wav", "mode": "mono", "pitch": -7 },
+		{ "midiNote": 51, "sample": "piano_mono.wav", "mode": "mono", "pitch": 3, "playmode": "granular", "granularSpeed": 0.85 }
 	]
 }
