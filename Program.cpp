@@ -24,10 +24,18 @@ const Sample* findSampleByName(const std::vector<Sample>& samples, const std::st
 
 	return nullptr;
 }
+
+Program::SlotMode toProgramSlotMode(ProgramSlotMode mode) {
+	return mode == ProgramSlotMode::Mono ? Program::SlotMode::Mono : Program::SlotMode::Poly;
 }
 
-void Program::addSlot(int midiNote, const Sample* sample) {
-	slots.push_back({midiNote, sample});
+const char* slotModeName(Program::SlotMode mode) {
+	return mode == Program::SlotMode::Mono ? "mono" : "poly";
+}
+}
+
+void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode) {
+	slots.push_back({slots.size(), midiNote, sample, mode});
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
@@ -46,8 +54,13 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			continue;
 		}
 
-		addSlot(slotDesc.midiNote, sample);
-		rt_printf("Program slot: note=%d sample=%s\n", slotDesc.midiNote, slotDesc.sample.c_str());
+		const SlotMode mode = toProgramSlotMode(slotDesc.mode);
+		addSlot(slotDesc.midiNote, sample, mode);
+		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s\n",
+			slots.back().id,
+			slotDesc.midiNote,
+			slotDesc.sample.c_str(),
+			slotModeName(mode));
 	}
 
 	if(slots.empty()) {
@@ -58,10 +71,10 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 	return true;
 }
 
-const Sample* Program::getSampleForNote(int note) const {
+const Program::Slot* Program::getSlotForNote(int note) const {
 	for(const Slot& slot : slots) {
 		if(slot.midiNote == note) {
-			return slot.sample;
+			return &slot;
 		}
 	}
 

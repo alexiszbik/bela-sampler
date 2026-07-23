@@ -3,6 +3,8 @@
 #include "Program.h"
 #include "SamplePlayerPool.h"
 
+#include <vector>
+
 class SamplerEngine
 {
 public:
@@ -13,6 +15,12 @@ public:
 	size_t getPlayerCount() const { return playerPool.getCount(); }
 
 private:
+	void playMono(const Program::Slot& slot);
+	void playPoly(const Program::Slot& slot);
+	bool isPlayerReservedForMono(size_t playerIndex) const;
+	size_t findFreePlayerIndex() const;
+
 	Program* program = nullptr;
 	SamplePlayerPool playerPool;
+	std::vector<size_t> monoPlayerBySlotId;
 };

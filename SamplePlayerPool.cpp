@@ -19,6 +19,26 @@ size_t SamplePlayerPool::findIdlePlayerIndex() {
 	return players.size();
 }
 
+bool SamplePlayerPool::isPlaying(size_t playerIndex) const {
+	if(playerIndex >= players.size()) {
+		return false;
+	}
+
+	return players[playerIndex].getIsPlaying();
+}
+
+void SamplePlayerPool::playOn(size_t playerIndex, const Sample* sample) {
+	if(sample == nullptr || playerIndex >= players.size()) {
+		return;
+	}
+
+	SamplePlayer& player = players[playerIndex];
+	player.setSample(sample);
+	player.trigger();
+
+	rt_printf("Play sample %s on player %zu\n", sample->getName().c_str(), playerIndex);
+}
+
 void SamplePlayerPool::play(const Sample* sample) {
 	if(sample == nullptr) {
 		return;
@@ -29,11 +49,7 @@ void SamplePlayerPool::play(const Sample* sample) {
 		return;
 	}
 
-	SamplePlayer& player = players[playerIndex];
-	player.setSample(sample);
-	player.trigger();
-
-	rt_printf("Play sample %s on player %zu\n", sample->getName().c_str(), playerIndex);
+	playOn(playerIndex, sample);
 }
 
 void SamplePlayerPool::nextSamples(float* buf, size_t bufSize) {

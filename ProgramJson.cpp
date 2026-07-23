@@ -167,6 +167,23 @@ void ProgramJson::skipValue() {
 	}
 }
 
+bool ProgramJson::parseMode(ProgramSlotMode& mode) {
+	std::string modeName;
+	if(!parseQuotedString(modeName)) {
+		return false;
+	}
+
+	if(modeName == "mono") {
+		mode = ProgramSlotMode::Mono;
+	} else if(modeName == "poly") {
+		mode = ProgramSlotMode::Poly;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	if(!matchLiteral('{')) {
 		return false;
@@ -192,6 +209,10 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 				return false;
 			}
 			hasSample = true;
+		} else if(matchKey(kMode)) {
+			if(!matchLiteral(':') || !parseMode(slot.mode)) {
+				return false;
+			}
 		} else {
 			skipValue();
 		}

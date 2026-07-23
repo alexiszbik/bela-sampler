@@ -5,6 +5,17 @@
 
 #include <cmath>
 
+namespace {
+std::string getFileName(const std::string& filepath) {
+	const size_t pos = filepath.find_last_of('/');
+	if(pos == std::string::npos) {
+		return filepath;
+	}
+
+	return filepath.substr(pos + 1);
+}
+}
+
 std::string Sample::getChannelDescription() const {
 	switch(channelCount)
 	{
@@ -35,7 +46,7 @@ bool Sample::load(const std::string& filepath) {
 	}
 
 	channelCount = static_cast<unsigned int>(numChannels);
-	name = filepath;
+	name = getFileName(filepath);
 	sampleLength = sampleData[0].size();
 	dSampleLength = static_cast<double>(sampleLength);
 	return true;

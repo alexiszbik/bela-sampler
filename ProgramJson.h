@@ -3,9 +3,15 @@
 #include <string>
 #include <vector>
 
+enum class ProgramSlotMode {
+	Poly,
+	Mono
+};
+
 struct ProgramSlotDesc {
 	int midiNote = 0;
 	std::string sample;
+	ProgramSlotMode mode = ProgramSlotMode::Poly;
 };
 
 class ProgramJson
@@ -18,6 +24,7 @@ private:
 	bool findSlotsArray();
 	bool parseSlots(std::vector<ProgramSlotDesc>& slots);
 	bool parseSlotObject(ProgramSlotDesc& slot);
+	bool parseMode(ProgramSlotMode& mode);
 
 	void skipSpace();
 	bool matchLiteral(char expected);
@@ -31,5 +38,6 @@ private:
 
 	static constexpr const char* kMidiNote = "midiNote";
 	static constexpr const char* kSample = "sample";
+	static constexpr const char* kMode = "mode";
 	static constexpr const char* kSlots = "slots";
 };

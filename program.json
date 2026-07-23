@@ -1,13 +1,13 @@
 {
 	"slots": [
-		{ "midiNote": 36, "sample": "casta.wav" },
-		{ "midiNote": 37, "sample": "epiano.wav" },
-		{ "midiNote": 38, "sample": "epiano.wav" },
-		{ "midiNote": 39, "sample": "epiano.wav" },
-		{ "midiNote": 40, "sample": "spectrdrum.wav" },
-		{ "midiNote": 42, "sample": "voxo.wav" },
-		{ "midiNote": 44, "sample": "sample.wav" },
-		{ "midiNote": 45, "sample": "sample.wav" },
-		{ "midiNote": 46, "sample": "weird hat.wav" }
+		{ "midiNote": 36, "sample": "casta.wav", "mode": "poly" },
+		{ "midiNote": 37, "sample": "epiano.wav", "mode": "mono" },
+		{ "midiNote": 38, "sample": "epiano.wav", "mode": "mono" },
+		{ "midiNote": 39, "sample": "epiano.wav", "mode": "mono" },
+		{ "midiNote": 40, "sample": "spectrdrum.wav", "mode": "poly" },
+		{ "midiNote": 42, "sample": "voxo.wav", "mode": "poly" },
+		{ "midiNote": 44, "sample": "sample.wav", "mode": "poly" },
+		{ "midiNote": 45, "sample": "sample.wav", "mode": "mono" },
+		{ "midiNote": 46, "sample": "weird hat.wav", "mode": "poly" }
 	]
 }
