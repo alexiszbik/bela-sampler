@@ -34,6 +34,7 @@ public:
 
 	void setSpeed(float newSpeed) { speed = newSpeed; }
 	void setLoop(bool loopState) { isLoop = loopState; }
+	void setReversed(bool reversedState) { isReversed = reversedState; }
 	void setPlayMode(EPlayerMode pm);
 	void setGranularSpeed(float newSpeed) { granularSpeed = newSpeed; }
 	void setGranularPitch(float newPitch) { granularPitch = newPitch; }
@@ -70,6 +71,7 @@ private:
 
 	EPlayerMode playMode = Normal;
 	bool isLoop = false;
+	bool isReversed = false;
 	bool isPlaying = false;
 	VoiceBinding voiceBinding;
 };

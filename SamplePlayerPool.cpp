@@ -25,6 +25,7 @@ void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot) {
 
 	player->setSample(slot.sample);
 	player->setLoop(loop);
+	player->setReversed(slot.reversed);
 	player->setPlayMode(playerMode);
 
 	if(slot.playMode == Program::SlotPlayMode::Granular) {
@@ -41,14 +42,15 @@ void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot) {
 	}
 
 	const size_t playerIndex = static_cast<size_t>(player - &players[0]);
-	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s\n",
+	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s reversed=%d\n",
 		slot.sample->getName().c_str(),
 		playerIndex,
 		loop ? 1 : 0,
 		slot.pitchSemitones,
 		slot.playMode == Program::SlotPlayMode::Granular
 			? ProgramJson::kPlayModeGranular
-			: ProgramJson::kPlayModeNormal);
+			: ProgramJson::kPlayModeNormal,
+		slot.reversed ? 1 : 0);
 }
 
 void SamplePlayerPool::stop(SamplePlayer* player) {

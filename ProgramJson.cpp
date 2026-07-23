@@ -248,6 +248,23 @@ bool ProgramJson::parsePlayMode(ProgramSlotPlayMode& playMode) {
 	return true;
 }
 
+bool ProgramJson::parseReversed(bool& reversed) {
+	int value = 0;
+	if(!parseInt(value)) {
+		return false;
+	}
+
+	if(value == 0) {
+		reversed = false;
+	} else if(value == 1) {
+		reversed = true;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	if(!matchLiteral('{')) {
 		return false;
@@ -293,6 +310,10 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			}
 		} else if(matchKey(kGranularSpeed)) {
 			if(!matchLiteral(':') || !parseFloat(slot.granularSpeed) || slot.granularSpeed <= 0.f) {
+				return false;
+			}
+		} else if(matchKey(kReversed)) {
+			if(!matchLiteral(':') || !parseReversed(slot.reversed)) {
 				return false;
 			}
 		} else {

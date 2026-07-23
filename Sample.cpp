@@ -61,7 +61,7 @@ void Sample::tableRead(double index, float* buf, size_t bufSize, bool loop) cons
 	const double q = std::floor(p);
 	const double r = p - q;
 
-	if(!loop && q >= static_cast<double>(sampleLength)) {
+	if(!loop && (q >= static_cast<double>(sampleLength) || q < 0.0)) {
 		return;
 	}
 

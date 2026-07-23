@@ -21,8 +21,14 @@ void SamplePlayer::setSample(const Sample* newSample) {
 }
 
 void SamplePlayer::trigger() {
-	readPos = 0.0;
-	resetGranularState();
+	if(isReversed && sample != nullptr && sample->getLength() > 0) {
+		readPos = sample->getSampleLengthDouble() - 1.0;
+		sequentialPos = readPos;
+	} else {
+		readPos = 0.0;
+		resetGranularState();
+	}
+
 	isPlaying = true;
 }
 
@@ -72,6 +78,7 @@ void SamplePlayer::resetPlaybackState() {
 	speed = 1.f;
 	granularSpeed = 1.f;
 	granularPitch = 1.f;
+	isReversed = false;
 	isPlaying = false;
 	resetGranularState();
 }
@@ -97,8 +104,18 @@ void SamplePlayer::wrapSampleIndex(double& index) const {
 
 	const double length = sample->getSampleLengthDouble();
 	if(isLoop) {
-		while(index >= length) {
-			index -= length;
+		if(isReversed) {
+			while(index < 0.0) {
+				index += length;
+			}
+		} else {
+			while(index >= length) {
+				index -= length;
+			}
+		}
+	} else if(isReversed) {
+		if(index < 0.0) {
+			index = 0.0;
 		}
 	} else if(index >= length) {
 		index = length;
@@ -107,14 +124,19 @@ void SamplePlayer::wrapSampleIndex(double& index) const {
 
 void SamplePlayer::spawnGrain(Grain& grain) {
 	const double length = sample->getSampleLengthDouble();
-	if(!isLoop && sequentialPos >= length) {
+	if(!isLoop && ((isReversed && sequentialPos <= 0.0) || (!isReversed && sequentialPos >= length))) {
 		return;
 	}
 
 	grain.readPos = sequentialPos;
 	grain.phase = 0.0;
 
-	sequentialPos += grainHop * srSpeed;
+	if(isReversed) {
+		sequentialPos -= grainHop * srSpeed;
+	} else {
+		sequentialPos += grainHop * srSpeed;
+	}
+
 	wrapSampleIndex(sequentialPos);
 }
 
@@ -123,7 +145,7 @@ void SamplePlayer::processGrain(Grain& grain, float* buf, size_t bufSize, double
 		return;
 	}
 
-	if(!isLoop && grain.readPos >= sample->getSampleLengthDouble()) {
+	if(!isLoop && ((isReversed && grain.readPos <= 0.0) || (!isReversed && grain.readPos >= sample->getSampleLengthDouble()))) {
 		grain.phase = 1.0;
 		return;
 	}
@@ -136,7 +158,8 @@ void SamplePlayer::processGrain(Grain& grain, float* buf, size_t bufSize, double
 		buf[channel] += grainOut[channel] * env;
 	}
 
-	grain.readPos += grainReadSpeed;
+	const double direction = isReversed ? -1.0 : 1.0;
+	grain.readPos += grainReadSpeed * direction;
 	wrapSampleIndex(grain.readPos);
 
 	grain.phase += grainPhaseIncrement;
@@ -144,19 +167,20 @@ void SamplePlayer::processGrain(Grain& grain, float* buf, size_t bufSize, double
 
 void SamplePlayer::nextSamplesNormal(float* buf, size_t bufSize) {
 	const double length = sample->getSampleLengthDouble();
-	if(!isLoop && readPos >= length) {
+	if(!isLoop && ((isReversed && readPos <= 0.0) || (!isReversed && readPos >= length))) {
 		isPlaying = false;
 		return;
 	}
 
 	const double playbackSpeed = static_cast<double>(speed) * srSpeed;
+	const double direction = isReversed ? -1.0 : 1.0;
 
 	sample->tableRead(readPos, buf, bufSize, isLoop);
 
-	readPos += playbackSpeed;
+	readPos += playbackSpeed * direction;
 	wrapSampleIndex(readPos);
 
-	if(!isLoop && readPos >= length) {
+	if(!isLoop && ((isReversed && readPos <= 0.0) || (!isReversed && readPos >= length))) {
 		isPlaying = false;
 	}
 }
@@ -166,7 +190,7 @@ void SamplePlayer::nextSamplesGranular(float* buf, size_t bufSize) {
 		return;
 	}
 
-	if(!isLoop && sequentialPos >= sample->getSampleLengthDouble()) {
+	if(!isLoop && ((isReversed && sequentialPos <= 0.0) || (!isReversed && sequentialPos >= sample->getSampleLengthDouble()))) {
 		bool hasActiveGrain = false;
 		for(const Grain& grain : grains) {
 			if(grain.phase < 1.0) {
