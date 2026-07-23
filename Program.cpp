@@ -46,10 +46,25 @@ const char* slotModeName(Program::SlotMode mode) {
 			return ProgramJson::kModePoly;
 	}
 }
+
+const char* muteGroupName(MuteGroup muteGroup) {
+	switch(muteGroup) {
+		case MuteGroup::A:
+			return ProgramJson::kMuteGroupA;
+		case MuteGroup::B:
+			return ProgramJson::kMuteGroupB;
+		case MuteGroup::C:
+			return ProgramJson::kMuteGroupC;
+		case MuteGroup::D:
+			return ProgramJson::kMuteGroupD;
+		default:
+			return nullptr;
+	}
+}
 }
 
-void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode) {
-	slots.push_back({slots.size(), midiNote, sample, mode});
+void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode, MuteGroup muteGroup) {
+	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup});
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
@@ -69,12 +84,23 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 		}
 
 		const SlotMode mode = toProgramSlotMode(slotDesc.mode);
-		addSlot(slotDesc.midiNote, sample, mode);
-		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s\n",
-			slots.back().id,
-			slotDesc.midiNote,
-			slotDesc.sample.c_str(),
-			slotModeName(mode));
+		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup);
+
+		const char* groupName = muteGroupName(slotDesc.muteGroup);
+		if(groupName != nullptr) {
+			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s muteGroup=%s\n",
+				slots.back().id,
+				slotDesc.midiNote,
+				slotDesc.sample.c_str(),
+				slotModeName(mode),
+				groupName);
+		} else {
+			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s\n",
+				slots.back().id,
+				slotDesc.midiNote,
+				slotDesc.sample.c_str(),
+				slotModeName(mode));
+		}
 	}
 
 	if(slots.empty()) {

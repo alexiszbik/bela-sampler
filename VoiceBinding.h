@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MuteGroup.h"
+
 #include <cstddef>
 
 struct VoiceBinding
@@ -8,7 +10,9 @@ struct VoiceBinding
 
 	size_t slotId = kInvalidSlot;
 	bool isMonoOwner = false;
+	MuteGroup muteGroup = MuteGroup::None;
 
 	bool isBound() const { return slotId != kInvalidSlot; }
 	bool isBoundTo(size_t id) const { return slotId == id; }
+	bool isAssigned() const { return isMonoOwner || muteGroup != MuteGroup::None; }
 };

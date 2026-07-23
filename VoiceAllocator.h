@@ -13,8 +13,11 @@ public:
 
 private:
 	SamplePlayer* acquireDedicatedPlayer(size_t slotId);
+	SamplePlayer* acquireMuteGroupPlayer(MuteGroup group);
 	SamplePlayer* findDedicatedPlayerForSlot(size_t slotId) const;
+	SamplePlayer* findMuteGroupPlayer(MuteGroup group) const;
 	SamplePlayer* findFreePolyPlayer() const;
+	SamplePlayer* findUnassignedPlayer() const;
 
 	SamplePlayerPool* playerPool = nullptr;
 };

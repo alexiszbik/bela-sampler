@@ -186,6 +186,27 @@ bool ProgramJson::parseMode(ProgramSlotMode& mode) {
 	return true;
 }
 
+bool ProgramJson::parseMuteGroup(MuteGroup& muteGroup) {
+	std::string groupName;
+	if(!parseQuotedString(groupName)) {
+		return false;
+	}
+
+	if(groupName == kMuteGroupA) {
+		muteGroup = MuteGroup::A;
+	} else if(groupName == kMuteGroupB) {
+		muteGroup = MuteGroup::B;
+	} else if(groupName == kMuteGroupC) {
+		muteGroup = MuteGroup::C;
+	} else if(groupName == kMuteGroupD) {
+		muteGroup = MuteGroup::D;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	if(!matchLiteral('{')) {
 		return false;
@@ -213,6 +234,10 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			hasSample = true;
 		} else if(matchKey(kMode)) {
 			if(!matchLiteral(':') || !parseMode(slot.mode)) {
+				return false;
+			}
+		} else if(matchKey(kMuteGroup)) {
+			if(!matchLiteral(':') || !parseMuteGroup(slot.muteGroup)) {
 				return false;
 			}
 		} else {
