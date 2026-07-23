@@ -316,6 +316,10 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			if(!matchLiteral(':') || !parseReversed(slot.reversed)) {
 				return false;
 			}
+		} else if(matchKey(kVolume)) {
+			if(!matchLiteral(':') || !parseFloat(slot.volumeDb)) {
+				return false;
+			}
 		} else {
 			skipValue();
 		}

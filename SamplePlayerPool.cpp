@@ -1,5 +1,6 @@
 #include "SamplePlayerPool.h"
 
+#include "GainHelper.h"
 #include "PitchHelper.h"
 #include "ProgramJson.h"
 
@@ -22,13 +23,14 @@ void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot, i
 	const SamplePlayer::EPlayerMode playerMode = slot.playMode == Program::SlotPlayMode::Granular
 		? SamplePlayer::Granular
 		: SamplePlayer::Normal;
-	const float gain = static_cast<float>(velocity) / 127.f;
+	const float velocityGain = static_cast<float>(velocity) / 127.f;
+	const float gain = velocityGain * velocityGain * dBtoRMS(slot.volumeDb);
 
 	player->setSample(slot.sample);
 	player->setLoop(loop);
 	player->setReversed(slot.reversed);
 	player->setPlayMode(playerMode);
-	player->setGain(gain*gain);
+	player->setGain(gain);
 
 	if(slot.playMode == Program::SlotPlayMode::Granular) {
 		player->setGranularSpeed(slot.granularSpeed);

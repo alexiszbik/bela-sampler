@@ -25,6 +25,7 @@ struct ProgramSlotDesc {
 	ProgramSlotPlayMode playMode = ProgramSlotPlayMode::Normal;
 	float granularSpeed = 1.f;
 	bool reversed = false;
+	float volumeDb = 0.f;
 };
 
 class ProgramJson
@@ -72,5 +73,6 @@ private:
 	static constexpr const char* kPlayMode = "playmode";
 	static constexpr const char* kGranularSpeed = "granularSpeed";
 	static constexpr const char* kReversed = "reversed";
+	static constexpr const char* kVolume = "volume";
 	static constexpr const char* kSlots = "slots";
 };

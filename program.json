@@ -1,6 +1,6 @@
 {
 	"slots": [
-		{ "midiNote": 36, "sample": "casta.wav", "mode": "poly" },
+		{ "midiNote": 36, "sample": "casta.wav", "mode": "poly", "volume": -6 },
 		{ "midiNote": 37, "sample": "epiano.wav", "mode": "gate", "pitch": -7, "reversed" : 0 },
 		{ "midiNote": 38, "sample": "epiano.wav", "mode": "gate", "reversed" : 1, "playmode": "granular", "granularSpeed": 0.5 },
 		{ "midiNote": 39, "sample": "epiano.wav", "mode": "gate", "muteGroup": "A" },
@@ -14,8 +14,8 @@
 		{ "midiNote": 46, "sample": "weird hat.wav", "mode": "poly", "muteGroup": "A" },
 		{ "midiNote": 47, "muteGroup": "A" },
 		{ "midiNote": 48, "sample": "eguitar.wav", "mode": "mono", "pitch": 12 },
-		{ "midiNote": 49, "sample": "eguitar.wav", "mode": "mono", "pitch": 0 },
-		{ "midiNote": 50, "sample": "piano_mono.wav", "mode": "mono", "pitch": -7 },
-		{ "midiNote": 51, "sample": "piano_mono.wav", "mode": "mono", "pitch": 3, "playmode": "granular", "granularSpeed": 0.85 }
+		{ "midiNote": 49, "sample": "eguitar.wav", "mode": "mono", "pitch": 0, "volume": -12 },
+		{ "midiNote": 50, "sample": "piano_mono.wav", "mode": "mono", "pitch": -7, "volume": -6, "reversed":1 },
+		{ "midiNote": 51, "sample": "piano_mono.wav", "mode": "mono", "pitch": 3 , "volume": -6, "playmode": "granular", "granularSpeed": 0.85 }
 	]
 }
