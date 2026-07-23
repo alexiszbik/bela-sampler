@@ -231,6 +231,23 @@ bool ProgramJson::parsePitch(float& pitch) {
 	return true;
 }
 
+bool ProgramJson::parsePlayMode(ProgramSlotPlayMode& playMode) {
+	std::string playModeName;
+	if(!parseQuotedString(playModeName)) {
+		return false;
+	}
+
+	if(playModeName == kPlayModeNormal) {
+		playMode = ProgramSlotPlayMode::Normal;
+	} else if(playModeName == kPlayModeGranular) {
+		playMode = ProgramSlotPlayMode::Granular;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	if(!matchLiteral('{')) {
 		return false;
@@ -268,6 +285,14 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			hasMuteGroup = slot.muteGroup != MuteGroup::None;
 		} else if(matchKey(kPitch)) {
 			if(!matchLiteral(':') || !parsePitch(slot.pitchSemitones)) {
+				return false;
+			}
+		} else if(matchKey(kPlayMode)) {
+			if(!matchLiteral(':') || !parsePlayMode(slot.playMode)) {
+				return false;
+			}
+		} else if(matchKey(kGranularSpeed)) {
+			if(!matchLiteral(':') || !parseFloat(slot.granularSpeed) || slot.granularSpeed <= 0.f) {
 				return false;
 			}
 		} else {

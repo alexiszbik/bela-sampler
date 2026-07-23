@@ -1,6 +1,7 @@
 #include "SamplePlayerPool.h"
 
 #include "PitchHelper.h"
+#include "ProgramJson.h"
 
 #include <Bela.h>
 
@@ -17,9 +18,22 @@ void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot) {
 	}
 
 	const bool loop = slot.mode == Program::SlotMode::Gate;
+	const float pitchSpeed = semitonesToPlaybackSpeed(slot.pitchSemitones);
+	const SamplePlayer::EPlayerMode playerMode = slot.playMode == Program::SlotPlayMode::Granular
+		? SamplePlayer::Granular
+		: SamplePlayer::Normal;
+
 	player->setSample(slot.sample);
 	player->setLoop(loop);
-	player->setSpeed(semitonesToPlaybackSpeed(slot.pitchSemitones));
+	player->setPlayMode(playerMode);
+
+	if(slot.playMode == Program::SlotPlayMode::Granular) {
+		player->setGranularSpeed(slot.granularSpeed);
+		player->setGranularPitch(pitchSpeed);
+	} else {
+		player->setSpeed(pitchSpeed);
+	}
+
 	player->trigger();
 
 	if(slot.muteGroup != MuteGroup::None) {
@@ -27,8 +41,14 @@ void SamplePlayerPool::playOn(SamplePlayer* player, const Program::Slot& slot) {
 	}
 
 	const size_t playerIndex = static_cast<size_t>(player - &players[0]);
-	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f\n",
-		slot.sample->getName().c_str(), playerIndex, loop ? 1 : 0, slot.pitchSemitones);
+	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s\n",
+		slot.sample->getName().c_str(),
+		playerIndex,
+		loop ? 1 : 0,
+		slot.pitchSemitones,
+		slot.playMode == Program::SlotPlayMode::Granular
+			? ProgramJson::kPlayModeGranular
+			: ProgramJson::kPlayModeNormal);
 }
 
 void SamplePlayerPool::stop(SamplePlayer* player) {

@@ -11,12 +11,19 @@ enum class ProgramSlotMode {
 	Gate
 };
 
+enum class ProgramSlotPlayMode {
+	Normal,
+	Granular
+};
+
 struct ProgramSlotDesc {
 	int midiNote = 0;
 	std::string sample;
 	ProgramSlotMode mode = ProgramSlotMode::Poly;
 	MuteGroup muteGroup = MuteGroup::None;
 	float pitchSemitones = 0.f;
+	ProgramSlotPlayMode playMode = ProgramSlotPlayMode::Normal;
+	float granularSpeed = 1.f;
 };
 
 class ProgramJson
@@ -25,6 +32,8 @@ public:
 	static constexpr const char* kModePoly = "poly";
 	static constexpr const char* kModeMono = "mono";
 	static constexpr const char* kModeGate = "gate";
+	static constexpr const char* kPlayModeNormal = "normal";
+	static constexpr const char* kPlayModeGranular = "granular";
 	static constexpr const char* kMuteGroupA = "A";
 	static constexpr const char* kMuteGroupB = "B";
 	static constexpr const char* kMuteGroupC = "C";
@@ -40,6 +49,7 @@ private:
 	bool parseMode(ProgramSlotMode& mode);
 	bool parseMuteGroup(MuteGroup& muteGroup);
 	bool parsePitch(float& pitch);
+	bool parsePlayMode(ProgramSlotPlayMode& playMode);
 
 	void skipSpace();
 	bool matchLiteral(char expected);
@@ -57,5 +67,7 @@ private:
 	static constexpr const char* kMode = "mode";
 	static constexpr const char* kMuteGroup = "muteGroup";
 	static constexpr const char* kPitch = "pitch";
+	static constexpr const char* kPlayMode = "playmode";
+	static constexpr const char* kGranularSpeed = "granularSpeed";
 	static constexpr const char* kSlots = "slots";
 };

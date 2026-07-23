@@ -47,6 +47,18 @@ const char* slotModeName(Program::SlotMode mode) {
 	}
 }
 
+Program::SlotPlayMode toProgramSlotPlayMode(ProgramSlotPlayMode playMode) {
+	return playMode == ProgramSlotPlayMode::Granular
+		? Program::SlotPlayMode::Granular
+		: Program::SlotPlayMode::Normal;
+}
+
+const char* slotPlayModeName(Program::SlotPlayMode playMode) {
+	return playMode == Program::SlotPlayMode::Granular
+		? ProgramJson::kPlayModeGranular
+		: ProgramJson::kPlayModeNormal;
+}
+
 const char* muteGroupName(MuteGroup muteGroup) {
 	switch(muteGroup) {
 		case MuteGroup::A:
@@ -64,8 +76,8 @@ const char* muteGroupName(MuteGroup muteGroup) {
 }
 
 void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode, MuteGroup muteGroup,
-	float pitchSemitones) {
-	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup, pitchSemitones});
+	float pitchSemitones, SlotPlayMode playMode, float granularSpeed) {
+	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup, pitchSemitones, playMode, granularSpeed});
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
@@ -79,6 +91,7 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 
 	for(const ProgramSlotDesc& slotDesc : slotDescs) {
 		const SlotMode mode = toProgramSlotMode(slotDesc.mode);
+		const SlotPlayMode playMode = toProgramSlotPlayMode(slotDesc.playMode);
 		const char* groupName = muteGroupName(slotDesc.muteGroup);
 
 		if(slotDesc.sample.empty()) {
@@ -87,7 +100,8 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 				continue;
 			}
 
-			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup, slotDesc.pitchSemitones);
+			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup, slotDesc.pitchSemitones,
+				playMode, slotDesc.granularSpeed);
 			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s\n",
 				slots.back().id,
 				slotDesc.midiNote,
@@ -101,9 +115,18 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			continue;
 		}
 
-		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup, slotDesc.pitchSemitones);
+		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup, slotDesc.pitchSemitones,
+			playMode, slotDesc.granularSpeed);
 
-		if(groupName != nullptr) {
+		if(playMode == Program::SlotPlayMode::Granular) {
+			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s playmode=%s granularSpeed=%.2f\n",
+				slots.back().id,
+				slotDesc.midiNote,
+				slotDesc.sample.c_str(),
+				slotModeName(mode),
+				slotPlayModeName(playMode),
+				slotDesc.granularSpeed);
+		} else if(groupName != nullptr) {
 			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s muteGroup=%s pitch=%.2f\n",
 				slots.back().id,
 				slotDesc.midiNote,
