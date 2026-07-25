@@ -76,8 +76,8 @@ const char* muteGroupName(MuteGroup muteGroup) {
 }
 
 void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode, MuteGroup muteGroup,
-	float pitchSemitones, SlotPlayMode playMode, float granularSpeed, bool reversed, float volumeDb) {
-	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup, pitchSemitones, playMode, granularSpeed, reversed, volumeDb});
+	float pitchSemitones, SlotPlayMode playMode, float granularSpeed, bool reversed, float volumeDb, int bus) {
+	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup, pitchSemitones, playMode, granularSpeed, reversed, volumeDb, bus});
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
@@ -101,11 +101,12 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			}
 
 			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup, slotDesc.pitchSemitones,
-				playMode, slotDesc.granularSpeed, slotDesc.reversed, slotDesc.volumeDb);
-			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s\n",
+				playMode, slotDesc.granularSpeed, slotDesc.reversed, slotDesc.volumeDb, slotDesc.bus);
+			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s bus=%d\n",
 				slots.back().id,
 				slotDesc.midiNote,
-				groupName);
+				groupName,
+				slotDesc.bus);
 			continue;
 		}
 
@@ -116,44 +117,14 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 		}
 
 		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup, slotDesc.pitchSemitones,
-			playMode, slotDesc.granularSpeed, slotDesc.reversed, slotDesc.volumeDb);
+			playMode, slotDesc.granularSpeed, slotDesc.reversed, slotDesc.volumeDb, slotDesc.bus);
 
-		if(slotDesc.reversed) {
-			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s reversed=1\n",
-				slots.back().id,
-				slotDesc.midiNote,
-				slotDesc.sample.c_str(),
-				slotModeName(mode));
-		} else if(playMode == Program::SlotPlayMode::Granular) {
-			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s playmode=%s granularSpeed=%.2f\n",
-				slots.back().id,
-				slotDesc.midiNote,
-				slotDesc.sample.c_str(),
-				slotModeName(mode),
-				slotPlayModeName(playMode),
-				slotDesc.granularSpeed);
-		} else if(groupName != nullptr) {
-			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s muteGroup=%s pitch=%.2f\n",
-				slots.back().id,
-				slotDesc.midiNote,
-				slotDesc.sample.c_str(),
-				slotModeName(mode),
-				groupName,
-				slotDesc.pitchSemitones);
-		} else if(slotDesc.pitchSemitones != 0.f) {
-			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s pitch=%.2f\n",
-				slots.back().id,
-				slotDesc.midiNote,
-				slotDesc.sample.c_str(),
-				slotModeName(mode),
-				slotDesc.pitchSemitones);
-		} else {
-			rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s\n",
-				slots.back().id,
-				slotDesc.midiNote,
-				slotDesc.sample.c_str(),
-				slotModeName(mode));
-		}
+		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s bus=%d\n",
+			slots.back().id,
+			slotDesc.midiNote,
+			slotDesc.sample.c_str(),
+			slotModeName(mode),
+			slotDesc.bus);
 	}
 
 	if(slots.empty()) {

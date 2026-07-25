@@ -26,6 +26,7 @@ struct ProgramSlotDesc {
 	float granularSpeed = 1.f;
 	bool reversed = false;
 	float volumeDb = 0.f;
+	int bus = -1;
 };
 
 class ProgramJson
@@ -53,6 +54,7 @@ private:
 	bool parsePitch(float& pitch);
 	bool parsePlayMode(ProgramSlotPlayMode& playMode);
 	bool parseReversed(bool& reversed);
+	bool parseBus(int& bus);
 
 	void skipSpace();
 	bool matchLiteral(char expected);
@@ -74,5 +76,6 @@ private:
 	static constexpr const char* kGranularSpeed = "granularSpeed";
 	static constexpr const char* kReversed = "reversed";
 	static constexpr const char* kVolume = "volume";
+	static constexpr const char* kBus = "bus";
 	static constexpr const char* kSlots = "slots";
 };

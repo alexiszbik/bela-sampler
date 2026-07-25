@@ -4,14 +4,16 @@
 			"midiNote": 36,
 			"sample": "casta.wav",
 			"mode": "poly",
-			"volume": -6
+			"volume": -6,
+			"bus": 0
 		},
 		{
 			"midiNote": 37,
 			"sample": "epiano.wav",
 			"mode": "gate",
 			"pitch": -7,
-			"reversed": 0
+			"reversed": 0,
+			"bus": 0
 		},
 		{
 			"midiNote": 38,
@@ -19,19 +21,22 @@
 			"mode": "gate",
 			"reversed": 1,
 			"playmode": "granular",
-			"granularSpeed": 0.5
+			"granularSpeed": 0.5,
+			"bus": 0
 		},
 		{
 			"midiNote": 39,
 			"sample": "epiano.wav",
 			"mode": "gate",
-			"muteGroup": "A"
+			"muteGroup": "A",
+			"bus": 0
 		},
 		{
 			"midiNote": 40,
 			"sample": "spectrdrum.wav",
 			"mode": "poly",
-			"muteGroup": "A"
+			"muteGroup": "A",
+			"bus": 0
 		},
 		{
 			"midiNote": 41,
@@ -40,7 +45,8 @@
 			"muteGroup": "A",
 			"playmode": "granular",
 			"pitch": -7,
-			"reversed": 1
+			"reversed": 1,
+			"bus": 0
 		},
 		{
 			"midiNote": 42,
@@ -48,7 +54,8 @@
 			"mode": "poly",
 			"playmode": "granular",
 			"granularSpeed": 0.85,
-			"volume" : -6
+			"volume": -6,
+			"bus": 0
 		},
 		{
 			"midiNote": 43,
@@ -56,41 +63,48 @@
 			"mode": "poly",
 			"playmode": "granular",
 			"granularSpeed": 0.5,
-			"reversed": 1
+			"reversed": 1,
+			"bus": 0
 		},
 		{
 			"midiNote": 44,
 			"sample": "sample.wav",
-			"mode": "poly"
+			"mode": "poly",
+			"bus": 1
 		},
 		{
 			"midiNote": 45,
 			"sample": "sample.wav",
 			"mode": "mono",
-			"reversed": 1
+			"reversed": 1,
+			"bus": 1
 		},
 		{
 			"midiNote": 46,
 			"sample": "weird hat.wav",
 			"mode": "poly",
-			"muteGroup": "A"
+			"muteGroup": "A",
+			"bus": 1
 		},
 		{
 			"midiNote": 47,
-			"muteGroup": "A"
+			"muteGroup": "A",
+			"bus": 0
 		},
 		{
 			"midiNote": 48,
 			"sample": "eguitar.wav",
 			"mode": "mono",
-			"pitch": 12
+			"pitch": 12,
+			"bus": 1
 		},
 		{
 			"midiNote": 49,
 			"sample": "eguitar.wav",
 			"mode": "mono",
 			"pitch": 0,
-			"volume": -12
+			"volume": -12,
+			"bus": 1
 		},
 		{
 			"midiNote": 50,
@@ -98,7 +112,8 @@
 			"mode": "mono",
 			"pitch": -7,
 			"volume": -6,
-			"reversed": 1
+			"reversed": 1,
+			"bus": 1
 		},
 		{
 			"midiNote": 51,
@@ -107,7 +122,8 @@
 			"pitch": 3,
 			"volume": -6,
 			"playmode": "granular",
-			"granularSpeed": 0.85
+			"granularSpeed": 0.85,
+			"bus": 1
 		}
 	]
 }

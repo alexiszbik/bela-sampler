@@ -4,6 +4,7 @@ void SamplerEngine::init(Program* inProgram, double sampleRate, size_t playerCou
 	program = inProgram;
 	playerPool.init(sampleRate, playerCount);
 	voiceAllocator.init(&playerPool);
+	mixBuses.init(sampleRate);
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity) {
@@ -43,5 +44,9 @@ void SamplerEngine::onNoteOff(int note) {
 }
 
 void SamplerEngine::nextSamples(float* buf, size_t bufSize) {
-	playerPool.nextSamples(buf, bufSize);
+	float busSums[MixBusArray::kBusCount][MixBusArray::kBusChannels] = {{0.f}};
+
+	playerPool.nextSamples(busSums, MixBusArray::kBusCount, MixBusArray::kBusChannels);
+	mixBuses.processBuses(busSums, MixBusArray::kBusChannels);
+	mixBuses.writeToOutput(busSums, buf, bufSize);
 }

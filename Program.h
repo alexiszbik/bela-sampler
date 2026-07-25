@@ -30,6 +30,7 @@ public:
 		float granularSpeed = 1.f;
 		bool reversed = false;
 		float volumeDb = 0.f;
+		int bus = 0;
 
 		bool isMuteOnly() const { return sample == nullptr; }
 	};
@@ -37,7 +38,7 @@ public:
 	void addSlot(int midiNote, const Sample* sample, SlotMode mode = SlotMode::Poly,
 		MuteGroup muteGroup = MuteGroup::None, float pitchSemitones = 0.f,
 		SlotPlayMode playMode = SlotPlayMode::Normal, float granularSpeed = 1.f, bool reversed = false,
-		float volumeDb = 0.f);
+		float volumeDb = 0.f, int bus = 0);
 	bool loadFromFile(const std::string& filepath, const std::vector<Sample>& samples);
 	const Slot* getSlotForNote(int note) const;
 	size_t getSlotCount() const { return slots.size(); }

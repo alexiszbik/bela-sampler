@@ -43,9 +43,9 @@ private:
 	void resetGranularState();
 	void wrapSampleIndex(double& index) const;
 	void updateSrSpeed();
-	unsigned int getOutputChannelCount() const;
 
 	const Sample* sample = nullptr;
+	unsigned int sampleChannelCount = 1;
 
 	double readPos = 0.0;
 	double playingSampleRate = 44100.0;

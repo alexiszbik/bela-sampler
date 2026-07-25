@@ -5,17 +5,8 @@
 static const double kGrainDurationSec = 0.08;
 static const double twoPi = 2.0 * M_PI;
 
-unsigned int SamplePlayer::getOutputChannelCount() const {
-	if(sample == nullptr) {
-		return 1;
-	}
-
-	const unsigned int channelCount = sample->getChannelCount();
-	return channelCount > 1 ? 2u : 1u;
-}
-
 void SamplePlayer::accumulateGrainOutput(float* grainMix, size_t mixChannelCount, const float* voiceOut, float level) {
-	if(getOutputChannelCount() <= 1) {
+	if(sampleChannelCount <= 1) {
 		grainMix[0] += voiceOut[0] * level;
 		return;
 	}
@@ -35,6 +26,12 @@ void SamplePlayer::init(double inPlayingSampleRate) {
 
 void SamplePlayer::setSample(const Sample* newSample) {
 	sample = newSample;
+	if(sample != nullptr) {
+		sampleChannelCount = sample->getChannelCount() > 1 ? 2u : 1u;
+	} else {
+		sampleChannelCount = 1;
+	}
+
 	updateSrSpeed();
 	resetPlaybackState();
 	isPlaying = false;
@@ -179,7 +176,7 @@ void SamplePlayer::nextSamplesNormal(float* buf, size_t bufSize) {
 	float voiceOut[2] = {0.f, 0.f};
 	sample->tableRead(readPos, voiceOut, bufSize, isLoop);
 
-	if(getOutputChannelCount() <= 1) {
+	if(sampleChannelCount <= 1) {
 		buf[0] = voiceOut[0];
 		if(bufSize > 1) {
 			buf[1] = voiceOut[0];
@@ -232,7 +229,7 @@ void SamplePlayer::nextSamplesGranular(float* buf, size_t bufSize) {
 		processGrain(grain, grainMix, bufSize, grainReadSpeed);
 	}
 
-	if(getOutputChannelCount() <= 1) {
+	if(sampleChannelCount <= 1) {
 		buf[0] = grainMix[0];
 		if(bufSize > 1) {
 			buf[1] = grainMix[0];

@@ -265,6 +265,14 @@ bool ProgramJson::parseReversed(bool& reversed) {
 	return true;
 }
 
+bool ProgramJson::parseBus(int& bus) {
+	if(!parseInt(bus)) {
+		return false;
+	}
+
+	return bus == 0 || bus == 1;
+}
+
 bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	if(!matchLiteral('{')) {
 		return false;
@@ -273,6 +281,7 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 	bool hasNote = false;
 	bool hasSample = false;
 	bool hasMuteGroup = false;
+	bool hasBus = false;
 
 	while(*cursor != '\0') {
 		skipSpace();
@@ -320,6 +329,11 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			if(!matchLiteral(':') || !parseFloat(slot.volumeDb)) {
 				return false;
 			}
+		} else if(matchKey(kBus)) {
+			if(!matchLiteral(':') || !parseBus(slot.bus)) {
+				return false;
+			}
+			hasBus = true;
 		} else {
 			skipValue();
 		}
@@ -330,7 +344,7 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 		}
 	}
 
-	return hasNote && (hasSample || hasMuteGroup);
+	return hasNote && hasBus && (hasSample || hasMuteGroup);
 }
 
 bool ProgramJson::findSlotsArray() {

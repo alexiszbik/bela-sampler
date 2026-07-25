@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MixBusArray.h"
 #include "Program.h"
 #include "SamplePlayerPool.h"
 #include "VoiceAllocator.h"
@@ -18,4 +19,5 @@ private:
 	Program* program = nullptr;
 	SamplePlayerPool playerPool;
 	VoiceAllocator voiceAllocator;
+	MixBusArray mixBuses;
 };

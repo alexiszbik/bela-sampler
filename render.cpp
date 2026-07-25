@@ -13,6 +13,7 @@
 #include "Program.h"
 #include "SamplerEngine.h"
 #include "MidiInput.h"
+#include "MixBusArray.h"
 
 static const char* kSamplesFolder = "samplesfolder";
 static const char* kProgramFile = "program.json";
@@ -23,7 +24,9 @@ static Program gProgram;
 static SamplerEngine gEngine;
 static MidiInput gMidiInput;
 
-float mix[2] = {0.f, 0.f};
+float mix[4] = {0.f, 0.f, 0.f, 0.f};
+
+const int kOutChannelStart = 2;
 
 static bool isWavFile(const std::string& filename) {
 	if(filename.size() < 4) {
@@ -100,14 +103,14 @@ bool setup(BelaContext *context, void *userData) {
 void render(BelaContext *context, void *userData) {
 	for(unsigned int n = 0; n < context->audioFrames; n++)
 	{
-		for(unsigned int channel = 0; channel < /*context->audioOutChannels*/2; channel++) {
+		for(unsigned int channel = 0; channel < MixBusArray::kOutputChannels; channel++) {
 			mix[channel] = 0;
 		}
 
-		gEngine.nextSamples(mix, 2);
+		gEngine.nextSamples(mix, MixBusArray::kOutputChannels);
 
-		for(unsigned int channel = 0; channel < /*context->audioOutChannels*/2; channel++) {
-			audioWrite(context, n, channel, mix[channel]);
+		for(unsigned int channel = 0; channel < MixBusArray::kOutputChannels; channel++) {
+			audioWrite(context, n, channel + kOutChannelStart, mix[channel]);
 		}
 	}
 }
