@@ -43,6 +43,15 @@ void SamplerEngine::onNoteOff(int note) {
 	voiceAllocator.releaseGate(*slot);
 }
 
+void SamplerEngine::onControlChange(int controller, int value) {
+	if(controller != MixBusArray::kBus1FilterCc) {
+		return;
+	}
+
+	const float cutoffHz = MixBusArray::bus1CutoffFromCc(value);
+	mixBuses.setBusLowpassCutoff(1, cutoffHz);
+}
+
 void SamplerEngine::nextSamples(float* buf, size_t bufSize) {
 	float busSums[MixBusArray::kBusCount][MixBusArray::kBusChannels] = {{0.f}};
 

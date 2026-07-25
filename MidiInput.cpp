@@ -43,10 +43,15 @@ void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
 			break;
 		}
 		case kmmControlChange: {
+			const int controller = message.getDataByte(0);
+			const int value = message.getDataByte(1);
 			rt_printf("MIDI CC       ch=%d cc=%d val=%d\n",
 				message.getChannel(),
-				message.getDataByte(0),
-				message.getDataByte(1));
+				controller,
+				value);
+			if(engine != nullptr) {
+				engine->onControlChange(controller, value);
+			}
 			break;
 		}
 		case kmmProgramChange: {
