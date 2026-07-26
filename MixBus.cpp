@@ -1,18 +1,23 @@
 #include "MixBus.h"
 
-void MixBus::init(double sampleRate, float lowpassFreq, float q) {
-	lowpassQ = q;
-	const float sampleRateF = static_cast<float>(sampleRate);
+static constexpr float kMixBusLowpassQ = 1.f;
+
+void MixBus::init(double sampleRate) {
+	const float fsr = static_cast<float>(sampleRate);
 	for(size_t channel = 0; channel < kChannelCount; channel++) {
-		filters[channel].init(sampleRateF);
-		filters[channel].setLowpass(lowpassFreq, lowpassQ);
+		filters[channel].init(fsr);
+	}
+
+	setLowpassCutoff(4500);
+
+	for(size_t channel = 0; channel < kChannelCount; channel++) {
 		filters[channel].reset();
 	}
 }
 
 void MixBus::setLowpassCutoff(float cutoffFreq) {
 	for(size_t channel = 0; channel < kChannelCount; channel++) {
-		filters[channel].setLowpass(cutoffFreq, lowpassQ);
+		filters[channel].setLowpass(cutoffFreq, kMixBusLowpassQ);
 	}
 }
 

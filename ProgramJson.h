@@ -26,7 +26,7 @@ struct ProgramSlotDesc {
 	float granularSpeed = 1.f;
 	bool reversed = false;
 	float volumeDb = 0.f;
-	int bus = -1;
+	int bus = 0;
 };
 
 class ProgramJson
@@ -48,7 +48,9 @@ private:
 	bool readFile(const std::string& filepath);
 	bool findSlotsArray();
 	bool parseSlots(std::vector<ProgramSlotDesc>& slots);
-	bool parseSlotObject(ProgramSlotDesc& slot);
+	bool parseSlotGroup(std::vector<ProgramSlotDesc>& slots);
+	bool parseLayersArray(std::vector<ProgramSlotDesc>& layers);
+	bool parseLayerObject(ProgramSlotDesc& slot);
 	bool parseMode(ProgramSlotMode& mode);
 	bool parseMuteGroup(MuteGroup& muteGroup);
 	bool parsePitch(float& pitch);
@@ -77,5 +79,6 @@ private:
 	static constexpr const char* kReversed = "reversed";
 	static constexpr const char* kVolume = "volume";
 	static constexpr const char* kBus = "bus";
+	static constexpr const char* kLayers = "layers";
 	static constexpr const char* kSlots = "slots";
 };

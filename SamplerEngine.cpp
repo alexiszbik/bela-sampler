@@ -7,27 +7,32 @@ void SamplerEngine::init(Program* inProgram, double sampleRate, size_t playerCou
 	mixBuses.init(sampleRate);
 }
 
+void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
+	if(slot.isMuteOnly()) {
+		voiceAllocator.stopMuteGroup(slot.muteGroup);
+		return;
+	}
+
+	SamplerVoice* voice = voiceAllocator.acquire(slot);
+	if(voice == nullptr) {
+		return;
+	}
+
+	playerPool.playOn(voice, slot, velocity);
+}
+
 void SamplerEngine::onNoteOn(int note, int velocity) {
 	if(program == nullptr || velocity <= 0) {
 		return;
 	}
 
-	const Program::Slot* slot = program->getSlotForNote(note);
-	if(slot == nullptr) {
-		return;
-	}
+	for(const Program::Slot& slot : program->getSlots()) {
+		if(slot.midiNote != note) {
+			continue;
+		}
 
-	if(slot->isMuteOnly()) {
-		voiceAllocator.stopMuteGroup(slot->muteGroup);
-		return;
+		triggerSlot(slot, velocity);
 	}
-
-	SamplerVoice* player = voiceAllocator.acquire(*slot);
-	if(player == nullptr) {
-		return;
-	}
-
-	playerPool.playOn(player, *slot, velocity);
 }
 
 void SamplerEngine::onNoteOff(int note) {
@@ -35,12 +40,13 @@ void SamplerEngine::onNoteOff(int note) {
 		return;
 	}
 
-	const Program::Slot* slot = program->getSlotForNote(note);
-	if(slot == nullptr || slot->mode != Program::SlotMode::Gate) {
-		return;
-	}
+	for(const Program::Slot& slot : program->getSlots()) {
+		if(slot.midiNote != note || slot.mode != Program::SlotMode::Gate) {
+			continue;
+		}
 
-	voiceAllocator.releaseGate(*slot);
+		voiceAllocator.releaseGate(slot);
+	}
 }
 
 void SamplerEngine::onControlChange(int controller, int value) {

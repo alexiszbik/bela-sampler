@@ -17,6 +17,8 @@ public:
 	size_t getPlayerCount() const { return playerPool.getCount(); }
 
 private:
+	void triggerSlot(const Program::Slot& slot, int velocity);
+
 	Program* program = nullptr;
 	SamplePlayerPool playerPool;
 	VoiceAllocator voiceAllocator;

@@ -53,12 +53,6 @@ Program::SlotPlayMode toProgramSlotPlayMode(ProgramSlotPlayMode playMode) {
 		: Program::SlotPlayMode::Normal;
 }
 
-const char* slotPlayModeName(Program::SlotPlayMode playMode) {
-	return playMode == Program::SlotPlayMode::Granular
-		? ProgramJson::kPlayModeGranular
-		: ProgramJson::kPlayModeNormal;
-}
-
 const char* muteGroupName(MuteGroup muteGroup) {
 	switch(muteGroup) {
 		case MuteGroup::A:
@@ -75,9 +69,20 @@ const char* muteGroupName(MuteGroup muteGroup) {
 }
 }
 
-void Program::addSlot(int midiNote, const Sample* sample, SlotMode mode, MuteGroup muteGroup,
-	float pitchSemitones, SlotPlayMode playMode, float granularSpeed, bool reversed, float volumeDb, int bus) {
-	slots.push_back({slots.size(), midiNote, sample, mode, muteGroup, pitchSemitones, playMode, granularSpeed, reversed, volumeDb, bus});
+void Program::addSlot(const ProgramSlotDesc& desc, const Sample* sample) {
+	slots.push_back({
+		slots.size(),
+		desc.midiNote,
+		sample,
+		toProgramSlotMode(desc.mode),
+		desc.muteGroup,
+		desc.pitchSemitones,
+		toProgramSlotPlayMode(desc.playMode),
+		desc.granularSpeed,
+		desc.reversed,
+		desc.volumeDb,
+		desc.bus
+	});
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
@@ -90,8 +95,6 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 	}
 
 	for(const ProgramSlotDesc& slotDesc : slotDescs) {
-		const SlotMode mode = toProgramSlotMode(slotDesc.mode);
-		const SlotPlayMode playMode = toProgramSlotPlayMode(slotDesc.playMode);
 		const char* groupName = muteGroupName(slotDesc.muteGroup);
 
 		if(slotDesc.sample.empty()) {
@@ -100,8 +103,7 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 				continue;
 			}
 
-			addSlot(slotDesc.midiNote, nullptr, mode, slotDesc.muteGroup, slotDesc.pitchSemitones,
-				playMode, slotDesc.granularSpeed, slotDesc.reversed, slotDesc.volumeDb, slotDesc.bus);
+			addSlot(slotDesc, nullptr);
 			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s bus=%d\n",
 				slots.back().id,
 				slotDesc.midiNote,
@@ -116,14 +118,13 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			continue;
 		}
 
-		addSlot(slotDesc.midiNote, sample, mode, slotDesc.muteGroup, slotDesc.pitchSemitones,
-			playMode, slotDesc.granularSpeed, slotDesc.reversed, slotDesc.volumeDb, slotDesc.bus);
+		addSlot(slotDesc, sample);
 
 		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s bus=%d\n",
 			slots.back().id,
 			slotDesc.midiNote,
 			slotDesc.sample.c_str(),
-			slotModeName(mode),
+			slotModeName(slots.back().mode),
 			slotDesc.bus);
 	}
 
@@ -133,14 +134,4 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 	}
 
 	return true;
-}
-
-const Program::Slot* Program::getSlotForNote(int note) const {
-	for(const Slot& slot : slots) {
-		if(slot.midiNote == note) {
-			return &slot;
-		}
-	}
-
-	return nullptr;
 }

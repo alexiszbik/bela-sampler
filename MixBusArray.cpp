@@ -4,7 +4,6 @@
 
 static constexpr float kMixBus0LowpassFreq = 800.f;
 static constexpr float kMixBus1LowpassFreq = 4500.f;
-static constexpr float kMixBusLowpassQ = 1.f;
 static constexpr float kMixBus1MinCutoffHz = 80.f;
 static constexpr float kMixBus1MaxCutoffHz = 16000.f;
 
@@ -23,8 +22,8 @@ float MixBusArray::bus1CutoffFromCc(int ccValue) {
 }
 
 void MixBusArray::init(double sampleRate) {
-	buses[0].init(sampleRate, kMixBus0LowpassFreq, kMixBusLowpassQ);
-	buses[1].init(sampleRate, kMixBus1LowpassFreq, kMixBusLowpassQ);
+	buses[0].init(sampleRate);
+	buses[1].init(sampleRate);
 }
 
 void MixBusArray::setBusLowpassCutoff(size_t busIndex, float cutoffFreq) {

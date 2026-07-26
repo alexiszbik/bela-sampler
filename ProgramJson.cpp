@@ -273,15 +273,15 @@ bool ProgramJson::parseBus(int& bus) {
 	return bus == 0 || bus == 1;
 }
 
-bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
+bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
+	slot = ProgramSlotDesc{};
+
 	if(!matchLiteral('{')) {
 		return false;
 	}
 
-	bool hasNote = false;
 	bool hasSample = false;
 	bool hasMuteGroup = false;
-	bool hasBus = false;
 
 	while(*cursor != '\0') {
 		skipSpace();
@@ -290,12 +290,7 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			break;
 		}
 
-		if(matchKey(kMidiNote)) {
-			if(!matchLiteral(':') || !parseInt(slot.midiNote)) {
-				return false;
-			}
-			hasNote = true;
-		} else if(matchKey(kSample)) {
+		if(matchKey(kSample)) {
 			if(!matchLiteral(':') || !parseQuotedString(slot.sample)) {
 				return false;
 			}
@@ -333,7 +328,6 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 			if(!matchLiteral(':') || !parseBus(slot.bus)) {
 				return false;
 			}
-			hasBus = true;
 		} else {
 			skipValue();
 		}
@@ -344,7 +338,85 @@ bool ProgramJson::parseSlotObject(ProgramSlotDesc& slot) {
 		}
 	}
 
-	return hasNote && hasBus && (hasSample || hasMuteGroup);
+	return hasSample || hasMuteGroup;
+}
+
+bool ProgramJson::parseLayersArray(std::vector<ProgramSlotDesc>& layers) {
+	if(!matchLiteral('[')) {
+		return false;
+	}
+
+	size_t layerCount = 0;
+
+	while(*cursor != '\0') {
+		skipSpace();
+		if(*cursor == ']') {
+			++cursor;
+			break;
+		}
+
+		ProgramSlotDesc layer;
+		if(!parseLayerObject(layer)) {
+			return false;
+		}
+
+		layers.push_back(layer);
+		layerCount++;
+
+		skipSpace();
+		if(*cursor == ',') {
+			++cursor;
+		}
+	}
+
+	return layerCount > 0;
+}
+
+bool ProgramJson::parseSlotGroup(std::vector<ProgramSlotDesc>& slots) {
+	if(!matchLiteral('{')) {
+		return false;
+	}
+
+	int midiNote = 0;
+	bool hasNote = false;
+	std::vector<ProgramSlotDesc> layers;
+
+	while(*cursor != '\0') {
+		skipSpace();
+		if(*cursor == '}') {
+			++cursor;
+			break;
+		}
+
+		if(matchKey(kMidiNote)) {
+			if(!matchLiteral(':') || !parseInt(midiNote)) {
+				return false;
+			}
+			hasNote = true;
+		} else if(matchKey(kLayers)) {
+			if(!matchLiteral(':') || !parseLayersArray(layers)) {
+				return false;
+			}
+		} else {
+			skipValue();
+		}
+
+		skipSpace();
+		if(*cursor == ',') {
+			++cursor;
+		}
+	}
+
+	if(!hasNote || layers.empty()) {
+		return false;
+	}
+
+	for(ProgramSlotDesc& layer : layers) {
+		layer.midiNote = midiNote;
+		slots.push_back(layer);
+	}
+
+	return true;
 }
 
 bool ProgramJson::findSlotsArray() {
@@ -386,12 +458,9 @@ bool ProgramJson::parseSlots(std::vector<ProgramSlotDesc>& slots) {
 			break;
 		}
 
-		ProgramSlotDesc slot;
-		if(!parseSlotObject(slot)) {
+		if(!parseSlotGroup(slots)) {
 			return false;
 		}
-
-		slots.push_back(slot);
 
 		skipSpace();
 		if(*cursor == ',') {
