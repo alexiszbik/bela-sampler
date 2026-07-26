@@ -20,6 +20,11 @@ const Sample* findSampleByName(const std::vector<Sample>& samples, const std::st
 		if(path == sampleName || getBaseName(path) == sampleName) {
 			return &sample;
 		}
+
+		if(sampleName.size() <= path.size()
+			&& path.compare(path.size() - sampleName.size(), sampleName.size(), sampleName) == 0) {
+			return &sample;
+		}
 	}
 
 	return nullptr;

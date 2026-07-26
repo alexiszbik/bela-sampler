@@ -1,5 +1,6 @@
 #include "ProgramJson.h"
 
+#include "MixBusArray.h"
 #include "PitchHelper.h"
 
 #include <Bela.h>
@@ -270,7 +271,7 @@ bool ProgramJson::parseBus(int& bus) {
 		return false;
 	}
 
-	return bus == 0 || bus == 1;
+	return bus >= 0 && bus < static_cast<int>(MixBusArray::kBusCount);
 }
 
 bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {

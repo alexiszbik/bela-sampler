@@ -25,7 +25,7 @@ std::string Sample::getChannelDescription() const {
 	}
 }
 
-bool Sample::load(const std::string& filepath) {
+bool Sample::load(const std::string& filepath, const std::string& sampleName) {
 	const int numChannels = AudioFileUtilities::getNumChannels(filepath);
 	if(numChannels <= 0) {
 		return false;
@@ -46,7 +46,7 @@ bool Sample::load(const std::string& filepath) {
 	}
 
 	channelCount = static_cast<unsigned int>(numChannels);
-	name = getFileName(filepath);
+	name = sampleName.empty() ? getFileName(filepath) : sampleName;
 	sampleLength = sampleData[0].size();
 	dSampleLength = static_cast<double>(sampleLength);
 	return true;

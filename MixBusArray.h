@@ -7,8 +7,8 @@
 class MixBusArray
 {
 public:
-	static constexpr size_t kBusCount = 2;
-	static constexpr size_t kMasterChannelCount = 4;
+	static constexpr size_t kBusCount = 6;
+	static constexpr size_t kMasterChannelCount = 8;
 
 	static constexpr int kBus1FilterCc = 20;
 	static float bus1CutoffFromCc(int ccValue);

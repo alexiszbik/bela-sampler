@@ -31,6 +31,26 @@ void MixBusArray::init(double sampleRate) {
 	bus1.outputChannel0 = 2;
 	bus1.outputChannel1 = 3;
 	buses[1].init(sampleRate, bus1);
+
+	MixBusRoute bus3;
+	bus3.mono = true;
+	bus3.outputChannel0 = 4;
+	buses[2].init(sampleRate, bus3);
+
+	MixBusRoute bus4;
+	bus4.mono = true;
+	bus4.outputChannel0 = 5;
+	buses[3].init(sampleRate, bus4);
+
+	MixBusRoute bus5;
+	bus5.mono = true;
+	bus5.outputChannel0 = 6;
+	buses[4].init(sampleRate, bus5);
+
+	MixBusRoute bus6;
+	bus6.mono = true;
+	bus6.outputChannel0 = 7;
+	buses[5].init(sampleRate, bus6);
 }
 
 void MixBusArray::clearBusSums() {

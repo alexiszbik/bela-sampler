@@ -193,6 +193,102 @@
 					"bus": 1
 				}
 			]
+		},
+		{
+			"midiNote": 60,
+			"layers": [
+				{ "sample": "tr707/TR707-Kick-1.wav", "mode": "poly", "bus": 2 }
+			]
+		},
+		{
+			"midiNote": 61,
+			"layers": [
+				{ "sample": "tr707/TR707-Kick-2.wav", "mode": "poly", "bus": 2 }
+			]
+		},
+		{
+			"midiNote": 62,
+			"layers": [
+				{ "sample": "tr707/TR707-Snare-1.wav", "mode": "poly", "bus": 3 }
+			]
+		},
+		{
+			"midiNote": 63,
+			"layers": [
+				{ "sample": "tr707/TR707-Snare-2.wav", "mode": "poly", "bus": 3 }
+			]
+		},
+		{
+			"midiNote": 64,
+			"layers": [
+				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "bus": 3 }
+			]
+		},
+		{
+			"midiNote": 65,
+			"layers": [
+				{ "sample": "tr707/TR707-Claps.wav", "mode": "poly", "bus": 3 }
+			]
+		},
+		{
+			"midiNote": 66,
+			"layers": [
+				{ "sample": "tr707/TR707-Tambourine.wav", "mode": "poly", "bus": 5 }
+			]
+		},
+		{
+			"midiNote": 67,
+			"layers": [
+				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "bus": 5 }
+			]
+		},
+		{
+			"midiNote": 68,
+			"layers": [
+				{ "sample": "tr707/TR707-HiHatCl-1.wav", "mode": "poly", "muteGroup": "B", "bus": 5 }
+			]
+		},
+		{
+			"midiNote": 69,
+			"layers": [
+				{ "sample": "tr707/TR707-HiHatCl-2.wav", "mode": "poly", "muteGroup": "B", "bus": 5 }
+			]
+		},
+		{
+			"midiNote": 70,
+			"layers": [
+				{ "sample": "tr707/TR707-HiHatOp.wav", "mode": "poly", "muteGroup": "B", "bus": 5 }
+			]
+		},
+		{
+			"midiNote": 71,
+			"layers": [
+				{ "sample": "tr707/TR707-TomLow.wav", "mode": "poly", "bus": 4 }
+			]
+		},
+		{
+			"midiNote": 72,
+			"layers": [
+				{ "sample": "tr707/TR707-TomMid.wav", "mode": "poly", "bus": 4 }
+			]
+		},
+		{
+			"midiNote": 73,
+			"layers": [
+				{ "sample": "tr707/TR707-TomHi.wav", "mode": "poly", "bus": 4 }
+			]
+		},
+		{
+			"midiNote": 74,
+			"layers": [
+				{ "sample": "tr707/TR707-Crash.wav", "mode": "poly", "bus": 5 }
+			]
+		},
+		{
+			"midiNote": 75,
+			"layers": [
+				{ "sample": "tr707/TR707-Ride.wav", "mode": "poly", "bus": 5 }
+			]
 		}
 	]
 }

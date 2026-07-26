@@ -6,7 +6,7 @@
 class Sample
 {
 public:
-	bool load(const std::string& filepath);
+	bool load(const std::string& filepath, const std::string& sampleName = "");
 
 	void tableRead(double index, float* buf, size_t bufSize, bool loop = true) const;
 
