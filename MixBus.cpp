@@ -1,29 +1,52 @@
 #include "MixBus.h"
 
 static constexpr float kMixBusLowpassQ = 1.f;
+static constexpr float kMixBusDefaultLowpassHz = 4500.f;
 
-void MixBus::init(double sampleRate) {
-	const float fsr = static_cast<float>(sampleRate);
-	for(size_t channel = 0; channel < kChannelCount; channel++) {
-		filters[channel].init(fsr);
-	}
+void MixBus::init(double sampleRate, const MixBusRoute& route) {
+	channelCount = route.mono ? 1u : 2u;
+	outputChannel0 = route.outputChannel0;
+	outputChannel1 = route.outputChannel1;
 
-	setLowpassCutoff(4500);
-
-	for(size_t channel = 0; channel < kChannelCount; channel++) {
+	const float sampleRateF = static_cast<float>(sampleRate);
+	for(size_t channel = 0; channel < kMaxChannels; channel++) {
+		filters[channel].init(sampleRateF);
 		filters[channel].reset();
 	}
+
+	setLowpassCutoff(kMixBusDefaultLowpassHz);
+	clearSum();
+}
+
+void MixBus::clearSum() {
+	sum[0] = 0.f;
+	sum[1] = 0.f;
+}
+
+float* MixBus::getSum() {
+	return sum;
 }
 
 void MixBus::setLowpassCutoff(float cutoffFreq) {
-	for(size_t channel = 0; channel < kChannelCount; channel++) {
+	for(size_t channel = 0; channel < channelCount; channel++) {
 		filters[channel].setLowpass(cutoffFreq, kMixBusLowpassQ);
 	}
 }
 
-void MixBus::process(float* buf, size_t channelCount) {
-	const size_t channelsToProcess = channelCount < kChannelCount ? channelCount : kChannelCount;
-	for(size_t channel = 0; channel < channelsToProcess; channel++) {
-		buf[channel] = filters[channel].process(buf[channel]);
+void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
+	if(master == nullptr || masterChannelCount == 0) {
+		return;
+	}
+
+	for(size_t channel = 0; channel < channelCount; channel++) {
+		sum[channel] = filters[channel].process(sum[channel]);
+	}
+
+	if(outputChannel0 < masterChannelCount) {
+		master[outputChannel0] += sum[0];
+	}
+
+	if(channelCount > 1 && outputChannel1 < masterChannelCount) {
+		master[outputChannel1] += sum[1];
 	}
 }

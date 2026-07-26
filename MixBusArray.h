@@ -8,16 +8,18 @@ class MixBusArray
 {
 public:
 	static constexpr size_t kBusCount = 2;
-	static constexpr size_t kBusChannels = 2;
-	static constexpr size_t kOutputChannels = kBusCount * kBusChannels;
+	static constexpr size_t kMasterChannelCount = 4;
 
 	static constexpr int kBus1FilterCc = 20;
 	static float bus1CutoffFromCc(int ccValue);
 
 	void init(double sampleRate);
+	void clearBusSums();
+	MixBus& getBus(size_t busIndex);
+	const MixBus& getBus(size_t busIndex) const;
+	size_t getBusChannelCount(size_t busIndex) const;
 	void setBusLowpassCutoff(size_t busIndex, float cutoffFreq);
-	void processBuses(float busSums[kBusCount][kBusChannels], size_t channelCount);
-	void writeToOutput(const float busSums[kBusCount][kBusChannels], float* out, size_t outChannelCount) const;
+	void processAll(float* master, size_t masterChannelCount);
 
 private:
 	MixBus buses[kBusCount];

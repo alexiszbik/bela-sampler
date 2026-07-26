@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MixBusArray.h"
 #include "Program.h"
 #include "SamplerVoice.h"
 
@@ -12,7 +13,7 @@ public:
 	void init(double sampleRate, size_t count);
 	void playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity);
 	void stop(SamplerVoice* voice);
-	void nextSamples(float busSums[][2], size_t busCount, size_t channelCount);
+	void nextSamples(MixBusArray& mixBuses);
 
 	size_t getCount() const { return voices.size(); }
 

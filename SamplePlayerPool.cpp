@@ -43,13 +43,15 @@ void SamplePlayerPool::stop(SamplerVoice* voice) {
 	rt_printf("Stop player %zu\n", voiceIndex);
 }
 
-void SamplePlayerPool::nextSamples(float busSums[][2], size_t busCount, size_t channelCount) {
+void SamplePlayerPool::nextSamples(MixBusArray& mixBuses) {
 	for(SamplerVoice& voice : voices) {
 		const size_t busIndex = voice.getBusIndex();
-		if(busIndex >= busCount) {
+		if(busIndex >= MixBusArray::kBusCount) {
 			continue;
 		}
 
-		voice.nextSamples(busSums[busIndex], channelCount);
+		MixBus& bus = mixBuses.getBus(busIndex);
+		const size_t busChannels = bus.getChannelCount();
+		voice.nextSamples(bus.getSum(), busChannels, busChannels);
 	}
 }

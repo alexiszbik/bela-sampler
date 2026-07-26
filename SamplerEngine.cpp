@@ -59,9 +59,7 @@ void SamplerEngine::onControlChange(int controller, int value) {
 }
 
 void SamplerEngine::nextSamples(float* buf, size_t bufSize) {
-	float busSums[MixBusArray::kBusCount][MixBusArray::kBusChannels] = {{0.f}};
-
-	playerPool.nextSamples(busSums, MixBusArray::kBusCount, MixBusArray::kBusChannels);
-	mixBuses.processBuses(busSums, MixBusArray::kBusChannels);
-	mixBuses.writeToOutput(busSums, buf, bufSize);
+	mixBuses.clearBusSums();
+	playerPool.nextSamples(mixBuses);
+	mixBuses.processAll(buf, bufSize);
 }

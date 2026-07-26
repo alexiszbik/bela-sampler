@@ -103,13 +103,13 @@ bool setup(BelaContext *context, void *userData) {
 void render(BelaContext *context, void *userData) {
 	for(unsigned int n = 0; n < context->audioFrames; n++)
 	{
-		for(unsigned int channel = 0; channel < MixBusArray::kOutputChannels; channel++) {
+		for(unsigned int channel = 0; channel < MixBusArray::kMasterChannelCount; channel++) {
 			mix[channel] = 0;
 		}
 
-		gEngine.nextSamples(mix, MixBusArray::kOutputChannels);
+		gEngine.nextSamples(mix, MixBusArray::kMasterChannelCount);
 
-		for(unsigned int channel = 0; channel < MixBusArray::kOutputChannels; channel++) {
+		for(unsigned int channel = 0; channel < MixBusArray::kMasterChannelCount; channel++) {
 			audioWrite(context, n, channel + kOutChannelStart, mix[channel]);
 		}
 	}

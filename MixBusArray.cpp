@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-static constexpr float kMixBus0LowpassFreq = 800.f;
-static constexpr float kMixBus1LowpassFreq = 4500.f;
 static constexpr float kMixBus1MinCutoffHz = 80.f;
 static constexpr float kMixBus1MaxCutoffHz = 16000.f;
 
@@ -22,8 +20,39 @@ float MixBusArray::bus1CutoffFromCc(int ccValue) {
 }
 
 void MixBusArray::init(double sampleRate) {
-	buses[0].init(sampleRate);
-	buses[1].init(sampleRate);
+	MixBusRoute bus0;
+	bus0.mono = false;
+	bus0.outputChannel0 = 0;
+	bus0.outputChannel1 = 1;
+	buses[0].init(sampleRate, bus0);
+
+	MixBusRoute bus1;
+	bus1.mono = false;
+	bus1.outputChannel0 = 2;
+	bus1.outputChannel1 = 3;
+	buses[1].init(sampleRate, bus1);
+}
+
+void MixBusArray::clearBusSums() {
+	for(MixBus& bus : buses) {
+		bus.clearSum();
+	}
+}
+
+MixBus& MixBusArray::getBus(size_t busIndex) {
+	return buses[busIndex];
+}
+
+const MixBus& MixBusArray::getBus(size_t busIndex) const {
+	return buses[busIndex];
+}
+
+size_t MixBusArray::getBusChannelCount(size_t busIndex) const {
+	if(busIndex >= kBusCount) {
+		return 0;
+	}
+
+	return buses[busIndex].getChannelCount();
 }
 
 void MixBusArray::setBusLowpassCutoff(size_t busIndex, float cutoffFreq) {
@@ -34,23 +63,8 @@ void MixBusArray::setBusLowpassCutoff(size_t busIndex, float cutoffFreq) {
 	buses[busIndex].setLowpassCutoff(cutoffFreq);
 }
 
-void MixBusArray::processBuses(float busSums[kBusCount][kBusChannels], size_t channelCount) {
-	for(size_t bus = 0; bus < kBusCount; bus++) {
-		buses[bus].process(busSums[bus], channelCount);
-	}
-}
-
-void MixBusArray::writeToOutput(const float busSums[kBusCount][kBusChannels], float* out, size_t outChannelCount) const {
-	if(outChannelCount >= 1) {
-		out[0] = busSums[0][0];
-	}
-	if(outChannelCount >= 2) {
-		out[1] = busSums[0][1];
-	}
-	if(outChannelCount >= 3) {
-		out[2] = busSums[1][0];
-	}
-	if(outChannelCount >= 4) {
-		out[3] = busSums[1][1];
+void MixBusArray::processAll(float* master, size_t masterChannelCount) {
+	for(MixBus& bus : buses) {
+		bus.processAndMixTo(master, masterChannelCount);
 	}
 }

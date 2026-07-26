@@ -59,15 +59,15 @@ void SamplerVoice::clearActiveSlot() {
 	voiceBinding.activeSlotId = VoiceBinding::kInvalidSlot;
 }
 
-void SamplerVoice::mixDryToSum(float* sum, size_t channelCount) {
-	for(size_t channel = 0; channel < channelCount; channel++) {
+void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
+	for(size_t channel = 0; channel < sumChannelCount; channel++) {
 		sum[channel] += dry[channel] * gain;
 	}
 }
 
-void SamplerVoice::nextSamples(float* sum, size_t channelCount) {
+void SamplerVoice::nextSamples(float* sum, size_t sumChannelCount, size_t playerOutputChannels) {
 	dry[0] = 0.f;
 	dry[1] = 0.f;
-	player.nextSamples(dry, channelCount);
-	mixDryToSum(sum, channelCount);
+	player.nextSamples(dry, playerOutputChannels);
+	mixDryToSum(sum, sumChannelCount);
 }
