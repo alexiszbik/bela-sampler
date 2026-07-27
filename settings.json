@@ -21,7 +21,7 @@
             -6
         ],
         "userArguments": "",
-        "makeParameters": "",
+        "makeParameters": "-I./projects/Sampler/src/program -I./projects/Sampler/src/playback -I./projects/Sampler/src/playback/sample -I./projects/Sampler/src/engine -I./projects/Sampler/src/mix -I./projects/Sampler/src/dsp -I./projects/Sampler/src/midi",
         "multiplexer": 0,
         "audioExpander": false,
         "y": [],

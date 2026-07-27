@@ -41,6 +41,12 @@ public:
 	static constexpr const char* kMuteGroupB = "B";
 	static constexpr const char* kMuteGroupC = "C";
 	static constexpr const char* kMuteGroupD = "D";
+	static constexpr const char* kBusMaster = "master";
+	static constexpr const char* kBusSample = "sample";
+	static constexpr const char* kBusKick = "kick";
+	static constexpr const char* kBusSnare = "snare";
+	static constexpr const char* kBusToms = "toms";
+	static constexpr const char* kBusHats = "hats";
 
 	bool parseFile(const std::string& filepath, std::vector<ProgramSlotDesc>& slots);
 

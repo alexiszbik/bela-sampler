@@ -1,18 +1,24 @@
 #include "MidiInput.h"
 
-#include "SamplerEngine.h"
+#include <Bela.h>
 
-SamplerEngine* MidiInput::engine = nullptr;
+MidiInputDelegate* MidiInput::delegate = nullptr;
 
-bool MidiInput::setup(SamplerEngine* inEngine) {
-	engine = inEngine;
+bool MidiInput::setup(MidiInputDelegate* inDelegate) {
+	delegate = inDelegate;
 	midi.readFrom(0);
 	midi.setParserCallback(onMessage);
 	rt_printf("MIDI input enabled on port 0\n");
-	return true;
+	return delegate != nullptr;
 }
 
 void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
+	(void)arg;
+
+	if(delegate == nullptr) {
+		return;
+	}
+
 	switch(message.getType()) {
 		case kmmNoteOn: {
 			const int note = message.getDataByte(0);
@@ -20,15 +26,11 @@ void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
 			if(velocity > 0) {
 				rt_printf("MIDI Note On  ch=%d note=%d vel=%d\n",
 					message.getChannel(), note, velocity);
-				if(engine != nullptr) {
-					engine->onNoteOn(note, velocity);
-				}
+				delegate->onNoteOn(note, velocity);
 			} else {
 				rt_printf("MIDI Note Off ch=%d note=%d\n",
 					message.getChannel(), note);
-				if(engine != nullptr) {
-					engine->onNoteOff(note);
-				}
+				delegate->onNoteOff(note);
 			}
 			break;
 		}
@@ -37,9 +39,7 @@ void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
 				message.getChannel(),
 				message.getDataByte(0),
 				message.getDataByte(1));
-			if(engine != nullptr) {
-				engine->onNoteOff(message.getDataByte(0));
-			}
+			delegate->onNoteOff(message.getDataByte(0));
 			break;
 		}
 		case kmmControlChange: {
@@ -49,9 +49,7 @@ void MidiInput::onMessage(MidiChannelMessage message, void* arg) {
 				message.getChannel(),
 				controller,
 				value);
-			if(engine != nullptr) {
-				engine->onControlChange(controller, value);
-			}
+			delegate->onControlChange(controller, value);
 			break;
 		}
 		case kmmProgramChange: {

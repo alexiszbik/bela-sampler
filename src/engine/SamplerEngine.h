@@ -1,17 +1,18 @@
 #pragma once
 
 #include "MixBusArray.h"
+#include "MidiInputDelegate.h"
 #include "Program.h"
 #include "SamplePlayerPool.h"
 #include "VoiceAllocator.h"
 
-class SamplerEngine
+class SamplerEngine : public MidiInputDelegate
 {
 public:
 	void init(Program* program, double sampleRate, size_t playerCount);
-	void onNoteOn(int note, int velocity);
-	void onNoteOff(int note);
-	void onControlChange(int controller, int value);
+	void onNoteOn(int note, int velocity) override;
+	void onNoteOff(int note) override;
+	void onControlChange(int controller, int value) override;
 	void nextSamples(float* buf, size_t bufSize);
 
 	size_t getPlayerCount() const { return playerPool.getCount(); }

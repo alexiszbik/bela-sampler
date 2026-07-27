@@ -8,9 +8,9 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 	outputChannel0 = route.outputChannel0;
 	outputChannel1 = route.outputChannel1;
 
-	const float sampleRateF = static_cast<float>(sampleRate);
+	const float fsr = static_cast<float>(sampleRate);
 	for(size_t channel = 0; channel < kMaxChannels; channel++) {
-		filters[channel].init(sampleRateF);
+		filters[channel].init(fsr);
 		filters[channel].reset();
 	}
 

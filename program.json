@@ -18,13 +18,13 @@
 					"mode": "gate",
 					"pitch": -7,
 					"reversed": 0,
-					"bus": 0
+					"bus": "master"
 				},
 				{
 					"sample": "casta.wav",
 					"mode": "poly",
 					"volume": -6,
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -103,7 +103,7 @@
 				{
 					"sample": "sample.wav",
 					"mode": "poly",
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -114,7 +114,7 @@
 					"sample": "sample.wav",
 					"mode": "mono",
 					"reversed": 1,
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -125,7 +125,7 @@
 					"sample": "weird hat.wav",
 					"mode": "poly",
 					"muteGroup": "A",
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -144,7 +144,7 @@
 					"sample": "eguitar.wav",
 					"mode": "mono",
 					"pitch": 12,
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -156,14 +156,14 @@
 					"mode": "mono",
 					"pitch": 0,
 					"volume": -6,
-					"bus": 1
+					"bus": "sample"
 				},
 				{
 					"sample": "eguitar.wav",
 					"mode": "mono",
 					"pitch": 3,
 					"volume": -6,
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -176,7 +176,7 @@
 					"pitch": -7,
 					"volume": -6,
 					"reversed": 1,
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
@@ -190,104 +190,104 @@
 					"volume": -6,
 					"playmode": "granular",
 					"granularSpeed": 0.85,
-					"bus": 1
+					"bus": "sample"
 				}
 			]
 		},
 		{
 			"midiNote": 60,
 			"layers": [
-				{ "sample": "tr707/TR707-Kick-1.wav", "mode": "poly", "bus": 2 }
+				{ "sample": "tr707/TR707-Kick-1.wav", "mode": "poly", "bus": "kick" }
 			]
 		},
 		{
 			"midiNote": 61,
 			"layers": [
-				{ "sample": "tr707/TR707-Kick-2.wav", "mode": "poly", "bus": 2 }
+				{ "sample": "tr707/TR707-Kick-2.wav", "mode": "poly", "bus": "kick" }
 			]
 		},
 		{
 			"midiNote": 62,
 			"layers": [
-				{ "sample": "tr707/TR707-Snare-1.wav", "mode": "poly", "bus": 3 }
+				{ "sample": "tr707/TR707-Snare-1.wav", "mode": "poly", "bus": "snare" }
 			]
 		},
 		{
 			"midiNote": 63,
 			"layers": [
-				{ "sample": "tr707/TR707-Snare-2.wav", "mode": "poly", "bus": 3 }
+				{ "sample": "tr707/TR707-Snare-2.wav", "mode": "poly", "bus": "snare" }
 			]
 		},
 		{
 			"midiNote": 64,
 			"layers": [
-				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "bus": 3 }
+				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "bus": "snare" }
 			]
 		},
 		{
 			"midiNote": 65,
 			"layers": [
-				{ "sample": "tr707/TR707-Claps.wav", "mode": "poly", "bus": 3 }
+				{ "sample": "tr707/TR707-Claps.wav", "mode": "poly", "bus": "snare" }
 			]
 		},
 		{
 			"midiNote": 66,
 			"layers": [
-				{ "sample": "tr707/TR707-Tambourine.wav", "mode": "poly", "bus": 5 }
+				{ "sample": "tr707/TR707-Tambourine.wav", "mode": "poly", "bus": "hats" }
 			]
 		},
 		{
 			"midiNote": 67,
 			"layers": [
-				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "bus": 5 }
+				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "bus": "hats" }
 			]
 		},
 		{
 			"midiNote": 68,
 			"layers": [
-				{ "sample": "tr707/TR707-HiHatCl-1.wav", "mode": "poly", "muteGroup": "B", "bus": 5 }
+				{ "sample": "tr707/TR707-HiHatCl-1.wav", "mode": "poly", "muteGroup": "B", "bus": "hats" }
 			]
 		},
 		{
 			"midiNote": 69,
 			"layers": [
-				{ "sample": "tr707/TR707-HiHatCl-2.wav", "mode": "poly", "muteGroup": "B", "bus": 5 }
+				{ "sample": "tr707/TR707-HiHatCl-2.wav", "mode": "poly", "muteGroup": "B", "bus": "hats" }
 			]
 		},
 		{
 			"midiNote": 70,
 			"layers": [
-				{ "sample": "tr707/TR707-HiHatOp.wav", "mode": "poly", "muteGroup": "B", "bus": 5 }
+				{ "sample": "tr707/TR707-HiHatOp.wav", "mode": "poly", "muteGroup": "B", "bus": "hats" }
 			]
 		},
 		{
 			"midiNote": 71,
 			"layers": [
-				{ "sample": "tr707/TR707-TomLow.wav", "mode": "poly", "bus": 4 }
+				{ "sample": "tr707/TR707-TomLow.wav", "mode": "poly", "bus": "toms" }
 			]
 		},
 		{
 			"midiNote": 72,
 			"layers": [
-				{ "sample": "tr707/TR707-TomMid.wav", "mode": "poly", "bus": 4 }
+				{ "sample": "tr707/TR707-TomMid.wav", "mode": "poly", "bus": "toms" }
 			]
 		},
 		{
 			"midiNote": 73,
 			"layers": [
-				{ "sample": "tr707/TR707-TomHi.wav", "mode": "poly", "bus": 4 }
+				{ "sample": "tr707/TR707-TomHi.wav", "mode": "poly", "bus": "toms" }
 			]
 		},
 		{
 			"midiNote": 74,
 			"layers": [
-				{ "sample": "tr707/TR707-Crash.wav", "mode": "poly", "bus": 5 }
+				{ "sample": "tr707/TR707-Crash.wav", "mode": "poly", "bus": "hats" }
 			]
 		},
 		{
 			"midiNote": 75,
 			"layers": [
-				{ "sample": "tr707/TR707-Ride.wav", "mode": "poly", "bus": 5 }
+				{ "sample": "tr707/TR707-Ride.wav", "mode": "poly", "bus": "hats" }
 			]
 		}
 	]

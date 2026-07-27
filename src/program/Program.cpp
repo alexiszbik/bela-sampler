@@ -1,5 +1,6 @@
 #include "Program.h"
 
+#include "MixBusNames.h"
 #include "ProgramJson.h"
 
 #include <Bela.h>
@@ -109,11 +110,11 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			}
 
 			addSlot(slotDesc, nullptr);
-			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s bus=%d\n",
+			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s bus=%s\n",
 				slots.back().id,
 				slotDesc.midiNote,
 				groupName,
-				slotDesc.bus);
+				mixBusNickname(slotDesc.bus));
 			continue;
 		}
 
@@ -125,12 +126,12 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 
 		addSlot(slotDesc, sample);
 
-		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s bus=%d\n",
+		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s bus=%s\n",
 			slots.back().id,
 			slotDesc.midiNote,
 			slotDesc.sample.c_str(),
 			slotModeName(slots.back().mode),
-			slotDesc.bus);
+			mixBusNickname(slotDesc.bus));
 	}
 
 	if(slots.empty()) {

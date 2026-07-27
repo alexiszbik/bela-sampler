@@ -67,7 +67,8 @@ rsync -ac --no-t --delete-after \
 MAKE_TARGET=""
 [ "$CLEAN" -eq 1 ] && MAKE_TARGET="projectclean"
 
-MAKE_CMD="make --no-print-directory QUIET=true -C $BBB_BELA_HOME PROJECT='$PROJECT_NAME'"
+# Keep in sync with src_include_paths.mk (SAMPLER_SRC_INCLUDE_DIRS).
+MAKE_CMD="make --no-print-directory QUIET=true -C $BBB_BELA_HOME PROJECT='$PROJECT_NAME' CPPFLAGS='-I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/midi'"
 [ -n "$MAKE_TARGET" ] && MAKE_CMD="$MAKE_CMD $MAKE_TARGET"
 [ -n "$COMMAND_ARGS" ] && MAKE_CMD="$MAKE_CMD CL='$COMMAND_ARGS'"
 

@@ -20,6 +20,7 @@ float MixBusArray::bus1CutoffFromCc(int ccValue) {
 }
 
 void MixBusArray::init(double sampleRate) {
+	// Bus nicknames (program.json): 0 master, 1 sample, 2 kick, 3 snare, 4 toms, 5 hats.
 	MixBusRoute bus0;
 	bus0.mono = false;
 	bus0.outputChannel0 = 0;

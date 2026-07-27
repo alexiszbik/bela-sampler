@@ -1,6 +1,7 @@
 #include "ProgramJson.h"
 
 #include "MixBusArray.h"
+#include "MixBusNames.h"
 #include "PitchHelper.h"
 
 #include <Bela.h>
@@ -267,11 +268,32 @@ bool ProgramJson::parseReversed(bool& reversed) {
 }
 
 bool ProgramJson::parseBus(int& bus) {
+	skipSpace();
+
+	if(*cursor == '"') {
+		std::string nickname;
+		if(!parseQuotedString(nickname)) {
+			return false;
+		}
+
+		if(!mixBusIndexFromNickname(nickname, bus)) {
+			rt_printf("ProgramJson: unknown bus nickname: %s\n", nickname.c_str());
+			return false;
+		}
+
+		return true;
+	}
+
 	if(!parseInt(bus)) {
 		return false;
 	}
 
-	return bus >= 0 && bus < static_cast<int>(MixBusArray::kBusCount);
+	if(bus < 0 || bus >= static_cast<int>(MixBusArray::kBusCount)) {
+		rt_printf("ProgramJson: bus index out of range: %d\n", bus);
+		return false;
+	}
+
+	return true;
 }
 
 bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
