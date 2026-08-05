@@ -4,5 +4,7 @@ enum ParameterIndex {
 	Volume, 
 	Mute,
 	LowPassCutoff,
-	HiPassCutoff
+	HiPassCutoff,
+    DelayTime,
+    DelayFeedback
 };

@@ -54,6 +54,13 @@ void MixBus::setParameterValue(ParameterIndex index, float value) {
 		case HiPassCutoff:
 			highpassSection.setCutoffRatio(value);
 			break;
+		case DelayTime:
+			delayTime.setImmediate(value * 250.f + 10.f);
+			break;
+
+		case DelayFeedback:
+			feedback = value;
+			break;
 	}
 }
 
@@ -75,8 +82,10 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
 
 	/* DELAY */
 
-    float* timeBuf = this->delayTime;
-    float* feedbackBuf = this->feedback;
+	float t = delayTime.getAndStep();
+
+    float* timeBuf = &t;
+    float* feedbackBuf = &feedback;
 	float level = 1.f;
 
 	size_t frameCount = 1;

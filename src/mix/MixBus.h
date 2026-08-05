@@ -42,8 +42,8 @@ private:
 
 	DelayLine delayLine{500.f};
 
-	Buffer delayTime = 250;
-	Buffer feedback = 0.5;
+	SmoothValue delayTime = 250;
+	float feedback = 0.5;
 	Buffer workBuf = 0;
 
 	float volume = 1.f;
