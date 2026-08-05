@@ -27,16 +27,15 @@ void SmoothValue::dezipperCheck()
 }
 
 void SmoothValue::startRamp(float newGoal, long duration) {
-    value = newGoal;
-    
     if (duration == 0) {
         setImmediate(newGoal);
+        return;
     }
-    else {
-        inverseSlope = (get() - newGoal) / float(duration);
-        samplesRemaining = duration;
-        goal = newGoal;
-    }
+
+    const float current = get();
+    inverseSlope = (current - newGoal) / float(duration);
+    goal = newGoal;
+    samplesRemaining = duration;
 }
 
 float SmoothValue::get() {
@@ -44,6 +43,7 @@ float SmoothValue::get() {
 }
 
 float SmoothValue::getAndStep() {
+    dezipperCheck();
     if (samplesRemaining > 0) {
         float currentValue = get();
         --samplesRemaining;

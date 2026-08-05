@@ -44,7 +44,7 @@ void MixBus::setParameterValue(ParameterIndex index, float value) {
 			break;
 
 		case Mute:
-			mute.setImmediate(value > 0.5f ? 0.f : 1.f);
+			mute.setValue(value > 0.5f ? 0.f : 1.f);
 			break;
 
 		case LowPassCutoff:
@@ -55,7 +55,7 @@ void MixBus::setParameterValue(ParameterIndex index, float value) {
 			highpassSection.setCutoffRatio(value);
 			break;
 		case DelayTime:
-			delayTime.setImmediate(value * 250.f + 10.f);
+			delayTime.setValue(value * 250.f + 10.f);
 			break;
 
 		case DelayFeedback:
