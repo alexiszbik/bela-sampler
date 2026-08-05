@@ -1,9 +1,5 @@
 #include "MixBus.h"
 
-#include "CutoffHelper.h"
-
-static constexpr float kMixBusLowpassQ = 1.f;
-
 void MixBus::init(double sampleRate, const MixBusRoute& route) {
 	channelCount = route.mono ? 1u : 2u;
 	outputChannel0 = route.outputChannel0;
@@ -11,18 +7,17 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 
 	const float fsr = static_cast<float>(sampleRate);
 
-	for(size_t channel = 0; channel < kMaxChannels; channel++) {
-		lpFilters[channel].init(fsr);
-		hpFilters[channel].init(fsr);
-	}
+	lowpassSection.init(fsr, MixBusFilterType::Lowpass, channelCount);
+	highpassSection.init(fsr, MixBusFilterType::Highpass, channelCount);
 
-	setLowpassCutoff(1.0f);
-	setHipassCutoff(0.0f);
+	lowpassSection.setCutoffRatio(1.0f);
+	highpassSection.setCutoffRatio(0.0f);
 
-	for(size_t channel = 0; channel < kMaxChannels; channel++) {
-		lpFilters[channel].reset();
-		hpFilters[channel].reset();
-	}
+	lowpassSection.applyPending();
+	highpassSection.applyPending();
+
+	lowpassSection.reset();
+	highpassSection.reset();
 
 	clearSum();
 }
@@ -36,31 +31,22 @@ float* MixBus::getSum() {
 	return sum;
 }
 
-void MixBus::setLowpassCutoff(float cutoffRatio) {
-	lpFreq.setValue(cutoffRatioToHz(cutoffRatio));
-}
-
-void MixBus::setHipassCutoff(float cutoffRatio) {
-	hpFreq.setValue(cutoffRatioToHz(cutoffRatio));
-}
-
 void MixBus::setParameterValue(ParameterIndex index, float value) {
-	switch (index) {
-		case Volume : {
+	switch(index) {
+		case Volume:
+			volume = value*value; 
+			break;
 
-		} break;
+		case Mute:
+			break;
 
-		case Mute : {
+		case LowPassCutoff:
+			lowpassSection.setCutoffRatio(value);
+			break;
 
-		} break;
-
-		case LowPassCutoff : {
-			setLowpassCutoff(value);
-		} break;
-
-		case HiPassCutoff : {
-			setHipassCutoff(value);
-		} break;
+		case HiPassCutoff:
+			highpassSection.setCutoffRatio(value);
+			break;
 	}
 }
 
@@ -69,24 +55,13 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
 		return;
 	}
 
-	if (lpFreq.valueHasChanged) {
-		float f = lpFreq.getValue();
-		for(size_t channel = 0; channel < channelCount; channel++) {
-			lpFilters[channel].setLowpass(f, kMixBusLowpassQ);
-		}
-	}
-
-	if (hpFreq.valueHasChanged) {
-		float f = hpFreq.getValue();
-		for(size_t channel = 0; channel < channelCount; channel++) {
-			hpFilters[channel].setHighpass(f, kMixBusLowpassQ);
-		}
-	}
-
+	lowpassSection.applyPending();
+	highpassSection.applyPending();
 
 	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] = lpFilters[channel].process(sum[channel]);
-		sum[channel] = hpFilters[channel].process(sum[channel]);
+		sum[channel] = lowpassSection.process(channel, sum[channel]);
+		sum[channel] = highpassSection.process(channel, sum[channel]);
+		sum[channel] *= volume;
 	}
 
 	if(outputChannel0 < masterChannelCount) {
