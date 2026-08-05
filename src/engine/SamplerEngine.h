@@ -39,7 +39,7 @@ private:
 	MixBusArray mixBuses;
 
 	std::vector<CCMap> ccMaps = {
-		CCMap{1, 20, 1, LowPassCutoff},
-		CCMap{1, 21, 1, HiPassCutoff},
+		CCMap{0, 20, 1, LowPassCutoff},
+		CCMap{0, 21, 1, HiPassCutoff},
 	};
 };

@@ -102,8 +102,9 @@
 			"layers": [
 				{
 					"sample": "sample.wav",
-					"mode": "poly",
-					"bus": "sample"
+					"mode": "mono",
+					"bus": "sample",
+					"muteGroup": "C"
 				}
 			]
 		},
@@ -114,7 +115,8 @@
 					"sample": "sample.wav",
 					"mode": "mono",
 					"reversed": 1,
-					"bus": "sample"
+					"bus": "sample",
+					"muteGroup": "C"
 				}
 			]
 		},

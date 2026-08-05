@@ -61,7 +61,7 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
 			continue;
 		}
 
-		if(map.channel == channel) {
+		if(map.channel != channel) {
 			continue;
 		}
 

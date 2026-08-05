@@ -34,6 +34,7 @@ public:
 
 private:
 	void setLowpassCutoff(float cutoffRatio);
+	void setHipassCutoff(float cutoffRatio);
 
 private:
 	static constexpr size_t kMaxChannels = 2;
@@ -42,5 +43,13 @@ private:
 	size_t outputChannel0 = 0;
 	size_t outputChannel1 = 1;
 	float sum[kMaxChannels] = {0.f, 0.f};
-	BiquadFilter filters[kMaxChannels];
+
+	float lpFreq = -1.f;
+	float hpFreq = -1.f;
+
+	bool lpFreqHasChanged = false;
+	bool hpFreqHasChanged = false;
+
+	BiquadFilter lpFilters[kMaxChannels];
+	BiquadFilter hpFilters[kMaxChannels];
 };
