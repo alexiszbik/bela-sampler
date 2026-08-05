@@ -11,6 +11,23 @@ enum ParameterIndex {
 	HiPassCutoff
 };
 
+struct ParameterValue {
+	float value = 0.f;
+	bool valueHasChanged = true;
+	
+	void setValue(float newValue) {
+		if (value != newValue) {
+			value = newValue;
+			valueHasChanged = true;
+		}
+	}
+
+	float getValue() {
+		valueHasChanged = false;
+		return value;
+	}
+};
+
 struct MixBusRoute
 {
 	bool mono = false;
@@ -44,11 +61,8 @@ private:
 	size_t outputChannel1 = 1;
 	float sum[kMaxChannels] = {0.f, 0.f};
 
-	float lpFreq = -1.f;
-	float hpFreq = -1.f;
-
-	bool lpFreqHasChanged = false;
-	bool hpFreqHasChanged = false;
+	ParameterValue lpFreq;
+	ParameterValue hpFreq;
 
 	BiquadFilter lpFilters[kMaxChannels];
 	BiquadFilter hpFilters[kMaxChannels];

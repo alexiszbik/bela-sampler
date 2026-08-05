@@ -64,19 +64,29 @@ rsync -ac --no-t --delete-after \
 	--exclude='*.md' \
 	"$PROJECT_DIR/" "$BBB_ADDRESS:$REMOTE_PROJECT/"
 
-MAKE_TARGET=""
-[ "$CLEAN" -eq 1 ] && MAKE_TARGET="projectclean"
-
 # Keep in sync with src_include_paths.mk (SAMPLER_SRC_INCLUDE_DIRS).
-MAKE_CMD="make --no-print-directory QUIET=true -C $BBB_BELA_HOME PROJECT='$PROJECT_NAME' CPPFLAGS='-I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/midi'"
-[ -n "$MAKE_TARGET" ] && MAKE_CMD="$MAKE_CMD $MAKE_TARGET"
-[ -n "$COMMAND_ARGS" ] && MAKE_CMD="$MAKE_CMD CL='$COMMAND_ARGS'"
+MAKE_BASE="make --no-print-directory QUIET=true -C $BBB_BELA_HOME PROJECT='$PROJECT_NAME' CPPFLAGS='-I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/midi'"
+[ -n "$COMMAND_ARGS" ] && MAKE_BASE="$MAKE_BASE CL='$COMMAND_ARGS'"
+
+run_make() {
+	local target="$1"
+	if [ -n "$target" ]; then
+		ssh "$BBB_ADDRESS" "$MAKE_BASE $target"
+	else
+		ssh "$BBB_ADDRESS" "$MAKE_BASE"
+	fi
+}
+
+if [ "$CLEAN" -eq 1 ]; then
+	echo "→ Cleaning project on board..."
+	run_make projectclean
+fi
 
 if [ "$RUN" -eq 0 ]; then
 	echo "→ Building on board..."
-	ssh "$BBB_ADDRESS" "$MAKE_CMD" || exit 1
+	run_make
 	echo "Done."
 else
 	echo "→ Building and running on board..."
-	ssh -t "$BBB_ADDRESS" "$MAKE_CMD run" || exit 1
+	ssh -t "$BBB_ADDRESS" "$MAKE_BASE run"
 fi

@@ -1,9 +1,6 @@
 #include "MixBus.h"
 
-#include <cmath>
-
-static constexpr float kMinCutoffHz = 20.f;
-static constexpr float kMaxCutoffHz = 20000.f;
+#include "CutoffHelper.h"
 
 static constexpr float kMixBusLowpassQ = 1.f;
 
@@ -40,23 +37,11 @@ float* MixBus::getSum() {
 }
 
 void MixBus::setLowpassCutoff(float cutoffRatio) {
-	const float ratio = kMaxCutoffHz / kMinCutoffHz;
-	float cutoffValue = kMinCutoffHz * static_cast<float>(std::pow(static_cast<double>(ratio), static_cast<double>(cutoffRatio)));
-
-	if (lpFreq != cutoffValue) {
-		lpFreq = cutoffValue;
-		lpFreqHasChanged = true;
-	}
+	lpFreq.setValue(cutoffRatioToHz(cutoffRatio));
 }
 
 void MixBus::setHipassCutoff(float cutoffRatio) {
-	const float ratio = kMaxCutoffHz / kMinCutoffHz;
-	float cutoffValue = kMinCutoffHz * static_cast<float>(std::pow(static_cast<double>(ratio), static_cast<double>(cutoffRatio)));
-
-	if (hpFreq != cutoffValue) {
-		hpFreq = cutoffValue;
-		hpFreqHasChanged = true;
-	}
+	hpFreq.setValue(cutoffRatioToHz(cutoffRatio));
 }
 
 void MixBus::setParameterValue(ParameterIndex index, float value) {
@@ -84,18 +69,18 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
 		return;
 	}
 
-	if (lpFreqHasChanged) {
+	if (lpFreq.valueHasChanged) {
+		float f = lpFreq.getValue();
 		for(size_t channel = 0; channel < channelCount; channel++) {
-			lpFilters[channel].setLowpass(lpFreq, kMixBusLowpassQ);
+			lpFilters[channel].setLowpass(f, kMixBusLowpassQ);
 		}
-		lpFreqHasChanged = false;
 	}
 
-	if (hpFreqHasChanged) {
+	if (hpFreq.valueHasChanged) {
+		float f = hpFreq.getValue();
 		for(size_t channel = 0; channel < channelCount; channel++) {
-			hpFilters[channel].setHighpass(hpFreq, kMixBusLowpassQ);
+			hpFilters[channel].setHighpass(f, kMixBusLowpassQ);
 		}
-		hpFreqHasChanged = false;
 	}
 
 
