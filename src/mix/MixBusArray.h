@@ -10,15 +10,14 @@ public:
 	static constexpr size_t kBusCount = 6;
 	static constexpr size_t kMasterChannelCount = 8;
 
-	static constexpr int kBus1FilterCc = 20;
-	static float bus1CutoffFromCc(int ccValue);
-
 	void init(double sampleRate);
 	void clearBusSums();
 	MixBus& getBus(size_t busIndex);
 	const MixBus& getBus(size_t busIndex) const;
 	size_t getBusChannelCount(size_t busIndex) const;
-	void setBusLowpassCutoff(size_t busIndex, float cutoffFreq);
+
+	void setBusParameter(size_t busIndex, ParameterIndex parameterIndex, float value);
+
 	void processAll(float* master, size_t masterChannelCount);
 
 private:

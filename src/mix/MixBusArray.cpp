@@ -1,24 +1,5 @@
 #include "MixBusArray.h"
 
-#include <cmath>
-
-static constexpr float kMixBus1MinCutoffHz = 80.f;
-static constexpr float kMixBus1MaxCutoffHz = 16000.f;
-
-float MixBusArray::bus1CutoffFromCc(int ccValue) {
-	if(ccValue <= 0) {
-		return kMixBus1MinCutoffHz;
-	}
-
-	if(ccValue >= 127) {
-		return kMixBus1MaxCutoffHz;
-	}
-
-	const float normalized = static_cast<float>(ccValue) / 127.f;
-	const float ratio = kMixBus1MaxCutoffHz / kMixBus1MinCutoffHz;
-	return kMixBus1MinCutoffHz * static_cast<float>(std::pow(static_cast<double>(ratio), static_cast<double>(normalized)));
-}
-
 void MixBusArray::init(double sampleRate) {
 	// Bus nicknames (program.json): 0 master, 1 sample, 2 kick, 3 snare, 4 toms, 5 hats.
 	MixBusRoute bus0;
@@ -76,12 +57,12 @@ size_t MixBusArray::getBusChannelCount(size_t busIndex) const {
 	return buses[busIndex].getChannelCount();
 }
 
-void MixBusArray::setBusLowpassCutoff(size_t busIndex, float cutoffFreq) {
+void MixBusArray::setBusParameter(size_t busIndex, ParameterIndex parameterIndex, float value) {
 	if(busIndex >= kBusCount) {
 		return;
 	}
 
-	buses[busIndex].setLowpassCutoff(cutoffFreq);
+	buses[busIndex].setParameterValue(parameterIndex, value);
 }
 
 void MixBusArray::processAll(float* master, size_t masterChannelCount) {

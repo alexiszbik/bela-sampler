@@ -1,7 +1,11 @@
 #include "MixBus.h"
 
+#include <cmath>
+
+static constexpr float kMinCutoffHz = 20.f;
+static constexpr float kMaxCutoffHz = 20000.f;
+
 static constexpr float kMixBusLowpassQ = 1.f;
-static constexpr float kMixBusDefaultLowpassHz = 4500.f;
 
 void MixBus::init(double sampleRate, const MixBusRoute& route) {
 	channelCount = route.mono ? 1u : 2u;
@@ -14,7 +18,7 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 		filters[channel].reset();
 	}
 
-	setLowpassCutoff(kMixBusDefaultLowpassHz);
+	setLowpassCutoff(1.0);
 	clearSum();
 }
 
@@ -27,9 +31,30 @@ float* MixBus::getSum() {
 	return sum;
 }
 
-void MixBus::setLowpassCutoff(float cutoffFreq) {
+void MixBus::setLowpassCutoff(float cutoffRatio) {
+
+	const float ratio = kMaxCutoffHz / kMinCutoffHz;
+	float cutoffValue = kMinCutoffHz * static_cast<float>(std::pow(static_cast<double>(ratio), static_cast<double>(cutoffRatio)));
+
 	for(size_t channel = 0; channel < channelCount; channel++) {
-		filters[channel].setLowpass(cutoffFreq, kMixBusLowpassQ);
+		filters[channel].setLowpass(cutoffValue, kMixBusLowpassQ);
+	}
+}
+
+void MixBus::setParameterValue(ParameterIndex index, float value) {
+	switch (index) {
+		case Volume : {
+
+		} break;
+		case Mute : {
+
+		} break;
+		case LowPassCutoff : {
+			setLowpassCutoff(value);
+		} break;
+		case HiPassCutoff : {
+
+		} break;
 	}
 }
 

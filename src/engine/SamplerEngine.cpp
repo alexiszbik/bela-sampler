@@ -21,7 +21,9 @@ void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
 	playerPool.playOn(voice, slot, velocity);
 }
 
-void SamplerEngine::onNoteOn(int note, int velocity) {
+void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
+	(void)channel;
+
 	if(program == nullptr || velocity <= 0) {
 		return;
 	}
@@ -35,7 +37,9 @@ void SamplerEngine::onNoteOn(int note, int velocity) {
 	}
 }
 
-void SamplerEngine::onNoteOff(int note) {
+void SamplerEngine::onNoteOff(int note, int channel) {
+	(void)channel;
+
 	if(program == nullptr) {
 		return;
 	}
@@ -49,13 +53,26 @@ void SamplerEngine::onNoteOff(int note) {
 	}
 }
 
-void SamplerEngine::onControlChange(int controller, int value) {
-	if(controller != MixBusArray::kBus1FilterCc) {
-		return;
-	}
+void SamplerEngine::onControlChange(int controller, int value, int channel) {
+	const float ratioValue = static_cast<float>(value) / 127.f;
 
-	const float cutoffHz = MixBusArray::bus1CutoffFromCc(value);
-	mixBuses.setBusLowpassCutoff(1, cutoffHz);
+	for(const CCMap& map : ccMaps) {
+		if(map.control != controller) {
+			continue;
+		}
+
+		if(map.channel == channel) {
+			continue;
+		}
+
+		mixBuses.setBusParameter(
+			static_cast<size_t>(map.busIndex),
+			map.parameterIndex,
+			ratioValue);
+	}
+}
+
+void SamplerEngine::onPgmChange(int pgm, int channel) {
 }
 
 void SamplerEngine::nextSamples(float* buf, size_t bufSize) {
