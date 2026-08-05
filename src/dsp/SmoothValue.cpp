@@ -1,15 +1,5 @@
-/*
-  ==============================================================================
-
-    SmoothValue.cpp
-    Created: 8 Nov 2023 10:43:30pm
-    Author:  Alexis ZBIK
-
-  ==============================================================================
-*/
 
 #include "SmoothValue.h"
-
 
 SmoothValue::SmoothValue(float value) {
     setImmediate(value);

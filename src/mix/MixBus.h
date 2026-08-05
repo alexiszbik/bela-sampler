@@ -3,6 +3,7 @@
 #include "MixBusFilterSection.h"
 #include "ParameterIndex.h"
 #include "SmoothValue.h"
+#include "DelayLine.h"
 
 #include <cstddef>
 
@@ -37,7 +38,13 @@ private:
 
 	MixBusFilterSection lowpassSection;
 	MixBusFilterSection highpassSection;
-	SmoothValue mute = 0.f;
+	SmoothValue mute;
+
+	DelayLine delayLine{500.f};
+
+	Buffer delayTime = 250;
+	Buffer feedback = 0.5;
+	Buffer workBuf = 0;
 
 	float volume = 1.f;
 };

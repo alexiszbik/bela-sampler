@@ -1,5 +1,7 @@
 #include "MixBus.h"
 
+#include "BufferMath.h"
+
 void MixBus::init(double sampleRate, const MixBusRoute& route) {
 	channelCount = route.mono ? 1u : 2u;
 	outputChannel0 = route.outputChannel0;
@@ -18,6 +20,8 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 
 	lowpassSection.reset();
 	highpassSection.reset();
+
+	delayLine.init(channelCount, fsr);
 
 	mute.setImmediate(1.f);
 
@@ -66,6 +70,50 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] = lowpassSection.process(channel, sum[channel]);
 		sum[channel] = highpassSection.process(channel, sum[channel]);
+		sum[channel] *= volume * muteGain;
+	}
+
+	/* DELAY */
+
+    float* timeBuf = this->delayTime;
+    float* feedbackBuf = this->feedback;
+	float level = 1.f;
+
+	size_t frameCount = 1;
+
+	float* out = sum;
+
+	float bufferIn[2][1];
+
+	for(size_t channel = 0; channel < channelCount; channel++) {
+		bufferIn[channel][0] = sum[channel];
+	}
+
+    for(size_t channel = 0; channel < channelCount; channel++)
+    {
+        delayLine.process(workBuf, frameCount, channel, timeBuf, nullptr, false, true);
+        
+        for(size_t i = 0; i < frameCount; i++)
+        {
+            out[i * channelCount + channel] = workBuf[i] * level;
+        }
+        
+        BufferMath::mul(workBuf, feedbackBuf, workBuf, frameCount);
+
+        for(size_t i = 0; i < frameCount; i++)
+        {
+            workBuf[i] += bufferIn[channel][i];
+        }
+
+        delayLine.write(workBuf, frameCount, channel);
+
+        for(size_t i = 0; i < frameCount; i++)
+        {
+            out[i * channelCount + channel] += bufferIn[channel][i];
+        }
+    }
+
+	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] *= volume * muteGain;
 	}
 
