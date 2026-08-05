@@ -2,6 +2,7 @@
 
 #include "MixBusFilterSection.h"
 #include "ParameterIndex.h"
+#include "SmoothValue.h"
 
 #include <cstddef>
 
@@ -36,6 +37,7 @@ private:
 
 	MixBusFilterSection lowpassSection;
 	MixBusFilterSection highpassSection;
+	SmoothValue mute = 0.f;
 
 	float volume = 1.f;
 };

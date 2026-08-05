@@ -19,6 +19,8 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 	lowpassSection.reset();
 	highpassSection.reset();
 
+	mute.setImmediate(1.f);
+
 	clearSum();
 }
 
@@ -38,6 +40,7 @@ void MixBus::setParameterValue(ParameterIndex index, float value) {
 			break;
 
 		case Mute:
+			mute.setImmediate(value > 0.5f ? 0.f : 1.f);
 			break;
 
 		case LowPassCutoff:
@@ -58,10 +61,12 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
 	lowpassSection.applyPending();
 	highpassSection.applyPending();
 
+	float muteGain = mute.getAndStep();
+
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] = lowpassSection.process(channel, sum[channel]);
 		sum[channel] = highpassSection.process(channel, sum[channel]);
-		sum[channel] *= volume;
+		sum[channel] *= volume * muteGain;
 	}
 
 	if(outputChannel0 < masterChannelCount) {

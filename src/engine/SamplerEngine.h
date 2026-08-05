@@ -42,5 +42,6 @@ private:
 		CCMap{0, 20, 1, LowPassCutoff},
 		CCMap{0, 21, 1, HiPassCutoff},
 		CCMap{0, 22, 1, Volume},
+		CCMap{0, 23, 1, Mute},
 	};
 };
