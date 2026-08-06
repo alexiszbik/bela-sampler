@@ -31,10 +31,8 @@ public:
     DelayLine(float maxDelayTimeInMs) {
         maxDelayTime = maxDelayTimeInMs;
     }
-    
-    ~DelayLine() {
 
-    }
+    virtual ~DelayLine() = default;
     
     virtual void init(int inChannelCount, double inSampleRate) {
 
@@ -48,9 +46,6 @@ public:
             writers[i].init(maxDelayTime, sampleRate);
             readers[i].init(sampleRate);
         }
-    }
-    
-    void reset() {
     }
     
     void clear()  {

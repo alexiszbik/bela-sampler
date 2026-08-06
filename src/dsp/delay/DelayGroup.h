@@ -3,6 +3,9 @@
 #pragma once
 
 template <class T> class DelayGroup {
+private:
+    size_t channelCount;
+    float sampleRate;
     
 public:
     struct Dly {

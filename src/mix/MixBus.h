@@ -4,6 +4,8 @@
 #include "ParameterIndex.h"
 #include "SmoothValue.h"
 #include "DelayLine.h"
+#include "Reverb.h"
+#include "TriLfo.h"
 
 #include <cstddef>
 
@@ -28,6 +30,8 @@ public:
 
 	void processAndMixTo(float* master, size_t masterChannelCount);
 
+	bool enableReverb = false;
+
 private:
 	static constexpr size_t kMaxChannels = 2;
 
@@ -38,9 +42,9 @@ private:
 
 	MixBusFilterSection lowpassSection;
 	MixBusFilterSection highpassSection;
-	
 
 	DelayLine delayLine{500.f};
+	Reverb reverb;
 
 	SmoothValue delayTime = 250;
 	SmoothValue delayLevel = 0;
@@ -49,5 +53,8 @@ private:
 
 	float feedback = 0.5;
 	Buffer workBuf = 0;
+	Buffer reverbTime = 8.f;
+
+	TriLfo rvbLfo;
 
 };

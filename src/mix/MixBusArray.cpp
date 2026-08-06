@@ -13,6 +13,7 @@ void MixBusArray::init(double sampleRate) {
 	bus1.outputChannel0 = 2;
 	bus1.outputChannel1 = 3;
 	buses[1].init(sampleRate, bus1);
+	buses[1].enableReverb = true;
 
 	MixBusRoute bus3;
 	bus3.mono = true;
@@ -23,6 +24,7 @@ void MixBusArray::init(double sampleRate) {
 	bus4.mono = true;
 	bus4.outputChannel0 = 5;
 	buses[3].init(sampleRate, bus4);
+	buses[1].enableReverb = true;
 
 	MixBusRoute bus5;
 	bus5.mono = true;

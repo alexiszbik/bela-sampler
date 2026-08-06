@@ -22,6 +22,10 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 	highpassSection.reset();
 
 	delayLine.init(channelCount, fsr);
+	reverb.init(channelCount, fsr);
+
+	rvbLfo.init(fsr);
+	rvbLfo.setFrequency(0.5);
 
 	clearSum();
 }
@@ -124,6 +128,16 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
             out[i * channelCount + channel] += bufferIn[channel][i];
         }
     }
+
+	if (enableReverb) {
+		float lfoValue = rvbLfo.process() * 0.25;
+
+		reverb.setRoomSize(50, &lfoValue, frameCount);
+
+		for(size_t channel = 0; channel < channelCount; channel++) {
+			reverb.process(&sum[channel], frameCount, channel, reverbTime);
+		}
+	}
 
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] *= volumeValue * muteGain;
