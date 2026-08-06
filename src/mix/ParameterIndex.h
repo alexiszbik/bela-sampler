@@ -6,5 +6,6 @@ enum ParameterIndex {
 	LowPassCutoff,
 	HiPassCutoff,
     DelayTime,
-    DelayFeedback
+    DelayFeedback,
+	DelayLevel
 };

@@ -23,8 +23,6 @@ void MixBus::init(double sampleRate, const MixBusRoute& route) {
 
 	delayLine.init(channelCount, fsr);
 
-	mute.setImmediate(1.f);
-
 	clearSum();
 }
 
@@ -40,7 +38,7 @@ float* MixBus::getSum() {
 void MixBus::setParameterValue(ParameterIndex index, float value) {
 	switch(index) {
 		case Volume:
-			volume = value*value; 
+			volume.setValue(value*value); 
 			break;
 
 		case Mute:
@@ -54,12 +52,17 @@ void MixBus::setParameterValue(ParameterIndex index, float value) {
 		case HiPassCutoff:
 			highpassSection.setCutoffRatio(value);
 			break;
+
 		case DelayTime:
 			delayTime.setValue(value * 250.f + 10.f);
 			break;
 
 		case DelayFeedback:
 			feedback = value;
+			break;
+
+		case DelayLevel:
+			delayLevel.setValue(value*value);
 			break;
 	}
 }
@@ -73,21 +76,21 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
 	highpassSection.applyPending();
 
 	float muteGain = mute.getAndStep();
+	float volumeValue = volume.getAndStep();
 
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] = lowpassSection.process(channel, sum[channel]);
 		sum[channel] = highpassSection.process(channel, sum[channel]);
-		sum[channel] *= volume * muteGain;
 	}
 
 	/* DELAY */
+
+	float delayLevelValue = delayLevel.getAndStep();
 
 	float t = delayTime.getAndStep();
 
     float* timeBuf = &t;
     float* feedbackBuf = &feedback;
-	float level = 1.f;
-
 	size_t frameCount = 1;
 
 	float* out = sum;
@@ -104,7 +107,7 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
         
         for(size_t i = 0; i < frameCount; i++)
         {
-            out[i * channelCount + channel] = workBuf[i] * level;
+            out[i * channelCount + channel] = workBuf[i] * delayLevelValue;
         }
         
         BufferMath::mul(workBuf, feedbackBuf, workBuf, frameCount);
@@ -123,7 +126,7 @@ void MixBus::processAndMixTo(float* master, size_t masterChannelCount) {
     }
 
 	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] *= volume * muteGain;
+		sum[channel] *= volumeValue * muteGain;
 	}
 
 	if(outputChannel0 < masterChannelCount) {

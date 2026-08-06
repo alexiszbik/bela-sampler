@@ -38,13 +38,16 @@ private:
 
 	MixBusFilterSection lowpassSection;
 	MixBusFilterSection highpassSection;
-	SmoothValue mute;
+	
 
 	DelayLine delayLine{500.f};
 
 	SmoothValue delayTime = 250;
+	SmoothValue delayLevel = 0;
+	SmoothValue mute = 1.f;
+	SmoothValue volume = 1.f;
+
 	float feedback = 0.5;
 	Buffer workBuf = 0;
 
-	float volume = 1.f;
 };

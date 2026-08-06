@@ -19,7 +19,7 @@ private:
 
     Buffer delayOutBuf = 0.f;
     Buffer workBuf = 0.f;
-
+protected:
     int channelCount;
     double sampleRate;
     
@@ -36,7 +36,7 @@ public:
 
     }
     
-    void init(int inChannelCount, double inSampleRate) {
+    virtual void init(int inChannelCount, double inSampleRate) {
 
         channelCount = inChannelCount;
         sampleRate = inSampleRate;
