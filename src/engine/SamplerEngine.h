@@ -68,5 +68,16 @@ private:
 
 		CCMap{3, 18, {{kBusKick, LowPassCutoff}, {kBusSnare, LowPassCutoff}, {kBusToms, LowPassCutoff}, {kBusHats, LowPassCutoff}}},
 		CCMap{3, 19, {{kBusKick, HiPassCutoff}, {kBusSnare, HiPassCutoff}, {kBusToms, HiPassCutoff}, {kBusHats, HiPassCutoff}}},
+		
+		CCMap{3, 20, {{kBusSnare, BitCrushRate}, {kBusToms, BitCrushRate}, {kBusHats, BitCrushRate}}},
+		CCMap{3, 30, {{kBusHats, ReverbSend}}},
+		CCMap{3, 42, {{kBusSnare, ReverbSend}}},
+
+		CCMap{3, 17, {{kBusHats, FlangerSpeed}}},
+		CCMap{3, 16, {{kBusHats, FlangerLevel}}},
+
+		CCMap{3, 31, {{kBusToms, DelayLevel}}},
+		CCMap{3, 32, {{kBusToms, DelayTime}}},
+		CCMap{3, 33, {{kBusToms, DelayFeedback}}},
 	};
 };

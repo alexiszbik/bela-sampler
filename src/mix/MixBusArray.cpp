@@ -2,6 +2,9 @@
 
 #include "FilterMixBus.h"
 #include "FXMixBus.h"
+#include "TomMixBus.h"
+#include "SnareMixBus.h"
+#include "HatMixBus.h"
 
 #include <utility>
 
@@ -30,19 +33,19 @@ void MixBusArray::init(double sampleRate) {
 	MixBusRoute snareRoute;
 	snareRoute.mono = true;
 	snareRoute.outputChannel0 = 5;
-	buses[kBusSnare] = std::make_unique<FilterMixBus>();
+	buses[kBusSnare] = std::make_unique<SnareMixBus>();
 	buses[kBusSnare]->init(sampleRate, snareRoute);
 
 	MixBusRoute tomsRoute;
 	tomsRoute.mono = true;
 	tomsRoute.outputChannel0 = 6;
-	buses[kBusToms] = std::make_unique<FilterMixBus>();
+	buses[kBusToms] = std::make_unique<TomMixBus>();
 	buses[kBusToms]->init(sampleRate, tomsRoute);
 
 	MixBusRoute hatsRoute;
 	hatsRoute.mono = true;
 	hatsRoute.outputChannel0 = 7;
-	buses[kBusHats] = std::make_unique<FilterMixBus>();
+	buses[kBusHats] = std::make_unique<HatMixBus>();
 	buses[kBusHats]->init(sampleRate, hatsRoute);
 }
 

@@ -1,22 +1,13 @@
-#include "FXMixBus.h"
+#include "TomMixBus.h"
 
 #include "BufferMath.h"
 
-void FXMixBus::init(double sampleRate, const MixBusRoute& route) {
+void TomMixBus::init(double sampleRate, const MixBusRoute& route) {
 	FilterMixBus::init(sampleRate, route);
-
-	const float fsr = static_cast<float>(sampleRate);
-
-	delayLine.init(static_cast<int>(channelCount), fsr);
-
-	flangerSpeed.setValue(0.f);
-	flangerLevel.setValue(0.f);
-	flanger.init(static_cast<int>(channelCount), sampleRate);
-	flanger.setDepth(0.5f);
-	flanger.setFeedback(0.6f);
+	delayLine.init(static_cast<int>(channelCount), static_cast<float>(sampleRate));
 }
 
-void FXMixBus::setParameterValue(ParameterIndex index, float value) {
+void TomMixBus::setParameterValue(ParameterIndex index, float value) {
 	switch(index) {
 		case DelayTime:
 			delayTime.setValue(value * 250.f + 10.f);
@@ -30,14 +21,6 @@ void FXMixBus::setParameterValue(ParameterIndex index, float value) {
 			delayLevel.setValue(value * value);
 			return;
 
-		case FlangerSpeed:
-			flangerSpeed.setValue(value * value * value);
-			return;
-
-		case FlangerLevel:
-			flangerLevel.setValue(value);
-			return;
-
 		default:
 			break;
 	}
@@ -45,22 +28,8 @@ void FXMixBus::setParameterValue(ParameterIndex index, float value) {
 	FilterMixBus::setParameterValue(index, value);
 }
 
-void FXMixBus::processEffects() {
+void TomMixBus::processEffects() {
 	FilterMixBus::processEffects();
-
-	if(flangerSpeed.valueHasChanged) {
-		const float speed = flangerSpeed.getValue();
-		flanger.setRate(0.05f + speed * 4.95f);
-	}
-
-	if(flangerLevel.valueHasChanged) {
-		const float level = flangerLevel.getValue();
-		flanger.setMix(level * level);
-	}
-
-	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] = flanger.process(sum[channel], channel);
-	}
 
 	const float delayLevelValue = delayLevel.getAndStep();
 	float t = delayTime.getAndStep();

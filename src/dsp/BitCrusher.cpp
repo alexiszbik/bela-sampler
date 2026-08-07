@@ -23,6 +23,7 @@ void BitCrusher::setBitDepth(float inBitDepth) {
 }
 
 void BitCrusher::setRepeatRate(float rate) {
+    rate *= 1.05f;
     repeatRate = clampf(rate, 0.f, 1.f);
     updateDerivedValues();
 }

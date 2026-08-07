@@ -2,6 +2,8 @@
 
 #include "MixBusBase.h"
 #include "MixBusFilterSection.h"
+#include "BitCrusher.h"
+#include "ParameterValue.h"
 
 class FilterMixBus : public MixBusBase
 {
@@ -14,4 +16,7 @@ protected:
 
 	MixBusFilterSection lowpassSection;
 	MixBusFilterSection highpassSection;
+
+	ParameterValue bitCrushRate;
+	BitCrusher bitCrush;
 };

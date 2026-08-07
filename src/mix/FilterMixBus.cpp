@@ -16,6 +16,9 @@ void FilterMixBus::init(double sampleRate, const MixBusRoute& route) {
 
 	lowpassSection.reset();
 	highpassSection.reset();
+
+	bitCrushRate.setValue(1.f);
+	bitCrush.init(channelCount);
 }
 
 void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
@@ -28,6 +31,10 @@ void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
 			highpassSection.setCutoffRatio(value);
 			return;
 
+		case BitCrushRate:
+			bitCrushRate.setValue(value);
+			return;
+
 		default:
 			break;
 	}
@@ -36,6 +43,14 @@ void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
 }
 
 void FilterMixBus::processEffects() {
+	if(bitCrushRate.valueHasChanged) {
+		bitCrush.setRepeatRate(bitCrushRate.getValue());
+	}
+
+	for(size_t channel = 0; channel < channelCount; channel++) {
+		sum[channel] = bitCrush.process(sum[channel], channel);
+	}
+
 	lowpassSection.applyPending();
 	highpassSection.applyPending();
 

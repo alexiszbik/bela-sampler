@@ -28,7 +28,7 @@ private:
     int channelCount = kMaxChannels;
     float centerDelayMs = 4.f;
     float depthMs = 3.f;
-    float feedback = 0.91f;
+    float feedback = 0.875f;
     float mix = 0.5f;
 
     float delayMs = 2.f;

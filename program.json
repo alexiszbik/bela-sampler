@@ -27,7 +27,7 @@
 		{
 			"midiNote": 40,
 			"layers": [
-				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "volume": -6, "bus": "snare" }
+				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "volume": -6, "bus": "toms" }
 			]
 		},
 		{
@@ -45,7 +45,7 @@
 		{
 			"midiNote": 43,
 			"layers": [
-				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "volume": -6, "bus": "toms" }
 			]
 		},
 		{
