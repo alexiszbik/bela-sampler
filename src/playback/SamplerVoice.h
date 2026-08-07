@@ -13,7 +13,7 @@ public:
 	void nextSamples(float* sum, size_t sumChannelCount, size_t playerOutputChannels);
 
 	bool getIsPlaying() const { return player.getIsPlaying(); }
-	size_t getBusIndex() const { return busIndex; }
+	MixBusIndex getBusIndex() const { return busIndex; }
 
 	void setVoiceBinding(const VoiceBinding& binding);
 	void clearVoiceBinding();
@@ -26,7 +26,7 @@ private:
 
 	SamplePlayer player;
 	VoiceBinding voiceBinding;
-	size_t busIndex = 0;
+	MixBusIndex busIndex = kBusMaster;
 
 	static constexpr size_t kMaxChannels = 2;
 	float gain = 1.f;

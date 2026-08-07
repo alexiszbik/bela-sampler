@@ -3,6 +3,102 @@
 		{
 			"midiNote": 36,
 			"layers": [
+				{ "sample": "tr707/TR707-Kick-1.wav", "mode": "poly", "volume": -6, "bus": "kick" }
+			]
+		},
+		{
+			"midiNote": 37,
+			"layers": [
+				{ "sample": "tr707/TR707-Kick-2.wav", "mode": "poly", "volume": -6, "bus": "kick" }
+			]
+		},
+		{
+			"midiNote": 38,
+			"layers": [
+				{ "sample": "tr707/TR707-Snare-1.wav", "mode": "poly", "volume": -6, "bus": "snare" }
+			]
+		},
+		{
+			"midiNote": 39,
+			"layers": [
+				{ "sample": "tr707/TR707-Snare-2.wav", "mode": "poly", "volume": -6, "bus": "snare" }
+			]
+		},
+		{
+			"midiNote": 40,
+			"layers": [
+				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "volume": -6, "bus": "snare" }
+			]
+		},
+		{
+			"midiNote": 41,
+			"layers": [
+				{ "sample": "tr707/TR707-Claps.wav", "mode": "poly", "volume": -6, "bus": "snare" }
+			]
+		},
+		{
+			"midiNote": 42,
+			"layers": [
+				{ "sample": "tr707/TR707-Tambourine.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 43,
+			"layers": [
+				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 44,
+			"layers": [
+				{ "sample": "tr707/TR707-HiHatCl-1.wav", "mode": "poly", "volume": -6, "muteGroup": "B", "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 45,
+			"layers": [
+				{ "sample": "tr707/TR707-HiHatCl-2.wav", "mode": "poly", "volume": -6, "muteGroup": "B", "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 46,
+			"layers": [
+				{ "sample": "tr707/TR707-HiHatOp.wav", "mode": "poly", "volume": -6, "muteGroup": "B", "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 47,
+			"layers": [
+				{ "sample": "tr707/TR707-TomLow.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 48,
+			"layers": [
+				{ "sample": "tr707/TR707-TomMid.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 49,
+			"layers": [
+				{ "sample": "tr707/TR707-TomHi.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 50,
+			"layers": [
+				{ "sample": "tr707/TR707-Crash.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 51,
+			"layers": [
+				{ "sample": "tr707/TR707-Ride.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 60,
+			"layers": [
 				{
 					"sample": "casta.wav",
 					"mode": "poly",
@@ -11,7 +107,7 @@
 			]
 		},
 		{
-			"midiNote": 37,
+			"midiNote": 61,
 			"layers": [
 				{
 					"sample": "epiano.wav",
@@ -29,7 +125,7 @@
 			]
 		},
 		{
-			"midiNote": 38,
+			"midiNote": 62,
 			"layers": [
 				{
 					"sample": "epiano.wav",
@@ -41,7 +137,7 @@
 			]
 		},
 		{
-			"midiNote": 39,
+			"midiNote": 63,
 			"layers": [
 				{
 					"sample": "epiano.wav",
@@ -51,7 +147,7 @@
 			]
 		},
 		{
-			"midiNote": 40,
+			"midiNote": 64,
 			"layers": [
 				{
 					"sample": "spectrdrum.wav",
@@ -61,7 +157,7 @@
 			]
 		},
 		{
-			"midiNote": 41,
+			"midiNote": 65,
 			"layers": [
 				{
 					"sample": "spectrdrum.wav",
@@ -74,7 +170,7 @@
 			]
 		},
 		{
-			"midiNote": 42,
+			"midiNote": 66,
 			"layers": [
 				{
 					"sample": "voxo.wav",
@@ -86,7 +182,7 @@
 			]
 		},
 		{
-			"midiNote": 43,
+			"midiNote": 67,
 			"layers": [
 				{
 					"sample": "voxmono.wav",
@@ -98,7 +194,7 @@
 			]
 		},
 		{
-			"midiNote": 44,
+			"midiNote": 68,
 			"layers": [
 				{
 					"sample": "sample.wav",
@@ -109,7 +205,7 @@
 			]
 		},
 		{
-			"midiNote": 45,
+			"midiNote": 69,
 			"layers": [
 				{
 					"sample": "sample.wav",
@@ -121,7 +217,7 @@
 			]
 		},
 		{
-			"midiNote": 46,
+			"midiNote": 70,
 			"layers": [
 				{
 					"sample": "weird hat.wav",
@@ -132,7 +228,7 @@
 			]
 		},
 		{
-			"midiNote": 47,
+			"midiNote": 71,
 			"layers": [
 				{
 					"muteGroup": "A"
@@ -140,7 +236,7 @@
 			]
 		},
 		{
-			"midiNote": 48,
+			"midiNote": 72,
 			"layers": [
 				{
 					"sample": "eguitar.wav",
@@ -151,7 +247,7 @@
 			]
 		},
 		{
-			"midiNote": 49,
+			"midiNote": 73,
 			"layers": [
 				{
 					"sample": "eguitar.wav",
@@ -170,7 +266,7 @@
 			]
 		},
 		{
-			"midiNote": 50,
+			"midiNote": 74,
 			"layers": [
 				{
 					"sample": "piano_mono.wav",
@@ -183,7 +279,7 @@
 			]
 		},
 		{
-			"midiNote": 51,
+			"midiNote": 75,
 			"layers": [
 				{
 					"sample": "piano_mono.wav",
@@ -194,102 +290,6 @@
 					"granularSpeed": 0.85,
 					"bus": "sample"
 				}
-			]
-		},
-		{
-			"midiNote": 60,
-			"layers": [
-				{ "sample": "tr707/TR707-Kick-1.wav", "mode": "poly", "bus": "kick" }
-			]
-		},
-		{
-			"midiNote": 61,
-			"layers": [
-				{ "sample": "tr707/TR707-Kick-2.wav", "mode": "poly", "bus": "kick" }
-			]
-		},
-		{
-			"midiNote": 62,
-			"layers": [
-				{ "sample": "tr707/TR707-Snare-1.wav", "mode": "poly", "bus": "snare" }
-			]
-		},
-		{
-			"midiNote": 63,
-			"layers": [
-				{ "sample": "tr707/TR707-Snare-2.wav", "mode": "poly", "bus": "snare" }
-			]
-		},
-		{
-			"midiNote": 64,
-			"layers": [
-				{ "sample": "tr707/TR707-Rim.wav", "mode": "poly", "bus": "snare" }
-			]
-		},
-		{
-			"midiNote": 65,
-			"layers": [
-				{ "sample": "tr707/TR707-Claps.wav", "mode": "poly", "bus": "snare" }
-			]
-		},
-		{
-			"midiNote": 66,
-			"layers": [
-				{ "sample": "tr707/TR707-Tambourine.wav", "mode": "poly", "bus": "hats" }
-			]
-		},
-		{
-			"midiNote": 67,
-			"layers": [
-				{ "sample": "tr707/TR707-Cowbell.wav", "mode": "poly", "bus": "hats" }
-			]
-		},
-		{
-			"midiNote": 68,
-			"layers": [
-				{ "sample": "tr707/TR707-HiHatCl-1.wav", "mode": "poly", "muteGroup": "B", "bus": "hats" }
-			]
-		},
-		{
-			"midiNote": 69,
-			"layers": [
-				{ "sample": "tr707/TR707-HiHatCl-2.wav", "mode": "poly", "muteGroup": "B", "bus": "hats" }
-			]
-		},
-		{
-			"midiNote": 70,
-			"layers": [
-				{ "sample": "tr707/TR707-HiHatOp.wav", "mode": "poly", "muteGroup": "B", "bus": "hats" }
-			]
-		},
-		{
-			"midiNote": 71,
-			"layers": [
-				{ "sample": "tr707/TR707-TomLow.wav", "mode": "poly", "bus": "toms" }
-			]
-		},
-		{
-			"midiNote": 72,
-			"layers": [
-				{ "sample": "tr707/TR707-TomMid.wav", "mode": "poly", "bus": "toms" }
-			]
-		},
-		{
-			"midiNote": 73,
-			"layers": [
-				{ "sample": "tr707/TR707-TomHi.wav", "mode": "poly", "bus": "toms" }
-			]
-		},
-		{
-			"midiNote": 74,
-			"layers": [
-				{ "sample": "tr707/TR707-Crash.wav", "mode": "poly", "bus": "hats" }
-			]
-		},
-		{
-			"midiNote": 75,
-			"layers": [
-				{ "sample": "tr707/TR707-Ride.wav", "mode": "poly", "bus": "hats" }
 			]
 		}
 	]

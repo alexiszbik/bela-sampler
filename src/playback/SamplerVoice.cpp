@@ -17,7 +17,7 @@ void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
 	const float pitchSpeed = semitonesToPlaybackSpeed(slot.pitchSemitones);
 	const float velocityGain = static_cast<float>(velocity) / 127.f;
 	gain = velocityGain * velocityGain * dBtoRMS(slot.volumeDb);
-	busIndex = static_cast<size_t>(slot.bus);
+	busIndex = slot.bus;
 
 	player.setSample(slot.sample);
 	player.setLoop(loop);

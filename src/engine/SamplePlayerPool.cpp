@@ -1,5 +1,7 @@
 #include "SamplePlayerPool.h"
 
+#include "MixBusNames.h"
+
 #include "ProgramJson.h"
 
 #include <Bela.h>
@@ -45,8 +47,8 @@ void SamplePlayerPool::stop(SamplerVoice* voice) {
 
 void SamplePlayerPool::nextSamples(MixBusArray& mixBuses) {
 	for(SamplerVoice& voice : voices) {
-		const size_t busIndex = voice.getBusIndex();
-		if(busIndex >= MixBusArray::kBusCount) {
+		const MixBusIndex busIndex = voice.getBusIndex();
+		if(busIndex < kBusMaster || busIndex >= kBusCount) {
 			continue;
 		}
 

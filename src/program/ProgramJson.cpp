@@ -1,6 +1,5 @@
 #include "ProgramJson.h"
 
-#include "MixBusArray.h"
 #include "MixBusNames.h"
 #include "PitchHelper.h"
 
@@ -267,7 +266,7 @@ bool ProgramJson::parseReversed(bool& reversed) {
 	return true;
 }
 
-bool ProgramJson::parseBus(int& bus) {
+bool ProgramJson::parseBus(MixBusIndex& bus) {
 	skipSpace();
 
 	if(*cursor == '"') {
@@ -284,15 +283,17 @@ bool ProgramJson::parseBus(int& bus) {
 		return true;
 	}
 
-	if(!parseInt(bus)) {
+	int busInt = 0;
+	if(!parseInt(busInt)) {
 		return false;
 	}
 
-	if(bus < 0 || bus >= static_cast<int>(MixBusArray::kBusCount)) {
-		rt_printf("ProgramJson: bus index out of range: %d\n", bus);
+	if(busInt < kBusMaster || busInt >= kBusCount) {
+		rt_printf("ProgramJson: bus index out of range: %d\n", busInt);
 		return false;
 	}
 
+	bus = static_cast<MixBusIndex>(busInt);
 	return true;
 }
 

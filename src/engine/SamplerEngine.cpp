@@ -66,7 +66,7 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
 		}
 
 		mixBuses.setBusParameter(
-			static_cast<size_t>(map.busIndex),
+			map.busIndex,
 			map.parameterIndex,
 			ratioValue);
 	}

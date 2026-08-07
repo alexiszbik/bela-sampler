@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MuteGroup.h"
+#include "MixBusNames.h"
 #include "Sample.h"
 
 #include <vector>
@@ -32,7 +33,7 @@ public:
 		float granularSpeed = 1.f;
 		bool reversed = false;
 		float volumeDb = 0.f;
-		int bus = 0;
+		MixBusIndex bus = kBusMaster;
 
 		bool isMuteOnly() const { return sample == nullptr; }
 	};

@@ -1,22 +1,20 @@
 #include "MixBusNames.h"
 
-#include "MixBusArray.h"
-
 #include <cctype>
 
 namespace {
 struct MixBusNicknameEntry {
 	const char* nickname;
-	int index;
+	MixBusIndex index;
 };
 
 constexpr MixBusNicknameEntry kMixBusNicknames[] = {
-	{"master", 0},
-	{"sample", 1},
-	{"kick", 2},
-	{"snare", 3},
-	{"toms", 4},
-	{"hats", 5},
+	{"master", kBusMaster},
+	{"sample", kBusSample},
+	{"kick", kBusKick},
+	{"snare", kBusSnare},
+	{"toms", kBusToms},
+	{"hats", kBusHats},
 };
 
 bool stringsEqualIgnoreCase(const std::string& a, const char* b) {
@@ -39,7 +37,7 @@ bool stringsEqualIgnoreCase(const std::string& a, const char* b) {
 }
 }
 
-bool mixBusIndexFromNickname(const std::string& name, int& outIndex) {
+bool mixBusIndexFromNickname(const std::string& name, MixBusIndex& outIndex) {
 	for(const MixBusNicknameEntry& entry : kMixBusNicknames) {
 		if(stringsEqualIgnoreCase(name, entry.nickname)) {
 			outIndex = entry.index;
@@ -50,14 +48,14 @@ bool mixBusIndexFromNickname(const std::string& name, int& outIndex) {
 	return false;
 }
 
-const char* mixBusNickname(int index) {
+const char* mixBusNickname(MixBusIndex index) {
 	for(const MixBusNicknameEntry& entry : kMixBusNicknames) {
 		if(entry.index == index) {
 			return entry.nickname;
 		}
 	}
 
-	if(index >= 0 && index < static_cast<int>(MixBusArray::kBusCount)) {
+	if(index >= kBusMaster && index < kBusCount) {
 		return "?";
 	}
 

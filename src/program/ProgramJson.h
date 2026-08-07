@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MuteGroup.h"
+#include "MixBusNames.h"
 
 #include <string>
 #include <vector>
@@ -26,7 +27,7 @@ struct ProgramSlotDesc {
 	float granularSpeed = 1.f;
 	bool reversed = false;
 	float volumeDb = 0.f;
-	int bus = 0;
+	MixBusIndex bus = kBusMaster;
 };
 
 class ProgramJson
@@ -41,12 +42,6 @@ public:
 	static constexpr const char* kMuteGroupB = "B";
 	static constexpr const char* kMuteGroupC = "C";
 	static constexpr const char* kMuteGroupD = "D";
-	static constexpr const char* kBusMaster = "master";
-	static constexpr const char* kBusSample = "sample";
-	static constexpr const char* kBusKick = "kick";
-	static constexpr const char* kBusSnare = "snare";
-	static constexpr const char* kBusToms = "toms";
-	static constexpr const char* kBusHats = "hats";
 
 	bool parseFile(const std::string& filepath, std::vector<ProgramSlotDesc>& slots);
 
@@ -62,7 +57,7 @@ private:
 	bool parsePitch(float& pitch);
 	bool parsePlayMode(ProgramSlotPlayMode& playMode);
 	bool parseReversed(bool& reversed);
-	bool parseBus(int& bus);
+	bool parseBus(MixBusIndex& bus);
 
 	void skipSpace();
 	bool matchLiteral(char expected);

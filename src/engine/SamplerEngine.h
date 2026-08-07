@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MixBusArray.h"
+#include "MixBusNames.h"
 #include "MidiInputDelegate.h"
 #include "Program.h"
 #include "SamplePlayerPool.h"
@@ -13,7 +14,7 @@
 struct CCMap {
 	int channel = 0;
 	int control = 0;
-	int busIndex = 0;
+	MixBusIndex busIndex = kBusMaster;
 	ParameterIndex parameterIndex = LowPassCutoff;
 };
 
@@ -38,15 +39,27 @@ private:
 	MixBusArray mixBuses;
 
 	std::vector<CCMap> ccMaps = {
-		CCMap{0, 20, 1, LowPassCutoff},
-		CCMap{0, 21, 1, HiPassCutoff},
-		CCMap{0, 22, 1, Volume},
-		CCMap{0, 23, 1, DelayLevel},
-		CCMap{0, 24, 1, DelayTime},
-		CCMap{0, 25, 1, DelayFeedback},
-		CCMap{0, 16, 1, ReverbSend},
-		CCMap{0, 17, 1, BitCrushRate},
-		CCMap{0, 14, 1, FlangerSpeed},
-		CCMap{0, 15, 1, FlangerLevel},
+		/*
+		CCMap{0, 20, kBusSample, LowPassCutoff},
+		CCMap{0, 21, kBusSample, HiPassCutoff},
+		CCMap{0, 22, kBusSample, Volume},
+		CCMap{0, 23, kBusSample, DelayLevel},
+		CCMap{0, 24, kBusSample, DelayTime},
+		CCMap{0, 25, kBusSample, DelayFeedback},
+		CCMap{0, 16, kBusSample, ReverbSend},
+		CCMap{0, 17, kBusSample, BitCrushRate},
+		CCMap{0, 14, kBusSample, FlangerSpeed},
+		CCMap{0, 15, kBusSample, FlangerLevel},
+		*/
+
+		CCMap{3, 37, kBusKick, Volume},
+		CCMap{3, 36, kBusSnare, Volume},
+		CCMap{3, 35, kBusToms, Volume},
+		CCMap{3, 34, kBusHats, Volume},
+
+		CCMap{3, 53, kBusKick, Mute},
+		CCMap{3, 54, kBusSnare, Mute},
+		CCMap{3, 55, kBusToms, Mute},
+		CCMap{3, 56, kBusHats, Mute},
 	};
 };
