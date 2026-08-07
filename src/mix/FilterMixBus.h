@@ -3,6 +3,7 @@
 #include "MixBusBase.h"
 #include "MixBusFilterSection.h"
 #include "BitCrusher.h"
+#include "BeatRepeat.h"
 #include "ParameterValue.h"
 
 class FilterMixBus : public MixBusBase
@@ -19,4 +20,7 @@ protected:
 
 	ParameterValue bitCrushRate;
 	BitCrusher bitCrush;
+
+	BeatRepeat beatRepeat;
+	bool brState = false;
 };

@@ -12,4 +12,5 @@ enum ParameterIndex {
 	BitCrushRate,
 	FlangerSpeed,
 	FlangerLevel,
+	RepeatState,
 };

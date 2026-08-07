@@ -43,18 +43,6 @@ private:
 	MixBusArray mixBuses;
 
 	std::vector<CCMap> ccMaps = {
-		/*
-		CCMap{0, 20, kBusSample, LowPassCutoff},
-		CCMap{0, 21, kBusSample, HiPassCutoff},
-		CCMap{0, 22, kBusSample, Volume},
-		CCMap{0, 23, kBusSample, DelayLevel},
-		CCMap{0, 24, kBusSample, DelayTime},
-		CCMap{0, 25, kBusSample, DelayFeedback},
-		CCMap{0, 16, kBusSample, ReverbSend},
-		CCMap{0, 17, kBusSample, BitCrushRate},
-		CCMap{0, 14, kBusSample, FlangerSpeed},
-		CCMap{0, 15, kBusSample, FlangerLevel},
-		*/
 
 		CCMap{3, 37, {{kBusKick, Volume}}},
 		CCMap{3, 36, {{kBusSnare, Volume}}},
@@ -68,6 +56,8 @@ private:
 
 		CCMap{3, 18, {{kBusKick, LowPassCutoff}, {kBusSnare, LowPassCutoff}, {kBusToms, LowPassCutoff}, {kBusHats, LowPassCutoff}}},
 		CCMap{3, 19, {{kBusKick, HiPassCutoff}, {kBusSnare, HiPassCutoff}, {kBusToms, HiPassCutoff}, {kBusHats, HiPassCutoff}}},
+
+		CCMap{3, 41, {{kBusKick, RepeatState}, {kBusSnare, RepeatState}, {kBusToms, RepeatState}, {kBusHats, RepeatState}}},
 		
 		CCMap{3, 20, {{kBusSnare, BitCrushRate}, {kBusToms, BitCrushRate}, {kBusHats, BitCrushRate}}},
 		CCMap{3, 30, {{kBusHats, ReverbSend}}},
