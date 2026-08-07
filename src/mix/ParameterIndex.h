@@ -8,5 +8,6 @@ enum ParameterIndex {
     DelayTime,
     DelayFeedback,
 	DelayLevel,
-	ReverbSend
+	ReverbSend,
+	BitCrushRate,
 };

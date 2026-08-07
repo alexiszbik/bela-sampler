@@ -45,5 +45,6 @@ private:
 		CCMap{0, 24, 1, DelayTime},
 		CCMap{0, 25, 1, DelayFeedback},
 		CCMap{0, 16, 1, ReverbSend},
+		CCMap{0, 17, 1, BitCrushRate},
 	};
 };

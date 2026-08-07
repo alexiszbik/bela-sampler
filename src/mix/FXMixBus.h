@@ -5,6 +5,7 @@
 #include "DelayLine.h"
 #include "Reverb.h"
 #include "TriLfo.h"
+#include "BitCrusher.h"
 
 class FXMixBus : public MixBusBase
 {
@@ -33,5 +34,9 @@ private:
 	Buffer workBuf = 0;
 	Buffer reverbTime = 8.f;
 
+	ParameterValue bitCrushRate;
+
 	TriLfo rvbLfo;
+
+	BitCrusher bitCrush;
 };
