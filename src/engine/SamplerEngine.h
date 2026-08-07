@@ -46,5 +46,7 @@ private:
 		CCMap{0, 25, 1, DelayFeedback},
 		CCMap{0, 16, 1, ReverbSend},
 		CCMap{0, 17, 1, BitCrushRate},
+		CCMap{0, 14, 1, FlangerSpeed},
+		CCMap{0, 15, 1, FlangerLevel},
 	};
 };

@@ -10,4 +10,6 @@ enum ParameterIndex {
 	DelayLevel,
 	ReverbSend,
 	BitCrushRate,
+	FlangerSpeed,
+	FlangerLevel,
 };

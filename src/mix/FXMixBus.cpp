@@ -26,8 +26,13 @@ void FXMixBus::init(double sampleRate, const MixBusRoute& route) {
 	rvbLfo.setFrequency(0.5f);
 
 	bitCrushRate.setValue(1.f);
+	flangerSpeed.setValue(0.f);
+	flangerLevel.setValue(0.f);
 
 	bitCrush.init(channelCount);
+	flanger.init(static_cast<int>(channelCount), sampleRate);
+	flanger.setDepth(0.5f);
+	flanger.setFeedback(0.6f);
 }
 
 void FXMixBus::setParameterValue(ParameterIndex index, float value) {
@@ -60,6 +65,14 @@ void FXMixBus::setParameterValue(ParameterIndex index, float value) {
 			bitCrushRate.setValue(value);
 			return;
 
+		case FlangerSpeed:
+			flangerSpeed.setValue(value * value * value);
+			return;
+
+		case FlangerLevel:
+			flangerLevel.setValue(value);
+			return;
+
 		default:
 			break;
 	}
@@ -82,6 +95,20 @@ void FXMixBus::processEffects() {
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] = lowpassSection.process(channel, sum[channel]);
 		sum[channel] = highpassSection.process(channel, sum[channel]);
+	}
+
+	if(flangerSpeed.valueHasChanged) {
+		const float speed = flangerSpeed.getValue();
+		flanger.setRate(0.05f + speed * 4.95f);
+	}
+
+	if(flangerLevel.valueHasChanged) {
+		const float level = flangerLevel.getValue();
+		flanger.setMix(level * level);
+	}
+
+	for(size_t channel = 0; channel < channelCount; channel++) {
+		sum[channel] = flanger.process(sum[channel], channel);
 	}
 
 	const float delayLevelValue = delayLevel.getAndStep();

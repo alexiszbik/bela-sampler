@@ -6,6 +6,7 @@
 #include "Reverb.h"
 #include "TriLfo.h"
 #include "BitCrusher.h"
+#include "Flanger.h"
 
 class FXMixBus : public MixBusBase
 {
@@ -35,8 +36,11 @@ private:
 	Buffer reverbTime = 8.f;
 
 	ParameterValue bitCrushRate;
+	ParameterValue flangerSpeed;
+	ParameterValue flangerLevel;
 
 	TriLfo rvbLfo;
 
 	BitCrusher bitCrush;
+	Flanger flanger;
 };

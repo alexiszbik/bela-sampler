@@ -6,7 +6,6 @@
 #define SAMPBLK 4
 #define DEFDELVS 64
 
-#include <cstring>
 #include "BufferMath.h"
 
 class DelayWrite  {
@@ -106,31 +105,20 @@ class DelayWrite  {
         float *bp = vp + phase;
         float *ep = vp + (nsamps + XTRASAMPS);
         
-        // on copie 64 par 64 ... quand on arrive à la fin ... et on copie les 4 premiers dans les 4 derniers ...
-        // c'est une espèce de ring buffer avec 4 sample de décallage
-    
         phase += n;
-        //ME
-        if (phase > nsamps) {
-            
-            int remainSamplesCount = nsamps - c->c_phase;
-            memcpy(bp, in, (remainSamplesCount + XTRASAMPS)*sizeof(float));
-            
-            int samplesToStoreInBegin = phase - nsamps;
-            memcpy(vp, in + remainSamplesCount, samplesToStoreInBegin*sizeof(float));
-            
-            phase = samplesToStoreInBegin;
-            
-            vp[0] = ep[-4];
-            vp[1] = ep[-3];
-            vp[2] = ep[-2];
-            vp[3] = ep[-1];
-            
-        } else {
-            memcpy(bp, in, n*sizeof(float));
+        
+        for (int i = 0; i < n; i++) {
+            *bp++ = in[i];
+            if (bp == ep) {
+                vp[0] = ep[-4];
+                vp[1] = ep[-3];
+                vp[2] = ep[-2];
+                vp[3] = ep[-1];
+                bp = vp + XTRASAMPS;
+                phase -= nsamps;
+            }
         }
         
-        //END
         c->c_phase = phase;
     }
     
