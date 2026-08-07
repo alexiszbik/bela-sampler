@@ -11,11 +11,15 @@
 #include <cstdint>
 #include <vector>
 
+struct MapDest{
+	MixBusIndex busIndex = kBusMaster;
+	ParameterIndex parameterIndex = LowPassCutoff;
+};
+
 struct CCMap {
 	int channel = 0;
 	int control = 0;
-	MixBusIndex busIndex = kBusMaster;
-	ParameterIndex parameterIndex = LowPassCutoff;
+	std::vector<MapDest> destinations;
 };
 
 class SamplerEngine : public MidiInputDelegate
@@ -52,14 +56,17 @@ private:
 		CCMap{0, 15, kBusSample, FlangerLevel},
 		*/
 
-		CCMap{3, 37, kBusKick, Volume},
-		CCMap{3, 36, kBusSnare, Volume},
-		CCMap{3, 35, kBusToms, Volume},
-		CCMap{3, 34, kBusHats, Volume},
+		CCMap{3, 37, {{kBusKick, Volume}}},
+		CCMap{3, 36, {{kBusSnare, Volume}}},
+		CCMap{3, 35, {{kBusToms, Volume}}},
+		CCMap{3, 34, {{kBusHats, Volume}}},
 
-		CCMap{3, 53, kBusKick, Mute},
-		CCMap{3, 54, kBusSnare, Mute},
-		CCMap{3, 55, kBusToms, Mute},
-		CCMap{3, 56, kBusHats, Mute},
+		CCMap{3, 53, {{kBusKick, Mute}}},
+		CCMap{3, 54, {{kBusSnare, Mute}}},
+		CCMap{3, 55, {{kBusToms, Mute}}},
+		CCMap{3, 56, {{kBusHats, Mute}}},
+
+		CCMap{3, 18, {{kBusKick, LowPassCutoff}, {kBusSnare, LowPassCutoff}, {kBusToms, LowPassCutoff}, {kBusHats, LowPassCutoff}}},
+		CCMap{3, 19, {{kBusKick, HiPassCutoff}, {kBusSnare, HiPassCutoff}, {kBusToms, HiPassCutoff}, {kBusHats, HiPassCutoff}}},
 	};
 };

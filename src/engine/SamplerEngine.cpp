@@ -65,10 +65,14 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
 			continue;
 		}
 
-		mixBuses.setBusParameter(
-			map.busIndex,
-			map.parameterIndex,
-			ratioValue);
+		for (auto& dest : map.destinations) {
+			mixBuses.setBusParameter(
+				dest.busIndex,
+				dest.parameterIndex,
+				ratioValue);
+		}
+
+
 	}
 }
 

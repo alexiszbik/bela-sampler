@@ -1,14 +1,13 @@
 #pragma once
 
-#include "MixBusBase.h"
-#include "MixBusFilterSection.h"
+#include "FilterMixBus.h"
 #include "DelayLine.h"
 #include "Reverb.h"
 #include "TriLfo.h"
 #include "BitCrusher.h"
 #include "Flanger.h"
 
-class FXMixBus : public MixBusBase
+class FXMixBus : public FilterMixBus
 {
 public:
 	void init(double sampleRate, const MixBusRoute& route) override;
@@ -20,9 +19,6 @@ protected:
 	void processEffects() override;
 
 private:
-	MixBusFilterSection lowpassSection;
-	MixBusFilterSection highpassSection;
-
 	DelayLine delayLine{500.f};
 	Reverb reverb;
 

@@ -1,5 +1,6 @@
 #include "MixBusArray.h"
 
+#include "FilterMixBus.h"
 #include "FXMixBus.h"
 
 #include <utility>
@@ -23,25 +24,25 @@ void MixBusArray::init(double sampleRate) {
 	MixBusRoute kickRoute;
 	kickRoute.mono = true;
 	kickRoute.outputChannel0 = 4;
-	buses[kBusKick] = std::make_unique<MixBusBase>();
+	buses[kBusKick] = std::make_unique<FilterMixBus>();
 	buses[kBusKick]->init(sampleRate, kickRoute);
 
 	MixBusRoute snareRoute;
 	snareRoute.mono = true;
 	snareRoute.outputChannel0 = 5;
-	buses[kBusSnare] = std::make_unique<MixBusBase>();
+	buses[kBusSnare] = std::make_unique<FilterMixBus>();
 	buses[kBusSnare]->init(sampleRate, snareRoute);
 
 	MixBusRoute tomsRoute;
 	tomsRoute.mono = true;
 	tomsRoute.outputChannel0 = 6;
-	buses[kBusToms] = std::make_unique<MixBusBase>();
+	buses[kBusToms] = std::make_unique<FilterMixBus>();
 	buses[kBusToms]->init(sampleRate, tomsRoute);
 
 	MixBusRoute hatsRoute;
 	hatsRoute.mono = true;
 	hatsRoute.outputChannel0 = 7;
-	buses[kBusHats] = std::make_unique<MixBusBase>();
+	buses[kBusHats] = std::make_unique<FilterMixBus>();
 	buses[kBusHats]->init(sampleRate, hatsRoute);
 }
 
