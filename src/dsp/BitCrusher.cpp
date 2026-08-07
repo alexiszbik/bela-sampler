@@ -32,7 +32,7 @@ void BitCrusher::updateDerivedValues() {
 
     const float clampedDepth = clampf(bitDepth - 1.f, 0.f, 15.f);
     crushFactor = powf(2.f, clampedDepth);
-    holdSamples = clampf(truncf(64.f - repeatRate * 64.f), 0.f, 64.f);
+    holdSamples = clampf(truncf(kMaxHoldSamples - repeatRate * kMaxHoldSamples), 0.f, kMaxHoldSamples);
 }
 
 void BitCrusher::reset() {

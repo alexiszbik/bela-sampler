@@ -3,6 +3,7 @@
 class BitCrusher {
 public:
     static constexpr int kMaxChannels = 2;
+    static constexpr float kMaxHoldSamples = 128.f;
 
     void init(int channelCount = kMaxChannels);
     void setBitDepth(float bitDepth);
