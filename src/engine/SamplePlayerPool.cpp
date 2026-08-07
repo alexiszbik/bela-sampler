@@ -50,7 +50,7 @@ void SamplePlayerPool::nextSamples(MixBusArray& mixBuses) {
 			continue;
 		}
 
-		MixBus& bus = mixBuses.getBus(busIndex);
+		MixBusBase& bus = mixBuses.getBus(busIndex);
 		const size_t busChannels = bus.getChannelCount();
 		voice.nextSamples(bus.getSum(), busChannels, busChannels);
 	}

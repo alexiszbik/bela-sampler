@@ -1,8 +1,9 @@
 #pragma once
 
-#include "MixBus.h"
+#include "MixBusBase.h"
 
 #include <cstddef>
+#include <memory>
 
 class MixBusArray
 {
@@ -12,8 +13,8 @@ public:
 
 	void init(double sampleRate);
 	void clearBusSums();
-	MixBus& getBus(size_t busIndex);
-	const MixBus& getBus(size_t busIndex) const;
+	MixBusBase& getBus(size_t busIndex);
+	const MixBusBase& getBus(size_t busIndex) const;
 	size_t getBusChannelCount(size_t busIndex) const;
 
 	void setBusParameter(size_t busIndex, ParameterIndex parameterIndex, float value);
@@ -21,5 +22,5 @@ public:
 	void processAll(float* master, size_t masterChannelCount);
 
 private:
-	MixBus buses[kBusCount];
+	std::unique_ptr<MixBusBase> buses[kBusCount];
 };

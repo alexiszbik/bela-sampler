@@ -7,5 +7,6 @@ enum ParameterIndex {
 	HiPassCutoff,
     DelayTime,
     DelayFeedback,
-	DelayLevel
+	DelayLevel,
+	ReverbSend
 };

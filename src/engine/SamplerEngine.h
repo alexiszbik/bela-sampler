@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MixBus.h"
 #include "MixBusArray.h"
 #include "MidiInputDelegate.h"
 #include "Program.h"
@@ -45,5 +44,6 @@ private:
 		CCMap{0, 23, 1, DelayLevel},
 		CCMap{0, 24, 1, DelayTime},
 		CCMap{0, 25, 1, DelayFeedback},
+		CCMap{0, 16, 1, ReverbSend},
 	};
 };
