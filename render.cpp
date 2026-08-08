@@ -18,7 +18,7 @@
 #include "MixBusArray.h"
 
 static const char* kSamplesFolder = "samplesfolder";
-static const char* kProgramFile = "program.json";
+static const char* kProgramFile = "program02.json";
 static const size_t kNumPlayers = 32;
 
 static std::vector<Sample> gSamples;

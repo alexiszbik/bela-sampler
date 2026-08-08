@@ -81,19 +81,19 @@
 		{
 			"midiNote": 49,
 			"layers": [
-				{ "sample": "tr707/TR707-TomHi.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+				{ "sample": "FB_V2.WAV", "mode": "poly", "volume": -6, "bus": "sample" }
 			]
 		},
 		{
 			"midiNote": 50,
 			"layers": [
-				{ "sample": "tr707/TR707-Crash.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+				{ "sample": "FB_V3.WAV", "mode": "poly", "volume": -6, "bus": "sample" }
 			]
 		},
 		{
 			"midiNote": 51,
 			"layers": [
-				{ "sample": "tr707/TR707-Ride.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+				{ "sample": "FB_V4.WAV", "mode": "poly", "volume": -6, "bus": "sample" }
 			]
 		},
 		{

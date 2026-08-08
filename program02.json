@@ -1,0 +1,70 @@
+{
+	"slots": [
+		{
+			"midiNote": 36,
+			"layers": [
+				{ "sample": "cr78/Kick Accent.wav", "mode": "poly", "volume": -6, "bus": "kick" }
+			]
+		},
+		{
+			"midiNote": 37,
+			"layers": [
+				{ "sample": "cr78/Snare Accent.wav", "mode": "poly", "volume": -6, "bus": "snare" }
+			]
+		},
+		{
+			"midiNote": 38,
+			"layers": [
+				{ "sample": "cr78/Rim Shot.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 39,
+			"layers": [
+				{ "sample": "cr78/Cowbell.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 40,
+			"layers": [
+				{ "sample": "cr78/Tamb 2.wav", "mode": "poly", "volume": -6, "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 41,
+			"layers": [
+				{ "sample": "cr78/HiHat Accent.wav", "mode": "poly", "volume": -6, "muteGroup": "B", "bus": "hats" }
+			]
+		},
+		{
+			"midiNote": 42,
+			"layers": [
+				{ "sample": "cr78/Cymbal.wav", "mode": "poly", "volume": -6, "bus": "sample" }
+			]
+		},
+		{
+			"midiNote": 43,
+			"layers": [
+				{ "sample": "cr78/Conga Low.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 44,
+			"layers": [
+				{ "sample": "cr78/Bongo Low.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 45,
+			"layers": [
+				{ "sample": "cr78/Bongo High.wav", "mode": "poly", "volume": -6, "bus": "toms" }
+			]
+		},
+		{
+			"midiNote": 46,
+			"layers": [
+				{ "sample": "cr78/Guiro 1.wav", "mode": "poly", "volume": -6, "bus": "sample" }
+			]
+		}
+	]
+}
