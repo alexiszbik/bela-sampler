@@ -1,21 +1,21 @@
 #include "CutoffHelper.h"
 
 #include <cmath>
+//#include <Bela.h>
 
-float clampCutoffRatio(float ratio) {
-	if(ratio < 0.f) {
-		return 0.f;
-	}
-
-	if(ratio > 1.f) {
-		return 1.f;
-	}
-
-	return ratio;
+inline float fast_mtof(float m)
+{
+    constexpr float inv12 = 0.0833333333333f;
+    constexpr float a440  = 440.f;
+    return a440 * exp2f((m - 69.f) * inv12);
 }
 
+static constexpr float minMidiCutoff = 14;
+static constexpr float midiCutoffRange = 120;
+
 float cutoffRatioToHz(float ratio) {
-	const float clampedRatio = clampCutoffRatio(ratio);
-	const float logRatio = kMaxCutoffHz / kMinCutoffHz;
-	return kMinCutoffHz * static_cast<float>(std::pow(static_cast<double>(logRatio), static_cast<double>(clampedRatio)));
+
+	//rt_printf("%.1f freq %.1f freq  \n", fast_mtof(minMidiCutoff), fast_mtof(midiCutoffRange + minMidiCutoff));
+
+	return fast_mtof(ratio * midiCutoffRange + minMidiCutoff);
 }

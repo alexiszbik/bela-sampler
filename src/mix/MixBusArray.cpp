@@ -61,26 +61,6 @@ MixBusBase& MixBusArray::getBus(MixBusIndex busIndex) {
 	return *buses[busIndex];
 }
 
-const MixBusBase& MixBusArray::getBus(MixBusIndex busIndex) const {
-	return *buses[busIndex];
-}
-
-MixBusBase& MixBusArray::getBus(size_t busIndex) {
-	return getBus(static_cast<MixBusIndex>(busIndex));
-}
-
-const MixBusBase& MixBusArray::getBus(size_t busIndex) const {
-	return getBus(static_cast<MixBusIndex>(busIndex));
-}
-
-size_t MixBusArray::getBusChannelCount(MixBusIndex busIndex) const {
-	if(busIndex < kBusMaster || busIndex >= kBusCount || buses[busIndex] == nullptr) {
-		return 0;
-	}
-
-	return buses[busIndex]->getChannelCount();
-}
-
 void MixBusArray::setBusParameter(MixBusIndex busIndex, ParameterIndex parameterIndex, float value) {
 	if(busIndex < kBusMaster || busIndex >= kBusCount || buses[busIndex] == nullptr) {
 		return;

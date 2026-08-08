@@ -19,7 +19,6 @@ protected:
 
 private:
 	DelayLine delayLine{500.f};
-	ReverbEffect reverbEffect;
 	Flanger flanger;
 
 	SmoothValue delayTime = 250;

@@ -14,13 +14,7 @@ public:
 	void init(double sampleRate);
 	void clearBusSums();
 	MixBusBase& getBus(MixBusIndex busIndex);
-	const MixBusBase& getBus(MixBusIndex busIndex) const;
-	MixBusBase& getBus(size_t busIndex);
-	const MixBusBase& getBus(size_t busIndex) const;
-	size_t getBusChannelCount(MixBusIndex busIndex) const;
-
 	void setBusParameter(MixBusIndex busIndex, ParameterIndex parameterIndex, float value);
-
 	void processAll(float* master, size_t masterChannelCount);
 
 private:

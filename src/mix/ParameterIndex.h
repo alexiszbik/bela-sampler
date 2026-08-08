@@ -13,4 +13,5 @@ enum ParameterIndex {
 	FlangerSpeed,
 	FlangerLevel,
 	RepeatState,
+	RepeatRate,
 };

@@ -21,6 +21,8 @@ void FilterMixBus::init(double sampleRate, const MixBusRoute& route) {
 
 	bitCrushRate.setValue(1.f);
 	bitCrush.init(channelCount);
+
+	brRate.setValue(1.f);
 }
 
 void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
@@ -41,6 +43,10 @@ void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
 			brState = value > 0.5f;
 			return;
 
+		case RepeatRate:
+			brRate.setValue(value);
+			return;
+
 		default:
 			break;
 	}
@@ -51,6 +57,9 @@ void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
 void FilterMixBus::processEffects() {
 
 	beatRepeat.setState(brState);
+	if (brRate.valueHasChanged) {
+		beatRepeat.setRepeatRate(brRate.getValue());
+	}
 
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] = beatRepeat.process(sum[channel], channel);

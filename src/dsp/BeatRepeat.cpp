@@ -4,8 +4,7 @@ void BeatRepeat::init(int inChannelCount, double inSampleRate) {
     channelCount = inChannelCount;
     sampleRate = inSampleRate;
 
-    repeatSize = sampleRate*0.125;
-
+    repeatSize = sampleRate*currentRate;
 }
 
 void BeatRepeat::setState(bool newState) {
@@ -13,6 +12,17 @@ void BeatRepeat::setState(bool newState) {
         state = newState;
         writeIdx = 0;
         readIdx = 0;
+    }
+}
+
+void BeatRepeat::setRepeatRate(float value) {
+    const int rateCount = rateList.size();
+    int frate = static_cast<int>(floorf(value*rateCount));
+    if (frate >= (rateCount - 1)) frate = rateCount-1;
+    float newRate = rateList[frate];
+    if (newRate != currentRate) {
+        repeatSize = newRate * sampleRate;
+        currentRate = newRate;
     }
 
 }

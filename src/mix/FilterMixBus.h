@@ -23,4 +23,5 @@ protected:
 
 	BeatRepeat beatRepeat;
 	bool brState = false;
+	ParameterValue brRate;
 };
