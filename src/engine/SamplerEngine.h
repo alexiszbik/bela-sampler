@@ -44,6 +44,32 @@ private:
 
 	std::vector<CCMap> ccMaps = {
 
+
+		//============== SAMPLES
+
+		CCMap{3, 38, {{kBusSample, Volume}}},
+
+		CCMap{3, 52, {{kBusSample, Mute}}},
+
+		CCMap{3, 13, {{kBusSample, LowPassCutoff}}},
+		CCMap{3, 12, {{kBusSample, HiPassCutoff}}},
+
+		CCMap{3, 8, {{kBusSample, RepeatState}}},
+		CCMap{3, 10, {{kBusSample, RepeatRate}}},
+		
+		CCMap{3, 11, {{kBusSample, BitCrushRate}}},
+
+		CCMap{3, 14, {{kBusSample, FlangerSpeed}}},
+		CCMap{3, 15, {{kBusSample, FlangerLevel}}},
+
+		CCMap{3, 41, {{kBusSample, DelayLevel}}},
+		CCMap{3, 40, {{kBusSample, DelayTime}}},
+		CCMap{3, 39, {{kBusSample, DelayFeedback}}},
+
+
+
+		// ============= DRUMS
+
 		CCMap{3, 37, {{kBusKick, Volume}}},
 		CCMap{3, 36, {{kBusSnare, Volume}}},
 		CCMap{3, 35, {{kBusToms, Volume}}},
@@ -70,5 +96,6 @@ private:
 		CCMap{3, 31, {{kBusToms, DelayLevel}}},
 		CCMap{3, 32, {{kBusToms, DelayTime}}},
 		CCMap{3, 33, {{kBusToms, DelayFeedback}}},
+
 	};
 };

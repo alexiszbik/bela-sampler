@@ -18,11 +18,11 @@ void MixBusArray::init(double sampleRate) {
 
 	MixBusRoute sampleRoute;
 	sampleRoute.mono = false;
+	//will be 0 & 1
 	sampleRoute.outputChannel0 = 2;
 	sampleRoute.outputChannel1 = 3;
 	buses[kBusSample] = std::make_unique<FXMixBus>();
 	buses[kBusSample]->init(sampleRate, sampleRoute);
-	static_cast<FXMixBus*>(buses[kBusSample].get())->enableReverb = true;
 
 	MixBusRoute kickRoute;
 	kickRoute.mono = true;

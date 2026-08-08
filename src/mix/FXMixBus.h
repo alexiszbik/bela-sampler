@@ -12,8 +12,6 @@ public:
 	void init(double sampleRate, const MixBusRoute& route) override;
 	void setParameterValue(ParameterIndex index, float value) override;
 
-	bool enableReverb = false;
-
 protected:
 	void processEffects() override;
 
