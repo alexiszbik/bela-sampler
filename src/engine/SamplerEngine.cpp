@@ -1,7 +1,9 @@
 #include "SamplerEngine.h"
 
-void SamplerEngine::init(Program* inProgram, double sampleRate, size_t playerCount) {
-	program = inProgram;
+#include <Bela.h>
+
+void SamplerEngine::init(ProgramBank* inProgramBank, double sampleRate, size_t playerCount) {
+	programBank = inProgramBank;
 	playerPool.init(sampleRate, playerCount);
 	voiceAllocator.init(&playerPool);
 	mixBuses.init(sampleRate);
@@ -24,6 +26,7 @@ void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
 void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
 	(void)channel;
 
+	Program* program = programBank != nullptr ? programBank->getActiveProgram() : nullptr;
 	if(program == nullptr || velocity <= 0) {
 		return;
 	}
@@ -40,6 +43,7 @@ void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
 void SamplerEngine::onNoteOff(int note, int channel) {
 	(void)channel;
 
+	Program* program = programBank != nullptr ? programBank->getActiveProgram() : nullptr;
 	if(program == nullptr) {
 		return;
 	}
@@ -77,6 +81,21 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
 }
 
 void SamplerEngine::onPgmChange(int pgm, int channel) {
+	(void)channel;
+
+	if(programBank == nullptr) {
+		return;
+	}
+
+	if(!programBank->selectProgram(pgm)) {
+		rt_printf("Program change: unmapped PC %d\n", pgm);
+		return;
+	}
+
+	const Program* program = programBank->getActiveProgram();
+	rt_printf("Program change: PC %d (%zu slots)\n",
+		pgm,
+		program != nullptr ? program->getSlotCount() : 0);
 }
 
 void SamplerEngine::nextSamples(float* buf, size_t bufSize) {

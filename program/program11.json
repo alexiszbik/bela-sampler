@@ -1,0 +1,192 @@
+{
+	"slots": [
+		{
+			"midiNote": 36,
+			"layers": [
+				{
+					"sample": "Falling/fa clap.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 37,
+			"layers": [
+				{
+					"sample": "Falling/fa clnclp.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 38,
+			"layers": [
+				{
+					"sample": "Falling/fa cymb.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 39,
+			"layers": [
+				{
+					"sample": "Falling/fa hhc.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 40,
+			"layers": [
+				{
+					"sample": "Falling/fa hho.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats"
+				}
+			]
+		},
+		{
+			"midiNote": 41,
+			"layers": [
+				{
+					"sample": "Falling/fa intld.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 42,
+			"layers": [
+				{
+					"sample": "Falling/fa kick.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "kick"
+				}
+			]
+		},
+		{
+			"midiNote": 43,
+			"layers": [
+				{
+					"sample": "Falling/fa mtamb.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 44,
+			"layers": [
+				{
+					"sample": "Falling/fa pads.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 45,
+			"layers": [
+				{
+					"sample": "Falling/fa pianohi.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 46,
+			"layers": [
+				{
+					"sample": "Falling/fa pianolow.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 47,
+			"layers": [
+				{
+					"sample": "Falling/fa rimverb.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 48,
+			"layers": [
+				{
+					"sample": "Falling/fa riz.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 49,
+			"layers": [
+				{
+					"sample": "Falling/fa riz2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 50,
+			"layers": [
+				{
+					"sample": "Falling/fa snr.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 51,
+			"layers": [
+				{
+					"sample": "Falling/fa tamb.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 52,
+			"layers": [
+				{
+					"sample": "Falling/fa toms.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		}
+	]
+}

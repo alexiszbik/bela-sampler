@@ -3,7 +3,7 @@
 #include "MixBusArray.h"
 #include "MixBusNames.h"
 #include "MidiInputDelegate.h"
-#include "Program.h"
+#include "ProgramBank.h"
 #include "SamplePlayerPool.h"
 #include "VoiceAllocator.h"
 
@@ -25,7 +25,7 @@ struct CCMap {
 class SamplerEngine : public MidiInputDelegate
 {
 public:
-	void init(Program* program, double sampleRate, size_t playerCount);
+	void init(ProgramBank* programBank, double sampleRate, size_t playerCount);
 	void onNoteOn(int note, int velocity, int channel) override;
 	void onNoteOff(int note, int channel) override;
 	void onControlChange(int controller, int value, int channel) override;
@@ -37,7 +37,7 @@ public:
 private:
 	void triggerSlot(const Program::Slot& slot, int velocity);
 
-	Program* program = nullptr;
+	ProgramBank* programBank = nullptr;
 	SamplePlayerPool playerPool;
 	VoiceAllocator voiceAllocator;
 	MixBusArray mixBuses;

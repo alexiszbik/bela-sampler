@@ -1,0 +1,192 @@
+{
+	"slots": [
+		{
+			"midiNote": 36,
+			"layers": [
+				{
+					"sample": "Closer/TRI_303.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 37,
+			"layers": [
+				{
+					"sample": "Closer/TRI_BUT.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 38,
+			"layers": [
+				{
+					"sample": "Closer/TRI_CLP.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 39,
+			"layers": [
+				{
+					"sample": "Closer/TRI_H909.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 40,
+			"layers": [
+				{
+					"sample": "Closer/TRI_HAT.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 41,
+			"layers": [
+				{
+					"sample": "Closer/TRI_KICK.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "kick"
+				}
+			]
+		},
+		{
+			"midiNote": 42,
+			"layers": [
+				{
+					"sample": "Closer/TRI_SING.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 43,
+			"layers": [
+				{
+					"sample": "Closer/TRI_VOI.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 44,
+			"layers": [
+				{
+					"sample": "Closer/tri_808tom.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 45,
+			"layers": [
+				{
+					"sample": "Closer/tri_blast.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 46,
+			"layers": [
+				{
+					"sample": "Closer/tri_chopdrum.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 47,
+			"layers": [
+				{
+					"sample": "Closer/tri_rizstr.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 48,
+			"layers": [
+				{
+					"sample": "Closer/tri_tamb1.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 49,
+			"layers": [
+				{
+					"sample": "Closer/tri_tamb2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 50,
+			"layers": [
+				{
+					"sample": "Closer/tri_tomdist.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 51,
+			"layers": [
+				{
+					"sample": "Closer/tricot_top.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 52,
+			"layers": [
+				{
+					"sample": "Closer/tricot_top2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		}
+	]
+}

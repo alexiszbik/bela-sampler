@@ -1,0 +1,459 @@
+{
+	"slots": [
+		{
+			"midiNote": 36,
+			"layers": [
+				{
+					"sample": "friendship/FBDRUMMY.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 37,
+			"layers": [
+				{
+					"sample": "friendship/FBR_CLP.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 38,
+			"layers": [
+				{
+					"sample": "friendship/FBR_DROP.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 39,
+			"layers": [
+				{
+					"sample": "friendship/FBR_HAT.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 40,
+			"layers": [
+				{
+					"sample": "friendship/FBR_KICK.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "kick"
+				}
+			]
+		},
+		{
+			"midiNote": 41,
+			"layers": [
+				{
+					"sample": "friendship/FBR_S.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 42,
+			"layers": [
+				{
+					"sample": "friendship/FBR_S1.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 43,
+			"layers": [
+				{
+					"sample": "friendship/FBR_S2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 44,
+			"layers": [
+				{
+					"sample": "friendship/FBR_S3.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 45,
+			"layers": [
+				{
+					"sample": "friendship/FBR_SNAR.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 46,
+			"layers": [
+				{
+					"sample": "friendship/FBR_SPL1.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 47,
+			"layers": [
+				{
+					"sample": "friendship/FBR_SPL2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 48,
+			"layers": [
+				{
+					"sample": "friendship/FB_BALAF.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 49,
+			"layers": [
+				{
+					"sample": "friendship/FB_CYMB.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 50,
+			"layers": [
+				{
+					"sample": "friendship/FB_DROP.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 51,
+			"layers": [
+				{
+					"sample": "friendship/FB_HAT.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 52,
+			"layers": [
+				{
+					"sample": "friendship/FB_HH.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 53,
+			"layers": [
+				{
+					"sample": "friendship/FB_HPAT.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 54,
+			"layers": [
+				{
+					"sample": "friendship/FB_KICK.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "kick"
+				}
+			]
+		},
+		{
+			"midiNote": 55,
+			"layers": [
+				{
+					"sample": "friendship/FB_LCYMB.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 56,
+			"layers": [
+				{
+					"sample": "friendship/FB_M1.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 57,
+			"layers": [
+				{
+					"sample": "friendship/FB_OCL.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 58,
+			"layers": [
+				{
+					"sample": "friendship/FB_OH2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 59,
+			"layers": [
+				{
+					"sample": "friendship/FB_OHAT.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats"
+				}
+			]
+		},
+		{
+			"midiNote": 60,
+			"layers": [
+				{
+					"sample": "friendship/FB_RIM.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 61,
+			"layers": [
+				{
+					"sample": "friendship/FB_SALLY.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 62,
+			"layers": [
+				{
+					"sample": "friendship/FB_SHAKE.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 63,
+			"layers": [
+				{
+					"sample": "friendship/FB_SNR.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 64,
+			"layers": [
+				{
+					"sample": "friendship/FB_STABS.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 65,
+			"layers": [
+				{
+					"sample": "friendship/FB_TOM.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 66,
+			"layers": [
+				{
+					"sample": "friendship/FB_V1.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 67,
+			"layers": [
+				{
+					"sample": "friendship/FB_V2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 68,
+			"layers": [
+				{
+					"sample": "friendship/FB_V3.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 69,
+			"layers": [
+				{
+					"sample": "friendship/FB_V4.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 70,
+			"layers": [
+				{
+					"sample": "friendship/FB_XYLO.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 71,
+			"layers": [
+				{
+					"sample": "friendship/fb_mshake.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 72,
+			"layers": [
+				{
+					"sample": "friendship/fb_rcrash.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 73,
+			"layers": [
+				{
+					"sample": "friendship/fb_sample.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 74,
+			"layers": [
+				{
+					"sample": "friendship/fbr_balaf.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 75,
+			"layers": [
+				{
+					"sample": "friendship/fbr_stabs.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 76,
+			"layers": [
+				{
+					"sample": "friendship/fbr_voices.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		}
+	]
+}

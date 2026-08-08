@@ -1,0 +1,159 @@
+{
+	"slots": [
+		{
+			"midiNote": 36,
+			"layers": [
+				{
+					"sample": "fantasy/fant_bigclp.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 37,
+			"layers": [
+				{
+					"sample": "fantasy/fant_drop.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 38,
+			"layers": [
+				{
+					"sample": "fantasy/fant_drumhi.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 39,
+			"layers": [
+				{
+					"sample": "fantasy/fant_voc1.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 40,
+			"layers": [
+				{
+					"sample": "fantasy/fant_voc2.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 41,
+			"layers": [
+				{
+					"sample": "fantasy/fant_voc3.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 42,
+			"layers": [
+				{
+					"sample": "fantasy/fant_voc4.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 43,
+			"layers": [
+				{
+					"sample": "fantasy/fant_voc5.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 44,
+			"layers": [
+				{
+					"sample": "fantasy/ftsy clp.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "snare"
+				}
+			]
+		},
+		{
+			"midiNote": 45,
+			"layers": [
+				{
+					"sample": "fantasy/ftsy hat.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "hats",
+					"muteGroup": "B"
+				}
+			]
+		},
+		{
+			"midiNote": 46,
+			"layers": [
+				{
+					"sample": "fantasy/ftsy kick.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "kick"
+				}
+			]
+		},
+		{
+			"midiNote": 47,
+			"layers": [
+				{
+					"sample": "fantasy/ftsy riz.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		},
+		{
+			"midiNote": 48,
+			"layers": [
+				{
+					"sample": "fantasy/ftsy sample.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "sample"
+				}
+			]
+		},
+		{
+			"midiNote": 49,
+			"layers": [
+				{
+					"sample": "fantasy/ftsy shake.WAV",
+					"mode": "poly",
+					"volume": -6,
+					"bus": "toms"
+				}
+			]
+		}
+	]
+}

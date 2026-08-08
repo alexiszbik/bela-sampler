@@ -5,7 +5,7 @@ void ReverbEffect::init(int channelCount, double sampleRate) {
 
 	reverb.init(channelCount, fsr);
 	lfo.init(sampleRate);
-	lfo.setFrequency(0.5f);
+	lfo.setFrequency(0.25f);
 }
 
 void ReverbEffect::setSendLevel(float value) {

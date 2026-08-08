@@ -12,17 +12,17 @@
 #include <sys/stat.h>
 
 #include "Sample.h"
-#include "Program.h"
+#include "ProgramBank.h"
 #include "SamplerEngine.h"
 #include "MidiInput.h"
 #include "MixBusArray.h"
 
 static const char* kSamplesFolder = "samplesfolder";
-static const char* kProgramFile = "program02.json";
+static const char* kProgramFolder = "program";
 static const size_t kNumPlayers = 32;
 
 static std::vector<Sample> gSamples;
-static Program gProgram;
+static ProgramBank gProgramBank;
 static SamplerEngine gEngine;
 static MidiInput gMidiInput;
 
@@ -111,16 +111,20 @@ bool setup(BelaContext *context, void *userData) {
 		totalRamBytes / 1024.f,
 		totalRamBytes / (1024.f * 1024.f));
 
-	if(!gProgram.loadFromFile(kProgramFile, gSamples)) {
+	if(!gProgramBank.load(kProgramFolder, gSamples)) {
 		return false;
 	}
 
-	gEngine.init(&gProgram, context->audioSampleRate, kNumPlayers);
+	gEngine.init(&gProgramBank, context->audioSampleRate, kNumPlayers);
 
-	rt_printf("Loaded %zu samples, %zu voice pool, %zu program slots\n",
+	rt_printf("Loaded %zu samples, %zu voice pool, %zu programs, active PC %d (%zu slots)\n",
 		gSamples.size(),
 		gEngine.getPlayerCount(),
-		gProgram.getSlotCount());
+		gProgramBank.getLoadedProgramCount(),
+		gProgramBank.getActivePc(),
+		gProgramBank.getActiveProgram() != nullptr
+			? gProgramBank.getActiveProgram()->getSlotCount()
+			: 0);
 
 	gMidiInput.setup(&gEngine);
 	return true;
