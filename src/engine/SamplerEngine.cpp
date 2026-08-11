@@ -58,6 +58,8 @@ void SamplerEngine::onNoteOff(int note, int channel) {
 }
 
 void SamplerEngine::onControlChange(int controller, int value, int channel) {
+	//todo : filter if channel is 3!!!!
+	
 	const float ratioValue = static_cast<float>(value) / 127.f;
 
 	for(const CCMap& map : ccMaps) {
@@ -75,15 +77,16 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
 				dest.parameterIndex,
 				ratioValue);
 		}
-
-
 	}
 }
 
 void SamplerEngine::onPgmChange(int pgm, int channel) {
-	(void)channel;
 
 	if(programBank == nullptr) {
+		return;
+	}
+
+	if(channel != 3) {
 		return;
 	}
 

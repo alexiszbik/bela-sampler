@@ -46,6 +46,7 @@ private:
 
 
 		//============== SAMPLES
+		//TODO : we don't need to say it's channel 3(4) let's put it somewhere
 
 		CCMap{3, 38, {{kBusSample, Volume}}},
 
