@@ -84,6 +84,29 @@ bool SamplerAudioEngine::initialise() {
 	return true;
 }
 
+bool SamplerAudioEngine::reload() {
+	const std::string samplesFolder = SamplerDesktopPaths::getSamplesFolder();
+	const std::string programFolder = SamplerDesktopPaths::getProgramFolder();
+
+	samples.clear();
+	programBank = {};
+	engine = {};
+
+	if(!SamplerBootstrap::init(samples,
+			programBank,
+			engine,
+			kSampleRate,
+			SamplerBootstrap::kDefaultPlayerCount,
+			samplesFolder.c_str(),
+			programFolder.c_str())) {
+		return false;
+	}
+
+	midiBridge.setDelegate(&engine);
+	SAMPLER_LOG("Engine reloaded\n");
+	return true;
+}
+
 void SamplerAudioEngine::shutdown() {
 	deviceManager.removeAudioCallback(this);
 

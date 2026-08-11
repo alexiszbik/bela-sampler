@@ -11,6 +11,7 @@ set(SAMPLER_CORE_SOURCES
     ../platform/LogBuffer.cpp
     ../platform/SamplerLog.cpp
     ../platform/SamplerBootstrap.cpp
+    ../platform/ProgramWriter.cpp
     ../src/dsp/BeatRepeat.cpp
     ../src/dsp/BitCrusher.cpp
     ../src/dsp/BiquadFilter.cpp
@@ -46,6 +47,8 @@ set(SAMPLER_CORE_SOURCES
     Source/JuceMidiBridge.cpp
     Source/SamplerMidiCollector.cpp
     Source/LogWindow.cpp
+    Source/ProgramGridComponent.cpp
+    Source/ProgramEditorWindow.cpp
     Source/Main.cpp
     Source/MainWindow.cpp
     Source/SamplerAudioEngine.cpp

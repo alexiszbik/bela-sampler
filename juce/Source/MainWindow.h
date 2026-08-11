@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LogWindow.h"
+#include "ProgramEditorWindow.h"
 #include "SamplerAudioEngine.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -14,5 +15,7 @@ public:
 
 private:
 	SamplerAudioEngine& engine;
+	juce::TabbedComponent tabs;
 	LogWindow logWindow;
+	ProgramEditorWindow editorWindow;
 };

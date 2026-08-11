@@ -30,6 +30,14 @@
             file="Source/JuceMidiBridge.cpp"/>
       <FILE id="midiBridgeH" name="JuceMidiBridge.h" compile="0" resource="0"
             file="Source/JuceMidiBridge.h"/>
+      <FILE id="progGridCpp" name="ProgramGridComponent.cpp" compile="1" resource="0"
+            file="Source/ProgramGridComponent.cpp"/>
+      <FILE id="progGridH" name="ProgramGridComponent.h" compile="0" resource="0"
+            file="Source/ProgramGridComponent.h"/>
+      <FILE id="progEditorCpp" name="ProgramEditorWindow.cpp" compile="1" resource="0"
+            file="Source/ProgramEditorWindow.cpp"/>
+      <FILE id="progEditorH" name="ProgramEditorWindow.h" compile="0" resource="0"
+            file="Source/ProgramEditorWindow.h"/>
     </GROUP>
     <GROUP id="platformGroup" name="Platform">
       <FILE id="logBufCpp" name="LogBuffer.cpp" compile="1" resource="0"
@@ -43,6 +51,10 @@
             file="../platform/SamplerBootstrap.cpp"/>
       <FILE id="bootstrapH" name="SamplerBootstrap.h" compile="0" resource="0"
             file="../platform/SamplerBootstrap.h"/>
+      <FILE id="progWriterCpp" name="ProgramWriter.cpp" compile="1" resource="0"
+            file="../platform/ProgramWriter.cpp"/>
+      <FILE id="progWriterH" name="ProgramWriter.h" compile="0" resource="0"
+            file="../platform/ProgramWriter.h"/>
     </GROUP>
     <GROUP id="srcGroup" name="SamplerCore">
       <GROUP id="srcEngine" name="engine">

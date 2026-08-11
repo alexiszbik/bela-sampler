@@ -25,10 +25,13 @@ public:
 
 	bool initialise();
 	void shutdown();
+	bool reload();
 
 	juce::AudioDeviceManager& getDeviceManager() { return deviceManager; }
 	const std::vector<Sample>& getSamples() const { return samples; }
 	const ProgramBank& getProgramBank() const { return programBank; }
+	SamplerEngine& getEngine() { return engine; }
+	ProgramBank& getProgramBank() { return programBank; }
 
 	void audioDeviceIOCallbackWithContext(const float* const* inputChannelData,
 		int numInputChannels,
