@@ -1,6 +1,6 @@
 #include "SamplerEngine.h"
 
-#include <Bela.h>
+#include "SamplerLog.h"
 
 void SamplerEngine::init(ProgramBank* inProgramBank, double sampleRate, size_t playerCount) {
 	programBank = inProgramBank;
@@ -24,7 +24,9 @@ void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
-	(void)channel;
+    if(channel != kSamplerChannel) {
+        return;
+    }
 
 	Program* program = programBank != nullptr ? programBank->getActiveProgram() : nullptr;
 	if(program == nullptr || velocity <= 0) {
@@ -41,7 +43,9 @@ void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
 }
 
 void SamplerEngine::onNoteOff(int note, int channel) {
-	(void)channel;
+    if(channel != kSamplerChannel) {
+        return;
+    }
 
 	Program* program = programBank != nullptr ? programBank->getActiveProgram() : nullptr;
 	if(program == nullptr) {
@@ -58,19 +62,17 @@ void SamplerEngine::onNoteOff(int note, int channel) {
 }
 
 void SamplerEngine::onControlChange(int controller, int value, int channel) {
-	//todo : filter if channel is 3!!!!
-	
+    if(channel != kSamplerChannel) {
+        return;
+    }
+    
 	const float ratioValue = static_cast<float>(value) / 127.f;
 
 	for(const CCMap& map : ccMaps) {
 		if(map.control != controller) {
 			continue;
 		}
-
-		if(map.channel != channel) {
-			continue;
-		}
-
+        
 		for (auto& dest : map.destinations) {
 			mixBuses.setBusParameter(
 				dest.busIndex,
@@ -81,22 +83,21 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
 }
 
 void SamplerEngine::onPgmChange(int pgm, int channel) {
+    if(channel != kSamplerChannel) {
+        return;
+    }
 
 	if(programBank == nullptr) {
 		return;
 	}
 
-	if(channel != 3) {
-		return;
-	}
-
 	if(!programBank->selectProgram(pgm)) {
-		rt_printf("Program change: unmapped PC %d\n", pgm);
+		SAMPLER_LOG("Program change: unmapped PC %d\n", pgm);
 		return;
 	}
 
 	const Program* program = programBank->getActiveProgram();
-	rt_printf("Program change: PC %d (%zu slots)\n",
+	SAMPLER_LOG("Program change: PC %d (%zu slots)\n",
 		pgm,
 		program != nullptr ? program->getSlotCount() : 0);
 }

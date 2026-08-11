@@ -7,7 +7,9 @@
 PROJECT ?= Sampler
 BELA_DIR ?= /root/Bela
 
+INCLUDE_SOURCES += platform/SamplerBootstrap.cpp platform/SamplerLog.cpp
+
 include $(BELA_DIR)/Makefile
 include $(abspath $(dir $(lastword $(MAKEFILE_LIST))))/src_include_paths.mk
 
-CPPFLAGS += $(SAMPLER_SRC_CPPFLAGS)
+CPPFLAGS += $(SAMPLER_SRC_CPPFLAGS) -DSAMPLER_BELA=1 -Iplatform

@@ -21,7 +21,7 @@
             0
         ],
         "userArguments": "",
-        "makeParameters": "-I./projects/Sampler/src/program -I./projects/Sampler/src/playback -I./projects/Sampler/src/playback/sample -I./projects/Sampler/src/engine -I./projects/Sampler/src/mix -I./projects/Sampler/src/dsp -I./projects/Sampler/src/dsp/delay -I./projects/Sampler/src/midi",
+        "makeParameters": "-DSAMPLER_BELA=1 -I./projects/Sampler/platform -I./projects/Sampler/src/program -I./projects/Sampler/src/playback -I./projects/Sampler/src/playback/sample -I./projects/Sampler/src/engine -I./projects/Sampler/src/mix -I./projects/Sampler/src/dsp -I./projects/Sampler/src/dsp/delay -I./projects/Sampler/src/midi",
         "multiplexer": 0,
         "audioExpander": false,
         "y": [],

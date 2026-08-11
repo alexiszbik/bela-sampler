@@ -3,7 +3,7 @@
 #include "MixBusNames.h"
 #include "PitchHelper.h"
 
-#include <Bela.h>
+#include "SamplerLog.h"
 
 #include <cctype>
 #include <cstdio>
@@ -276,7 +276,7 @@ bool ProgramJson::parseBus(MixBusIndex& bus) {
 		}
 
 		if(!mixBusIndexFromNickname(nickname, bus)) {
-			rt_printf("ProgramJson: unknown bus nickname: %s\n", nickname.c_str());
+			SAMPLER_LOG("ProgramJson: unknown bus nickname: %s\n", nickname.c_str());
 			return false;
 		}
 
@@ -289,7 +289,7 @@ bool ProgramJson::parseBus(MixBusIndex& bus) {
 	}
 
 	if(busInt < kBusMaster || busInt >= kBusCount) {
-		rt_printf("ProgramJson: bus index out of range: %d\n", busInt);
+		SAMPLER_LOG("ProgramJson: bus index out of range: %d\n", busInt);
 		return false;
 	}
 
@@ -501,17 +501,17 @@ bool ProgramJson::parseFile(const std::string& filepath, std::vector<ProgramSlot
 	cursor = nullptr;
 
 	if(!readFile(filepath)) {
-		rt_printf("ProgramJson: could not open %s\n", filepath.c_str());
+		SAMPLER_LOG("ProgramJson: could not open %s\n", filepath.c_str());
 		return false;
 	}
 
 	if(!findSlotsArray()) {
-		rt_printf("ProgramJson: missing slots array in %s\n", filepath.c_str());
+		SAMPLER_LOG("ProgramJson: missing slots array in %s\n", filepath.c_str());
 		return false;
 	}
 
 	if(!parseSlots(slots)) {
-		rt_printf("ProgramJson: invalid slot in %s\n", filepath.c_str());
+		SAMPLER_LOG("ProgramJson: invalid slot in %s\n", filepath.c_str());
 		return false;
 	}
 

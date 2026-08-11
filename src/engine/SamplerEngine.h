@@ -17,10 +17,11 @@ struct MapDest{
 };
 
 struct CCMap {
-	int channel = 0;
 	int control = 0;
 	std::vector<MapDest> destinations;
 };
+
+constexpr uint8_t kSamplerChannel = 3;
 
 class SamplerEngine : public MidiInputDelegate
 {
@@ -43,60 +44,56 @@ private:
 	MixBusArray mixBuses;
 
 	std::vector<CCMap> ccMaps = {
-
-
 		//============== SAMPLES
 		//TODO : we don't need to say it's channel 3(4) let's put it somewhere
 
-		CCMap{3, 38, {{kBusSample, Volume}}},
+		CCMap{38, {{kBusSample, Volume}}},
 
-		CCMap{3, 52, {{kBusSample, Mute}}},
+		CCMap{52, {{kBusSample, Mute}}},
 
-		CCMap{3, 13, {{kBusSample, LowPassCutoff}}},
-		CCMap{3, 12, {{kBusSample, HiPassCutoff}}},
+		CCMap{13, {{kBusSample, LowPassCutoff}}},
+		CCMap{12, {{kBusSample, HiPassCutoff}}},
 
-		CCMap{3, 8, {{kBusSample, RepeatState}}},
-		CCMap{3, 10, {{kBusSample, RepeatRate}}},
+		CCMap{8, {{kBusSample, RepeatState}}},
+		CCMap{10, {{kBusSample, RepeatRate}}},
 		
-		CCMap{3, 11, {{kBusSample, BitCrushRate}}},
+		CCMap{11, {{kBusSample, BitCrushRate}}},
 
-		CCMap{3, 14, {{kBusSample, FlangerSpeed}}},
-		CCMap{3, 15, {{kBusSample, FlangerLevel}}},
+		CCMap{14, {{kBusSample, FlangerSpeed}}},
+		CCMap{15, {{kBusSample, FlangerLevel}}},
 
-		CCMap{3, 41, {{kBusSample, DelayLevel}}},
-		CCMap{3, 40, {{kBusSample, DelayTime}}},
-		CCMap{3, 39, {{kBusSample, DelayFeedback}}},
-
-
+		CCMap{41, {{kBusSample, DelayLevel}}},
+		CCMap{40, {{kBusSample, DelayTime}}},
+		CCMap{39, {{kBusSample, DelayFeedback}}},
 
 		// ============= DRUMS
 
-		CCMap{3, 37, {{kBusKick, Volume}}},
-		CCMap{3, 36, {{kBusSnare, Volume}}},
-		CCMap{3, 35, {{kBusToms, Volume}}},
-		CCMap{3, 34, {{kBusHats, Volume}}},
+		CCMap{37, {{kBusKick, Volume}}},
+		CCMap{36, {{kBusSnare, Volume}}},
+		CCMap{35, {{kBusToms, Volume}}},
+		CCMap{34, {{kBusHats, Volume}}},
 
-		CCMap{3, 53, {{kBusKick, Mute}}},
-		CCMap{3, 54, {{kBusSnare, Mute}}},
-		CCMap{3, 55, {{kBusToms, Mute}}},
-		CCMap{3, 56, {{kBusHats, Mute}}},
+		CCMap{53, {{kBusKick, Mute}}},
+		CCMap{54, {{kBusSnare, Mute}}},
+		CCMap{55, {{kBusToms, Mute}}},
+		CCMap{56, {{kBusHats, Mute}}},
 
-		CCMap{3, 18, {{kBusKick, LowPassCutoff}, {kBusSnare, LowPassCutoff}, {kBusToms, LowPassCutoff}, {kBusHats, LowPassCutoff}}},
-		CCMap{3, 19, {{kBusKick, HiPassCutoff}, {kBusSnare, HiPassCutoff}, {kBusToms, HiPassCutoff}, {kBusHats, HiPassCutoff}}},
+		CCMap{18, {{kBusKick, LowPassCutoff}, {kBusSnare, LowPassCutoff}, {kBusToms, LowPassCutoff}, {kBusHats, LowPassCutoff}}},
+		CCMap{19, {{kBusKick, HiPassCutoff}, {kBusSnare, HiPassCutoff}, {kBusToms, HiPassCutoff}, {kBusHats, HiPassCutoff}}},
 
-		CCMap{3, 9, {{kBusKick, RepeatState}, {kBusSnare, RepeatState}, {kBusToms, RepeatState}, {kBusHats, RepeatState}}},
-		CCMap{3, 21, {{kBusKick, RepeatRate}, {kBusSnare, RepeatRate}, {kBusToms, RepeatRate}, {kBusHats, RepeatRate}}},
+		CCMap{9, {{kBusKick, RepeatState}, {kBusSnare, RepeatState}, {kBusToms, RepeatState}, {kBusHats, RepeatState}}},
+		CCMap{21, {{kBusKick, RepeatRate}, {kBusSnare, RepeatRate}, {kBusToms, RepeatRate}, {kBusHats, RepeatRate}}},
 		
-		CCMap{3, 20, {{kBusSnare, BitCrushRate}, {kBusToms, BitCrushRate}, {kBusHats, BitCrushRate}}},
-		CCMap{3, 30, {{kBusHats, ReverbSend}}},
-		CCMap{3, 42, {{kBusSnare, ReverbSend}}},
+		CCMap{20, {{kBusSnare, BitCrushRate}, {kBusToms, BitCrushRate}, {kBusHats, BitCrushRate}}},
+		CCMap{30, {{kBusHats, ReverbSend}}},
+		CCMap{42, {{kBusSnare, ReverbSend}}},
 
-		CCMap{3, 17, {{kBusHats, FlangerSpeed}}},
-		CCMap{3, 16, {{kBusHats, FlangerLevel}}},
+		CCMap{17, {{kBusHats, FlangerSpeed}}},
+		CCMap{16, {{kBusHats, FlangerLevel}}},
 
-		CCMap{3, 31, {{kBusToms, DelayLevel}}},
-		CCMap{3, 32, {{kBusToms, DelayTime}}},
-		CCMap{3, 33, {{kBusToms, DelayFeedback}}},
+		CCMap{31, {{kBusToms, DelayLevel}}},
+		CCMap{32, {{kBusToms, DelayTime}}},
+		CCMap{33, {{kBusToms, DelayFeedback}}},
 
 	};
 };

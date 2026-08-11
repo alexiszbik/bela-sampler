@@ -1,6 +1,6 @@
 #include "ProgramMapJson.h"
 
-#include <Bela.h>
+#include "SamplerLog.h"
 
 #include <cctype>
 #include <cstdio>
@@ -301,12 +301,12 @@ bool ProgramMapJson::parseFile(const std::string& filepath, ProgramMap& programM
 	programMap = ProgramMap{};
 
 	if(!readFile(filepath)) {
-		rt_printf("ProgramMapJson: could not open %s\n", filepath.c_str());
+		SAMPLER_LOG("ProgramMapJson: could not open %s\n", filepath.c_str());
 		return false;
 	}
 
 	if(!parseRoot(programMap)) {
-		rt_printf("ProgramMapJson: invalid map in %s\n", filepath.c_str());
+		SAMPLER_LOG("ProgramMapJson: invalid map in %s\n", filepath.c_str());
 		return false;
 	}
 

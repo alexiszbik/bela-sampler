@@ -61,11 +61,12 @@ rsync -ac --no-t --delete-after \
 	--exclude='.git/' \
 	--exclude='scripts/' \
 	--exclude='external/' \
+	--exclude='juce/' \
 	--exclude='*.md' \
 	"$PROJECT_DIR/" "$BBB_ADDRESS:$REMOTE_PROJECT/"
 
 # Keep in sync with src_include_paths.mk (SAMPLER_SRC_INCLUDE_DIRS).
-MAKE_BASE="make --no-print-directory QUIET=true -C $BBB_BELA_HOME PROJECT='$PROJECT_NAME' CPPFLAGS='-I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/dsp/delay -I$REMOTE_PROJECT/src/midi'"
+MAKE_BASE="make --no-print-directory QUIET=true -C $BBB_BELA_HOME PROJECT='$PROJECT_NAME' CPPFLAGS='-DSAMPLER_BELA=1 -I$REMOTE_PROJECT/platform -I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/dsp/delay -I$REMOTE_PROJECT/src/midi'"
 [ -n "$COMMAND_ARGS" ] && MAKE_BASE="$MAKE_BASE CL='$COMMAND_ARGS'"
 
 run_make() {

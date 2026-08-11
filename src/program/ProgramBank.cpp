@@ -2,7 +2,7 @@
 
 #include "ProgramMapJson.h"
 
-#include <Bela.h>
+#include "SamplerLog.h"
 
 #include <unordered_map>
 
@@ -33,7 +33,7 @@ bool ProgramBank::load(const std::string& programFolder, const std::vector<Sampl
 
 	for(const ProgramMapEntry& entry : programMap.entries) {
 		if(entry.file.empty()) {
-			rt_printf("ProgramBank: empty program file for PC %d\n", entry.pc);
+			SAMPLER_LOG("ProgramBank: empty program file for PC %d\n", entry.pc);
 			continue;
 		}
 
@@ -43,14 +43,14 @@ bool ProgramBank::load(const std::string& programFolder, const std::vector<Sampl
 			programs.emplace_back();
 			const std::string programPath = joinPath(programFolder, entry.file);
 			if(!programs.back().loadFromFile(programPath, samples)) {
-				rt_printf("ProgramBank: failed to load %s\n", programPath.c_str());
+				SAMPLER_LOG("ProgramBank: failed to load %s\n", programPath.c_str());
 				programs.pop_back();
 				continue;
 			}
 
 			programIndex = programs.size() - 1;
 			fileToProgramIndex.emplace(entry.file, programIndex);
-			rt_printf("ProgramBank: loaded %s (%zu slots)\n",
+			SAMPLER_LOG("ProgramBank: loaded %s (%zu slots)\n",
 				entry.file.c_str(),
 				programs.back().getSlotCount());
 		} else {
@@ -58,17 +58,17 @@ bool ProgramBank::load(const std::string& programFolder, const std::vector<Sampl
 		}
 
 		pcToProgramIndex[entry.pc] = programIndex;
-		rt_printf("ProgramBank: PC %d -> %s\n", entry.pc, entry.file.c_str());
+		SAMPLER_LOG("ProgramBank: PC %d -> %s\n", entry.pc, entry.file.c_str());
 	}
 
 	if(programs.empty() || pcToProgramIndex.empty()) {
-		rt_printf("ProgramBank: no programs loaded from %s\n", mapPath.c_str());
+		SAMPLER_LOG("ProgramBank: no programs loaded from %s\n", mapPath.c_str());
 		return false;
 	}
 
 	const auto defaultEntry = pcToProgramIndex.find(programMap.defaultPc);
 	if(defaultEntry == pcToProgramIndex.end()) {
-		rt_printf("ProgramBank: default PC %d not mapped, using first entry\n", programMap.defaultPc);
+		SAMPLER_LOG("ProgramBank: default PC %d not mapped, using first entry\n", programMap.defaultPc);
 		activeProgramIndex = pcToProgramIndex.begin()->second;
 		activePc = pcToProgramIndex.begin()->first;
 	} else {
@@ -76,7 +76,7 @@ bool ProgramBank::load(const std::string& programFolder, const std::vector<Sampl
 		activePc = programMap.defaultPc;
 	}
 
-	rt_printf("ProgramBank: active PC %d (%zu slots)\n",
+	SAMPLER_LOG("ProgramBank: active PC %d (%zu slots)\n",
 		activePc,
 		programs[activeProgramIndex].getSlotCount());
 

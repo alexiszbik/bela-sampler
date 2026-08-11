@@ -4,7 +4,7 @@
 
 #include "ProgramJson.h"
 
-#include <Bela.h>
+#include "SamplerLog.h"
 
 void SamplePlayerPool::init(double sampleRate, size_t count) {
 	voices.resize(count);
@@ -22,7 +22,7 @@ void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, in
 
 	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
 	const bool loop = slot.mode == Program::SlotMode::Gate;
-	rt_printf("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s reversed=%d vel=%d\n",
+	SAMPLER_LOG("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s reversed=%d vel=%d\n",
 		slot.sample->getName().c_str(),
 		voiceIndex,
 		loop ? 1 : 0,
@@ -42,7 +42,7 @@ void SamplePlayerPool::stop(SamplerVoice* voice) {
 	voice->stop();
 
 	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
-	rt_printf("Stop player %zu\n", voiceIndex);
+	SAMPLER_LOG("Stop player %zu\n", voiceIndex);
 }
 
 void SamplePlayerPool::nextSamples(MixBusArray& mixBuses) {
