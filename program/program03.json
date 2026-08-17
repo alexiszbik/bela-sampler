@@ -1,203 +1,210 @@
 {
-	"slots": [
-		{
-			"midiNote": 36,
-			"layers": [
-				{
-					"sample": "together/TGT_AH.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 37,
-			"layers": [
-				{
-					"sample": "together/TGT_BASS.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "kick"
-				}
-			]
-		},
-		{
-			"midiNote": 38,
-			"layers": [
-				{
-					"sample": "together/TGT_D909.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 39,
-			"layers": [
-				{
-					"sample": "together/TGT_DA1.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 40,
-			"layers": [
-				{
-					"sample": "together/TGT_DA2.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 41,
-			"layers": [
-				{
-					"sample": "together/TGT_DA3.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 42,
-			"layers": [
-				{
-					"sample": "together/TGT_HAT.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "hats",
-					"muteGroup": "B"
-				}
-			]
-		},
-		{
-			"midiNote": 43,
-			"layers": [
-				{
-					"sample": "together/TGT_JC1.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 44,
-			"layers": [
-				{
-					"sample": "together/TGT_JC2.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 45,
-			"layers": [
-				{
-					"sample": "together/TGT_JC3.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 46,
-			"layers": [
-				{
-					"sample": "together/TGT_JC4.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 47,
-			"layers": [
-				{
-					"sample": "together/TGT_SPL1.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "snare"
-				}
-			]
-		},
-		{
-			"midiNote": 48,
-			"layers": [
-				{
-					"sample": "together/TGT_SPL2.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "snare"
-				}
-			]
-		},
-		{
-			"midiNote": 49,
-			"layers": [
-				{
-					"sample": "together/TGT_TAMB.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "toms"
-				}
-			]
-		},
-		{
-			"midiNote": 50,
-			"layers": [
-				{
-					"sample": "together/tgt_extrdisco.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 51,
-			"layers": [
-				{
-					"sample": "together/tgt_hikik.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		},
-		{
-			"midiNote": 52,
-			"layers": [
-				{
-					"sample": "together/tgt_ldsnr.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "snare"
-				}
-			]
-		},
-		{
-			"midiNote": 53,
-			"layers": [
-				{
-					"sample": "together/tgt_rocksolid.WAV",
-					"mode": "poly",
-					"volume": -6,
-					"bus": "sample"
-				}
-			]
-		}
-	]
+  "slots": [
+    {
+      "midiNote": 36,
+      "layers": [
+        {
+          "sample": "together/TGT_D909.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 37,
+      "layers": [
+        {
+          "sample": "together/tgt_hikik.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "together/tgt_ldsnr.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 39,
+      "layers": [
+        {
+          "sample": "together/TGT_AH.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 40,
+      "layers": [
+        {
+          "sample": "together/TGT_HAT.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 41,
+      "layers": [
+        {
+          "sample": "together/TGT_DA1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 42,
+      "layers": [
+        {
+          "sample": "together/TGT_DA2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 43,
+      "layers": [
+        {
+          "sample": "together/TGT_DA3.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "together/TGT_JC1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "together/TGT_JC2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 46,
+      "layers": [
+        {
+          "sample": "together/TGT_JC3.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 47,
+      "layers": [
+        {
+          "sample": "together/TGT_JC4.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 48,
+      "layers": [
+        {
+          "sample": "together/TGT_TAMB.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 50,
+      "layers": [
+        {
+          "sample": "together/tgt_extrdisco.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 52,
+      "layers": [
+        {
+          "sample": "together/TGT_SPL1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 53,
+      "layers": [
+        {
+          "sample": "together/TGT_SPL2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 56,
+      "layers": [
+        {
+          "sample": "together/tgt_rocksolid.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 57,
+      "layers": [
+        {
+          "sample": "together/TGT_BASS.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    }
+  ]
 }

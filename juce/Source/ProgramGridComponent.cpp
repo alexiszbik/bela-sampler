@@ -6,6 +6,8 @@
 
 #include <juce_core/juce_core.h>
 
+#include <algorithm>
+
 namespace {
 int modeToIndex(ProgramSlotMode mode) {
 	switch(mode) {
@@ -87,6 +89,7 @@ MixBusIndex indexToBus(int index) {
 ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots, SamplePreviewPlayer& inPreviewPlayer)
 	: slots(inSlots),
 	  previewPlayer(inPreviewPlayer) {
+	sortSlotsByNote();
 	rebuildRows();
 }
 
@@ -101,9 +104,20 @@ void ProgramGridComponent::rebuildRows() {
 		row.noteLabel = std::make_unique<juce::Label>();
 		row.noteLabel->setEditable(true, false, false);
 		row.noteLabel->setText(juce::String(slots[i].midiNote), juce::dontSendNotification);
-		row.noteLabel->onTextChange = [this, i, notePtr = row.noteLabel.get()] {
-			slots[i].midiNote = notePtr->getText().getIntValue();
-			onRowModified(i);
+		row.noteLabel->onEditorHide = [this, i, notePtr = row.noteLabel.get()] {
+			const int newNote = juce::jlimit(0, 127, notePtr->getText().getIntValue());
+			if(slots[i].midiNote == newNote) {
+				return;
+			}
+
+			slots[i].midiNote = newNote;
+			notePtr->setText(juce::String(newNote), juce::dontSendNotification);
+			sortSlotsByNote();
+			rebuildRows();
+			repaint();
+			if(onModified) {
+				onModified();
+			}
 		};
 		addAndMakeVisible(*row.noteLabel);
 
@@ -226,6 +240,13 @@ void ProgramGridComponent::rebuildRows() {
 	resized();
 }
 
+void ProgramGridComponent::sortSlotsByNote() {
+	std::stable_sort(slots.begin(), slots.end(),
+		[](const ProgramSlotDesc& a, const ProgramSlotDesc& b) {
+			return a.midiNote < b.midiNote;
+		});
+}
+
 void ProgramGridComponent::onRowModified(size_t row) {
 	(void)row;
 	if(onModified) {
@@ -238,6 +259,7 @@ void ProgramGridComponent::addLayer(int midiNote) {
 	newLayer.midiNote = midiNote;
 	newLayer.mode = ProgramSlotMode::Poly;
 	slots.push_back(newLayer);
+	sortSlotsByNote();
 	rebuildRows();
 	if(onModified) {
 		onModified();

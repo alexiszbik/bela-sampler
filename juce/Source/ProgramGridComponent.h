@@ -39,6 +39,7 @@ private:
 	};
 
 	void rebuildRows();
+	void sortSlotsByNote();
 	void setupRow(size_t row, int midiNote, bool isFirstLayer);
 	void onRowModified(size_t row);
 	void addLayer(int midiNote);

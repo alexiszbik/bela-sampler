@@ -1,9 +1,9 @@
 {
 	"defaultPc": 0,
 	"programs": [
-		{ "pc": 0, "file": "program01.json" },
+		{ "pc": 0, "file": "program03.json" },
 		{ "pc": 1, "file": "program02.json" },
-		{ "pc": 2, "file": "program03.json" },
+		{ "pc": 2, "file": "program01.json" },
 		{ "pc": 3, "file": "program04.json" },
 		{ "pc": 4, "file": "program05.json" },
 		{ "pc": 5, "file": "program06.json" },
