@@ -4,7 +4,7 @@
 
 #include <juce_audio_basics/juce_audio_basics.h>
 
-class JuceMidiBridge
+class HeadlessMidiBridge
 {
 public:
 	void setDelegate(MidiInputDelegate* inDelegate) { delegate = inDelegate; }

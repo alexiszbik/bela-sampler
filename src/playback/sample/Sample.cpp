@@ -6,6 +6,9 @@
 #include "SharedAudioFormatManager.h"
 
 #include <juce_audio_formats/juce_audio_formats.h>
+#elif defined(SAMPLER_HEADLESS)
+#define DR_WAV_IMPLEMENTATION
+#include "dr_wav.h"
 #else
 #include <libraries/AudioFile/AudioFile.h>
 #include <libraries/sndfile/sndfile.h>
@@ -60,6 +63,41 @@ bool Sample::load(const std::string& filepath, const std::string& sampleName) {
 
 	if(!reader->read(channelPointers.data(), numChannels, 0, static_cast<int>(sampleLength))) {
 		return false;
+	}
+
+	name = sampleName.empty() ? getFileName(filepath) : sampleName;
+	return sampleLength > 0;
+#elif defined(SAMPLER_HEADLESS)
+	drwav wav;
+	if(!drwav_init_file(&wav, filepath.c_str(), nullptr)) {
+		return false;
+	}
+
+	const unsigned int numChannels = static_cast<unsigned int>(wav.channels);
+	if(numChannels == 0) {
+		drwav_uninit(&wav);
+		return false;
+	}
+
+	sampleRate = static_cast<unsigned int>(wav.sampleRate);
+	sampleLength = static_cast<size_t>(wav.totalPCMFrameCount);
+	dSampleLength = static_cast<double>(sampleLength);
+	channelCount = numChannels;
+
+	sampleData.assign(numChannels, std::vector<float>(sampleLength));
+
+	std::vector<float> interleaved(sampleLength * numChannels);
+	const drwav_uint64 framesRead = drwav_read_pcm_frames_f32(&wav, sampleLength, interleaved.data());
+	drwav_uninit(&wav);
+
+	if(framesRead == 0) {
+		return false;
+	}
+
+	for(size_t i = 0; i < sampleLength; ++i) {
+		for(unsigned int c = 0; c < numChannels; ++c) {
+			sampleData[c][i] = interleaved[i * numChannels + c];
+		}
 	}
 
 	name = sampleName.empty() ? getFileName(filepath) : sampleName;

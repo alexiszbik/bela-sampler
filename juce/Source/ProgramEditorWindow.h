@@ -5,7 +5,6 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
-#include <functional>
 #include <string>
 #include <vector>
 
@@ -24,8 +23,6 @@ public:
 
 	void loadPrograms(const std::string& programFolder);
 	void setPreviewPlayer(SamplePreviewPlayer* previewPlayer);
-
-	std::function<bool()> onReload;
 
 private:
 	void comboBoxChanged(juce::ComboBox* comboBox) override;

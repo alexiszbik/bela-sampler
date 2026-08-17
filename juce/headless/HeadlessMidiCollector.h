@@ -1,16 +1,14 @@
 #pragma once
 
-#include <juce_audio_devices/juce_audio_devices.h>
+#include <juce_audio_basics/juce_audio_basics.h>
 
-class SamplerMidiCollector : public juce::MidiInputCallback
+class HeadlessMidiCollector : public juce::MidiInputCallback
 {
 public:
-	explicit SamplerMidiCollector(juce::MidiBuffer& buffer);
-
 	void handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& message) override;
 	void swapBuffer(juce::MidiBuffer& destination);
 
 private:
-	juce::MidiBuffer& targetBuffer;
+	juce::MidiBuffer incomingBuffer;
 	juce::CriticalSection bufferLock;
 };

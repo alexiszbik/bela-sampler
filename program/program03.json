@@ -17,7 +17,7 @@
         {
           "sample": "together/tgt_hikik.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "kick"
         }
       ]
@@ -153,7 +153,7 @@
         {
           "sample": "together/tgt_extrdisco.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "bus": "hats"
         }
       ]
@@ -212,6 +212,29 @@
           "mode": "mono",
           "volume": -6.0,
           "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 58,
+      "layers": [
+        {
+          "sample": "together/DX7BASS.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 59,
+      "layers": [
+        {
+          "sample": "together/DX7BASS.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": 4.0,
+          "muteGroup": "C"
         }
       ]
     }

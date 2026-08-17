@@ -3,10 +3,6 @@
 #include <cstdarg>
 #include <cstdio>
 
-#if defined(SAMPLER_DESKTOP)
-#include "LogBuffer.h"
-#endif
-
 #if defined(SAMPLER_BELA)
 #include <Bela.h>
 #endif
@@ -29,9 +25,8 @@ void samplerLog(const char* format, ...) {
 
 #if defined(SAMPLER_BELA)
 	rt_printf("%s", buffer);
-#elif defined(SAMPLER_DESKTOP)
-	LogBuffer::getInstance().push(buffer);
 #else
 	std::fputs(buffer, stdout);
+	std::fflush(stdout);
 #endif
 }

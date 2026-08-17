@@ -6,7 +6,6 @@
 #include "SamplerLog.h"
 
 #include <juce_core/juce_core.h>
-
 ProgramEditorWindow::ProgramEditorWindow() {
 	addAndMakeVisible(programSelector);
 	programSelector.addListener(this);
@@ -15,11 +14,7 @@ ProgramEditorWindow::ProgramEditorWindow() {
 	saveButton.onClick = [this] { saveCurrentProgram(); };
 
 	addAndMakeVisible(reloadButton);
-	reloadButton.onClick = [this] {
-		if(onReload) {
-			onReload();
-		}
-	};
+	reloadButton.onClick = [this] { loadSelectedProgram(); };
 
 	addAndMakeVisible(addLayerButton);
 	addLayerButton.onClick = [this] {
