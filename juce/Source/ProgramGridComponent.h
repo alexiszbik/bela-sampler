@@ -20,7 +20,8 @@ public:
 	int getNeededHeight() const;
 
 	std::function<void()> onModified;
-
+    
+    void addLayer(int midiNote);
 private:
 	struct RowComponents {
 		std::unique_ptr<juce::Label> noteLabel;
@@ -42,7 +43,7 @@ private:
 	void sortSlotsByNote();
 	void setupRow(size_t row, int midiNote, bool isFirstLayer);
 	void onRowModified(size_t row);
-	void addLayer(int midiNote);
+	
 	void deleteLayer(size_t row);
 
 	std::vector<ProgramSlotDesc>& slots;

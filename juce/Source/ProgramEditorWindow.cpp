@@ -23,15 +23,16 @@ ProgramEditorWindow::ProgramEditorWindow() {
 
 	addAndMakeVisible(addLayerButton);
 	addLayerButton.onClick = [this] {
-		if(!currentSlots.empty()) {
-			const int lastNote = currentSlots.back().midiNote;
-			ProgramSlotDesc newLayer;
-			newLayer.midiNote = lastNote;
-			newLayer.mode = ProgramSlotMode::Poly;
-			currentSlots.push_back(newLayer);
-			loadSelectedProgram();
-			markDirty();
+		if(programGrid == nullptr) {
+			return;
 		}
+
+		const int newNote = currentSlots.empty()
+			? 0
+			: juce::jmin(127, currentSlots.back().midiNote + 1);
+
+		programGrid->addLayer(newNote);
+		updateLayout();
 	};
 
 	viewport.setViewedComponent(&contentContainer, false);

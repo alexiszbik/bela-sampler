@@ -185,6 +185,15 @@
       ]
     },
     {
+      "midiNote": 54,
+      "layers": [
+        {
+          "mode": "poly",
+          "muteGroup": "B"
+        }
+      ]
+    },
+    {
       "midiNote": 56,
       "layers": [
         {
