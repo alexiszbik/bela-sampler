@@ -11,6 +11,7 @@ MainWindow::MainWindow(juce::String name, SamplerAudioEngine& audioEngine)
 	  tabs(juce::TabbedButtonBar::TabsAtTop) {
 	setUsingNativeTitleBar(true);
 
+	editorWindow.setPreviewPlayer(&engine.getPreviewPlayer());
 	editorWindow.loadPrograms(SamplerDesktopPaths::getProgramFolder());
 	editorWindow.onReload = [this] { return engine.reload(); };
 

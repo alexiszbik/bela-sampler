@@ -2,6 +2,7 @@
 
 #include "ProgramGridComponent.h"
 #include "ProgramWriter.h"
+#include "SamplePreviewPlayer.h"
 #include "SamplerLog.h"
 
 #include <juce_core/juce_core.h>
@@ -39,6 +40,10 @@ ProgramEditorWindow::ProgramEditorWindow() {
 
 ProgramEditorWindow::~ProgramEditorWindow() {
 	programSelector.removeListener(this);
+}
+
+void ProgramEditorWindow::setPreviewPlayer(SamplePreviewPlayer* inPreviewPlayer) {
+	previewPlayer = inPreviewPlayer;
 }
 
 void ProgramEditorWindow::loadPrograms(const std::string& inProgramFolder) {
@@ -89,7 +94,12 @@ void ProgramEditorWindow::loadSelectedProgram() {
 		return;
 	}
 
-	programGrid = std::make_unique<ProgramGridComponent>(currentSlots);
+	if(previewPlayer == nullptr) {
+		SAMPLER_LOG("Editor: preview player not set\n");
+		return;
+	}
+
+	programGrid = std::make_unique<ProgramGridComponent>(currentSlots, *previewPlayer);
 	programGrid->onModified = [this] { markDirty(); };
 	contentContainer.addAndMakeVisible(*programGrid);
 

@@ -3,8 +3,7 @@
 <JUCERPROJECT id="bSaMp1" name="BelaSampler" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" version="1.0.0"
               companyName="YMNK" bundleIdentifier="com.ymnk.belasampler" defines="SAMPLER_DESKTOP=1"
-              cppLanguageStandard="17"
-              headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/engine&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../src/dsp/delay&#10;../../../src/midi&#10;../../../platform&#10;../../Source">
+              cppLanguageStandard="17" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/engine&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../src/dsp/delay&#10;../../../src/midi&#10;../../../platform&#10;../../platform&#10;../../Source">
   <MAINGROUP id="mainGroup" name="BelaSampler">
     <GROUP id="juceSource" name="Source">
       <FILE id="mainCpp" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
@@ -18,31 +17,39 @@
             file="Source/SamplerAudioEngine.cpp"/>
       <FILE id="audioEngH" name="SamplerAudioEngine.h" compile="0" resource="0"
             file="Source/SamplerAudioEngine.h"/>
+      <FILE id="previewCpp" name="SamplePreviewPlayer.cpp" compile="1" resource="0"
+            file="Source/SamplePreviewPlayer.cpp"/>
+      <FILE id="previewH" name="SamplePreviewPlayer.h" compile="0" resource="0"
+            file="Source/SamplePreviewPlayer.h"/>
+      <FILE id="sharedFmtCpp" name="SharedAudioFormatManager.cpp" compile="1" resource="0"
+            file="Source/SharedAudioFormatManager.cpp"/>
+      <FILE id="sharedFmtH" name="SharedAudioFormatManager.h" compile="0" resource="0"
+            file="Source/SharedAudioFormatManager.h"/>
       <FILE id="midiCollectorCpp" name="SamplerMidiCollector.cpp" compile="1"
             resource="0" file="Source/SamplerMidiCollector.cpp"/>
       <FILE id="midiCollectorH" name="SamplerMidiCollector.h" compile="0"
             resource="0" file="Source/SamplerMidiCollector.h"/>
-      <FILE id="desktopPathsCpp" name="SamplerDesktopPaths.cpp" compile="1" resource="0"
-            file="Source/SamplerDesktopPaths.cpp"/>
+      <FILE id="desktopPathsCpp" name="SamplerDesktopPaths.cpp" compile="1"
+            resource="0" file="Source/SamplerDesktopPaths.cpp"/>
       <FILE id="desktopPathsH" name="SamplerDesktopPaths.h" compile="0" resource="0"
             file="Source/SamplerDesktopPaths.h"/>
       <FILE id="midiBridgeCpp" name="JuceMidiBridge.cpp" compile="1" resource="0"
             file="Source/JuceMidiBridge.cpp"/>
       <FILE id="midiBridgeH" name="JuceMidiBridge.h" compile="0" resource="0"
             file="Source/JuceMidiBridge.h"/>
-      <FILE id="progGridCpp" name="ProgramGridComponent.cpp" compile="1" resource="0"
-            file="Source/ProgramGridComponent.cpp"/>
+      <FILE id="progGridCpp" name="ProgramGridComponent.cpp" compile="1"
+            resource="0" file="Source/ProgramGridComponent.cpp"/>
       <FILE id="progGridH" name="ProgramGridComponent.h" compile="0" resource="0"
             file="Source/ProgramGridComponent.h"/>
-      <FILE id="progEditorCpp" name="ProgramEditorWindow.cpp" compile="1" resource="0"
-            file="Source/ProgramEditorWindow.cpp"/>
+      <FILE id="progEditorCpp" name="ProgramEditorWindow.cpp" compile="1"
+            resource="0" file="Source/ProgramEditorWindow.cpp"/>
       <FILE id="progEditorH" name="ProgramEditorWindow.h" compile="0" resource="0"
             file="Source/ProgramEditorWindow.h"/>
     </GROUP>
     <GROUP id="platformGroup" name="Platform">
       <FILE id="logBufCpp" name="LogBuffer.cpp" compile="1" resource="0"
-            file="../platform/LogBuffer.cpp"/>
-      <FILE id="logBufH" name="LogBuffer.h" compile="0" resource="0" file="../platform/LogBuffer.h"/>
+            file="platform/LogBuffer.cpp"/>
+      <FILE id="logBufH" name="LogBuffer.h" compile="0" resource="0" file="platform/LogBuffer.h"/>
       <FILE id="samplerLogCpp" name="SamplerLog.cpp" compile="1" resource="0"
             file="../platform/SamplerLog.cpp"/>
       <FILE id="samplerLogH" name="SamplerLog.h" compile="0" resource="0"
@@ -52,9 +59,11 @@
       <FILE id="bootstrapH" name="SamplerBootstrap.h" compile="0" resource="0"
             file="../platform/SamplerBootstrap.h"/>
       <FILE id="progWriterCpp" name="ProgramWriter.cpp" compile="1" resource="0"
-            file="../platform/ProgramWriter.cpp"/>
+            file="platform/ProgramWriter.cpp"/>
       <FILE id="progWriterH" name="ProgramWriter.h" compile="0" resource="0"
-            file="../platform/ProgramWriter.h"/>
+            file="platform/ProgramWriter.h"/>
+      <FILE id="samplerOptionsH" name="SamplerOptions.h" compile="0" resource="0"
+            file="platform/SamplerOptions.h"/>
     </GROUP>
     <GROUP id="srcGroup" name="SamplerCore">
       <GROUP id="srcEngine" name="engine">
@@ -64,8 +73,8 @@
               file="../src/engine/SamplerEngine.h"/>
         <FILE id="samplePlayerPoolCpp" name="SamplePlayerPool.cpp" compile="1"
               resource="0" file="../src/engine/SamplePlayerPool.cpp"/>
-        <FILE id="samplePlayerPoolH" name="SamplePlayerPool.h" compile="0" resource="0"
-              file="../src/engine/SamplePlayerPool.h"/>
+        <FILE id="samplePlayerPoolH" name="SamplePlayerPool.h" compile="0"
+              resource="0" file="../src/engine/SamplePlayerPool.h"/>
         <FILE id="voiceAllocCpp" name="VoiceAllocator.cpp" compile="1" resource="0"
               file="../src/engine/VoiceAllocator.cpp"/>
         <FILE id="voiceAllocH" name="VoiceAllocator.h" compile="0" resource="0"
@@ -83,134 +92,121 @@
         <FILE id="voiceBindingH" name="VoiceBinding.h" compile="0" resource="0"
               file="../src/playback/VoiceBinding.h"/>
         <GROUP id="srcPlaybackSample" name="sample">
-          <FILE id="sampleCpp" name="Sample.cpp" compile="1" resource="0"
-                file="../src/playback/sample/Sample.cpp"/>
-          <FILE id="sampleH" name="Sample.h" compile="0" resource="0"
-                file="../src/playback/sample/Sample.h"/>
+          <FILE id="sampleCpp" name="Sample.cpp" compile="1" resource="0" file="../src/playback/sample/Sample.cpp"/>
+          <FILE id="sampleH" name="Sample.h" compile="0" resource="0" file="../src/playback/sample/Sample.h"/>
         </GROUP>
       </GROUP>
       <GROUP id="srcMix" name="mix">
         <FILE id="mixBusArrayCpp" name="MixBusArray.cpp" compile="1" resource="0"
               file="../src/mix/MixBusArray.cpp"/>
-      <FILE id="mixBusArrayH" name="MixBusArray.h" compile="0" resource="0"
-            file="../src/mix/MixBusArray.h"/>
-      <FILE id="mixBusBaseCpp" name="MixBusBase.cpp" compile="1" resource="0"
-            file="../src/mix/MixBusBase.cpp"/>
-      <FILE id="mixBusBaseH" name="MixBusBase.h" compile="0" resource="0"
-            file="../src/mix/MixBusBase.h"/>
-      <FILE id="mixBusFilterCpp" name="MixBusFilterSection.cpp" compile="1"
-            resource="0" file="../src/mix/MixBusFilterSection.cpp"/>
-      <FILE id="mixBusFilterH" name="MixBusFilterSection.h" compile="0" resource="0"
-            file="../src/mix/MixBusFilterSection.h"/>
-      <FILE id="mixBusNamesCpp" name="MixBusNames.cpp" compile="1" resource="0"
-            file="../src/mix/MixBusNames.cpp"/>
-      <FILE id="mixBusNamesH" name="MixBusNames.h" compile="0" resource="0"
-            file="../src/mix/MixBusNames.h"/>
-      <FILE id="fxMixBusCpp" name="FXMixBus.cpp" compile="1" resource="0"
-            file="../src/mix/FXMixBus.cpp"/>
-      <FILE id="fxMixBusH" name="FXMixBus.h" compile="0" resource="0"
-            file="../src/mix/FXMixBus.h"/>
-      <FILE id="filterMixBusCpp" name="FilterMixBus.cpp" compile="1" resource="0"
-            file="../src/mix/FilterMixBus.cpp"/>
-      <FILE id="filterMixBusH" name="FilterMixBus.h" compile="0" resource="0"
-            file="../src/mix/FilterMixBus.h"/>
-      <FILE id="hatMixBusCpp" name="HatMixBus.cpp" compile="1" resource="0"
-            file="../src/mix/HatMixBus.cpp"/>
-      <FILE id="hatMixBusH" name="HatMixBus.h" compile="0" resource="0"
-            file="../src/mix/HatMixBus.h"/>
-      <FILE id="snareMixBusCpp" name="SnareMixBus.cpp" compile="1" resource="0"
-            file="../src/mix/SnareMixBus.cpp"/>
-      <FILE id="snareMixBusH" name="SnareMixBus.h" compile="0" resource="0"
-            file="../src/mix/SnareMixBus.h"/>
-      <FILE id="tomMixBusCpp" name="TomMixBus.cpp" compile="1" resource="0"
-            file="../src/mix/TomMixBus.cpp"/>
-      <FILE id="tomMixBusH" name="TomMixBus.h" compile="0" resource="0"
-            file="../src/mix/TomMixBus.h"/>
-      <FILE id="reverbEffectCpp" name="ReverbEffect.cpp" compile="1" resource="0"
-            file="../src/mix/ReverbEffect.cpp"/>
-      <FILE id="reverbEffectH" name="ReverbEffect.h" compile="0" resource="0"
-            file="../src/mix/ReverbEffect.h"/>
-      <FILE id="parameterIndexH" name="ParameterIndex.h" compile="0" resource="0"
-            file="../src/mix/ParameterIndex.h"/>
+        <FILE id="mixBusArrayH" name="MixBusArray.h" compile="0" resource="0"
+              file="../src/mix/MixBusArray.h"/>
+        <FILE id="mixBusBaseCpp" name="MixBusBase.cpp" compile="1" resource="0"
+              file="../src/mix/MixBusBase.cpp"/>
+        <FILE id="mixBusBaseH" name="MixBusBase.h" compile="0" resource="0"
+              file="../src/mix/MixBusBase.h"/>
+        <FILE id="mixBusFilterCpp" name="MixBusFilterSection.cpp" compile="1"
+              resource="0" file="../src/mix/MixBusFilterSection.cpp"/>
+        <FILE id="mixBusFilterH" name="MixBusFilterSection.h" compile="0" resource="0"
+              file="../src/mix/MixBusFilterSection.h"/>
+        <FILE id="mixBusNamesCpp" name="MixBusNames.cpp" compile="1" resource="0"
+              file="../src/mix/MixBusNames.cpp"/>
+        <FILE id="mixBusNamesH" name="MixBusNames.h" compile="0" resource="0"
+              file="../src/mix/MixBusNames.h"/>
+        <FILE id="fxMixBusCpp" name="FXMixBus.cpp" compile="1" resource="0"
+              file="../src/mix/FXMixBus.cpp"/>
+        <FILE id="fxMixBusH" name="FXMixBus.h" compile="0" resource="0" file="../src/mix/FXMixBus.h"/>
+        <FILE id="filterMixBusCpp" name="FilterMixBus.cpp" compile="1" resource="0"
+              file="../src/mix/FilterMixBus.cpp"/>
+        <FILE id="filterMixBusH" name="FilterMixBus.h" compile="0" resource="0"
+              file="../src/mix/FilterMixBus.h"/>
+        <FILE id="hatMixBusCpp" name="HatMixBus.cpp" compile="1" resource="0"
+              file="../src/mix/HatMixBus.cpp"/>
+        <FILE id="hatMixBusH" name="HatMixBus.h" compile="0" resource="0" file="../src/mix/HatMixBus.h"/>
+        <FILE id="snareMixBusCpp" name="SnareMixBus.cpp" compile="1" resource="0"
+              file="../src/mix/SnareMixBus.cpp"/>
+        <FILE id="snareMixBusH" name="SnareMixBus.h" compile="0" resource="0"
+              file="../src/mix/SnareMixBus.h"/>
+        <FILE id="tomMixBusCpp" name="TomMixBus.cpp" compile="1" resource="0"
+              file="../src/mix/TomMixBus.cpp"/>
+        <FILE id="tomMixBusH" name="TomMixBus.h" compile="0" resource="0" file="../src/mix/TomMixBus.h"/>
+        <FILE id="reverbEffectCpp" name="ReverbEffect.cpp" compile="1" resource="0"
+              file="../src/mix/ReverbEffect.cpp"/>
+        <FILE id="reverbEffectH" name="ReverbEffect.h" compile="0" resource="0"
+              file="../src/mix/ReverbEffect.h"/>
+        <FILE id="parameterIndexH" name="ParameterIndex.h" compile="0" resource="0"
+              file="../src/mix/ParameterIndex.h"/>
         <FILE id="parameterValueH" name="ParameterValue.h" compile="0" resource="0"
               file="../src/mix/ParameterValue.h"/>
       </GROUP>
       <GROUP id="srcProgram" name="program">
-        <FILE id="programCpp" name="Program.cpp" compile="1" resource="0"
-              file="../src/program/Program.cpp"/>
-      <FILE id="programH" name="Program.h" compile="0" resource="0" file="../src/program/Program.h"/>
-      <FILE id="programBankCpp" name="ProgramBank.cpp" compile="1" resource="0"
-            file="../src/program/ProgramBank.cpp"/>
-      <FILE id="programBankH" name="ProgramBank.h" compile="0" resource="0"
-            file="../src/program/ProgramBank.h"/>
-      <FILE id="programJsonCpp" name="ProgramJson.cpp" compile="1" resource="0"
-            file="../src/program/ProgramJson.cpp"/>
-      <FILE id="programJsonH" name="ProgramJson.h" compile="0" resource="0"
-            file="../src/program/ProgramJson.h"/>
-      <FILE id="programMapJsonCpp" name="ProgramMapJson.cpp" compile="1"
-            resource="0" file="../src/program/ProgramMapJson.cpp"/>
-      <FILE id="programMapJsonH" name="ProgramMapJson.h" compile="0" resource="0"
-            file="../src/program/ProgramMapJson.h"/>
-        <FILE id="muteGroupH" name="MuteGroup.h" compile="0" resource="0"
-              file="../src/program/MuteGroup.h"/>
+        <FILE id="programCpp" name="Program.cpp" compile="1" resource="0" file="../src/program/Program.cpp"/>
+        <FILE id="programH" name="Program.h" compile="0" resource="0" file="../src/program/Program.h"/>
+        <FILE id="programBankCpp" name="ProgramBank.cpp" compile="1" resource="0"
+              file="../src/program/ProgramBank.cpp"/>
+        <FILE id="programBankH" name="ProgramBank.h" compile="0" resource="0"
+              file="../src/program/ProgramBank.h"/>
+        <FILE id="programJsonCpp" name="ProgramJson.cpp" compile="1" resource="0"
+              file="../src/program/ProgramJson.cpp"/>
+        <FILE id="programJsonH" name="ProgramJson.h" compile="0" resource="0"
+              file="../src/program/ProgramJson.h"/>
+        <FILE id="programMapJsonCpp" name="ProgramMapJson.cpp" compile="1"
+              resource="0" file="../src/program/ProgramMapJson.cpp"/>
+        <FILE id="programMapJsonH" name="ProgramMapJson.h" compile="0" resource="0"
+              file="../src/program/ProgramMapJson.h"/>
+        <FILE id="muteGroupH" name="MuteGroup.h" compile="0" resource="0" file="../src/program/MuteGroup.h"/>
       </GROUP>
       <GROUP id="srcMidi" name="midi">
-        <FILE id="midiInputDelegateH" name="MidiInputDelegate.h" compile="0" resource="0"
-              file="../src/midi/MidiInputDelegate.h"/>
+        <FILE id="midiInputDelegateH" name="MidiInputDelegate.h" compile="0"
+              resource="0" file="../src/midi/MidiInputDelegate.h"/>
       </GROUP>
       <GROUP id="srcDsp" name="dsp">
         <FILE id="biquadCpp" name="BiquadFilter.cpp" compile="1" resource="0"
               file="../src/dsp/BiquadFilter.cpp"/>
-      <FILE id="biquadH" name="BiquadFilter.h" compile="0" resource="0"
-            file="../src/dsp/BiquadFilter.h"/>
-      <FILE id="beatRepeatCpp" name="BeatRepeat.cpp" compile="1" resource="0"
-            file="../src/dsp/BeatRepeat.cpp"/>
-      <FILE id="beatRepeatH" name="BeatRepeat.h" compile="0" resource="0"
-            file="../src/dsp/BeatRepeat.h"/>
-      <FILE id="bitCrusherCpp" name="BitCrusher.cpp" compile="1" resource="0"
-            file="../src/dsp/BitCrusher.cpp"/>
-      <FILE id="bitCrusherH" name="BitCrusher.h" compile="0" resource="0"
-            file="../src/dsp/BitCrusher.h"/>
-      <FILE id="bufferMathCpp" name="BufferMath.cpp" compile="1" resource="0"
-            file="../src/dsp/BufferMath.cpp"/>
-      <FILE id="bufferMathH" name="BufferMath.h" compile="0" resource="0"
-            file="../src/dsp/BufferMath.h"/>
-      <FILE id="bufferH" name="Buffer.h" compile="0" resource="0"
-            file="../src/dsp/Buffer.h"/>
-      <FILE id="cutoffHelperCpp" name="CutoffHelper.cpp" compile="1" resource="0"
-            file="../src/dsp/CutoffHelper.cpp"/>
-      <FILE id="cutoffHelperH" name="CutoffHelper.h" compile="0" resource="0"
-            file="../src/dsp/CutoffHelper.h"/>
-      <FILE id="flangerCpp" name="Flanger.cpp" compile="1" resource="0" file="../src/dsp/Flanger.cpp"/>
-      <FILE id="flangerH" name="Flanger.h" compile="0" resource="0" file="../src/dsp/Flanger.h"/>
-      <FILE id="gainHelperCpp" name="GainHelper.cpp" compile="1" resource="0"
-            file="../src/dsp/GainHelper.cpp"/>
-      <FILE id="gainHelperH" name="GainHelper.h" compile="0" resource="0"
-            file="../src/dsp/GainHelper.h"/>
-      <FILE id="memoryCpp" name="Memory.cpp" compile="1" resource="0" file="../src/dsp/Memory.cpp"/>
-      <FILE id="memoryH" name="Memory.h" compile="0" resource="0" file="../src/dsp/Memory.h"/>
-      <FILE id="pitchHelperCpp" name="PitchHelper.cpp" compile="1" resource="0"
-            file="../src/dsp/PitchHelper.cpp"/>
-      <FILE id="pitchHelperH" name="PitchHelper.h" compile="0" resource="0"
-            file="../src/dsp/PitchHelper.h"/>
-      <FILE id="smoothValueCpp" name="SmoothValue.cpp" compile="1" resource="0"
-            file="../src/dsp/SmoothValue.cpp"/>
-      <FILE id="smoothValueH" name="SmoothValue.h" compile="0" resource="0"
-            file="../src/dsp/SmoothValue.h"/>
-      <FILE id="triLfoCpp" name="TriLfo.cpp" compile="1" resource="0" file="../src/dsp/TriLfo.cpp"/>
-        <FILE id="triLfoH" name="TriLfo.h" compile="0" resource="0"
-              file="../src/dsp/TriLfo.h"/>
+        <FILE id="biquadH" name="BiquadFilter.h" compile="0" resource="0" file="../src/dsp/BiquadFilter.h"/>
+        <FILE id="beatRepeatCpp" name="BeatRepeat.cpp" compile="1" resource="0"
+              file="../src/dsp/BeatRepeat.cpp"/>
+        <FILE id="beatRepeatH" name="BeatRepeat.h" compile="0" resource="0"
+              file="../src/dsp/BeatRepeat.h"/>
+        <FILE id="bitCrusherCpp" name="BitCrusher.cpp" compile="1" resource="0"
+              file="../src/dsp/BitCrusher.cpp"/>
+        <FILE id="bitCrusherH" name="BitCrusher.h" compile="0" resource="0"
+              file="../src/dsp/BitCrusher.h"/>
+        <FILE id="bufferMathCpp" name="BufferMath.cpp" compile="1" resource="0"
+              file="../src/dsp/BufferMath.cpp"/>
+        <FILE id="bufferMathH" name="BufferMath.h" compile="0" resource="0"
+              file="../src/dsp/BufferMath.h"/>
+        <FILE id="bufferH" name="Buffer.h" compile="0" resource="0" file="../src/dsp/Buffer.h"/>
+        <FILE id="cutoffHelperCpp" name="CutoffHelper.cpp" compile="1" resource="0"
+              file="../src/dsp/CutoffHelper.cpp"/>
+        <FILE id="cutoffHelperH" name="CutoffHelper.h" compile="0" resource="0"
+              file="../src/dsp/CutoffHelper.h"/>
+        <FILE id="flangerCpp" name="Flanger.cpp" compile="1" resource="0" file="../src/dsp/Flanger.cpp"/>
+        <FILE id="flangerH" name="Flanger.h" compile="0" resource="0" file="../src/dsp/Flanger.h"/>
+        <FILE id="gainHelperCpp" name="GainHelper.cpp" compile="1" resource="0"
+              file="../src/dsp/GainHelper.cpp"/>
+        <FILE id="gainHelperH" name="GainHelper.h" compile="0" resource="0"
+              file="../src/dsp/GainHelper.h"/>
+        <FILE id="memoryCpp" name="Memory.cpp" compile="1" resource="0" file="../src/dsp/Memory.cpp"/>
+        <FILE id="memoryH" name="Memory.h" compile="0" resource="0" file="../src/dsp/Memory.h"/>
+        <FILE id="pitchHelperCpp" name="PitchHelper.cpp" compile="1" resource="0"
+              file="../src/dsp/PitchHelper.cpp"/>
+        <FILE id="pitchHelperH" name="PitchHelper.h" compile="0" resource="0"
+              file="../src/dsp/PitchHelper.h"/>
+        <FILE id="smoothValueCpp" name="SmoothValue.cpp" compile="1" resource="0"
+              file="../src/dsp/SmoothValue.cpp"/>
+        <FILE id="smoothValueH" name="SmoothValue.h" compile="0" resource="0"
+              file="../src/dsp/SmoothValue.h"/>
+        <FILE id="triLfoCpp" name="TriLfo.cpp" compile="1" resource="0" file="../src/dsp/TriLfo.cpp"/>
+        <FILE id="triLfoH" name="TriLfo.h" compile="0" resource="0" file="../src/dsp/TriLfo.h"/>
         <GROUP id="srcDspDelay" name="delay">
-          <FILE id="delayReverbH" name="Reverb.h" compile="0" resource="0"
-                file="../src/dsp/delay/Reverb.h"/>
+          <FILE id="delayReverbH" name="Reverb.h" compile="0" resource="0" file="../src/dsp/delay/Reverb.h"/>
           <FILE id="delayWriteH" name="DelayWrite.h" compile="0" resource="0"
                 file="../src/dsp/delay/DelayWrite.h"/>
-          <FILE id="delayReadH" name="DelayRead.h" compile="0" resource="0"
-                file="../src/dsp/delay/DelayRead.h"/>
+          <FILE id="delayReadH" name="DelayRead.h" compile="0" resource="0" file="../src/dsp/delay/DelayRead.h"/>
           <FILE id="delayLineDampedH" name="DelayLineDamped.h" compile="0" resource="0"
                 file="../src/dsp/delay/DelayLineDamped.h"/>
-          <FILE id="delayLineH" name="DelayLine.h" compile="0" resource="0"
-                file="../src/dsp/delay/DelayLine.h"/>
+          <FILE id="delayLineH" name="DelayLine.h" compile="0" resource="0" file="../src/dsp/delay/DelayLine.h"/>
           <FILE id="delayGroupH" name="DelayGroup.h" compile="0" resource="0"
                 file="../src/dsp/delay/DelayGroup.h"/>
         </GROUP>
@@ -244,10 +240,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" extraDefs="JUCE_SILENCE_XCODE_15_LINKER_WARNING=1">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="BelaSampler"
-                       headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/engine&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../src/dsp/delay&#10;../../../src/midi&#10;../../../platform&#10;../../Source"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="BelaSampler"
-                       headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/engine&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../src/dsp/delay&#10;../../../src/midi&#10;../../../platform&#10;../../Source"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/engine&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../src/dsp/delay&#10;../../../src/midi&#10;../../../platform&#10;../../platform&#10;../../Source"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/engine&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../src/dsp/delay&#10;../../../src/midi&#10;../../../platform&#10;../../platform&#10;../../Source"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../external/JUCE/modules"/>

@@ -58,7 +58,8 @@ Or set the working directory to the repo root in your IDE run configuration.
 | Path | Role |
 |------|------|
 | `src/` | Shared sampler core (DSP, engine, programs) |
-| `platform/` | Platform glue (logging, bootstrap) |
+| `platform/` | Bela glue (bootstrap, logging) — compiled on deploy |
+| `juce/platform/` | Desktop-only glue (LogBuffer, ProgramWriter) — not deployed |
 | `render.cpp` | Bela entry point |
 | `juce/` | Desktop JUCE standalone |
 | `external/JUCE/` | JUCE submodule |

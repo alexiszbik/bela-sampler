@@ -8,10 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(../external/JUCE JUCE)
 
 set(SAMPLER_CORE_SOURCES
-    ../platform/LogBuffer.cpp
+    platform/LogBuffer.cpp
     ../platform/SamplerLog.cpp
     ../platform/SamplerBootstrap.cpp
-    ../platform/ProgramWriter.cpp
+    platform/ProgramWriter.cpp
     ../src/dsp/BeatRepeat.cpp
     ../src/dsp/BitCrusher.cpp
     ../src/dsp/BiquadFilter.cpp
@@ -52,6 +52,8 @@ set(SAMPLER_CORE_SOURCES
     Source/Main.cpp
     Source/MainWindow.cpp
     Source/SamplerAudioEngine.cpp
+    Source/SharedAudioFormatManager.cpp
+    Source/SamplePreviewPlayer.cpp
 )
 
 juce_add_gui_app(BelaSampler
@@ -64,6 +66,7 @@ target_sources(BelaSampler PRIVATE ${SAMPLER_CORE_SOURCES})
 target_compile_definitions(BelaSampler PRIVATE SAMPLER_DESKTOP=1)
 
 target_include_directories(BelaSampler PRIVATE
+    platform
     ../platform
     ../src/program
     ../src/playback

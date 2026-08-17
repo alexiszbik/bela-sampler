@@ -3,6 +3,7 @@
 #include "JuceMidiBridge.h"
 #include "MixBusArray.h"
 #include "ProgramBank.h"
+#include "SamplePreviewPlayer.h"
 #include "SamplerBootstrap.h"
 #include "SamplerEngine.h"
 #include "SamplerMidiCollector.h"
@@ -32,6 +33,7 @@ public:
 	const ProgramBank& getProgramBank() const { return programBank; }
 	SamplerEngine& getEngine() { return engine; }
 	ProgramBank& getProgramBank() { return programBank; }
+	SamplePreviewPlayer& getPreviewPlayer() { return previewPlayer; }
 
 	void audioDeviceIOCallbackWithContext(const float* const* inputChannelData,
 		int numInputChannels,
@@ -52,6 +54,7 @@ private:
 	ProgramBank programBank;
 	SamplerEngine engine;
 	JuceMidiBridge midiBridge;
+	SamplePreviewPlayer previewPlayer;
 
 	juce::MidiBuffer pendingMidi;
 };

@@ -10,6 +10,7 @@
 #include <vector>
 
 class ProgramGridComponent;
+class SamplePreviewPlayer;
 
 class ProgramEditorWindow : public juce::Component,
 							private juce::ComboBox::Listener
@@ -22,6 +23,7 @@ public:
 	void resized() override;
 
 	void loadPrograms(const std::string& programFolder);
+	void setPreviewPlayer(SamplePreviewPlayer* previewPlayer);
 
 	std::function<bool()> onReload;
 
@@ -48,4 +50,5 @@ private:
 	ProgramMap programMap;
 	std::vector<ProgramSlotDesc> currentSlots;
 	std::string currentFilepath;
+	SamplePreviewPlayer* previewPlayer = nullptr;
 };

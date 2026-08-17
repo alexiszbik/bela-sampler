@@ -73,11 +73,11 @@ juce::Array<juce::var> buildSlotsArray(const std::vector<ProgramSlotDesc>& slots
 
 	int currentNote = slots[0].midiNote;
 	juce::Array<juce::var> currentLayers;
-	currentLayers.add(layerToObject(slots[0]).get());
+	currentLayers.add(layerToObject(slots[0]).release());
 
 	for(size_t i = 1; i < slots.size(); ++i) {
 		if(slots[i].midiNote == currentNote) {
-			currentLayers.add(layerToObject(slots[i]).get());
+			currentLayers.add(layerToObject(slots[i]).release());
 		} else {
 			auto slotObj = std::make_unique<juce::DynamicObject>();
 			slotObj->setProperty("midiNote", currentNote);
@@ -86,7 +86,7 @@ juce::Array<juce::var> buildSlotsArray(const std::vector<ProgramSlotDesc>& slots
 
 			currentNote = slots[i].midiNote;
 			currentLayers.clear();
-			currentLayers.add(layerToObject(slots[i]).get());
+			currentLayers.add(layerToObject(slots[i]).release());
 		}
 	}
 
@@ -100,10 +100,10 @@ juce::Array<juce::var> buildSlotsArray(const std::vector<ProgramSlotDesc>& slots
 }
 
 bool ProgramWriter::writeProgram(const std::string& filepath, const std::vector<ProgramSlotDesc>& slots) {
-	juce::DynamicObject root;
-	root.setProperty("slots", buildSlotsArray(slots));
+	juce::var root(new juce::DynamicObject());
+	root.getDynamicObject()->setProperty("slots", buildSlotsArray(slots));
 
-	const juce::String jsonText = juce::JSON::toString(&root, true);
+	const juce::String jsonText = juce::JSON::toString(root, false);
 	const juce::File file(filepath);
 
 	if(!file.hasWriteAccess()) {
@@ -114,8 +114,8 @@ bool ProgramWriter::writeProgram(const std::string& filepath, const std::vector<
 }
 
 bool ProgramWriter::writeProgramMap(const std::string& filepath, const ProgramMap& programMap) {
-	juce::DynamicObject root;
-	root.setProperty("defaultPc", programMap.defaultPc);
+	juce::var root(new juce::DynamicObject());
+	root.getDynamicObject()->setProperty("defaultPc", programMap.defaultPc);
 
 	juce::Array<juce::var> programs;
 	for(const ProgramMapEntry& entry : programMap.entries) {
@@ -124,9 +124,9 @@ bool ProgramWriter::writeProgramMap(const std::string& filepath, const ProgramMa
 		obj->setProperty("file", juce::String(entry.file));
 		programs.add(obj.release());
 	}
-	root.setProperty("programs", programs);
+	root.getDynamicObject()->setProperty("programs", programs);
 
-	const juce::String jsonText = juce::JSON::toString(&root, true);
+	const juce::String jsonText = juce::JSON::toString(root, false);
 	const juce::File file(filepath);
 
 	if(!file.hasWriteAccess()) {

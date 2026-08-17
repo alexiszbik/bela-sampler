@@ -1,7 +1,10 @@
 #include "ProgramGridComponent.h"
 
 #include "MixBusNames.h"
+#include "SamplerDesktopPaths.h"
 #include "SamplerOptions.h"
+
+#include <juce_core/juce_core.h>
 
 namespace {
 int modeToIndex(ProgramSlotMode mode) {
@@ -81,8 +84,9 @@ MixBusIndex indexToBus(int index) {
 }
 }
 
-ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots)
-	: slots(inSlots) {
+ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots, SamplePreviewPlayer& inPreviewPlayer)
+	: slots(inSlots),
+	  previewPlayer(inPreviewPlayer) {
 	rebuildRows();
 }
 
@@ -187,6 +191,35 @@ void ProgramGridComponent::rebuildRows() {
 		row.deleteButton->onClick = [this, i] { deleteLayer(i); };
 		addAndMakeVisible(*row.deleteButton);
 
+		row.showButton = std::make_unique<juce::TextButton>("Show");
+		row.showButton->onClick = [this, i] {
+			if(slots[i].sample.empty()) {
+				return;
+			}
+
+			const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
+				.getChildFile(slots[i].sample);
+			if(!sampleFile.existsAsFile()) {
+				sampleFile.getParentDirectory().revealToUser();
+				return;
+			}
+
+			sampleFile.revealToUser();
+		};
+		addAndMakeVisible(*row.showButton);
+
+		row.playButton = std::make_unique<juce::TextButton>(juce::String::fromUTF8("▶"));
+		row.playButton->onClick = [this, i] {
+			if(slots[i].sample.empty()) {
+				return;
+			}
+
+			const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
+				.getChildFile(slots[i].sample);
+			previewPlayer.play(sampleFile);
+		};
+		addAndMakeVisible(*row.playButton);
+
 		rows.push_back(std::move(row));
 	}
 
@@ -234,7 +267,7 @@ void ProgramGridComponent::paint(juce::Graphics& g) {
 	g.setColour(juce::Colour(0xffcccccc));
 	g.setFont(juce::Font(13.f, juce::Font::bold));
 
-	const char* headers[kColumnCount] = {"Note", "Sample", "Mode", "Bus", "Vol", "Pitch", "Mute", "Rev", "Play", "Gran", ""};
+	const char* headers[kColumnCount] = {"Note", "Sample", "Mode", "Bus", "Vol", "Pitch", "Mute", "Rev", "Play", "Gran", "", "Show", "Play"};
 	for(int col = 0; col < kColumnCount; ++col) {
 		g.drawText(headers[col], columnX(col) + 4, 0, columnWidth(col) - 8, kHeaderHeight, juce::Justification::left);
 	}
@@ -281,6 +314,8 @@ int ProgramGridComponent::columnWidth(int col) const {
 		case 8: return 100;
 		case 9: return 50;
 		case 10: return 30;
+		case 11: return 44;
+		case 12: return 30;
 		default: return 50;
 	}
 }
@@ -301,6 +336,8 @@ void ProgramGridComponent::resized() {
 		if(r.playModeCombo != nullptr) r.playModeCombo->setBounds(columnX(8) + 2, y + 2, columnWidth(8) - 4, kRowHeight - 4);
 		if(r.granularSpeedLabel != nullptr) r.granularSpeedLabel->setBounds(columnX(9) + 2, y + 2, columnWidth(9) - 4, kRowHeight - 4);
 		if(r.deleteButton != nullptr) r.deleteButton->setBounds(columnX(10) + 2, y + 2, columnWidth(10) - 4, kRowHeight - 4);
+		if(r.showButton != nullptr) r.showButton->setBounds(columnX(11) + 2, y + 2, columnWidth(11) - 4, kRowHeight - 4);
+		if(r.playButton != nullptr) r.playButton->setBounds(columnX(12) + 2, y + 2, columnWidth(12) - 4, kRowHeight - 4);
 	}
 
 	setSize(getWidth(), kHeaderHeight + static_cast<int>(rows.size()) * kRowHeight);

@@ -65,6 +65,7 @@ bool SamplerAudioEngine::initialise() {
 	}
 
 	deviceManager.addAudioCallback(this);
+	previewPlayer.prepare(kSampleRate, kBlockSize);
 
 	const auto midiDevices = juce::MidiInput::getAvailableDevices();
 	const juce::MidiDeviceInfo* midiDevice = findMidiInputDevice(midiDevices);
@@ -109,6 +110,7 @@ bool SamplerAudioEngine::reload() {
 
 void SamplerAudioEngine::shutdown() {
 	deviceManager.removeAudioCallback(this);
+	previewPlayer.stop();
 
 	if(midiInput != nullptr) {
 		midiInput->stop();
@@ -121,10 +123,13 @@ void SamplerAudioEngine::shutdown() {
 }
 
 void SamplerAudioEngine::audioDeviceAboutToStart(juce::AudioIODevice* device) {
-	(void)device;
+	if(device != nullptr) {
+		previewPlayer.prepare(device->getCurrentSampleRate(), device->getCurrentBufferSizeSamples());
+	}
 }
 
 void SamplerAudioEngine::audioDeviceStopped() {
+	previewPlayer.stop();
 }
 
 void SamplerAudioEngine::audioDeviceIOCallbackWithContext(const float* const* inputChannelData,
@@ -156,4 +161,6 @@ void SamplerAudioEngine::audioDeviceIOCallbackWithContext(const float* const* in
             outputChannelData[1][sample] = mix[1] + mix[3] + monoMix;
 		}
 	}
+
+	previewPlayer.mixInto(outputChannelData, numOutputChannels, numSamples);
 }

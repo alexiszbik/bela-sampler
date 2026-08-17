@@ -3,6 +3,8 @@
 #include <cmath>
 
 #if defined(SAMPLER_DESKTOP)
+#include "SharedAudioFormatManager.h"
+
 #include <juce_audio_formats/juce_audio_formats.h>
 #else
 #include <libraries/AudioFile/AudioFile.h>
@@ -31,8 +33,7 @@ std::string Sample::getChannelDescription() const {
 
 bool Sample::load(const std::string& filepath, const std::string& sampleName) {
 #if defined(SAMPLER_DESKTOP)
-	juce::AudioFormatManager formatManager;
-	formatManager.registerBasicFormats();
+	juce::AudioFormatManager& formatManager = SharedAudioFormatManager::get();
 
 	const juce::File audioFile(filepath);
 	std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(audioFile));
