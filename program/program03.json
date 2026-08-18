@@ -159,6 +159,15 @@
       ]
     },
     {
+      "midiNote": 51,
+      "layers": [
+        {
+          "sample": "together/808CYM.WAV",
+          "mode": "poly"
+        }
+      ]
+    },
+    {
       "midiNote": 52,
       "layers": [
         {
@@ -235,6 +244,15 @@
           "volume": -6.0,
           "pitch": 4.0,
           "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 60,
+      "layers": [
+        {
+          "sample": "together/130RIZ.WAV",
+          "mode": "mono"
         }
       ]
     }
