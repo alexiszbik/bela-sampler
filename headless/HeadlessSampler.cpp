@@ -4,7 +4,6 @@
 #include "SamplerLog.h"
 
 #include <chrono>
-#include <iostream>
 #include <thread>
 
 extern std::atomic<bool> gShouldStop;
@@ -14,7 +13,6 @@ constexpr double kSampleRate = 44100.0;
 constexpr unsigned int kBlockSize = 512;
 constexpr size_t kNumPlayers = 32;
 constexpr unsigned int kOutputChannels = 2;
-constexpr auto kMidiPollInterval = std::chrono::seconds(1);
 
 const char* errorTypeName(RtAudioErrorType type) {
 	switch(type) {
@@ -45,7 +43,7 @@ HeadlessSampler::~HeadlessSampler() {
 
 bool HeadlessSampler::initialise(const std::string& samplesFolder,
 	const std::string& programFolder,
-	const std::string& midiDeviceName) {
+	const std::string& virtualPortName) {
 	if(!SamplerBootstrap::init(samples,
 			programBank,
 			engine,
@@ -81,87 +79,18 @@ bool HeadlessSampler::initialise(const std::string& samplesFolder,
 		return false;
 	}
 
-	this->midiDeviceName = midiDeviceName;
 	midiIn = std::make_unique<RtMidiIn>();
-
-	if(this->midiDeviceName.empty()) {
-		SAMPLER_LOG("No MIDI device name given; MIDI disabled\n");
-	} else {
-		SAMPLER_LOG("Waiting for MIDI device: %s\n", this->midiDeviceName.c_str());
-	}
-
-	return true;
-}
-
-bool HeadlessSampler::findMidiPort(unsigned int& outPort) const {
-	if(midiIn == nullptr || midiDeviceName.empty()) {
+	midiIn->setCallback(&HeadlessSampler::midiCallback, this);
+	try {
+		midiIn->openVirtualPort(virtualPortName);
+		SAMPLER_LOG("Virtual MIDI input port created: %s\n", virtualPortName.c_str());
+		SAMPLER_LOG("Connect your MIDI source to this port.\n");
+	} catch(RtMidiError& e) {
+		SAMPLER_LOG("Could not create virtual MIDI port: %s\n", e.getMessage().c_str());
 		return false;
 	}
 
-	try {
-		for(unsigned int i = 0; i < midiIn->getPortCount(); ++i) {
-			if(midiIn->getPortName(i).find(midiDeviceName) != std::string::npos) {
-				outPort = i;
-				return true;
-			}
-		}
-	} catch(RtMidiError& e) {
-		SAMPLER_LOG("MIDI enumeration error: %s\n", e.getMessage().c_str());
-	}
-
-	return false;
-}
-
-void HeadlessSampler::openMidiPort(unsigned int port) {
-	try {
-		midiIn->openPort(port);
-		midiIn->setCallback(&HeadlessSampler::midiCallback, this);
-		midiPortOpen = true;
-		SAMPLER_LOG("MIDI input opened on %s\n", midiIn->getPortName(port).c_str());
-	} catch(RtMidiError& e) {
-		SAMPLER_LOG("MIDI openPort error: %s\n", e.getMessage().c_str());
-		midiPortOpen = false;
-	}
-}
-
-void HeadlessSampler::closeMidiPort() {
-	if(midiIn == nullptr || !midiPortOpen) {
-		return;
-	}
-
-	try {
-		midiIn->cancelCallback();
-		midiIn->closePort();
-	} catch(RtMidiError& e) {
-		SAMPLER_LOG("MIDI closePort error: %s\n", e.getMessage().c_str());
-	}
-
-	midiPortOpen = false;
-	SAMPLER_LOG("MIDI input closed (device gone); waiting for reconnection...\n");
-}
-
-void HeadlessSampler::midiWatcherLoop() {
-	bool loggedWaiting = false;
-
-	while(running && !gShouldStop) {
-		unsigned int port;
-		const bool found = findMidiPort(port);
-
-		if(found && !midiPortOpen) {
-			openMidiPort(port);
-			loggedWaiting = false;
-		} else if(!found && midiPortOpen) {
-			closeMidiPort();
-			loggedWaiting = false;
-		} else if(!found && !midiPortOpen) {
-			if(!loggedWaiting) {
-				SAMPLER_LOG("Still waiting for MIDI device: %s\n", midiDeviceName.c_str());
-				loggedWaiting = true;
-			}
-		}
-
-		std::this_thread::sleep_for(kMidiPollInterval);
-	}
+	return true;
 }
 
 void HeadlessSampler::run() {
@@ -176,8 +105,6 @@ void HeadlessSampler::run() {
 	}
 
 	running = true;
-	midiWatcherThread = std::thread(&HeadlessSampler::midiWatcherLoop, this);
-
 	SAMPLER_LOG("Headless sampler running (sampleRate=%.0f blockSize=%u)\n",
 		kSampleRate, kBlockSize);
 	SAMPLER_LOG("Press Ctrl-C to quit\n");
@@ -196,11 +123,14 @@ void HeadlessSampler::stop() {
 
 	running = false;
 
-	if(midiWatcherThread.joinable()) {
-		midiWatcherThread.join();
+	if(midiIn != nullptr) {
+		try {
+			midiIn->cancelCallback();
+			midiIn->closePort();
+		} catch(RtMidiError& e) {
+			SAMPLER_LOG("MIDI closeVirtualPort error: %s\n", e.getMessage().c_str());
+		}
 	}
-
-	closeMidiPort();
 
 	if(dac != nullptr) {
 		if(dac->isStreamRunning()) {

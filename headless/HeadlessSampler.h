@@ -10,10 +10,8 @@
 #include <RtAudio.h>
 #include <RtMidi.h>
 
-#include <atomic>
 #include <memory>
 #include <string>
-#include <thread>
 #include <vector>
 
 class HeadlessSampler
@@ -24,7 +22,7 @@ public:
 
 	bool initialise(const std::string& samplesFolder,
 		const std::string& programFolder,
-		const std::string& midiDeviceName);
+		const std::string& virtualPortName);
 	void run();
 	void stop();
 
@@ -36,11 +34,6 @@ private:
 		std::vector<unsigned char>* message,
 		void* userData);
 
-	void midiWatcherLoop();
-	bool findMidiPort(unsigned int& outPort) const;
-	void openMidiPort(unsigned int port);
-	void closeMidiPort();
-
 	std::vector<Sample> samples;
 	ProgramBank programBank;
 	SamplerEngine engine;
@@ -49,8 +42,5 @@ private:
 	std::unique_ptr<RtAudio> dac;
 	std::unique_ptr<RtMidiIn> midiIn;
 
-	std::string midiDeviceName;
-	std::atomic<bool> midiPortOpen {false};
-	std::atomic<bool> running {false};
-	std::thread midiWatcherThread;
+	bool running = false;
 };

@@ -7,7 +7,7 @@ HEADLESS_DIR="$REPO_ROOT/headless"
 BUILD_DIR="$HEADLESS_DIR/build"
 BINARY="$BUILD_DIR/sampler_headless"
 
-MIDI_DEVICE="GigaSeq Virtual"
+MIDI_DEVICE="Sampler Virtual"
 SAMPLES_FOLDER="$REPO_ROOT/samplesfolder"
 PROGRAM_FOLDER="$REPO_ROOT/program"
 EXTRA_ARGS=""
@@ -20,7 +20,7 @@ Build and run the headless sampler locally (RtAudio + RtMidi).
 Run from the repo root so samplesfolder/ and program/ resolve.
 
 Options:
-  -m "device"   MIDI input device name (default: "$MIDI_DEVICE")
+  -m "device"   Virtual MIDI port name (default: "$MIDI_DEVICE")
   -s "folder"   Samples folder      (default: $SAMPLES_FOLDER)
   -p "folder"   Program folder      (default: $PROGRAM_FOLDER)
   -b            Build only, don't run

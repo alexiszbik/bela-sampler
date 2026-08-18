@@ -7,11 +7,11 @@
 #include <string>
 
 namespace {
-constexpr const char* kDefaultMidiDevice = "GigaSeq Virtual";
+constexpr const char* kDefaultVirtualPort = "Sampler Virtual";
 
 void printUsage(const char* progName) {
-	std::cerr << "Usage: " << progName << " [samplesFolder] [programFolder] [midiDeviceName]\n"
-			  << "  defaults: samplesfolder program \"" << kDefaultMidiDevice << "\"\n";
+	std::cerr << "Usage: " << progName << " [samplesFolder] [programFolder] [virtualPortName]\n"
+			  << "  defaults: samplesfolder program \"" << kDefaultVirtualPort << "\"\n";
 }
 }
 
@@ -25,7 +25,7 @@ void signalHandler(int signal) {
 int main(int argc, char* argv[]) {
 	std::string samplesFolder = "samplesfolder";
 	std::string programFolder = "program";
-	std::string midiDevice = kDefaultMidiDevice;
+	std::string virtualPort = kDefaultVirtualPort;
 
 	if(argc > 1) {
 		samplesFolder = argv[1];
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 		programFolder = argv[2];
 	}
 	if(argc > 3) {
-		midiDevice = argv[3];
+		virtualPort = argv[3];
 	}
 
 	if(argc > 4) {
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 	std::signal(SIGTERM, signalHandler);
 
 	HeadlessSampler sampler;
-	if(!sampler.initialise(samplesFolder, programFolder, midiDevice)) {
+	if(!sampler.initialise(samplesFolder, programFolder, virtualPort)) {
 		SAMPLER_LOG("Initialisation failed\n");
 		return 1;
 	}
