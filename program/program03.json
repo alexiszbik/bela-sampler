@@ -163,7 +163,8 @@
       "layers": [
         {
           "sample": "together/808CYM.WAV",
-          "mode": "poly"
+          "mode": "poly",
+          "bus": "hats"
         }
       ]
     },
@@ -252,7 +253,8 @@
       "layers": [
         {
           "sample": "together/130RIZ.WAV",
-          "mode": "mono"
+          "mode": "mono",
+          "bus": "hats"
         }
       ]
     }

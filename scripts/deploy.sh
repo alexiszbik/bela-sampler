@@ -62,6 +62,7 @@ rsync -ac --no-t --delete-after \
 	--exclude='scripts/' \
 	--exclude='external/' \
 	--exclude='juce/' \
+	--exclude='headless/' \
 	--exclude='*.md' \
 	"$PROJECT_DIR/" "$BBB_ADDRESS:$REMOTE_PROJECT/"
 # juce/ holds the desktop simulator (including juce/platform/); never deployed to Bela.
