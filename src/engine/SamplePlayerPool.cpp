@@ -22,6 +22,7 @@ void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, in
 
 	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
 	const bool loop = slot.mode == Program::SlotMode::Gate;
+	/*
 	SAMPLER_LOG("Play sample %s on player %zu loop=%d pitch=%.2f playmode=%s reversed=%d vel=%d\n",
 		slot.sample->getName().c_str(),
 		voiceIndex,
@@ -32,6 +33,7 @@ void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, in
 			: ProgramJson::kPlayModeNormal,
 		slot.reversed ? 1 : 0,
 		velocity);
+	*/
 }
 
 void SamplePlayerPool::stop(SamplerVoice* voice) {

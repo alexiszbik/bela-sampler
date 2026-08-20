@@ -1,0 +1,220 @@
+{
+  "slots": [
+    {
+      "midiNote": 36,
+      "layers": [
+        {
+          "sample": "water/WTR_KICK.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "water/WTR_CLAP.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 40,
+      "layers": [
+        {
+          "sample": "water/WTR_HAT.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 41,
+      "layers": [
+        {
+          "sample": "water/WTR_SHK.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 43,
+      "layers": [
+        {
+          "sample": "water/WTR_CG1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "water/WTR_CG2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "water/WTR_XMAS.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 46,
+      "layers": [
+        {
+          "sample": "water/wtr_clverb.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 51,
+      "layers": [
+        {
+          "sample": "water/wtr_cym808.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 55,
+      "layers": [
+        {
+          "sample": "water/wtr_marimba.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -24.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 56,
+      "layers": [
+        {
+          "sample": "water/wtr_junoA.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 57,
+      "layers": [
+        {
+          "sample": "water/wtr_junoB.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 60,
+      "layers": [
+        {
+          "sample": "water/WN_DOWN.WAV",
+          "mode": "mono",
+          "volume": -6.0
+        }
+      ]
+    },
+    {
+      "midiNote": 61,
+      "layers": [
+        {
+          "sample": "water/WTR_HRP.WAV",
+          "mode": "mono",
+          "volume": -6.0
+        }
+      ]
+    },
+    {
+      "midiNote": 62,
+      "layers": [
+        {
+          "sample": "water/WTR_BLF1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 63,
+      "layers": [
+        {
+          "sample": "water/WTR_BLF2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 64,
+      "layers": [
+        {
+          "sample": "water/WTR_BLF3.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 65,
+      "layers": [
+        {
+          "sample": "water/WTR_OMG.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -24.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 66,
+      "layers": [
+        {
+          "sample": "water/wtr bigriz.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0
+        }
+      ]
+    }
+  ]
+}
