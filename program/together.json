@@ -175,7 +175,7 @@
           "sample": "together/TGT_SPL1.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "pitch": -9.0,
+          "pitch": -12.0,
           "muteGroup": "B",
           "bus": "sample"
         }
@@ -188,7 +188,7 @@
           "sample": "together/TGT_SPL2.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "pitch": -9.0,
+          "pitch": -12.0,
           "muteGroup": "B",
           "bus": "sample"
         }

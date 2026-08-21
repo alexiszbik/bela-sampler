@@ -72,7 +72,7 @@
         {
           "sample": "water/WTR_XMAS.WAV",
           "mode": "mono",
-          "volume": -12.0,
+          "volume": -18.0,
           "pitch": -2.0,
           "bus": "hats"
         }
@@ -140,22 +140,13 @@
       ]
     },
     {
-      "midiNote": 60,
-      "layers": [
-        {
-          "sample": "water/WN_DOWN.WAV",
-          "mode": "mono",
-          "volume": -6.0
-        }
-      ]
-    },
-    {
       "midiNote": 61,
       "layers": [
         {
           "sample": "water/WTR_HRP.WAV",
           "mode": "mono",
-          "volume": -6.0
+          "volume": -6.0,
+          "pitch": -12.0
         }
       ]
     },
@@ -203,6 +194,7 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -24.0,
+          "muteGroup": "D",
           "bus": "sample"
         }
       ]
@@ -214,7 +206,7 @@
           "sample": "water/wtr bigriz.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "pitch": -12.0
+          "pitch": -7.0
         }
       ]
     },
@@ -243,6 +235,15 @@
         {
           "mode": "mono",
           "muteGroup": "A"
+        }
+      ]
+    },
+    {
+      "midiNote": 70,
+      "layers": [
+        {
+          "mode": "mono",
+          "muteGroup": "D"
         }
       ]
     }
