@@ -39,7 +39,7 @@
         {
           "sample": "water/WTR_SHK.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "hats"
         }
       ]
@@ -72,7 +72,7 @@
         {
           "sample": "water/WTR_XMAS.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -12.0,
           "bus": "hats"
         }
       ]
@@ -107,6 +107,7 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -24.0,
+          "muteGroup": "C",
           "bus": "sample"
         }
       ]
@@ -213,6 +214,34 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -12.0
+        }
+      ]
+    },
+    {
+      "midiNote": 67,
+      "layers": [
+        {
+          "sample": "water/water_cymf.WAV",
+          "mode": "mono",
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 68,
+      "layers": [
+        {
+          "mode": "mono",
+          "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 69,
+      "layers": [
+        {
+          "mode": "mono",
+          "muteGroup": "A"
         }
       ]
     }
