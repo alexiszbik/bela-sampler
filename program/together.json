@@ -164,6 +164,7 @@
         {
           "sample": "together/808CYM.WAV",
           "mode": "poly",
+          "volume": -8.0,
           "bus": "hats"
         }
       ]
@@ -220,7 +221,7 @@
         {
           "sample": "together/TGT_BASS.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "kick"
         }
       ]
@@ -254,6 +255,7 @@
         {
           "sample": "together/130RIZ.WAV",
           "mode": "mono",
+          "volume": -6.0,
           "bus": "hats"
         }
       ]

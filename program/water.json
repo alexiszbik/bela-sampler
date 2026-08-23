@@ -28,7 +28,7 @@
         {
           "sample": "water/WTR_HAT.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "hats"
         }
       ]
@@ -39,7 +39,7 @@
         {
           "sample": "water/WTR_SHK.WAV",
           "mode": "mono",
-          "volume": -8.0,
+          "volume": -10.0,
           "bus": "hats"
         }
       ]
@@ -106,7 +106,7 @@
         {
           "sample": "water/wtr_marimba.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "pitch": -24.0,
           "muteGroup": "C",
           "bus": "sample"
@@ -156,7 +156,7 @@
         {
           "sample": "water/WTR_BLF1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -11.0,
           "muteGroup": "B",
           "bus": "sample"
         }
@@ -168,7 +168,7 @@
         {
           "sample": "water/WTR_BLF2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -11.0,
           "muteGroup": "B",
           "bus": "sample"
         }
@@ -180,7 +180,7 @@
         {
           "sample": "water/WTR_BLF3.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -11.0,
           "muteGroup": "B",
           "bus": "sample"
         }
@@ -192,7 +192,7 @@
         {
           "sample": "water/WTR_OMG.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "pitch": -24.0,
           "muteGroup": "D",
           "bus": "sample"
@@ -216,6 +216,7 @@
         {
           "sample": "water/water_cymf.WAV",
           "mode": "mono",
+          "volume": -6.0,
           "bus": "hats"
         }
       ]

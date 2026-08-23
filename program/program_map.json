@@ -3,14 +3,12 @@
 	"programs": [
 		{ "pc": 0, "file": "together.json" },
 		{ "pc": 1, "file": "water.json" },
-		{ "pc": 2, "file": "program01.json" },
-		{ "pc": 3, "file": "program04.json" },
-		{ "pc": 4, "file": "program05.json" },
-		{ "pc": 5, "file": "program06.json" },
-		{ "pc": 6, "file": "program07.json" },
-		{ "pc": 7, "file": "program08.json" },
-		{ "pc": 8, "file": "program09.json" },
-		{ "pc": 9, "file": "program10.json" },
-		{ "pc": 10, "file": "program11.json" }
+		{ "pc": 2, "file": "falling.json" },
+		{ "pc": 3, "file": "closer.json" },
+		{ "pc": 4, "file": "fantasy.json" },
+		{ "pc": 5, "file": "bibimbap.json" },
+		{ "pc": 6, "file": "uandi.json" },
+		{ "pc": 7, "file": "tired.json" },
+		{ "pc": 8, "file": "friendship.json" },
 	]
 }

@@ -1,0 +1,216 @@
+{
+  "slots": [
+    {
+      "midiNote": 36,
+      "layers": [
+        {
+          "sample": "Falling/fa kick.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 37,
+      "layers": [
+        {
+          "sample": "Falling/fa snr.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "Falling/fa clap.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 39,
+      "layers": [
+        {
+          "sample": "Falling/fa clnclp.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 40,
+      "layers": [
+        {
+          "sample": "Falling/fa hhc.WAV",
+          "mode": "mono",
+          "volume": -14.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 42,
+      "layers": [
+        {
+          "sample": "Falling/fa hho.WAV",
+          "mode": "mono",
+          "volume": -14.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 43,
+      "layers": [
+        {
+          "sample": "Falling/fa mtamb.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "Falling/TOM2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -3.0
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "Falling/fa rimverb.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 51,
+      "layers": [
+        {
+          "sample": "Falling/ISP_RID1.WAV",
+          "mode": "mono",
+          "volume": -6.0
+        }
+      ]
+    },
+    {
+      "midiNote": 52,
+      "layers": [
+        {
+          "sample": "Falling/fa riz.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 53,
+      "layers": [
+        {
+          "sample": "Falling/fa riz2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 54,
+      "layers": [
+        {
+          "sample": "Falling/fa tamb.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 55,
+      "layers": [
+        {
+          "sample": "Falling/fa toms.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 56,
+      "layers": [
+        {
+          "sample": "Falling/fa cymb.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 65,
+      "layers": [
+        {
+          "sample": "Falling/fa intld.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 66,
+      "layers": [
+        {
+          "sample": "Falling/fa pads.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "pitch": -12.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 67,
+      "layers": [
+        {
+          "sample": "Falling/fa pianohi.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "pitch": -7.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 68,
+      "layers": [
+        {
+          "sample": "Falling/fa pianolow.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "pitch": -7.0,
+          "bus": "sample"
+        }
+      ]
+    }
+  ]
+}
