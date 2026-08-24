@@ -24,6 +24,16 @@
       ]
     },
     {
+      "midiNote": 39,
+      "layers": [
+        {
+          "sample": "tired/HANDCLP1.WAV",
+          "mode": "poly",
+          "volume": -6.0
+        }
+      ]
+    },
+    {
       "midiNote": 40,
       "layers": [
         {
@@ -272,6 +282,27 @@
           "mode": "mono",
           "volume": -6.0,
           "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 65,
+      "layers": [
+        {
+          "sample": "tired/WN_DOWN.WAV",
+          "mode": "mono",
+          "volume": -10.0
+        }
+      ]
+    },
+    {
+      "midiNote": 66,
+      "layers": [
+        {
+          "sample": "tired/UP.WAV",
+          "mode": "gate",
+          "volume": -12.0,
+          "pitch": -12.0
         }
       ]
     }
