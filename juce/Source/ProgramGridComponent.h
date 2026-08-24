@@ -21,7 +21,7 @@ public:
 
 	std::function<void()> onModified;
     
-    void addLayer(int midiNote);
+    void addLayer(int midiNote, const std::string& sample = {});
 private:
 	struct RowComponents {
 		std::unique_ptr<juce::Label> noteLabel;
@@ -39,10 +39,29 @@ private:
 		std::unique_ptr<juce::TextButton> playButton;
 	};
 
+	enum Column {
+		kColPlay = 0,
+		kColNote,
+		kColSample,
+		kColMode,
+		kColBus,
+		kColVolume,
+		kColPitch,
+		kColMute,
+		kColReversed,
+		kColPlayMode,
+		kColGranular,
+		kColDelete,
+		kColShow,
+		kColCount
+	};
+
 	void rebuildRows();
 	void sortSlotsByNote();
-	void setupRow(size_t row, int midiNote, bool isFirstLayer);
 	void onRowModified(size_t row);
+	bool isSampleMissing(size_t row) const;
+	juce::Colour rowBackgroundColour(size_t rowIndex) const;
+	void applyRowAppearance(size_t rowIndex);
 	
 	void deleteLayer(size_t row);
 
@@ -53,7 +72,7 @@ private:
 
 	static constexpr int kRowHeight = 28;
 	static constexpr int kHeaderHeight = 24;
-	static constexpr int kColumnCount = 13;
+	static constexpr int kColumnCount = kColCount;
 
 	int columnX(int col) const;
 	int columnWidth(int col) const;

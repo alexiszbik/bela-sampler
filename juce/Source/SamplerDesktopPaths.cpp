@@ -20,3 +20,7 @@ std::string SamplerDesktopPaths::getSamplesFolder() {
 std::string SamplerDesktopPaths::getProgramFolder() {
 	return getRepoRoot().getChildFile("program").getFullPathName().toStdString();
 }
+
+std::string SamplerDesktopPaths::getGeneratedSamplesFolder() {
+	return getRepoRoot().getChildFile("generated").getChildFile("samples").getFullPathName().toStdString();
+}

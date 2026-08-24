@@ -1,11 +1,24 @@
 #include "ProgramEditorWindow.h"
 
 #include "ProgramGridComponent.h"
+#include "ProgramSamplesExporter.h"
 #include "ProgramWriter.h"
 #include "SamplePreviewPlayer.h"
+#include "SamplerDesktopPaths.h"
 #include "SamplerLog.h"
 
 #include <juce_core/juce_core.h>
+
+namespace {
+int nextMidiNoteForNewLayer(const std::vector<ProgramSlotDesc>& slots) {
+	if(slots.empty()) {
+		return 0;
+	}
+
+	return juce::jmin(127, slots.back().midiNote + 1);
+}
+}
+
 ProgramEditorWindow::ProgramEditorWindow() {
 	addAndMakeVisible(programSelector);
 	programSelector.addListener(this);
@@ -22,13 +35,15 @@ ProgramEditorWindow::ProgramEditorWindow() {
 			return;
 		}
 
-		const int newNote = currentSlots.empty()
-			? 0
-			: juce::jmin(127, currentSlots.back().midiNote + 1);
-
-		programGrid->addLayer(newNote);
+		programGrid->addLayer(nextMidiNoteForNewLayer(currentSlots));
 		updateLayout();
 	};
+
+	addAndMakeVisible(addSampleButton);
+	addSampleButton.onClick = [this] { addSampleWithDialog(); };
+
+	addAndMakeVisible(exportHeaderButton);
+	exportHeaderButton.onClick = [this] { exportSamplesHeader(); };
 
 	viewport.setViewedComponent(&contentContainer, false);
 	addAndMakeVisible(viewport);
@@ -116,6 +131,95 @@ void ProgramEditorWindow::saveCurrentProgram() {
 	dirty = false;
 }
 
+void ProgramEditorWindow::exportSamplesHeader() {
+	if(currentFilepath.empty()) {
+		return;
+	}
+
+	const int selectedIndex = programSelector.getSelectedId() - 1;
+	if(selectedIndex < 0 || selectedIndex >= static_cast<int>(programMap.entries.size())) {
+		return;
+	}
+
+	const std::string programJsonFile = programMap.entries[static_cast<size_t>(selectedIndex)].file;
+	const std::string suggestedFilename = ProgramSamplesExporter::programFileToHeaderFilename(programJsonFile);
+
+	juce::File suggestedDirectory(SamplerDesktopPaths::getGeneratedSamplesFolder());
+	if(!suggestedDirectory.isDirectory()) {
+		suggestedDirectory = juce::File(programFolder);
+	}
+
+	const juce::File suggestedFile = suggestedDirectory.getChildFile(suggestedFilename);
+
+	exportHeaderFileChooser = std::make_unique<juce::FileChooser>(
+		"Export samples header",
+		suggestedFile,
+		"*.h");
+
+	constexpr auto flags = juce::FileBrowserComponent::saveMode
+		| juce::FileBrowserComponent::warnAboutOverwriting
+		| juce::FileBrowserComponent::canSelectFiles;
+
+	exportHeaderFileChooser->launchAsync(flags, [this, programJsonFile](const juce::FileChooser& chooser) {
+		juce::File outputFile = chooser.getResult();
+		exportHeaderFileChooser.reset();
+
+		if(outputFile == juce::File{}) {
+			return;
+		}
+
+		if(!outputFile.hasFileExtension("h")) {
+			outputFile = outputFile.withFileExtension("h");
+		}
+
+		if(!ProgramSamplesExporter::writeHeader(outputFile.getFullPathName().toStdString(),
+				programJsonFile,
+				currentSlots)) {
+			SAMPLER_LOG("Editor: no samples to export for %s\n", programJsonFile.c_str());
+			return;
+		}
+
+		SAMPLER_LOG("Editor: exported %s\n", outputFile.getFullPathName().toRawUTF8());
+	});
+}
+
+void ProgramEditorWindow::addSampleWithDialog() {
+	if(programGrid == nullptr) {
+		return;
+	}
+
+	const juce::File samplesFolder(SamplerDesktopPaths::getSamplesFolder());
+
+	addSampleFileChooser = std::make_unique<juce::FileChooser>(
+		"Select sample",
+		samplesFolder,
+		"*.wav;*.WAV;*.aif;*.aiff;*.flac;*.mp3");
+
+	constexpr auto flags = juce::FileBrowserComponent::openMode
+		| juce::FileBrowserComponent::canSelectFiles;
+
+	addSampleFileChooser->launchAsync(flags, [this, samplesFolder](const juce::FileChooser& chooser) {
+		const juce::File sampleFile = chooser.getResult();
+		addSampleFileChooser.reset();
+
+		if(sampleFile == juce::File{} || programGrid == nullptr) {
+			return;
+		}
+
+		if(!sampleFile.isAChildOf(samplesFolder)) {
+			SAMPLER_LOG("Editor: sample must be inside %s\n", samplesFolder.getFullPathName().toRawUTF8());
+			return;
+		}
+
+		const std::string relativeSamplePath = sampleFile.getRelativePathFrom(samplesFolder)
+			.replaceCharacter('\\', '/')
+			.toStdString();
+
+		programGrid->addLayer(nextMidiNoteForNewLayer(currentSlots), relativeSamplePath);
+		updateLayout();
+	});
+}
+
 void ProgramEditorWindow::markDirty() {
 	dirty = true;
 }
@@ -132,6 +236,8 @@ void ProgramEditorWindow::resized() {
 	saveButton.setBounds(topBar.removeFromLeft(70).reduced(2));
 	reloadButton.setBounds(topBar.removeFromLeft(90).reduced(2));
 	addLayerButton.setBounds(topBar.removeFromLeft(80).reduced(2));
+	addSampleButton.setBounds(topBar.removeFromLeft(90).reduced(2));
+	exportHeaderButton.setBounds(topBar.removeFromLeft(80).reduced(2));
 
 	viewport.setBounds(bounds);
 	updateLayout();

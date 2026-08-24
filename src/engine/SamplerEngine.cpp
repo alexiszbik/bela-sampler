@@ -65,6 +65,8 @@ void SamplerEngine::onControlChange(int controller, int value, int channel) {
     if(channel != kSamplerChannel) {
         return;
     }
+
+	SAMPLER_LOG("Control change: ctrl %d value %d\n", controller, value);
     
 	const float ratioValue = static_cast<float>(value) / 127.f;
 

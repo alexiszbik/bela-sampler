@@ -44,6 +44,10 @@
             file="platform/ProgramWriter.cpp"/>
       <FILE id="progWriterH" name="ProgramWriter.h" compile="0" resource="0"
             file="platform/ProgramWriter.h"/>
+      <FILE id="progSamplesExporterCpp" name="ProgramSamplesExporter.cpp" compile="1" resource="0"
+            file="platform/ProgramSamplesExporter.cpp"/>
+      <FILE id="progSamplesExporterH" name="ProgramSamplesExporter.h" compile="0" resource="0"
+            file="platform/ProgramSamplesExporter.h"/>
       <FILE id="samplerOptionsH" name="SamplerOptions.h" compile="0" resource="0"
             file="platform/SamplerOptions.h"/>
     </GROUP>

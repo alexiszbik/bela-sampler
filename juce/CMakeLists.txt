@@ -10,6 +10,7 @@ add_subdirectory(../external/JUCE JUCE)
 set(SAMPLER_EDITOR_SOURCES
     ../platform/SamplerLog.cpp
     platform/ProgramWriter.cpp
+    platform/ProgramSamplesExporter.cpp
     ../src/program/ProgramJson.cpp
     ../src/program/ProgramMapJson.cpp
     ../src/dsp/PitchHelper.cpp

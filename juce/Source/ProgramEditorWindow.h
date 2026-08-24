@@ -29,6 +29,8 @@ private:
 	void loadSelectedProgram();
 	void updateLayout();
 	void saveCurrentProgram();
+	void exportSamplesHeader();
+	void addSampleWithDialog();
 	void markDirty();
 
 	std::string programFolder;
@@ -38,6 +40,8 @@ private:
 	juce::TextButton saveButton {"Save"};
 	juce::TextButton reloadButton {"Recharger"};
 	juce::TextButton addLayerButton {"+ Layer"};
+	juce::TextButton addSampleButton {"+ Sample"};
+	juce::TextButton exportHeaderButton {"Export .h"};
 
 	juce::Viewport viewport;
 	juce::Component contentContainer;
@@ -48,4 +52,7 @@ private:
 	std::vector<ProgramSlotDesc> currentSlots;
 	std::string currentFilepath;
 	SamplePreviewPlayer* previewPlayer = nullptr;
+
+	std::unique_ptr<juce::FileChooser> exportHeaderFileChooser;
+	std::unique_ptr<juce::FileChooser> addSampleFileChooser;
 };
