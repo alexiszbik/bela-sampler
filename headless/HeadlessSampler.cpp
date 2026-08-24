@@ -3,8 +3,10 @@
 #include "SamplerBootstrap.h"
 #include "SamplerLog.h"
 
-#include <chrono>
-#include <thread>
+#include <iostream>
+#include <poll.h>
+#include <string>
+#include <unistd.h>
 
 extern std::atomic<bool> gShouldStop;
 
@@ -41,9 +43,12 @@ HeadlessSampler::~HeadlessSampler() {
 	stop();
 }
 
-bool HeadlessSampler::initialise(const std::string& samplesFolder,
-	const std::string& programFolder,
+bool HeadlessSampler::initialise(const std::string& inSamplesFolder,
+	const std::string& inProgramFolder,
 	const std::string& virtualPortName) {
+	samplesFolder = inSamplesFolder;
+	programFolder = inProgramFolder;
+
 	if(!SamplerBootstrap::init(samples,
 			programBank,
 			engine,
@@ -98,22 +103,112 @@ void HeadlessSampler::run() {
 		return;
 	}
 
-	const RtAudioErrorType startError = dac->startStream();
-	if(startError != RTAUDIO_NO_ERROR) {
-		SAMPLER_LOG("RtAudio startStream error: %s\n", errorTypeName(startError));
+	if(!startAudioStream()) {
 		return;
 	}
 
 	running = true;
 	SAMPLER_LOG("Headless sampler running (sampleRate=%.0f blockSize=%u)\n",
 		kSampleRate, kBlockSize);
+	SAMPLER_LOG("Commands: reload | quit\n");
 	SAMPLER_LOG("Press Ctrl-C to quit\n");
 
 	while(running && !gShouldStop) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		pollCommands(100);
 	}
 
 	stop();
+}
+
+bool HeadlessSampler::startAudioStream() {
+	if(dac == nullptr) {
+		return false;
+	}
+
+	if(dac->isStreamRunning()) {
+		return true;
+	}
+
+	const RtAudioErrorType startError = dac->startStream();
+	if(startError != RTAUDIO_NO_ERROR) {
+		SAMPLER_LOG("RtAudio startStream error: %s\n", errorTypeName(startError));
+		return false;
+	}
+
+	return true;
+}
+
+void HeadlessSampler::stopAudioStream() {
+	if(dac == nullptr) {
+		return;
+	}
+
+	if(dac->isStreamRunning()) {
+		dac->stopStream();
+	}
+}
+
+void HeadlessSampler::pollCommands(int timeoutMs) {
+	struct pollfd pollDescriptor {};
+	pollDescriptor.fd = STDIN_FILENO;
+	pollDescriptor.events = POLLIN;
+
+	const int pollResult = poll(&pollDescriptor, 1, timeoutMs);
+	if(pollResult <= 0 || (pollDescriptor.revents & POLLIN) == 0) {
+		return;
+	}
+
+	std::string line;
+	if(!std::getline(std::cin, line)) {
+		return;
+	}
+
+	handleCommand(line);
+}
+
+bool HeadlessSampler::handleCommand(const std::string& line) {
+	if(line == "reload") {
+		return reloadAll();
+	}
+
+	if(line == "quit" || line == "exit") {
+		gShouldStop = true;
+		return true;
+	}
+
+	if(line.empty()) {
+		return true;
+	}
+
+	SAMPLER_LOG("Unknown command: %s (available: reload, quit)\n", line.c_str());
+	return false;
+}
+
+bool HeadlessSampler::reloadAll() {
+	SAMPLER_LOG("Reloading samples and programs...\n");
+
+	stopAudioStream();
+
+	const int activePc = programBank.getActivePc();
+	if(!SamplerBootstrap::reload(samples,
+			programBank,
+			engine,
+			kSampleRate,
+			kNumPlayers,
+			samplesFolder.c_str(),
+			programFolder.c_str(),
+			activePc)) {
+		SAMPLER_LOG("Reload failed\n");
+		startAudioStream();
+		return false;
+	}
+
+	if(!startAudioStream()) {
+		SAMPLER_LOG("Could not restart audio after reload\n");
+		return false;
+	}
+
+	return true;
 }
 
 void HeadlessSampler::stop() {
@@ -122,6 +217,7 @@ void HeadlessSampler::stop() {
 	}
 
 	running = false;
+	stopAudioStream();
 
 	if(midiIn != nullptr) {
 		try {
@@ -133,9 +229,6 @@ void HeadlessSampler::stop() {
 	}
 
 	if(dac != nullptr) {
-		if(dac->isStreamRunning()) {
-			dac->stopStream();
-		}
 		if(dac->isStreamOpen()) {
 			dac->closeStream();
 		}

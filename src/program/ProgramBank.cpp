@@ -16,7 +16,9 @@ std::string joinPath(const std::string& folder, const std::string& file) {
 }
 }
 
-bool ProgramBank::load(const std::string& programFolder, const std::vector<Sample>& samples) {
+bool ProgramBank::load(const std::string& programFolder,
+	const std::vector<Sample>& samples,
+	int preserveActivePc) {
 	programs.clear();
 	pcToProgramIndex.clear();
 	activeProgramIndex = 0;
@@ -64,6 +66,20 @@ bool ProgramBank::load(const std::string& programFolder, const std::vector<Sampl
 	if(programs.empty() || pcToProgramIndex.empty()) {
 		SAMPLER_LOG("ProgramBank: no programs loaded from %s\n", mapPath.c_str());
 		return false;
+	}
+
+	if(preserveActivePc >= 0) {
+		const auto preserved = pcToProgramIndex.find(preserveActivePc);
+		if(preserved != pcToProgramIndex.end()) {
+			activeProgramIndex = preserved->second;
+			activePc = preserveActivePc;
+			SAMPLER_LOG("ProgramBank: active PC %d (%zu slots)\n",
+				activePc,
+				programs[activeProgramIndex].getSlotCount());
+			return true;
+		}
+
+		SAMPLER_LOG("ProgramBank: preserved PC %d not found, using default\n", preserveActivePc);
 	}
 
 	const auto defaultEntry = pcToProgramIndex.find(programMap.defaultPc);

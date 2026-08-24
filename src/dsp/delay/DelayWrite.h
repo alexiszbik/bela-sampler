@@ -87,6 +87,7 @@ class DelayWrite  {
         x_sortno = 0;
         sigdelwrite_checkvecsize(sampleRate * 1); //number of size - 1 sec in 44100
         sigdelwrite_updatesr(sampleRate); //check sample rate
+        clear();
     }
     
     void clear()

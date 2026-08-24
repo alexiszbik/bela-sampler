@@ -115,3 +115,46 @@ bool SamplerBootstrap::init(std::vector<Sample>& samples,
 
 	return true;
 }
+
+bool SamplerBootstrap::reload(std::vector<Sample>& samples,
+	ProgramBank& programBank,
+	SamplerEngine& engine,
+	double sampleRate,
+	size_t playerCount,
+	const char* samplesFolder,
+	const char* programFolder,
+	int preserveActivePc) {
+	size_t totalRamBytes = 0;
+	samples.clear();
+
+	if(!loadSamplesInDirectory(samplesFolder, "", samples, totalRamBytes)) {
+		SAMPLER_LOG("Could not open %s\n", samplesFolder);
+		return false;
+	}
+
+	if(samples.empty()) {
+		SAMPLER_LOG("No samples found in %s\n", samplesFolder);
+		return false;
+	}
+
+	SAMPLER_LOG("Total samples RAM: %.1f KB (%.2f MB)\n",
+		totalRamBytes / 1024.f,
+		totalRamBytes / (1024.f * 1024.f));
+
+	if(!programBank.load(programFolder, samples, preserveActivePc)) {
+		return false;
+	}
+
+	engine.init(&programBank, sampleRate, playerCount);
+
+	SAMPLER_LOG("Reloaded %zu samples, %zu voice pool, %zu programs, active PC %d (%zu slots)\n",
+		samples.size(),
+		engine.getPlayerCount(),
+		programBank.getLoadedProgramCount(),
+		programBank.getActivePc(),
+		programBank.getActiveProgram() != nullptr
+			? programBank.getActiveProgram()->getSlotCount()
+			: 0);
+
+	return true;
+}

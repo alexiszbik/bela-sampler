@@ -9,7 +9,9 @@
 class ProgramBank
 {
 public:
-	bool load(const std::string& programFolder, const std::vector<Sample>& samples);
+	bool load(const std::string& programFolder,
+		const std::vector<Sample>& samples,
+		int preserveActivePc = -1);
 
 	Program* getActiveProgram();
 	const Program* getActiveProgram() const;

@@ -76,7 +76,7 @@ echo "→ Running headless sampler..."
 echo "  samples: $SAMPLES_FOLDER"
 echo "  program:  $PROGRAM_FOLDER"
 echo "  midi:     $MIDI_DEVICE"
-echo "  (Ctrl-C to quit)"
+echo "  (Ctrl-C to quit, type 'reload' to rescan samples and reload programs)"
 echo
 
 cd "$REPO_ROOT"

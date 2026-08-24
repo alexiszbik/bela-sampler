@@ -23,6 +23,15 @@ public:
 		const char* samplesFolder = kSamplesFolder,
 		const char* programFolder = kProgramFolder);
 
+	static bool reload(std::vector<Sample>& samples,
+		ProgramBank& programBank,
+		SamplerEngine& engine,
+		double sampleRate,
+		size_t playerCount,
+		const char* samplesFolder,
+		const char* programFolder,
+		int preserveActivePc);
+
 private:
 	static bool isWavFile(const std::string& filename);
 	static bool loadSampleFile(const std::string& filePath,

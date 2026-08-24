@@ -9,6 +9,8 @@
 void SamplePlayerPool::init(double sampleRate, size_t count) {
 	voices.resize(count);
 	for(SamplerVoice& voice : voices) {
+		voice.stop();
+		voice.clearVoiceBinding();
 		voice.init(sampleRate);
 	}
 }

@@ -46,6 +46,8 @@ public:
             writers[i].init(maxDelayTime, sampleRate);
             readers[i].init(sampleRate);
         }
+
+        clear();
     }
     
     void clear()  {

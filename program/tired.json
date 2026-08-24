@@ -24,12 +24,25 @@
       ]
     },
     {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "tired/CLAP.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": 3.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
       "midiNote": 39,
       "layers": [
         {
           "sample": "tired/HANDCLP1.WAV",
           "mode": "poly",
-          "volume": -6.0
+          "volume": -3.0,
+          "bus": "snare"
         }
       ]
     },
@@ -108,7 +121,9 @@
         {
           "sample": "tired/HHOD4.WAV",
           "mode": "mono",
-          "volume": -8.0
+          "volume": -8.0,
+          "muteGroup": "B",
+          "bus": "hats"
         }
       ]
     },
@@ -118,8 +133,10 @@
         {
           "sample": "tired/HHOD4.WAV",
           "mode": "mono",
-          "volume": -10.0,
-          "pitch": -1.0
+          "volume": -12.0,
+          "pitch": -1.0,
+          "muteGroup": "B",
+          "bus": "hats"
         }
       ]
     },
@@ -280,7 +297,7 @@
         {
           "sample": "tired/techSnare.wav",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "bus": "snare"
         }
       ]

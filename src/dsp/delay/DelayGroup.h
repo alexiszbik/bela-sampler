@@ -47,6 +47,8 @@ public:
         for (size_t i = 0; i < count; i++) {
             lines.at(i)->delayLine->init(inChannelCount, sampleRate);
         }
+
+        clear();
     }
     
     void clear() {

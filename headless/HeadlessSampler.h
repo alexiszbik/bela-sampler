@@ -34,6 +34,12 @@ private:
 		std::vector<unsigned char>* message,
 		void* userData);
 
+	void pollCommands(int timeoutMs);
+	bool handleCommand(const std::string& line);
+	bool reloadAll();
+	bool startAudioStream();
+	void stopAudioStream();
+
 	std::vector<Sample> samples;
 	ProgramBank programBank;
 	SamplerEngine engine;
@@ -42,5 +48,7 @@ private:
 	std::unique_ptr<RtAudio> dac;
 	std::unique_ptr<RtMidiIn> midiIn;
 
+	std::string samplesFolder;
+	std::string programFolder;
 	bool running = false;
 };
