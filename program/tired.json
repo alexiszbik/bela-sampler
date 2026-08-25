@@ -254,7 +254,7 @@
           "sample": "tired/CYMB.WAV",
           "mode": "mono",
           "volume": -12.0,
-          "pitch": -12.0,
+          "pitch": -6.0,
           "bus": "hats"
         }
       ]
