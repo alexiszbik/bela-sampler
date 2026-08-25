@@ -247,6 +247,16 @@
           "volume": -6.0
         }
       ]
+    },
+    {
+      "midiNote": 65,
+      "layers": [
+        {
+          "sample": "fantasy/Fantasy_breakFX.wav",
+          "mode": "poly",
+          "volume": -6.0
+        }
+      ]
     }
   ]
 }
