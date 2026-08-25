@@ -25,6 +25,8 @@ set(SAMPLER_EDITOR_SOURCES
     Source/PreviewAudioHost.cpp
     Source/ProgramGridComponent.cpp
     Source/ProgramEditorWindow.cpp
+    Source/EditorRootComponent.cpp
+    Source/waveform/SampleWaveform.cpp
     Source/MainWindow.cpp
     Source/Main.cpp
 )

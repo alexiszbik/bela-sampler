@@ -7,15 +7,20 @@
 
 #include <juce_core/juce_core.h>
 
+#include <functional>
 #include <string>
 
 class SamplerPreviewEngine
 {
 public:
+	using SamplePreviewCallback = std::function<void(const Sample&, bool reversed, const std::string& displayName)>;
+
 	void prepare(double sampleRate, int blockSize);
 	void playSlot(const ProgramSlotDesc& slotDesc, const juce::File& sampleFile);
 	void stop();
 	void mixInto(float* const* output, int numChannels, int numSamples);
+
+	SamplePreviewCallback onSamplePreviewed;
 
 private:
 	bool ensureSampleLoaded(const juce::File& sampleFile, const std::string& relativePath);

@@ -34,6 +34,18 @@
             resource="0" file="Source/ProgramEditorWindow.cpp"/>
       <FILE id="progEditorH" name="ProgramEditorWindow.h" compile="0" resource="0"
             file="Source/ProgramEditorWindow.h"/>
+      <FILE id="editorRootCpp" name="EditorRootComponent.cpp" compile="1"
+            resource="0" file="Source/EditorRootComponent.cpp"/>
+      <FILE id="editorRootH" name="EditorRootComponent.h" compile="0" resource="0"
+            file="Source/EditorRootComponent.h"/>
+      <GROUP id="waveformGroup" name="waveform">
+        <FILE id="sampleWaveformCpp" name="SampleWaveform.cpp" compile="1"
+              resource="0" file="Source/waveform/SampleWaveform.cpp"/>
+        <FILE id="sampleWaveformH" name="SampleWaveform.h" compile="0" resource="0"
+              file="Source/waveform/SampleWaveform.h"/>
+        <FILE id="waveformBufferH" name="WaveformBuffer.h" compile="0" resource="0"
+              file="Source/waveform/WaveformBuffer.h"/>
+      </GROUP>
     </GROUP>
     <GROUP id="platformGroup" name="Platform">
       <FILE id="samplerLogCpp" name="SamplerLog.cpp" compile="1" resource="0"

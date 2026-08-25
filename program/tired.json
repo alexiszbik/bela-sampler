@@ -171,6 +171,7 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": 0.600000023841858,
+          "muteGroup": "A",
           "bus": "hats"
         }
       ]
@@ -253,6 +254,7 @@
           "sample": "tired/CYMB.WAV",
           "mode": "mono",
           "volume": -12.0,
+          "pitch": -12.0,
           "bus": "hats"
         }
       ]
@@ -321,6 +323,27 @@
           "mode": "gate",
           "volume": -12.0,
           "pitch": -12.0
+        }
+      ]
+    },
+    {
+      "midiNote": 67,
+      "layers": [
+        {
+          "sample": "tired/shortSnr.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 68,
+      "layers": [
+        {
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "A"
         }
       ]
     }

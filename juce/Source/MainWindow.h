@@ -1,7 +1,7 @@
 #pragma once
 
+#include "EditorRootComponent.h"
 #include "PreviewAudioHost.h"
-#include "ProgramEditorWindow.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -15,5 +15,5 @@ public:
 
 private:
 	PreviewAudioHost previewHost;
-	ProgramEditorWindow editorWindow;
+	EditorRootComponent rootComponent;
 };

@@ -163,3 +163,11 @@ void Sample::tableRead(double index, float* buf, size_t bufSize, bool loop) cons
 size_t Sample::getRamBytes() const {
 	return sampleLength * channelCount * sizeof(float);
 }
+
+const float* Sample::getChannelSamples(unsigned int channel) const {
+	if(channel >= channelCount || sampleData.empty()) {
+		return nullptr;
+	}
+
+	return sampleData[channel].data();
+}

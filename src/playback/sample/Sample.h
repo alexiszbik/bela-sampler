@@ -18,6 +18,7 @@ public:
 
 	std::string getChannelDescription() const;
 	const std::string& getName() const { return name; }
+	const float* getChannelSamples(unsigned int channel) const;
 
 private:
 	std::string name;
