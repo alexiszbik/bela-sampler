@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SamplePreviewPlayer.h"
+#include "SamplerPreviewEngine.h"
 
 #include <juce_audio_devices/juce_audio_devices.h>
 
@@ -13,7 +13,7 @@ public:
 	bool initialise();
 	void shutdown();
 
-	SamplePreviewPlayer& getPlayer() { return player; }
+	SamplerPreviewEngine& getPlayer() { return player; }
 
 private:
 	void audioDeviceIOCallbackWithContext(const float* const* inputChannelData,
@@ -27,5 +27,5 @@ private:
 	void audioDeviceStopped() override;
 
 	juce::AudioDeviceManager deviceManager;
-	SamplePreviewPlayer player;
+	SamplerPreviewEngine player;
 };

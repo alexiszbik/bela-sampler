@@ -14,10 +14,14 @@ set(SAMPLER_EDITOR_SOURCES
     ../src/program/ProgramJson.cpp
     ../src/program/ProgramMapJson.cpp
     ../src/dsp/PitchHelper.cpp
+    ../src/dsp/GainHelper.cpp
+    ../src/playback/SamplerVoice.cpp
+    ../src/playback/SamplePlayer.cpp
+    ../src/playback/sample/Sample.cpp
     ../src/mix/MixBusNames.cpp
     Source/SamplerDesktopPaths.cpp
     Source/SharedAudioFormatManager.cpp
-    Source/SamplePreviewPlayer.cpp
+    Source/SamplerPreviewEngine.cpp
     Source/PreviewAudioHost.cpp
     Source/ProgramGridComponent.cpp
     Source/ProgramEditorWindow.cpp
@@ -38,6 +42,8 @@ target_include_directories(BelaSampler PRIVATE
     platform
     ../platform
     ../src/program
+    ../src/playback
+    ../src/playback/sample
     ../src/mix
     ../src/dsp
     Source

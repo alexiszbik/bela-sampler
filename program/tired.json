@@ -64,7 +64,7 @@
         {
           "sample": "tired/tired_shake.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "pitch": -17.0,
           "bus": "hats"
         }
@@ -308,7 +308,8 @@
         {
           "sample": "tired/WN_DOWN.WAV",
           "mode": "mono",
-          "volume": -10.0
+          "volume": -10.0,
+          "pitch": -11.0
         }
       ]
     },

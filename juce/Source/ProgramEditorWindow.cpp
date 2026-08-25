@@ -3,7 +3,7 @@
 #include "ProgramGridComponent.h"
 #include "ProgramSamplesExporter.h"
 #include "ProgramWriter.h"
-#include "SamplePreviewPlayer.h"
+#include "SamplerPreviewEngine.h"
 #include "SamplerDesktopPaths.h"
 #include "SamplerLog.h"
 
@@ -53,7 +53,7 @@ ProgramEditorWindow::~ProgramEditorWindow() {
 	programSelector.removeListener(this);
 }
 
-void ProgramEditorWindow::setPreviewPlayer(SamplePreviewPlayer* inPreviewPlayer) {
+void ProgramEditorWindow::setPreviewPlayer(SamplerPreviewEngine* inPreviewPlayer) {
 	previewPlayer = inPreviewPlayer;
 }
 

@@ -3,7 +3,7 @@
 <JUCERPROJECT id="bSaMp1" name="BelaSampler" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" version="1.0.0"
               companyName="YMNK" bundleIdentifier="com.ymnk.belasampler.editor"
-              defines="SAMPLER_DESKTOP=1" cppLanguageStandard="17" headerPath="../../../src/program&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source">
+              headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source">
   <MAINGROUP id="mainGroup" name="BelaSampler">
     <GROUP id="juceSource" name="Source">
       <FILE id="mainCpp" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
@@ -14,10 +14,10 @@
             file="Source/PreviewAudioHost.cpp"/>
       <FILE id="previewHostH" name="PreviewAudioHost.h" compile="0" resource="0"
             file="Source/PreviewAudioHost.h"/>
-      <FILE id="previewCpp" name="SamplePreviewPlayer.cpp" compile="1" resource="0"
-            file="Source/SamplePreviewPlayer.cpp"/>
-      <FILE id="previewH" name="SamplePreviewPlayer.h" compile="0" resource="0"
-            file="Source/SamplePreviewPlayer.h"/>
+      <FILE id="previewCpp" name="SamplerPreviewEngine.cpp" compile="1" resource="0"
+            file="Source/SamplerPreviewEngine.cpp"/>
+      <FILE id="previewH" name="SamplerPreviewEngine.h" compile="0" resource="0"
+            file="Source/SamplerPreviewEngine.h"/>
       <FILE id="sharedFmtCpp" name="SharedAudioFormatManager.cpp" compile="1"
             resource="0" file="Source/SharedAudioFormatManager.cpp"/>
       <FILE id="sharedFmtH" name="SharedAudioFormatManager.h" compile="0"
@@ -44,10 +44,10 @@
             file="platform/ProgramWriter.cpp"/>
       <FILE id="progWriterH" name="ProgramWriter.h" compile="0" resource="0"
             file="platform/ProgramWriter.h"/>
-      <FILE id="progSamplesExporterCpp" name="ProgramSamplesExporter.cpp" compile="1" resource="0"
-            file="platform/ProgramSamplesExporter.cpp"/>
-      <FILE id="progSamplesExporterH" name="ProgramSamplesExporter.h" compile="0" resource="0"
-            file="platform/ProgramSamplesExporter.h"/>
+      <FILE id="progSamplesExporterCpp" name="ProgramSamplesExporter.cpp"
+            compile="1" resource="0" file="platform/ProgramSamplesExporter.cpp"/>
+      <FILE id="progSamplesExporterH" name="ProgramSamplesExporter.h" compile="0"
+            resource="0" file="platform/ProgramSamplesExporter.h"/>
       <FILE id="samplerOptionsH" name="SamplerOptions.h" compile="0" resource="0"
             file="platform/SamplerOptions.h"/>
     </GROUP>
@@ -57,6 +57,22 @@
               file="../src/dsp/PitchHelper.cpp"/>
         <FILE id="pitchHelperH" name="PitchHelper.h" compile="0" resource="0"
               file="../src/dsp/PitchHelper.h"/>
+        <FILE id="gainHelperCpp" name="GainHelper.cpp" compile="1" resource="0"
+              file="../src/dsp/GainHelper.cpp"/>
+        <FILE id="gainHelperH" name="GainHelper.h" compile="0" resource="0"
+              file="../src/dsp/GainHelper.h"/>
+      </GROUP>
+      <GROUP id="srcPlayback" name="playback">
+        <FILE id="samplerVoiceCpp" name="SamplerVoice.cpp" compile="1" resource="0"
+              file="../src/playback/SamplerVoice.cpp"/>
+        <FILE id="samplerVoiceH" name="SamplerVoice.h" compile="0" resource="0"
+              file="../src/playback/SamplerVoice.h"/>
+        <FILE id="samplePlayerCpp" name="SamplePlayer.cpp" compile="1" resource="0"
+              file="../src/playback/SamplePlayer.cpp"/>
+        <FILE id="samplePlayerH" name="SamplePlayer.h" compile="0" resource="0"
+              file="../src/playback/SamplePlayer.h"/>
+        <FILE id="sampleCpp" name="Sample.cpp" compile="1" resource="0" file="../src/playback/sample/Sample.cpp"/>
+        <FILE id="sampleH" name="Sample.h" compile="0" resource="0" file="../src/playback/sample/Sample.h"/>
       </GROUP>
       <GROUP id="srcMix" name="mix">
         <FILE id="mixBusNamesCpp" name="MixBusNames.cpp" compile="1" resource="0"
@@ -74,6 +90,7 @@
         <FILE id="programMapJsonH" name="ProgramMapJson.h" compile="0" resource="0"
               file="../src/program/ProgramMapJson.h"/>
         <FILE id="muteGroupH" name="MuteGroup.h" compile="0" resource="0" file="../src/program/MuteGroup.h"/>
+        <FILE id="programH" name="Program.h" compile="0" resource="0" file="../src/program/Program.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
@@ -102,10 +119,10 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1" useGlobalPath="0"/>
   </MODULES>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" extraDefs="JUCE_SILENCE_XCODE_15_LINKER_WARNING=1">
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraDefs="JUCE_SILENCE_XCODE_15_LINKER_WARNING=1&#10;SAMPLER_DESKTOP">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../external/JUCE/modules"/>

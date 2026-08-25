@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProgramJson.h"
-#include "SamplePreviewPlayer.h"
+#include "SamplerPreviewEngine.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -11,7 +11,7 @@
 class ProgramGridComponent : public juce::Component
 {
 public:
-	explicit ProgramGridComponent(std::vector<ProgramSlotDesc>& slots, SamplePreviewPlayer& previewPlayer);
+	explicit ProgramGridComponent(std::vector<ProgramSlotDesc>& slots, SamplerPreviewEngine& previewPlayer);
 	~ProgramGridComponent() override;
 
 	void paint(juce::Graphics& g) override;
@@ -68,7 +68,7 @@ private:
 	std::vector<ProgramSlotDesc>& slots;
 	std::vector<RowComponents> rows;
 	std::vector<int> sampleNoteNumbers;
-	SamplePreviewPlayer& previewPlayer;
+	SamplerPreviewEngine& previewPlayer;
 
 	static constexpr int kRowHeight = 28;
 	static constexpr int kHeaderHeight = 24;

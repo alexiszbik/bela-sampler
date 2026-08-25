@@ -171,7 +171,7 @@ void applyToggleRowColour(juce::ToggleButton& toggle, const juce::Colour& backgr
 }
 }
 
-ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots, SamplePreviewPlayer& inPreviewPlayer)
+ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots, SamplerPreviewEngine& inPreviewPlayer)
 	: slots(inSlots),
 	  previewPlayer(inPreviewPlayer) {
 	sortSlotsByNote();
@@ -326,7 +326,7 @@ void ProgramGridComponent::rebuildRows() {
 
 			const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
 				.getChildFile(slots[i].sample);
-			previewPlayer.play(sampleFile);
+			previewPlayer.playSlot(slots[i], sampleFile);
 		};
 		addAndMakeVisible(*row.playButton);
 
