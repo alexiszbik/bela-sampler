@@ -22,7 +22,7 @@ public:
 	ProgramEditorWindow& getEditor() { return editor; }
 
 private:
-	void onSamplePreviewed(const Sample& sample, bool reversed, const std::string& displayName);
+	void onSamplePreviewed(const Sample& sample, bool reversed, float volumeDb, const std::string& displayName);
 
 	PreviewAudioHost& previewHost;
 	ProgramEditorWindow editor;

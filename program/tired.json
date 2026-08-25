@@ -40,7 +40,7 @@
       "layers": [
         {
           "sample": "tired/HANDCLP1.WAV",
-          "mode": "poly",
+          "mode": "mono",
           "volume": -3.0,
           "bus": "snare"
         }

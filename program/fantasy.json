@@ -177,35 +177,54 @@
       "midiNote": 54,
       "layers": [
         {
-          "sample": "fantasy/ftsy sample.WAV",
+          "sample": "fantasy/Fantasy_intro.wav",
           "mode": "mono",
           "volume": -4.0,
-          "pitch": -12.0,
-          "bus": "sample"
+          "muteGroup": "D"
         }
       ]
     },
     {
-      "midiNote": 61,
+      "midiNote": 55,
       "layers": [
         {
-          "sample": "fantasy/ftsy sample fade.WAV",
+          "sample": "fantasy/Fantasy_sidekick.wav",
           "mode": "mono",
           "volume": -4.0,
-          "pitch": -12.0,
-          "muteGroup": "B"
+          "muteGroup": "D"
         }
       ]
     },
     {
-      "midiNote": 62,
+      "midiNote": 56,
       "layers": [
         {
-          "sample": "fantasy/ftsy sample cut.WAV",
+          "sample": "fantasy/Fantasy_cut.wav",
           "mode": "mono",
           "volume": -4.0,
-          "pitch": -12.0,
-          "muteGroup": "B"
+          "muteGroup": "D"
+        }
+      ]
+    },
+    {
+      "midiNote": 57,
+      "layers": [
+        {
+          "sample": "fantasy/Fantasy_filterA.wav",
+          "mode": "mono",
+          "volume": -4.0,
+          "muteGroup": "D"
+        }
+      ]
+    },
+    {
+      "midiNote": 58,
+      "layers": [
+        {
+          "sample": "fantasy/Fantasy_filterB.wav",
+          "mode": "mono",
+          "volume": -4.0,
+          "muteGroup": "D"
         }
       ]
     },

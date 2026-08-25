@@ -1,6 +1,16 @@
 #include "EditorRootComponent.h"
 
+#include "GainHelper.h"
 #include "SamplerDesktopPaths.h"
+
+namespace {
+constexpr float kPreviewVelocity = 100.f;
+
+float previewGainFromVolumeDb(float volumeDb) {
+	const float velocityGain = kPreviewVelocity / 127.f;
+	return velocityGain * velocityGain * dBtoRMS(volumeDb);
+}
+}
 
 EditorRootComponent::EditorRootComponent(PreviewAudioHost& inPreviewHost)
 	: previewHost(inPreviewHost) {
@@ -17,8 +27,9 @@ EditorRootComponent::EditorRootComponent(PreviewAudioHost& inPreviewHost)
 
 	previewHost.getPlayer().onSamplePreviewed = [this](const Sample& sample,
 		bool reversed,
+		float volumeDb,
 		const std::string& displayName) {
-		onSamplePreviewed(sample, reversed, displayName);
+		onSamplePreviewed(sample, reversed, volumeDb, displayName);
 	};
 }
 
@@ -43,6 +54,7 @@ void EditorRootComponent::resized() {
 
 void EditorRootComponent::onSamplePreviewed(const Sample& sample,
 	bool reversed,
+	float volumeDb,
 	const std::string& displayName) {
 	waveformTitle.setText(displayName.empty() ? "Last played sample" : juce::String(displayName),
 		juce::dontSendNotification);
@@ -73,6 +85,7 @@ void EditorRootComponent::onSamplePreviewed(const Sample& sample,
 	}
 
 	waveformView.setReverse(reversed);
+	waveformView.setAmplitudeFactor(previewGainFromVolumeDb(volumeDb));
 	waveformView.updateWindow(0.f, 1.f);
 	waveformView.setStart(0.f);
 	waveformView.setEnd(1.f);

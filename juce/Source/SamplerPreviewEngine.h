@@ -13,7 +13,10 @@
 class SamplerPreviewEngine
 {
 public:
-	using SamplePreviewCallback = std::function<void(const Sample&, bool reversed, const std::string& displayName)>;
+	using SamplePreviewCallback = std::function<void(const Sample&,
+		bool reversed,
+		float volumeDb,
+		const std::string& displayName)>;
 
 	void prepare(double sampleRate, int blockSize);
 	void playSlot(const ProgramSlotDesc& slotDesc, const juce::File& sampleFile);

@@ -84,7 +84,7 @@ void SamplerPreviewEngine::playSlot(const ProgramSlotDesc& slotDesc, const juce:
 
 	if(onSamplePreviewed) {
 		const std::string displayName = sample.getName().empty() ? slotDesc.sample : sample.getName();
-		onSamplePreviewed(sample, slotDesc.reversed, displayName);
+		onSamplePreviewed(sample, slotDesc.reversed, slotDesc.volumeDb, displayName);
 	}
 }
 
