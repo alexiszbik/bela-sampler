@@ -50,7 +50,7 @@
         {
           "sample": "bibimbap/bbb_shake.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "hats"
         }
       ]
@@ -60,8 +60,8 @@
       "layers": [
         {
           "sample": "bibimbap/openH.WAV",
-          "mode": "mono",
-          "volume": -6.0,
+          "mode": "poly",
+          "volume": -15.0,
           "bus": "hats"
         }
       ]
@@ -151,6 +151,7 @@
           "sample": "bibimbap/SD1050.WAV",
           "mode": "mono",
           "volume": -6.0,
+          "pitch": -1.0,
           "bus": "snare"
         }
       ]
