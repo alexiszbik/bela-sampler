@@ -6,7 +6,7 @@
         {
           "sample": "fantasy/ftsy kick.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "bus": "kick"
         }
       ]
@@ -28,7 +28,7 @@
         {
           "sample": "fantasy/ftsy clp.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "bus": "snare"
         }
       ]
@@ -50,7 +50,7 @@
         {
           "sample": "fantasy/ftsy hat.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "bus": "hats"
         }
       ]
@@ -84,7 +84,7 @@
         {
           "sample": "fantasy/fant_voc1.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -12.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -96,7 +96,7 @@
         {
           "sample": "fantasy/fant_voc2.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -12.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -108,7 +108,7 @@
         {
           "sample": "fantasy/fant_voc3.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -12.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -120,7 +120,7 @@
         {
           "sample": "fantasy/fant_voc4.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -12.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -132,7 +132,7 @@
         {
           "sample": "fantasy/fant_voc5.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -12.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -179,7 +179,7 @@
         {
           "sample": "fantasy/Fantasy_intro.wav",
           "mode": "mono",
-          "volume": -4.0,
+          "volume": -6.0,
           "muteGroup": "D"
         }
       ]
@@ -190,7 +190,7 @@
         {
           "sample": "fantasy/Fantasy_sidekick.wav",
           "mode": "mono",
-          "volume": -4.0,
+          "volume": -6.0,
           "muteGroup": "D"
         }
       ]
@@ -201,7 +201,7 @@
         {
           "sample": "fantasy/Fantasy_cut.wav",
           "mode": "mono",
-          "volume": -4.0,
+          "volume": -6.0,
           "muteGroup": "D"
         }
       ]
@@ -212,7 +212,7 @@
         {
           "sample": "fantasy/Fantasy_filterA.wav",
           "mode": "mono",
-          "volume": -4.0,
+          "volume": -6.0,
           "muteGroup": "D"
         }
       ]
@@ -223,7 +223,7 @@
         {
           "sample": "fantasy/Fantasy_filterB.wav",
           "mode": "mono",
-          "volume": -4.0,
+          "volume": -6.0,
           "muteGroup": "D"
         }
       ]

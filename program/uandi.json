@@ -39,7 +39,7 @@
         {
           "sample": "u&i/UAI_OH.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -10.0,
           "pitch": 0.430000007152557,
           "bus": "hats"
         }
@@ -51,7 +51,7 @@
         {
           "sample": "u&i/UAI_SHK.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "hats"
         }
       ]
@@ -164,7 +164,7 @@
         {
           "sample": "u&i/ui_clpverb.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -2.0,
           "pitch": -11.319999694824219,
           "bus": "snare"
         }
@@ -177,8 +177,7 @@
           "sample": "u&i/UAI_WT1.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "muteGroup": "B",
-          "bus": "sample"
+          "muteGroup": "B"
         }
       ]
     },
@@ -189,8 +188,7 @@
           "sample": "u&i/UAI_WT2.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "muteGroup": "B",
-          "bus": "sample"
+          "muteGroup": "B"
         }
       ]
     },

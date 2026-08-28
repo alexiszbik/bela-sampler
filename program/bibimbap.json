@@ -50,7 +50,7 @@
         {
           "sample": "bibimbap/bbb_shake.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -10.0,
           "bus": "hats"
         }
       ]
@@ -72,7 +72,7 @@
         {
           "sample": "bibimbap/BBB_CL.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "toms"
         }
       ]
@@ -150,7 +150,7 @@
         {
           "sample": "bibimbap/SD1050.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "pitch": -1.0,
           "bus": "snare"
         }
@@ -162,7 +162,7 @@
         {
           "sample": "bibimbap/bbb_hatlp.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -10.0,
           "pitch": 0.649999976158142,
           "bus": "hats"
         }
@@ -195,7 +195,7 @@
         {
           "sample": "bibimbap/BBB_ARP.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "pitch": -12.0,
           "bus": "sample"
         }
@@ -207,7 +207,7 @@
         {
           "sample": "bibimbap/bbb_fleetA.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -219,7 +219,7 @@
         {
           "sample": "bibimbap/bbb_fleetB.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "muteGroup": "A",
           "bus": "sample"
         }
