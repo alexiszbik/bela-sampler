@@ -39,8 +39,7 @@
         {
           "sample": "together/TGT_AH.WAV",
           "mode": "mono",
-          "volume": -6.0,
-          "bus": "sample"
+          "volume": -6.0
         }
       ]
     },
