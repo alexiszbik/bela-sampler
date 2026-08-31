@@ -46,9 +46,9 @@ private:
 	std::vector<CCMap> ccMaps = {
 		//============== SAMPLES
 
-		CCMap{38, {{kBusSample, Volume}}},
+		CCMap{38, {{kBusSample, Volume}, {kBusMaster, Volume}}},
 
-		CCMap{52, {{kBusSample, Mute}}},
+		CCMap{52, {{kBusSample, Mute}, {kBusMaster, Mute}}},
 
 		CCMap{13, {{kBusSample, LowPassCutoff}}},
 		CCMap{12, {{kBusSample, HiPassCutoff}}},
