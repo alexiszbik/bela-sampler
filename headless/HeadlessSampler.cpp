@@ -267,9 +267,9 @@ int HeadlessSampler::audioCallback(void* outputBuffer, void* inputBuffer,
 
 		self->engine.nextSamples(mix, MixBusArray::kMasterChannelCount);
 
-		const float monoMix = mix[4] + mix[5] + mix[6] + mix[7];
-		out[n * kOutputChannels + 0] = mix[0] + mix[2] + monoMix;
-		out[n * kOutputChannels + 1] = mix[1] + mix[3] + monoMix;
+		const float monoMix = mix[0] + mix[1] + mix[2] + mix[3];
+		out[n * kOutputChannels + 0] = mix[4] + mix[6] + monoMix;
+		out[n * kOutputChannels + 1] = mix[5] + mix[7] + monoMix;
 	}
 
 	return 0;
