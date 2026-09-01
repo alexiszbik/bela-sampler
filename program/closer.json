@@ -226,7 +226,7 @@
         {
           "sample": "Closer/TRI_303.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -10.0,
           "bus": "sample"
         }
       ]

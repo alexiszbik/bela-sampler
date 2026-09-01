@@ -84,7 +84,8 @@
           "sample": "Falling/TOM2.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "pitch": -3.0
+          "pitch": -3.0,
+          "bus": "toms"
         }
       ]
     },
@@ -105,7 +106,8 @@
         {
           "sample": "Falling/ISP_RID1.WAV",
           "mode": "mono",
-          "volume": -6.0
+          "volume": -8.0,
+          "bus": "hats"
         }
       ]
     },
