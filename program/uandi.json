@@ -28,7 +28,7 @@
         {
           "sample": "u&i/SST.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "snare"
         }
       ]
@@ -202,6 +202,16 @@
           "volume": -6.0,
           "pitch": -12.0,
           "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 69,
+      "layers": [
+        {
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "B"
         }
       ]
     }
