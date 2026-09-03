@@ -73,8 +73,7 @@
         {
           "sample": "u&i/UI_WANT.WAV",
           "mode": "mono",
-          "volume": -6.0,
-          "bus": "sample"
+          "volume": -6.0
         }
       ]
     },
@@ -85,7 +84,8 @@
           "sample": "u&i/UAI_VO1.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "pitch": -0.079999998211861
+          "pitch": -0.079999998211861,
+          "bus": "sample"
         }
       ]
     },
@@ -96,7 +96,8 @@
           "sample": "u&i/UAI_VO2.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "pitch": -0.079999998211861
+          "pitch": -0.079999998211861,
+          "bus": "sample"
         }
       ]
     },

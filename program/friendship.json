@@ -296,7 +296,8 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -7.0,
-          "muteGroup": "D"
+          "muteGroup": "D",
+          "bus": "sample"
         }
       ]
     },
