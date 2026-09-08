@@ -6,7 +6,7 @@
         {
           "sample": "tired/tired_kick.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -2.0,
           "bus": "kick"
         }
       ]
@@ -64,7 +64,7 @@
         {
           "sample": "tired/tired_shake.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -7.5,
           "pitch": -17.0,
           "bus": "hats"
         }
@@ -146,7 +146,7 @@
         {
           "sample": "tired/CY0000.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "hats"
         }
       ]
@@ -169,7 +169,7 @@
         {
           "sample": "tired/tired_phzhat.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "pitch": 0.600000023841858,
           "muteGroup": "A",
           "bus": "hats"
@@ -182,7 +182,7 @@
         {
           "sample": "tired/t_clapecho.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "pitch": -11.399999618530273,
           "bus": "toms"
         }
@@ -265,7 +265,7 @@
         {
           "sample": "tired/tired_conga.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -6.5,
           "pitch": 0.600000023841858,
           "bus": "toms"
         }
@@ -299,7 +299,7 @@
         {
           "sample": "tired/techSnare.wav",
           "mode": "mono",
-          "volume": -7.0,
+          "volume": -6.0,
           "bus": "snare"
         }
       ]
