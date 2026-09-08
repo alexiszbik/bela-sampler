@@ -11,14 +11,14 @@
         "muteSpeaker": false,
         "disableLED": false,
         "headphoneGains": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            -6,
+            -6,
+            -6,
+            -6,
+            -6,
+            -6,
+            -6,
+            -6
         ],
         "userArguments": "",
         "makeParameters": "-DSAMPLER_BELA=1 -I./projects/Sampler/platform -I./projects/Sampler/src/program -I./projects/Sampler/src/playback -I./projects/Sampler/src/playback/sample -I./projects/Sampler/src/engine -I./projects/Sampler/src/mix -I./projects/Sampler/src/dsp -I./projects/Sampler/src/dsp/delay -I./projects/Sampler/src/midi",
@@ -84,43 +84,7 @@
         "audioOutputChannelSettings": [
             {
                 "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
-            },
-            {
-                "meterStyle": "AC",
-                "gain": 0
+                "gain": -6
             },
             {
                 "meterStyle": "AC",
@@ -128,23 +92,59 @@
             },
             {
                 "meterStyle": "AC",
-                "gain": 0
+                "gain": -6
             },
             {
                 "meterStyle": "AC",
-                "gain": 0
+                "gain": -6
             },
             {
                 "meterStyle": "AC",
-                "gain": 0
+                "gain": -6
             },
             {
                 "meterStyle": "AC",
-                "gain": 0
+                "gain": -6
             },
             {
                 "meterStyle": "AC",
-                "gain": 0
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
+            },
+            {
+                "meterStyle": "AC",
+                "gain": -6
             }
         ],
         "globalInputGainControl": {

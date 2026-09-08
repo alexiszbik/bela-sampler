@@ -50,7 +50,7 @@
         {
           "sample": "friendship/SHAKER.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "hats"
         }
       ]
@@ -73,7 +73,7 @@
         {
           "sample": "friendship/707COW.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "bus": "toms"
         }
       ]
@@ -132,7 +132,7 @@
         {
           "sample": "friendship/FBR_SPL1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "muteGroup": "B"
         }
       ]
@@ -143,7 +143,7 @@
         {
           "sample": "friendship/FBR_SPL2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "muteGroup": "B"
         }
       ]
@@ -177,7 +177,7 @@
         {
           "sample": "friendship/FBR_S.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.5,
           "muteGroup": "C",
           "bus": "sample"
         }
@@ -189,7 +189,7 @@
         {
           "sample": "friendship/FBR_S1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.5,
           "muteGroup": "C",
           "bus": "sample"
         }
@@ -201,7 +201,7 @@
         {
           "sample": "friendship/FBR_S2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.5,
           "muteGroup": "C",
           "bus": "sample"
         }
@@ -213,7 +213,7 @@
         {
           "sample": "friendship/FBR_S3.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.5,
           "muteGroup": "C",
           "bus": "sample"
         }
@@ -237,7 +237,7 @@
         {
           "sample": "friendship/FBR_DROP.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "pitch": -12.0
         }
       ]
@@ -248,7 +248,7 @@
         {
           "sample": "friendship/fbr_balaf.WAV",
           "mode": "mono",
-          "volume": -6.0
+          "volume": -11.0
         }
       ]
     },
@@ -258,7 +258,7 @@
         {
           "sample": "friendship/fbr_stabs.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "pitch": -7.0,
           "bus": "sample"
         }
@@ -282,7 +282,7 @@
         {
           "sample": "friendship/CYM74.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -10.0,
           "reversed": 1,
           "bus": "hats"
         }
@@ -294,7 +294,7 @@
         {
           "sample": "friendship/FBSTAB.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "pitch": -7.0,
           "muteGroup": "D",
           "bus": "sample"
@@ -307,7 +307,7 @@
         {
           "sample": "friendship/FBR_XYLO.WAV",
           "mode": "mono",
-          "volume": -6.0
+          "volume": -12.0
         }
       ]
     },

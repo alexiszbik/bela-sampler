@@ -17,7 +17,7 @@
         {
           "sample": "together/tgt_hikik.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -7.0,
           "bus": "kick"
         }
       ]
@@ -28,7 +28,7 @@
         {
           "sample": "together/tgt_ldsnr.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.5,
           "bus": "snare"
         }
       ]
@@ -60,7 +60,7 @@
         {
           "sample": "together/TGT_DA1.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -12.0,
           "bus": "toms"
         }
       ]
@@ -71,7 +71,7 @@
         {
           "sample": "together/TGT_DA2.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -12.0,
           "bus": "toms"
         }
       ]
@@ -82,7 +82,7 @@
         {
           "sample": "together/TGT_DA3.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -12.0,
           "bus": "toms"
         }
       ]
@@ -141,7 +141,7 @@
         {
           "sample": "together/TGT_TAMB.WAV",
           "mode": "mono",
-          "volume": -8.0,
+          "volume": -10.0,
           "bus": "hats"
         }
       ]
@@ -152,7 +152,7 @@
         {
           "sample": "together/tgt_extrdisco.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -6.0,
           "bus": "hats"
         }
       ]
@@ -209,7 +209,7 @@
         {
           "sample": "together/tgt_rocksolid.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "hats"
         }
       ]
@@ -231,7 +231,7 @@
         {
           "sample": "together/DX7BASS.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -10.0,
           "muteGroup": "C"
         }
       ]
@@ -242,7 +242,7 @@
         {
           "sample": "together/DX7BASS.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -10.0,
           "pitch": 4.0,
           "muteGroup": "C"
         }

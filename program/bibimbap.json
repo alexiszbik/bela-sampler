@@ -6,7 +6,7 @@
         {
           "sample": "bibimbap/bbb_subwav.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "bus": "kick"
         }
       ]
@@ -28,7 +28,7 @@
         {
           "sample": "bibimbap/BBB_SNR.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -4.0,
           "bus": "snare"
         }
       ]
@@ -83,7 +83,7 @@
         {
           "sample": "bibimbap/BBB_AT1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.5,
           "bus": "toms"
         }
       ]
@@ -94,7 +94,7 @@
         {
           "sample": "bibimbap/BBB_AT2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "toms"
         }
       ]
@@ -116,7 +116,7 @@
         {
           "sample": "bibimbap/BBB_TOM2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -10.0,
           "pitch": -3.0,
           "bus": "toms"
         }
@@ -128,7 +128,7 @@
         {
           "sample": "bibimbap/BBB_DZ.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -2.0,
           "bus": "toms"
         }
       ]
@@ -139,7 +139,7 @@
         {
           "sample": "bibimbap/bbb_guiro.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "toms"
         }
       ]
@@ -150,7 +150,7 @@
         {
           "sample": "bibimbap/SD1050.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -2.0,
           "pitch": -1.0,
           "bus": "snare"
         }
@@ -219,7 +219,7 @@
         {
           "sample": "bibimbap/bbb_fleetB.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -10.0,
           "muteGroup": "A",
           "bus": "sample"
         }

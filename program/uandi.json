@@ -17,7 +17,7 @@
         {
           "sample": "u&i/UAI_SNR.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -4.0,
           "bus": "snare"
         }
       ]
@@ -28,7 +28,7 @@
         {
           "sample": "u&i/SST.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -10.0,
           "bus": "snare"
         }
       ]
@@ -83,7 +83,7 @@
         {
           "sample": "u&i/UAI_VO1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "pitch": -0.079999998211861,
           "bus": "sample"
         }
@@ -95,7 +95,7 @@
         {
           "sample": "u&i/UAI_VO2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "pitch": -0.079999998211861,
           "bus": "sample"
         }
@@ -119,7 +119,7 @@
         {
           "sample": "u&i/CRASH1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "bus": "hats"
         }
       ]
@@ -142,7 +142,7 @@
         {
           "sample": "u&i/UI_PIANO.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "pitch": -12.0,
           "bus": "sample"
         }
@@ -199,7 +199,7 @@
         {
           "sample": "u&i/EXPLODE.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.5,
           "pitch": -12.0,
           "bus": "sample"
         }

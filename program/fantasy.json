@@ -28,7 +28,7 @@
         {
           "sample": "fantasy/ftsy clp.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -6.0,
           "bus": "snare"
         }
       ]
@@ -39,7 +39,7 @@
         {
           "sample": "fantasy/fant_bigclp.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "bus": "snare"
         }
       ]
@@ -50,7 +50,7 @@
         {
           "sample": "fantasy/ftsy hat.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -6.0,
           "bus": "hats"
         }
       ]
@@ -61,7 +61,7 @@
         {
           "sample": "fantasy/fminishake.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "pitch": -0.819999992847443,
           "bus": "hats"
         }
@@ -144,8 +144,8 @@
         {
           "sample": "fantasy/FSNR2.WAV",
           "mode": "mono",
-          "volume": -6.0,
-          "pitch": -2.0,
+          "volume": -8.0,
+          "pitch": 1.0,
           "bus": "snare"
         }
       ]
@@ -168,7 +168,7 @@
         {
           "sample": "fantasy/ftsy riz.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -3.0,
           "bus": "hats"
         }
       ]

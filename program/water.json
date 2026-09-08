@@ -50,7 +50,7 @@
         {
           "sample": "water/WTR_CG1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "toms"
         }
       ]
@@ -61,7 +61,7 @@
         {
           "sample": "water/WTR_CG2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -9.0,
           "bus": "toms"
         }
       ]
@@ -95,7 +95,7 @@
         {
           "sample": "water/wtr_cym808.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "hats"
         }
       ]
@@ -216,7 +216,7 @@
         {
           "sample": "water/water_cymf.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "hats"
         }
       ]
