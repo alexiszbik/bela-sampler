@@ -80,7 +80,7 @@ void SamplerPreviewEngine::playSlot(const ProgramSlotDesc& slotDesc, const juce:
 	}
 
 	const Program::Slot slot = makePreviewSlot(slotDesc, &sample);
-	voice.playOn(slot, 100);
+	voice.playOn(slot, 127);
 
 	if(onSamplePreviewed) {
 		const std::string displayName = sample.getName().empty() ? slotDesc.sample : sample.getName();

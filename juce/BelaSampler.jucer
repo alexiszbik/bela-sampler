@@ -38,6 +38,16 @@
             resource="0" file="Source/EditorRootComponent.cpp"/>
       <FILE id="editorRootH" name="EditorRootComponent.h" compile="0" resource="0"
             file="Source/EditorRootComponent.h"/>
+      <GROUP id="meterGroup" name="meter">
+        <FILE id="previewOutputLevelsCpp" name="PreviewOutputLevels.cpp" compile="1"
+              resource="0" file="Source/meter/PreviewOutputLevels.cpp"/>
+        <FILE id="previewOutputLevelsH" name="PreviewOutputLevels.h" compile="0"
+              resource="0" file="Source/meter/PreviewOutputLevels.h"/>
+        <FILE id="stereoPeakMeterCpp" name="StereoPeakMeter.cpp" compile="1"
+              resource="0" file="Source/meter/StereoPeakMeter.cpp"/>
+        <FILE id="stereoPeakMeterH" name="StereoPeakMeter.h" compile="0" resource="0"
+              file="Source/meter/StereoPeakMeter.h"/>
+      </GROUP>
       <GROUP id="waveformGroup" name="waveform">
         <FILE id="sampleWaveformCpp" name="SampleWaveform.cpp" compile="1"
               resource="0" file="Source/waveform/SampleWaveform.cpp"/>

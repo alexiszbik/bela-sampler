@@ -26,6 +26,8 @@ set(SAMPLER_EDITOR_SOURCES
     Source/ProgramGridComponent.cpp
     Source/ProgramEditorWindow.cpp
     Source/EditorRootComponent.cpp
+    Source/meter/PreviewOutputLevels.cpp
+    Source/meter/StereoPeakMeter.cpp
     Source/waveform/SampleWaveform.cpp
     Source/MainWindow.cpp
     Source/Main.cpp

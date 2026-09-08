@@ -13,7 +13,8 @@ float previewGainFromVolumeDb(float volumeDb) {
 }
 
 EditorRootComponent::EditorRootComponent(PreviewAudioHost& inPreviewHost)
-	: previewHost(inPreviewHost) {
+	: previewHost(inPreviewHost),
+	  peakMeter(inPreviewHost.getOutputLevels()) {
 	waveformTitle.setText("Last played sample", juce::dontSendNotification);
 	waveformTitle.setJustificationType(juce::Justification::centredLeft);
 	waveformTitle.setColour(juce::Label::textColourId, juce::Colours::lightgrey);
@@ -21,6 +22,7 @@ EditorRootComponent::EditorRootComponent(PreviewAudioHost& inPreviewHost)
 	addAndMakeVisible(editor);
 	addAndMakeVisible(waveformTitle);
 	addAndMakeVisible(waveformView);
+	addAndMakeVisible(peakMeter);
 
 	editor.setPreviewPlayer(&previewHost.getPlayer());
 	editor.loadPrograms(SamplerDesktopPaths::getProgramFolder());
@@ -49,7 +51,10 @@ void EditorRootComponent::resized() {
 
 	auto waveformArea = bounds.reduced(8);
 	waveformTitle.setBounds(waveformArea.removeFromTop(22));
-	waveformView.setBounds(waveformArea);
+
+	auto meterArea = waveformArea.removeFromRight(kPeakMeterWidth);
+	peakMeter.setBounds(meterArea);
+	waveformView.setBounds(waveformArea.reduced(0, 0).withTrimmedRight(8));
 }
 
 void EditorRootComponent::onSamplePreviewed(const Sample& sample,

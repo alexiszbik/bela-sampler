@@ -3,6 +3,7 @@
 #include "PreviewAudioHost.h"
 #include "ProgramEditorWindow.h"
 #include "Sample.h"
+#include "meter/StereoPeakMeter.h"
 #include "waveform/SampleWaveform.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -28,7 +29,9 @@ private:
 	ProgramEditorWindow editor;
 	juce::Label waveformTitle;
 	SampleWaveform waveformView;
+	StereoPeakMeter peakMeter;
 	std::vector<float> monoWaveformScratch;
 
 	static constexpr int kEditorHeightPercent = 65;
+	static constexpr int kPeakMeterWidth = 76;
 };

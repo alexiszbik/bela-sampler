@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SamplerPreviewEngine.h"
+#include "meter/PreviewOutputLevels.h"
 
 #include <juce_audio_devices/juce_audio_devices.h>
 
@@ -14,6 +15,7 @@ public:
 	void shutdown();
 
 	SamplerPreviewEngine& getPlayer() { return player; }
+	PreviewOutputLevels& getOutputLevels() { return outputLevels; }
 
 private:
 	void audioDeviceIOCallbackWithContext(const float* const* inputChannelData,
@@ -28,4 +30,5 @@ private:
 
 	juce::AudioDeviceManager deviceManager;
 	SamplerPreviewEngine player;
+	PreviewOutputLevels outputLevels;
 };

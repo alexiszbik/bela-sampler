@@ -73,4 +73,5 @@ void PreviewAudioHost::audioDeviceIOCallbackWithContext(const float* const* inpu
 	}
 
 	player.mixInto(outputChannelData, numOutputChannels, numSamples);
+	outputLevels.processBlock(outputChannelData, numOutputChannels, numSamples);
 }
