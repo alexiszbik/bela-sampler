@@ -142,7 +142,7 @@
         {
           "sample": "Closer/tricot_top.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "pitch": 0.660000026226044,
           "bus": "hats"
         }
@@ -154,7 +154,7 @@
         {
           "sample": "Closer/tricot_top2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "pitch": 0.660000026226044,
           "bus": "hats"
         }
@@ -190,7 +190,7 @@
         {
           "sample": "Closer/TRI_SING.WAV",
           "mode": "poly",
-          "volume": -9.0,
+          "volume": -8.0,
           "pitch": -12.0,
           "bus": "sample"
         }
@@ -226,7 +226,7 @@
         {
           "sample": "Closer/TRI_303.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -11.0,
           "bus": "sample"
         }
       ]
