@@ -167,8 +167,7 @@
           "sample": "Closer/tri_chopdrum.WAV",
           "mode": "mono",
           "volume": -4.0,
-          "pitch": -11.279999732971191,
-          "bus": "sample"
+          "pitch": -11.279999732971191
         }
       ]
     },
