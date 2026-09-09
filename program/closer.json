@@ -166,7 +166,7 @@
         {
           "sample": "Closer/tri_chopdrum.WAV",
           "mode": "mono",
-          "volume": -5.0,
+          "volume": -4.0,
           "pitch": -11.279999732971191,
           "bus": "sample"
         }
@@ -190,7 +190,7 @@
         {
           "sample": "Closer/TRI_SING.WAV",
           "mode": "poly",
-          "volume": -8.0,
+          "volume": -7.0,
           "pitch": -12.0,
           "bus": "sample"
         }
@@ -202,7 +202,7 @@
         {
           "sample": "Closer/tri_tamb1.WAV",
           "mode": "mono",
-          "volume": -11.0,
+          "volume": -12.0,
           "pitch": 0.670000016689301,
           "bus": "hats"
         }
@@ -214,7 +214,7 @@
         {
           "sample": "Closer/tri_tamb2.WAV",
           "mode": "mono",
-          "volume": -11.5,
+          "volume": -12.5,
           "pitch": 0.649999976158142,
           "bus": "hats"
         }

@@ -231,7 +231,7 @@
         {
           "sample": "together/DX7BASS.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -9.0,
           "muteGroup": "C"
         }
       ]
@@ -242,7 +242,7 @@
         {
           "sample": "together/DX7BASS.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -9.0,
           "pitch": 4.0,
           "muteGroup": "C"
         }

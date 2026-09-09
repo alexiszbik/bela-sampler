@@ -207,7 +207,7 @@
         {
           "sample": "bibimbap/bbb_fleetA.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -8.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -219,7 +219,7 @@
         {
           "sample": "bibimbap/bbb_fleetB.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -9.0,
           "muteGroup": "A",
           "bus": "sample"
         }

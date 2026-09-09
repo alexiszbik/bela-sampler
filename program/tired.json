@@ -99,7 +99,7 @@
         {
           "sample": "tired/FB_TOM.wav",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.5,
           "bus": "toms"
         }
       ]

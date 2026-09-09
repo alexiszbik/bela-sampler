@@ -84,67 +84,67 @@
         "audioOutputChannelSettings": [
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -12
             }
         ],
         "globalInputGainControl": {

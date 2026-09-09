@@ -28,7 +28,7 @@
         {
           "sample": "u&i/SST.WAV",
           "mode": "mono",
-          "volume": -10.0,
+          "volume": -10.5,
           "bus": "snare"
         }
       ]
