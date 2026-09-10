@@ -17,7 +17,7 @@
         {
           "sample": "fantasy/FANT_909.WAV",
           "mode": "mono",
-          "volume": -7.0,
+          "volume": -8.0,
           "bus": "snare"
         }
       ]
@@ -84,7 +84,7 @@
         {
           "sample": "fantasy/fant_voc1.WAV",
           "mode": "mono",
-          "volume": -12.0,
+          "volume": -10.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -96,7 +96,7 @@
         {
           "sample": "fantasy/fant_voc2.WAV",
           "mode": "mono",
-          "volume": -12.0,
+          "volume": -10.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -108,7 +108,7 @@
         {
           "sample": "fantasy/fant_voc3.WAV",
           "mode": "mono",
-          "volume": -12.0,
+          "volume": -10.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -120,7 +120,7 @@
         {
           "sample": "fantasy/fant_voc4.WAV",
           "mode": "mono",
-          "volume": -12.0,
+          "volume": -10.0,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -264,7 +264,7 @@
         {
           "sample": "fantasy/fant_gtr1.wav",
           "mode": "mono",
-          "volume": -8.0,
+          "volume": -9.0,
           "muteGroup": "C"
         }
       ]
@@ -275,7 +275,7 @@
         {
           "sample": "fantasy/fant_gtr2.wav",
           "mode": "mono",
-          "volume": -8.0,
+          "volume": -9.0,
           "muteGroup": "C"
         }
       ]
@@ -286,7 +286,7 @@
         {
           "sample": "fantasy/fant_gtr3.wav",
           "mode": "mono",
-          "volume": -10.0
+          "volume": -9.0
         }
       ]
     }

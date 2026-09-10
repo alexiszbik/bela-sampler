@@ -28,7 +28,7 @@
         {
           "sample": "u&i/SST.WAV",
           "mode": "mono",
-          "volume": -10.5,
+          "volume": -11.0,
           "bus": "snare"
         }
       ]
@@ -62,7 +62,7 @@
         {
           "sample": "u&i/uandi_tomiA.wav",
           "mode": "mono",
-          "volume": -2.0,
+          "volume": 1.0,
           "bus": "toms"
         }
       ]
@@ -73,7 +73,7 @@
         {
           "sample": "u&i/uandi_tomiB.wav",
           "mode": "mono",
-          "volume": 2.0,
+          "volume": 3.0,
           "bus": "toms"
         }
       ]
@@ -133,7 +133,7 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": 0.629999995231628,
-          "bus": "toms"
+          "bus": "hats"
         }
       ]
     },
@@ -245,7 +245,7 @@
         {
           "sample": "u&i/uandi_chineseecho.wav",
           "mode": "mono",
-          "volume": -3.0
+          "volume": -4.5
         }
       ]
     }

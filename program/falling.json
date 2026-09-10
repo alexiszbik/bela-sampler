@@ -17,7 +17,7 @@
         {
           "sample": "Falling/fa snr.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "bus": "snare"
         }
       ]
@@ -95,7 +95,7 @@
         {
           "sample": "Falling/fa rimverb.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "toms"
         }
       ]

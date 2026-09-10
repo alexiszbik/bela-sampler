@@ -39,7 +39,7 @@
         {
           "sample": "together/TGT_AH.WAV",
           "mode": "mono",
-          "volume": -9.0
+          "volume": -9.5
         }
       ]
     },
@@ -93,7 +93,7 @@
         {
           "sample": "together/TGT_JC1.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -7.5,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -105,7 +105,7 @@
         {
           "sample": "together/TGT_JC2.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -7.5,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -117,7 +117,7 @@
         {
           "sample": "together/TGT_JC3.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -7.5,
           "muteGroup": "A",
           "bus": "sample"
         }
@@ -129,7 +129,7 @@
         {
           "sample": "together/TGT_JC4.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -7.5,
           "muteGroup": "A",
           "bus": "sample"
         }
