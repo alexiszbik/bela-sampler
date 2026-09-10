@@ -57,6 +57,28 @@
       ]
     },
     {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "u&i/uandi_tomiA.wav",
+          "mode": "mono",
+          "volume": -2.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "u&i/uandi_tomiB.wav",
+          "mode": "mono",
+          "volume": 2.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
       "midiNote": 46,
       "layers": [
         {
@@ -214,6 +236,16 @@
           "mode": "mono",
           "volume": -6.0,
           "muteGroup": "B"
+        }
+      ]
+    },
+    {
+      "midiNote": 70,
+      "layers": [
+        {
+          "sample": "u&i/uandi_chineseecho.wav",
+          "mode": "mono",
+          "volume": -3.0
         }
       ]
     }

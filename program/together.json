@@ -258,6 +258,26 @@
           "bus": "hats"
         }
       ]
+    },
+    {
+      "midiNote": 61,
+      "layers": [
+        {
+          "sample": "together/tgt_fill1.wav",
+          "mode": "mono",
+          "volume": -7.0
+        }
+      ]
+    },
+    {
+      "midiNote": 62,
+      "layers": [
+        {
+          "sample": "together/tgt_fill2.wav",
+          "mode": "mono",
+          "volume": -7.0
+        }
+      ]
     }
   ]
 }

@@ -257,6 +257,38 @@
           "volume": -6.0
         }
       ]
+    },
+    {
+      "midiNote": 66,
+      "layers": [
+        {
+          "sample": "fantasy/fant_gtr1.wav",
+          "mode": "mono",
+          "volume": -8.0,
+          "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 67,
+      "layers": [
+        {
+          "sample": "fantasy/fant_gtr2.wav",
+          "mode": "mono",
+          "volume": -8.0,
+          "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 68,
+      "layers": [
+        {
+          "sample": "fantasy/fant_gtr3.wav",
+          "mode": "mono",
+          "volume": -10.0
+        }
+      ]
     }
   ]
 }
