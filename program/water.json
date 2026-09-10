@@ -119,7 +119,7 @@
         {
           "sample": "water/wtr_junoA.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "pitch": -12.0,
           "muteGroup": "A",
           "bus": "sample"
@@ -132,7 +132,7 @@
         {
           "sample": "water/wtr_junoB.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "pitch": -12.0,
           "muteGroup": "A",
           "bus": "sample"
@@ -156,7 +156,7 @@
         {
           "sample": "water/WTR_BLF1.WAV",
           "mode": "mono",
-          "volume": -11.0,
+          "volume": -12.0,
           "muteGroup": "B",
           "bus": "sample"
         }
@@ -168,7 +168,7 @@
         {
           "sample": "water/WTR_BLF2.WAV",
           "mode": "mono",
-          "volume": -11.0,
+          "volume": -12.0,
           "muteGroup": "B",
           "bus": "sample"
         }
@@ -180,7 +180,7 @@
         {
           "sample": "water/WTR_BLF3.WAV",
           "mode": "mono",
-          "volume": -11.0,
+          "volume": -12.0,
           "muteGroup": "B",
           "bus": "sample"
         }

@@ -85,6 +85,7 @@
           "mode": "mono",
           "volume": -5.0,
           "pitch": -0.079999998211861,
+          "muteGroup": "C",
           "bus": "sample"
         }
       ]
@@ -97,6 +98,7 @@
           "mode": "mono",
           "volume": -5.0,
           "pitch": -0.079999998211861,
+          "muteGroup": "C",
           "bus": "sample"
         }
       ]
