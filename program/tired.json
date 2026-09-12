@@ -1,0 +1,351 @@
+{
+  "slots": [
+    {
+      "midiNote": 36,
+      "layers": [
+        {
+          "sample": "tired/tired_kick.WAV",
+          "mode": "mono",
+          "volume": -2.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 37,
+      "layers": [
+        {
+          "sample": "tired/tired kick2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -1.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "tired/CLAP.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": 3.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 39,
+      "layers": [
+        {
+          "sample": "tired/HANDCLP1.WAV",
+          "mode": "mono",
+          "volume": -3.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 40,
+      "layers": [
+        {
+          "sample": "tired/tired_hat.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "pitch": -5.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 41,
+      "layers": [
+        {
+          "sample": "tired/tired_shake.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "pitch": -17.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 42,
+      "layers": [
+        {
+          "sample": "tired/HHOD0.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "pitch": 3.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 43,
+      "layers": [
+        {
+          "sample": "tired/tired hatmore.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "tired/FB_TOM.wav",
+          "mode": "mono",
+          "volume": -5.5,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "tired/Clave.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 46,
+      "layers": [
+        {
+          "sample": "tired/HHOD4.WAV",
+          "mode": "mono",
+          "volume": -8.0,
+          "muteGroup": "B",
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 47,
+      "layers": [
+        {
+          "sample": "tired/HHOD4.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "pitch": -1.0,
+          "muteGroup": "B",
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 51,
+      "layers": [
+        {
+          "sample": "tired/CY0000.WAV",
+          "mode": "mono",
+          "volume": -8.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 52,
+      "layers": [
+        {
+          "sample": "tired/tired_solohat.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": 0.600000023841858,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 53,
+      "layers": [
+        {
+          "sample": "tired/tired_phzhat.WAV",
+          "mode": "mono",
+          "volume": -8.0,
+          "pitch": 0.600000023841858,
+          "muteGroup": "A",
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 54,
+      "layers": [
+        {
+          "sample": "tired/t_clapecho.WAV",
+          "mode": "mono",
+          "volume": -3.0,
+          "pitch": -11.399999618530273,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 55,
+      "layers": [
+        {
+          "sample": "tired/t_riz2bar.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": 0.600000023841858,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 56,
+      "layers": [
+        {
+          "sample": "tired/tired sync.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 57,
+      "layers": [
+        {
+          "sample": "tired/tired_3briz.WAV",
+          "mode": "mono",
+          "volume": -8.0,
+          "pitch": 0.600000023841858,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 58,
+      "layers": [
+        {
+          "sample": "tired/tired psysynth.WAV",
+          "mode": "poly",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 59,
+      "layers": [
+        {
+          "sample": "tired/tired_intro.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 60,
+      "layers": [
+        {
+          "sample": "tired/CYMB.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "pitch": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 61,
+      "layers": [
+        {
+          "sample": "tired/tired_conga.WAV",
+          "mode": "mono",
+          "volume": -6.5,
+          "pitch": 0.600000023841858,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 62,
+      "layers": [
+        {
+          "sample": "tired/techKickLong.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 63,
+      "layers": [
+        {
+          "sample": "tired/techKickShort.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 64,
+      "layers": [
+        {
+          "sample": "tired/techSnare.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 65,
+      "layers": [
+        {
+          "sample": "tired/WN_DOWN.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "pitch": -11.0
+        }
+      ]
+    },
+    {
+      "midiNote": 66,
+      "layers": [
+        {
+          "sample": "tired/UP.WAV",
+          "mode": "gate",
+          "volume": -12.0,
+          "pitch": -12.0
+        }
+      ]
+    },
+    {
+      "midiNote": 67,
+      "layers": [
+        {
+          "sample": "tired/shortSnr.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 68,
+      "layers": [
+        {
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "A"
+        }
+      ]
+    }
+  ]
+}

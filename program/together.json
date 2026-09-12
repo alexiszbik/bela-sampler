@@ -1,0 +1,283 @@
+{
+  "slots": [
+    {
+      "midiNote": 36,
+      "layers": [
+        {
+          "sample": "together/TGT_D909.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 37,
+      "layers": [
+        {
+          "sample": "together/tgt_hikik.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "together/tgt_ldsnr.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 39,
+      "layers": [
+        {
+          "sample": "together/TGT_AH.WAV",
+          "mode": "mono",
+          "volume": -9.5
+        }
+      ]
+    },
+    {
+      "midiNote": 40,
+      "layers": [
+        {
+          "sample": "together/TGT_HAT.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 41,
+      "layers": [
+        {
+          "sample": "together/TGT_DA1.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 42,
+      "layers": [
+        {
+          "sample": "together/TGT_DA2.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 43,
+      "layers": [
+        {
+          "sample": "together/TGT_DA3.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "together/TGT_JC1.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "together/TGT_JC2.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 46,
+      "layers": [
+        {
+          "sample": "together/TGT_JC3.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 47,
+      "layers": [
+        {
+          "sample": "together/TGT_JC4.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 48,
+      "layers": [
+        {
+          "sample": "together/TGT_TAMB.WAV",
+          "mode": "mono",
+          "volume": -10.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 50,
+      "layers": [
+        {
+          "sample": "together/tgt_extrdisco.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 51,
+      "layers": [
+        {
+          "sample": "together/808CYM.WAV",
+          "mode": "poly",
+          "volume": -8.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 52,
+      "layers": [
+        {
+          "sample": "together/TGT_SPL1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 53,
+      "layers": [
+        {
+          "sample": "together/TGT_SPL2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "muteGroup": "B",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 54,
+      "layers": [
+        {
+          "mode": "poly",
+          "muteGroup": "B"
+        }
+      ]
+    },
+    {
+      "midiNote": 56,
+      "layers": [
+        {
+          "sample": "together/tgt_rocksolid.WAV",
+          "mode": "mono",
+          "volume": -8.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 57,
+      "layers": [
+        {
+          "sample": "together/TGT_BASS.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 58,
+      "layers": [
+        {
+          "sample": "together/DX7BASS.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 59,
+      "layers": [
+        {
+          "sample": "together/DX7BASS.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "pitch": 4.0,
+          "muteGroup": "C"
+        }
+      ]
+    },
+    {
+      "midiNote": 60,
+      "layers": [
+        {
+          "sample": "together/130RIZ.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 61,
+      "layers": [
+        {
+          "sample": "together/tgt_fill1.wav",
+          "mode": "mono",
+          "volume": -7.0
+        }
+      ]
+    },
+    {
+      "midiNote": 62,
+      "layers": [
+        {
+          "sample": "together/tgt_fill2.wav",
+          "mode": "mono",
+          "volume": -7.0
+        }
+      ]
+    }
+  ]
+}

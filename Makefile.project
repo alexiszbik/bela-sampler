@@ -1,0 +1,20 @@
+# Shared Bela build flags for this project.
+# Used by deploy.sh (via Bela root) and by Makefile when building from the project folder.
+
+include $(abspath $(dir $(lastword $(MAKEFILE_LIST))))/src_include_paths.mk
+
+SAMPLER_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+SAMPLER_BELA_CPPFLAGS := -DSAMPLER_BELA=1 \
+	-I$(SAMPLER_ROOT)/platform \
+	$(call SAMPLER_CPPFLAGS_FOR_PROJECT,$(SAMPLER_ROOT))
+
+# Bela discovers every *.cpp under the project tree. Keep platform/ Bela-safe only;
+# desktop simulator code lives under juce/ (excluded from deploy).
+
+.PHONY: all Bela run runide debug projectclean clean
+all: Bela
+
+Bela run runide debug projectclean clean:
+	$(MAKE) -C $(BELA_DIR) PROJECT=$(PROJECT) \
+		CPPFLAGS="$(SAMPLER_BELA_CPPFLAGS) $(CPPFLAGS)" \
+		$(MAKECMDGOALS)

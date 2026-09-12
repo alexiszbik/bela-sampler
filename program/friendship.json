@@ -1,0 +1,325 @@
+{
+  "slots": [
+    {
+      "midiNote": 36,
+      "layers": [
+        {
+          "sample": "friendship/FBR_KICK.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "bus": "kick"
+        }
+      ]
+    },
+    {
+      "midiNote": 37,
+      "layers": [
+        {
+          "sample": "friendship/FBR_CLP.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 38,
+      "layers": [
+        {
+          "sample": "friendship/FBR_SNAR.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 39,
+      "layers": [
+        {
+          "sample": "friendship/snr909.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "bus": "snare"
+        }
+      ]
+    },
+    {
+      "midiNote": 40,
+      "layers": [
+        {
+          "sample": "friendship/SHAKER.WAV",
+          "mode": "mono",
+          "volume": -9.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 42,
+      "layers": [
+        {
+          "sample": "friendship/openHat.wav",
+          "mode": "mono",
+          "volume": -8.0,
+          "pitch": -1.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 43,
+      "layers": [
+        {
+          "sample": "friendship/707COW.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 44,
+      "layers": [
+        {
+          "sample": "friendship/FB_V1.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 45,
+      "layers": [
+        {
+          "sample": "friendship/FB_V2.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 46,
+      "layers": [
+        {
+          "sample": "friendship/FB_V3.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 47,
+      "layers": [
+        {
+          "sample": "friendship/FB_V4.WAV",
+          "mode": "mono",
+          "volume": -12.0,
+          "muteGroup": "A",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 48,
+      "layers": [
+        {
+          "sample": "friendship/FBR_SPL1.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "muteGroup": "B"
+        }
+      ]
+    },
+    {
+      "midiNote": 49,
+      "layers": [
+        {
+          "sample": "friendship/FBR_SPL2.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "muteGroup": "B"
+        }
+      ]
+    },
+    {
+      "midiNote": 52,
+      "layers": [
+        {
+          "sample": "friendship/130RIZ.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": 1.889999985694885,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 53,
+      "layers": [
+        {
+          "sample": "friendship/FBR_HAT.WAV",
+          "mode": "mono",
+          "volume": -8.0,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 54,
+      "layers": [
+        {
+          "sample": "friendship/FBR_S.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "C",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 55,
+      "layers": [
+        {
+          "sample": "friendship/FBR_S1.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "C",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 56,
+      "layers": [
+        {
+          "sample": "friendship/FBR_S2.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "C",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 57,
+      "layers": [
+        {
+          "sample": "friendship/FBR_S3.WAV",
+          "mode": "mono",
+          "volume": -7.5,
+          "muteGroup": "C",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 60,
+      "layers": [
+        {
+          "sample": "friendship/FBDRUMMY.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -7.0,
+          "bus": "toms"
+        }
+      ]
+    },
+    {
+      "midiNote": 61,
+      "layers": [
+        {
+          "sample": "friendship/FBR_DROP.WAV",
+          "mode": "mono",
+          "volume": -6.5,
+          "pitch": -12.0
+        }
+      ]
+    },
+    {
+      "midiNote": 62,
+      "layers": [
+        {
+          "sample": "friendship/fbr_balaf.WAV",
+          "mode": "mono",
+          "volume": -12.0
+        }
+      ]
+    },
+    {
+      "midiNote": 63,
+      "layers": [
+        {
+          "sample": "friendship/fbr_stabs.WAV",
+          "mode": "mono",
+          "volume": -7.0,
+          "pitch": -7.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 64,
+      "layers": [
+        {
+          "sample": "friendship/fbr_voices.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 66,
+      "layers": [
+        {
+          "sample": "friendship/CYM74.WAV",
+          "mode": "mono",
+          "volume": -10.0,
+          "reversed": 1,
+          "bus": "hats"
+        }
+      ]
+    },
+    {
+      "midiNote": 67,
+      "layers": [
+        {
+          "sample": "friendship/FBSTAB.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -7.0,
+          "muteGroup": "D",
+          "bus": "sample"
+        }
+      ]
+    },
+    {
+      "midiNote": 68,
+      "layers": [
+        {
+          "sample": "friendship/FBR_XYLO.WAV",
+          "mode": "mono",
+          "volume": -12.0
+        }
+      ]
+    },
+    {
+      "midiNote": 69,
+      "layers": [
+        {
+          "mode": "mono",
+          "volume": -6.0,
+          "muteGroup": "D"
+        }
+      ]
+    }
+  ]
+}

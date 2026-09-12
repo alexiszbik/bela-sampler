@@ -3,7 +3,7 @@
 #include "MixBusNames.h"
 #include "ProgramJson.h"
 
-#include <Bela.h>
+#include "SamplerLog.h"
 
 namespace {
 std::string getBaseName(const std::string& path) {
@@ -105,12 +105,12 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 
 		if(slotDesc.sample.empty()) {
 			if(slotDesc.muteGroup == MuteGroup::None) {
-				rt_printf("Program: slot note=%d missing sample\n", slotDesc.midiNote);
+				SAMPLER_LOG("Program: slot note=%d missing sample\n", slotDesc.midiNote);
 				continue;
 			}
 
 			addSlot(slotDesc, nullptr);
-			rt_printf("Program slot: id=%zu note=%d mute-only muteGroup=%s bus=%s\n",
+			SAMPLER_LOG("Program slot: id=%zu note=%d mute-only muteGroup=%s bus=%s\n",
 				slots.back().id,
 				slotDesc.midiNote,
 				groupName,
@@ -120,13 +120,13 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 
 		const Sample* sample = findSampleByName(samples, slotDesc.sample);
 		if(sample == nullptr) {
-			rt_printf("Program: sample not found: %s\n", slotDesc.sample.c_str());
+			SAMPLER_LOG("Program: sample not found: %s\n", slotDesc.sample.c_str());
 			continue;
 		}
 
 		addSlot(slotDesc, sample);
 
-		rt_printf("Program slot: id=%zu note=%d sample=%s mode=%s bus=%s\n",
+		SAMPLER_LOG("Program slot: id=%zu note=%d sample=%s mode=%s bus=%s\n",
 			slots.back().id,
 			slotDesc.midiNote,
 			slotDesc.sample.c_str(),
@@ -135,7 +135,7 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 	}
 
 	if(slots.empty()) {
-		rt_printf("Program: no valid slots loaded from %s\n", filepath.c_str());
+		SAMPLER_LOG("Program: no valid slots loaded from %s\n", filepath.c_str());
 		return false;
 	}
 
