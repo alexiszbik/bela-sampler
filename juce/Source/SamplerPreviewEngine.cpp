@@ -32,8 +32,10 @@ Program::Slot makePreviewSlot(const ProgramSlotDesc& desc, const Sample* sampleP
 		desc.granularSpeed,
 		desc.reversed,
 		desc.volumeDb,
-		desc.bus
+		desc.bus,
+        desc.pan
 	};
+    //TODO : this is risk business here
 }
 }
 

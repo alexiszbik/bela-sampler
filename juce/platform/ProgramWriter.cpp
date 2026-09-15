@@ -47,6 +47,9 @@ std::unique_ptr<juce::DynamicObject> layerToObject(const ProgramSlotDesc& layer)
 	if(layer.pitchSemitones != 0.f) {
 		obj->setProperty("pitch", layer.pitchSemitones);
 	}
+    if(layer.pan != 0.f) {
+        obj->setProperty("pan", layer.pan);
+    }
 	if(layer.reversed) {
 		obj->setProperty("reversed", 1);
 	}

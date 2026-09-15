@@ -25,15 +25,18 @@ public:
 	struct Slot {
 		size_t id;
 		int midiNote;
+
 		const Sample* sample;
 		SlotMode mode = SlotMode::Poly;
 		MuteGroup muteGroup = MuteGroup::None;
+
 		float pitchSemitones = 0.f;
 		SlotPlayMode playMode = SlotPlayMode::Normal;
 		float granularSpeed = 1.f;
 		bool reversed = false;
 		float volumeDb = 0.f;
 		MixBusIndex bus = kBusMaster;
+		float pan = 0.f;
 
 		bool isMuteOnly() const { return sample == nullptr; }
 	};

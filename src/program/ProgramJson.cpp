@@ -2,6 +2,7 @@
 
 #include "MixBusNames.h"
 #include "PitchHelper.h"
+#include "PanHelper.h"
 
 #include "SamplerLog.h"
 
@@ -232,6 +233,15 @@ bool ProgramJson::parsePitch(float& pitch) {
 	return true;
 }
 
+bool ProgramJson::parsePan(float& pan) {
+	if(!parseFloat(pan)) {
+		return false;
+	}
+
+	pan = clampPan(pan);
+	return true;
+}
+
 bool ProgramJson::parsePlayMode(ProgramSlotPlayMode& playMode) {
 	std::string playModeName;
 	if(!parseQuotedString(playModeName)) {
@@ -330,6 +340,10 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 			hasMuteGroup = slot.muteGroup != MuteGroup::None;
 		} else if(matchKey(kPitch)) {
 			if(!matchLiteral(':') || !parsePitch(slot.pitchSemitones)) {
+				return false;
+			}
+		} else if(matchKey(kPan)) {
+			if(!matchLiteral(':') || !parsePan(slot.pan)) {
 				return false;
 			}
 		} else if(matchKey(kPlayMode)) {

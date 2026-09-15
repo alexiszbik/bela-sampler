@@ -2,6 +2,7 @@
 
 #include "GainHelper.h"
 #include "PitchHelper.h"
+#include "PanHelper.h"
 
 void SamplerVoice::init(double sampleRate) {
 	player.init(sampleRate);
@@ -17,6 +18,10 @@ void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
 	const float pitchSpeed = semitonesToPlaybackSpeed(slot.pitchSemitones);
 	const float velocityGain = static_cast<float>(velocity) / 127.f;
 	gain = velocityGain * velocityGain * dBtoRMS(slot.volumeDb);
+
+	balance[0] = panToRms(slot.pan, false);
+	balance[1] = panToRms(slot.pan, true);
+
 	busIndex = slot.bus;
 
 	player.setSample(slot.sample);
@@ -61,13 +66,15 @@ void SamplerVoice::clearActiveSlot() {
 
 void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
 	for(size_t channel = 0; channel < sumChannelCount; channel++) {
-		sum[channel] += dry[channel] * gain;
+		sum[channel] += dry[channel] * gain * balance[channel];
 	}
 }
 
 void SamplerVoice::nextSamples(float* sum, size_t sumChannelCount, size_t playerOutputChannels) {
+
 	dry[0] = 0.f;
 	dry[1] = 0.f;
+
 	player.nextSamples(dry, playerOutputChannels);
 	mixDryToSum(sum, sumChannelCount);
 }

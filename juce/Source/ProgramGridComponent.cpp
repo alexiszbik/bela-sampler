@@ -261,6 +261,20 @@ void ProgramGridComponent::rebuildRows() {
 			pitchPtr->setText(juce::String(value, 2), juce::dontSendNotification);
 		};
 		addAndMakeVisible(*row.pitchLabel);
+        
+        row.panLabel = std::make_unique<juce::Label>();
+        row.panLabel->setEditable(true, false, false);
+        row.panLabel->setText(juce::String(slots[i].pan, 0), juce::dontSendNotification);
+        row.panLabel->onTextChange = [this, i] {
+            slots[i].pan = static_cast<float>(rows[i].panLabel->getText().getDoubleValue());
+            onRowModified(i);
+        };
+        row.panLabel->onEditorHide = [this, i, panPtr = row.panLabel.get()] {
+            const float value = panPtr->getText().getDoubleValue();
+            slots[i].pan = value;
+            panPtr->setText(juce::String(value, 0), juce::dontSendNotification);
+        };
+        addAndMakeVisible(*row.panLabel);
 
 		row.muteGroupCombo = std::make_unique<juce::ComboBox>();
 		row.muteGroupCombo->addItemList(SamplerOptions::muteGroupOptions(), 1);
@@ -386,6 +400,7 @@ void ProgramGridComponent::applyRowAppearance(size_t rowIndex) {
 	if(row.busCombo != nullptr) applyComboRowColour(*row.busCombo, background);
 	if(row.volumeLabel != nullptr) applyLabelRowColour(*row.volumeLabel, background);
 	if(row.pitchLabel != nullptr) applyLabelRowColour(*row.pitchLabel, background);
+    if(row.panLabel != nullptr) applyLabelRowColour(*row.panLabel, background);
 	if(row.muteGroupCombo != nullptr) applyComboRowColour(*row.muteGroupCombo, background);
 	if(row.reversedToggle != nullptr) applyToggleRowColour(*row.reversedToggle, background);
 	if(row.playModeCombo != nullptr) applyComboRowColour(*row.playModeCombo, background);
@@ -434,7 +449,7 @@ void ProgramGridComponent::paint(juce::Graphics& g) {
 	g.setColour(juce::Colour(0xffcccccc));
 	g.setFont(juce::Font(13.f, juce::Font::bold));
 
-	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Vol", "Pitch", "Mute", "Rev", "Play", "Gran", "", "Show"};
+	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Vol", "Pitch", "Pan", "Mute", "Rev", "Play", "Gran", "", "Show"};
 	for(int col = 0; col < kColumnCount; ++col) {
 		g.drawText(headers[col], columnX(col) + 4, 0, columnWidth(col) - 8, kHeaderHeight, juce::Justification::left);
 	}
@@ -472,11 +487,12 @@ int ProgramGridComponent::columnWidth(int col) const {
 		case kColPlay: return 30;
 		case kColNote: return 50;
 		case kColSample: return w * 25 / 100;
-		case kColMode: return 100;
-		case kColBus: return 100;
+		case kColMode: return 80;
+		case kColBus: return 80;
 		case kColVolume: return 55;
 		case kColPitch: return 55;
-		case kColMute: return 100;
+        case kColPan: return 55;
+		case kColMute: return 60;
 		case kColReversed: return 35;
 		case kColPlayMode: return 100;
 		case kColGranular: return 50;
@@ -498,6 +514,7 @@ void ProgramGridComponent::resized() {
 		if(r.busCombo != nullptr) r.busCombo->setBounds(columnX(kColBus) + 2, y + 2, columnWidth(kColBus) - 4, kRowHeight - 4);
 		if(r.volumeLabel != nullptr) r.volumeLabel->setBounds(columnX(kColVolume) + 2, y + 2, columnWidth(kColVolume) - 4, kRowHeight - 4);
 		if(r.pitchLabel != nullptr) r.pitchLabel->setBounds(columnX(kColPitch) + 2, y + 2, columnWidth(kColPitch) - 4, kRowHeight - 4);
+        if(r.panLabel != nullptr) r.panLabel->setBounds(columnX(kColPan) + 2, y + 2, columnWidth(kColPan) - 4, kRowHeight - 4);
 		if(r.muteGroupCombo != nullptr) r.muteGroupCombo->setBounds(columnX(kColMute) + 2, y + 2, columnWidth(kColMute) - 4, kRowHeight - 4);
 		if(r.reversedToggle != nullptr) r.reversedToggle->setBounds(columnX(kColReversed) + 2, y + 2, columnWidth(kColReversed) - 4, kRowHeight - 4);
 		if(r.playModeCombo != nullptr) r.playModeCombo->setBounds(columnX(kColPlayMode) + 2, y + 2, columnWidth(kColPlayMode) - 4, kRowHeight - 4);

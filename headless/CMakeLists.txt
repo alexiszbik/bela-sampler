@@ -45,8 +45,10 @@ set(SAMPLER_CORE_SOURCES
     ../src/dsp/GainHelper.cpp
     ../src/dsp/Memory.cpp
     ../src/dsp/PitchHelper.cpp
+    ../src/dsp/PanHelper.cpp
     ../src/dsp/SmoothValue.cpp
     ../src/dsp/TriLfo.cpp
+    ../src/mix/TomMixBus.cpp
     ../src/engine/SamplePlayerPool.cpp
     ../src/engine/SamplerEngine.cpp
     ../src/engine/VoiceAllocator.cpp

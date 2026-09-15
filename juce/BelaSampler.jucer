@@ -75,6 +75,8 @@
     </GROUP>
     <GROUP id="srcGroup" name="SamplerCore">
       <GROUP id="srcDsp" name="dsp">
+        <FILE id="JFNlcS" name="PanHelper.cpp" compile="1" resource="0" file="../src/dsp/PanHelper.cpp"/>
+        <FILE id="a4DlD5" name="PanHelper.h" compile="0" resource="0" file="../src/dsp/PanHelper.h"/>
         <FILE id="pitchHelperCpp" name="PitchHelper.cpp" compile="1" resource="0"
               file="../src/dsp/PitchHelper.cpp"/>
         <FILE id="pitchHelperH" name="PitchHelper.h" compile="0" resource="0"

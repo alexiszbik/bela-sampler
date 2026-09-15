@@ -30,6 +30,7 @@ private:
 		std::unique_ptr<juce::ComboBox> busCombo;
 		std::unique_ptr<juce::Label> volumeLabel;
 		std::unique_ptr<juce::Label> pitchLabel;
+        std::unique_ptr<juce::Label> panLabel;
 		std::unique_ptr<juce::ComboBox> muteGroupCombo;
 		std::unique_ptr<juce::ToggleButton> reversedToggle;
 		std::unique_ptr<juce::ComboBox> playModeCombo;
@@ -47,6 +48,7 @@ private:
 		kColBus,
 		kColVolume,
 		kColPitch,
+        kColPan,
 		kColMute,
 		kColReversed,
 		kColPlayMode,
