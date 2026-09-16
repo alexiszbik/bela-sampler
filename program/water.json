@@ -158,7 +158,9 @@
           "mode": "mono",
           "volume": -12.0,
           "muteGroup": "B",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "forward",
+          "dispatchGroup": "B"
         }
       ]
     },
@@ -170,7 +172,9 @@
           "mode": "mono",
           "volume": -12.0,
           "muteGroup": "B",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "forward",
+          "dispatchGroup": "B"
         }
       ]
     },
@@ -182,7 +186,9 @@
           "mode": "mono",
           "volume": -12.0,
           "muteGroup": "B",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "forward",
+          "dispatchGroup": "B"
         }
       ]
     },
@@ -252,9 +258,11 @@
       "midiNote": 71,
       "layers": [
         {
-          "sample": "water/fmBassGd.wav",
+          "sample": "water/fmBassGd_mono.wav",
           "mode": "mono",
-          "volume": -3.0
+          "volume": -3.0,
+          "dispatch": "random",
+          "dispatchGroup": "A"
         }
       ]
     },
@@ -262,9 +270,11 @@
       "midiNote": 72,
       "layers": [
         {
-          "sample": "water/fmBassAd.wav",
+          "sample": "water/fmBassAd_mono.wav",
           "mode": "mono",
-          "volume": -3.0
+          "volume": -3.0,
+          "dispatch": "random",
+          "dispatchGroup": "A"
         }
       ]
     },
@@ -272,9 +282,11 @@
       "midiNote": 73,
       "layers": [
         {
-          "sample": "water/fmBassCd.wav",
+          "sample": "water/fmBassCd_mono.wav",
           "mode": "mono",
-          "volume": -3.0
+          "volume": -3.0,
+          "dispatch": "random",
+          "dispatchGroup": "A"
         }
       ]
     }

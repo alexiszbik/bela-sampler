@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Program.h"
+#include "QuadDispatch.h"
 #include "SamplePlayer.h"
 #include "SlotDispatch.h"
 #include "VoiceBinding.h"
@@ -8,7 +9,7 @@ class SamplerVoice
 {
 public:
 	void init(double sampleRate);
-	void playOn(Program::Slot& slot, int velocity, size_t busChannelCount);
+	void playOn(Program::Slot& slot, int velocity, size_t busChannelCount, QuadDispatch& dispatchState);
 	void stop();
 	void nextSamples(float* sum, size_t sumChannelCount);
 
@@ -22,7 +23,7 @@ public:
 	void clearActiveSlot();
 
 private:
-	void resolveDispatch(Program::Slot& slot, size_t busChannelCount);
+	void resolveDispatch(const Program::Slot& slot, size_t busChannelCount, QuadDispatch& dispatchState);
 	void mixDryToSum(float* sum, size_t sumChannelCount);
 	void mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) const;
 	void mixToMonoChannel(float* sum, size_t channel, float sample) const;

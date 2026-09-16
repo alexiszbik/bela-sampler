@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DispatchGroup.h"
 #include "MuteGroup.h"
 #include "MixBusNames.h"
 #include "Sample.h"
@@ -40,7 +41,8 @@ public:
 		MixBusIndex bus = kBusMaster;
 		float pan = 0.f;
 		SlotDispatch dispatch = SlotDispatch::Front;
-		mutable QuadDispatch dispatchState;
+		DispatchGroup dispatchGroup = DispatchGroup::None;
+		mutable QuadDispatch localDispatchState;
 
 		bool isMuteOnly() const { return sample == nullptr; }
 	};
@@ -53,6 +55,11 @@ public:
 	const std::vector<Slot>& getSlots() const { return slots; }
 	size_t getSlotCount() const { return slots.size(); }
 
+	QuadDispatch& dispatchStateFor(Slot& slot);
+
 private:
+	static constexpr size_t kDispatchGroupCount = 4;
+
 	std::vector<Slot> slots;
+	QuadDispatch dispatchGroups[kDispatchGroupCount];
 };

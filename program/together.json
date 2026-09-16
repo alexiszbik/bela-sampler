@@ -235,7 +235,7 @@
           "mode": "mono",
           "volume": -9.0,
           "muteGroup": "C",
-          "dispatch": "forward"
+          "dispatch": "random"
         }
       ]
     },
@@ -248,7 +248,7 @@
           "volume": -9.0,
           "pitch": 4.0,
           "muteGroup": "C",
-          "dispatch": "backward"
+          "dispatch": "random"
         }
       ]
     },

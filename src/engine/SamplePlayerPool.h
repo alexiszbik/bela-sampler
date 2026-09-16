@@ -2,6 +2,7 @@
 
 #include "MixBusArray.h"
 #include "Program.h"
+#include "QuadDispatch.h"
 #include "SamplerVoice.h"
 
 #include <cstddef>
@@ -11,7 +12,7 @@ class SamplePlayerPool
 {
 public:
 	void init(double sampleRate, size_t count);
-	void playOn(SamplerVoice* voice, Program::Slot& slot, int velocity, size_t busChannelCount);
+	void playOn(SamplerVoice* voice, Program::Slot& slot, int velocity, size_t busChannelCount, QuadDispatch& dispatchState);
 	void stop(SamplerVoice* voice);
 	void nextSamples(MixBusArray& mixBuses);
 

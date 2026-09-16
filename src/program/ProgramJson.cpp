@@ -203,6 +203,27 @@ bool ProgramJson::parseMode(ProgramSlotMode& mode) {
 	return true;
 }
 
+bool ProgramJson::parseDispatchGroup(DispatchGroup& dispatchGroup) {
+	std::string groupName;
+	if(!parseQuotedString(groupName)) {
+		return false;
+	}
+
+	if(groupName == kMuteGroupA) {
+		dispatchGroup = DispatchGroup::A;
+	} else if(groupName == kMuteGroupB) {
+		dispatchGroup = DispatchGroup::B;
+	} else if(groupName == kMuteGroupC) {
+		dispatchGroup = DispatchGroup::C;
+	} else if(groupName == kMuteGroupD) {
+		dispatchGroup = DispatchGroup::D;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseMuteGroup(MuteGroup& muteGroup) {
 	std::string groupName;
 	if(!parseQuotedString(groupName)) {
@@ -393,6 +414,10 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 			}
 		} else if(matchKey(kDispatch)) {
 			if(!matchLiteral(':') || !parseDispatch(slot.dispatch)) {
+				return false;
+			}
+		} else if(matchKey(kDispatchGroup)) {
+			if(!matchLiteral(':') || !parseDispatchGroup(slot.dispatchGroup)) {
 				return false;
 			}
 		} else {

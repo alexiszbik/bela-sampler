@@ -35,8 +35,17 @@ Program::Slot makePreviewSlot(const ProgramSlotDesc& desc, const Sample* sampleP
 	slot.bus = desc.bus;
 	slot.pan = desc.pan;
 	slot.dispatch = desc.dispatch;
+	slot.dispatchGroup = desc.dispatchGroup;
 	return slot;
 }
+}
+
+QuadDispatch& SamplerPreviewEngine::dispatchStateFor(Program::Slot& slot) {
+	if(isDispatchGroupAssigned(slot.dispatchGroup)) {
+		return previewDispatchGroups[dispatchGroupIndex(slot.dispatchGroup)];
+	}
+
+	return previewLocalDispatchState;
 }
 
 void SamplerPreviewEngine::prepare(double inSampleRate, int inBlockSize) {
@@ -82,7 +91,7 @@ void SamplerPreviewEngine::playSlot(const ProgramSlotDesc& slotDesc, const juce:
 	}
 
 	Program::Slot slot = makePreviewSlot(slotDesc, &sample);
-	voice.playOn(slot, 127, 2);
+	voice.playOn(slot, 127, 2, dispatchStateFor(slot));
 
 	if(onSamplePreviewed) {
 		const std::string displayName = sample.getName().empty() ? slotDesc.sample : sample.getName();

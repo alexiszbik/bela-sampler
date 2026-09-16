@@ -35,6 +35,18 @@ const char* dispatchToString(SlotDispatch dispatch) {
 	return ProgramJson::kDispatchFront;
 }
 
+const char* dispatchGroupToString(DispatchGroup group) {
+	switch(group) {
+		case DispatchGroup::None: return nullptr;
+		case DispatchGroup::A: return ProgramJson::kMuteGroupA;
+		case DispatchGroup::B: return ProgramJson::kMuteGroupB;
+		case DispatchGroup::C: return ProgramJson::kMuteGroupC;
+		case DispatchGroup::D: return ProgramJson::kMuteGroupD;
+	}
+
+	return nullptr;
+}
+
 const char* muteGroupToString(MuteGroup group) {
 	switch(group) {
 		case MuteGroup::None: return nullptr;
@@ -78,6 +90,9 @@ std::unique_ptr<juce::DynamicObject> layerToObject(const ProgramSlotDesc& layer)
 	}
 	if(layer.dispatch != SlotDispatch::Front) {
 		obj->setProperty("dispatch", juce::String(dispatchToString(layer.dispatch)));
+	}
+	if(layer.dispatchGroup != DispatchGroup::None) {
+		obj->setProperty("dispatchGroup", juce::String(dispatchGroupToString(layer.dispatchGroup)));
 	}
 
 	return obj;

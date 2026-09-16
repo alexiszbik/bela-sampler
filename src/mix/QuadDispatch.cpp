@@ -11,7 +11,8 @@ DispatchChannels QuadDispatch::resolve(SlotDispatch mode, bool isStereo, size_t 
 
 	switch(mode) {
 		case SlotDispatch::Random:
-			leftChannel = randomLeftChannel();
+			leftChannel = randomLeftChannel(currentIndex);
+			currentIndex = leftChannel;
 			break;
 
 		case SlotDispatch::Forward:
@@ -44,6 +45,7 @@ DispatchChannels QuadDispatch::leftChannelToOutput(size_t leftChannel, bool isSt
 	return channels;
 }
 
-size_t QuadDispatch::randomLeftChannel() const {
-	return static_cast<size_t>(std::rand()) % kMaxChannels;
+size_t QuadDispatch::randomLeftChannel(size_t avoidChannel) {
+	const size_t pick = static_cast<size_t>(std::rand()) % (kMaxChannels - 1);
+	return pick >= avoidChannel ? pick + 1 : pick;
 }

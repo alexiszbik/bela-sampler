@@ -2,6 +2,7 @@
 
 #include "Program.h"
 #include "ProgramJson.h"
+#include "QuadDispatch.h"
 #include "Sample.h"
 #include "SamplerVoice.h"
 
@@ -27,10 +28,13 @@ public:
 
 private:
 	bool ensureSampleLoaded(const juce::File& sampleFile, const std::string& relativePath);
+	QuadDispatch& dispatchStateFor(Program::Slot& slot);
 
 	Sample sample;
 	std::string loadedSamplePath;
 	SamplerVoice voice;
+	QuadDispatch previewDispatchGroups[4];
+	QuadDispatch previewLocalDispatchState;
 	double sampleRate = 44100.0;
 	int blockSize = 512;
 };

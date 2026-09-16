@@ -92,6 +92,26 @@ SlotDispatch ProgramGridComponent::indexToDispatch(int index) {
 	}
 }
 
+int ProgramGridComponent::dispatchGroupToIndex(DispatchGroup group) {
+	switch(group) {
+		case DispatchGroup::A: return 1;
+		case DispatchGroup::B: return 2;
+		case DispatchGroup::C: return 3;
+		case DispatchGroup::D: return 4;
+		default: return 0;
+	}
+}
+
+DispatchGroup ProgramGridComponent::indexToDispatchGroup(int index) {
+	switch(index) {
+		case 1: return DispatchGroup::A;
+		case 2: return DispatchGroup::B;
+		case 3: return DispatchGroup::C;
+		case 4: return DispatchGroup::D;
+		default: return DispatchGroup::None;
+	}
+}
+
 bool ProgramGridComponent::samplePathExists(const std::string& relativePath) const {
 	if(relativePath.empty()) {
 		return true;
@@ -210,6 +230,17 @@ void ProgramGridComponent::setupDispatchCombo(RowComponents& row, size_t rowInde
 			onRowModified(rowIndex);
 		});
 	addRowWidget(*row.dispatchCombo);
+}
+
+void ProgramGridComponent::setupDispatchGroupCombo(RowComponents& row, size_t rowIndex) {
+	row.dispatchGroupCombo = std::make_unique<juce::ComboBox>();
+	bindComboBox(*row.dispatchGroupCombo, SamplerOptions::dispatchGroupOptions(),
+		dispatchGroupToIndex(slots[rowIndex].dispatchGroup),
+		[this, rowIndex](int index) {
+			slots[rowIndex].dispatchGroup = indexToDispatchGroup(index);
+			onRowModified(rowIndex);
+		});
+	addRowWidget(*row.dispatchGroupCombo);
 }
 
 void ProgramGridComponent::setupVolumeLabel(RowComponents& row, size_t rowIndex) {
@@ -339,6 +370,7 @@ ProgramGridComponent::RowComponents ProgramGridComponent::buildRow(size_t rowInd
 	setupModeCombo(row, rowIndex);
 	setupBusCombo(row, rowIndex);
 	setupDispatchCombo(row, rowIndex);
+	setupDispatchGroupCombo(row, rowIndex);
 	setupVolumeLabel(row, rowIndex);
 	setupPitchLabel(row, rowIndex);
 	setupPanLabel(row, rowIndex);
@@ -428,6 +460,7 @@ void ProgramGridComponent::collectRowCells(RowComponents& row) {
 		{row.modeCombo.get(), kColMode},
 		{row.busCombo.get(), kColBus},
 		{row.dispatchCombo.get(), kColDispatch},
+		{row.dispatchGroupCombo.get(), kColDispatchGroup},
 		{row.volumeLabel.get(), kColVolume},
 		{row.pitchLabel.get(), kColPitch},
 		{row.panLabel.get(), kColPan},
@@ -549,7 +582,7 @@ void ProgramGridComponent::paint(juce::Graphics& g) {
 	g.setColour(juce::Colour(0xffcccccc));
 	g.setFont(juce::Font(13.f, juce::Font::bold));
 
-	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Disp", "Vol", "Pitch", "Pan", "Mute", "Rev", "Play", "Gran", "", "Show"};
+	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Disp", "DGrp", "Vol", "Pitch", "Pan", "Mute", "Rev", "Play", "Gran", "", "Show"};
 	for(int col = 0; col < kColumnCount; ++col) {
 		g.drawText(headers[col], columnX(col) + 4, 0, columnWidth(col) - 8, kHeaderHeight, juce::Justification::left);
 	}
@@ -589,6 +622,7 @@ int ProgramGridComponent::columnWidth(int col) const {
 		case kColMode: return 80;
 		case kColBus: return 110;
 		case kColDispatch: return 80;
+		case kColDispatchGroup: return 70;
 		case kColVolume: return 55;
 		case kColPitch: return 55;
 		case kColPan: return 55;

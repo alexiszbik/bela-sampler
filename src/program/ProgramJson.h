@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DispatchGroup.h"
 #include "MuteGroup.h"
 #include "MixBusNames.h"
 #include "SlotDispatch.h"
@@ -31,6 +32,7 @@ struct ProgramSlotDesc {
 	float pan = 0.f;
 	MixBusIndex bus = kBusMaster;
 	SlotDispatch dispatch = SlotDispatch::Front;
+	DispatchGroup dispatchGroup = DispatchGroup::None;
 };
 
 class ProgramJson
@@ -63,6 +65,7 @@ private:
 	bool parseLayerObject(ProgramSlotDesc& slot);
 	bool parseMode(ProgramSlotMode& mode);
 	bool parseMuteGroup(MuteGroup& muteGroup);
+	bool parseDispatchGroup(DispatchGroup& dispatchGroup);
 	bool parsePitch(float& pitch);
 	bool parsePan(float& pan);
 	bool parsePlayMode(ProgramSlotPlayMode& playMode);
@@ -93,6 +96,7 @@ private:
 	static constexpr const char* kVolume = "volume";
 	static constexpr const char* kBus = "bus";
 	static constexpr const char* kDispatch = "dispatch";
+	static constexpr const char* kDispatchGroup = "dispatchGroup";
 	static constexpr const char* kLayers = "layers";
 	static constexpr const char* kSlots = "slots";
 };

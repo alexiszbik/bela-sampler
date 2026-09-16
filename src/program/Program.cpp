@@ -89,12 +89,24 @@ void Program::addSlot(const ProgramSlotDesc& desc, const Sample* sample) {
 		desc.volumeDb,
 		desc.bus,
 		desc.pan,
-		desc.dispatch
+		desc.dispatch,
+		desc.dispatchGroup
 	});
+}
+
+QuadDispatch& Program::dispatchStateFor(Slot& slot) {
+	if(isDispatchGroupAssigned(slot.dispatchGroup)) {
+		return dispatchGroups[dispatchGroupIndex(slot.dispatchGroup)];
+	}
+
+	return slot.localDispatchState;
 }
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
 	slots.clear();
+	for(QuadDispatch& group : dispatchGroups) {
+		group = QuadDispatch{};
+	}
 
 	std::vector<ProgramSlotDesc> slotDescs;
 	ProgramJson programJson;

@@ -20,8 +20,13 @@ void SamplerEngine::triggerSlot(Program::Slot& slot, int velocity) {
 		return;
 	}
 
+	Program* program = programBank != nullptr ? programBank->getActiveProgram() : nullptr;
+	if(program == nullptr) {
+		return;
+	}
+
 	const size_t busChannelCount = mixBuses.getBus(slot.bus).getChannelCount();
-	playerPool.playOn(voice, slot, velocity, busChannelCount);
+	playerPool.playOn(voice, slot, velocity, busChannelCount, program->dispatchStateFor(slot));
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity, int channel) {

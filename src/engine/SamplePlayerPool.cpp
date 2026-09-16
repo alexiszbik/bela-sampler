@@ -12,12 +12,12 @@ void SamplePlayerPool::init(double sampleRate, size_t count) {
 	}
 }
 
-void SamplePlayerPool::playOn(SamplerVoice* voice, Program::Slot& slot, int velocity, size_t busChannelCount) {
+void SamplePlayerPool::playOn(SamplerVoice* voice, Program::Slot& slot, int velocity, size_t busChannelCount, QuadDispatch& dispatchState) {
 	if(voice == nullptr || slot.sample == nullptr) {
 		return;
 	}
 
-	voice->playOn(slot, velocity, busChannelCount);
+	voice->playOn(slot, velocity, busChannelCount, dispatchState);
 
 	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
 	const bool loop = slot.mode == Program::SlotMode::Gate;

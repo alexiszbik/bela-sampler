@@ -17,7 +17,7 @@ public:
 
 private:
 	DispatchChannels leftChannelToOutput(size_t leftChannel, bool isStereo) const;
-	size_t randomLeftChannel() const;
+	size_t randomLeftChannel(size_t avoidChannel);
 
 	size_t currentIndex = 0;
 };

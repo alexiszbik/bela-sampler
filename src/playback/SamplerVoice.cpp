@@ -8,7 +8,7 @@ void SamplerVoice::init(double sampleRate) {
 	player.init(sampleRate);
 }
 
-void SamplerVoice::playOn(Program::Slot& slot, int velocity, size_t busChannelCount) {
+void SamplerVoice::playOn(Program::Slot& slot, int velocity, size_t busChannelCount, QuadDispatch& dispatchState) {
 	if(slot.sample == nullptr) {
 		return;
 	}
@@ -22,7 +22,7 @@ void SamplerVoice::playOn(Program::Slot& slot, int velocity, size_t busChannelCo
 	busIndex = slot.bus;
 	dispatch = slot.dispatch;
 	isMonoSample = slot.sample->getChannelCount() <= 1;
-	resolveDispatch(slot, busChannelCount);
+	resolveDispatch(slot, busChannelCount, dispatchState);
 
 	balance[0] = panToRms(slot.pan, false);
 	balance[1] = panToRms(slot.pan, true);
@@ -67,7 +67,7 @@ void SamplerVoice::clearActiveSlot() {
 	voiceBinding.activeSlotId = VoiceBinding::kInvalidSlot;
 }
 
-void SamplerVoice::resolveDispatch(Program::Slot& slot, size_t busChannelCount) {
+void SamplerVoice::resolveDispatch(const Program::Slot& slot, size_t busChannelCount, QuadDispatch& dispatchState) {
 	mixToAllChannels = false;
 	mixLeftChannel = 0;
 	mixRightChannel = busChannelCount > 1 ? 1 : 0;
@@ -85,7 +85,7 @@ void SamplerVoice::resolveDispatch(Program::Slot& slot, size_t busChannelCount) 
 		case SlotDispatch::Random:
 		case SlotDispatch::Forward:
 		case SlotDispatch::Backward: {
-			const DispatchChannels channels = slot.dispatchState.resolve(slot.dispatch, !isMonoSample, busChannelCount);
+			const DispatchChannels channels = dispatchState.resolve(slot.dispatch, !isMonoSample, busChannelCount);
 			mixLeftChannel = channels.left;
 			mixRightChannel = channels.right;
 			break;

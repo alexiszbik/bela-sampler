@@ -40,6 +40,16 @@ inline juce::StringArray busOptions() {
 	return result;
 }
 
+inline juce::StringArray dispatchGroupOptions() {
+	return {
+		"-",
+		ProgramJson::kMuteGroupA,
+		ProgramJson::kMuteGroupB,
+		ProgramJson::kMuteGroupC,
+		ProgramJson::kMuteGroupD
+	};
+}
+
 inline juce::StringArray dispatchOptions() {
 	return {
 		ProgramJson::kDispatchFront,
