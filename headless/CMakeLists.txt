@@ -69,14 +69,18 @@ set(SAMPLER_CORE_SOURCES
     ../src/program/ProgramBank.cpp
     ../src/program/ProgramJson.cpp
     ../src/program/ProgramMapJson.cpp
+    ../platform/meter/PreviewOutputLevels.cpp
 )
 
 add_executable(sampler_headless
     ${SAMPLER_CORE_SOURCES}
     RtMidiBridge.cpp
+    HeadlessConsoleUI.cpp
     HeadlessSampler.cpp
     main.cpp
 )
+
+find_package(Curses REQUIRED)
 
 target_compile_definitions(sampler_headless PRIVATE SAMPLER_HEADLESS=1)
 
@@ -87,13 +91,15 @@ target_include_directories(sampler_headless PRIVATE
     ../src/playback/sample
     ../src/engine
     ../src/mix
+    ../platform/meter
     ../src/dsp
     ../src/dsp/delay
     ../src/midi
     ${dr_libs_SOURCE_DIR}
 )
 
-target_link_libraries(sampler_headless PRIVATE rtaudio rtmidi)
+target_link_libraries(sampler_headless PRIVATE rtaudio rtmidi ${CURSES_LIBRARIES})
+target_include_directories(sampler_headless PRIVATE ${CURSES_INCLUDE_DIRS})
 
 if(APPLE)
     find_library(COREAUDIO_LIBRARY CoreAudio REQUIRED)

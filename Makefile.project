@@ -9,7 +9,8 @@ SAMPLER_BELA_CPPFLAGS := -DSAMPLER_BELA=1 \
 	$(call SAMPLER_CPPFLAGS_FOR_PROJECT,$(SAMPLER_ROOT))
 
 # Bela discovers every *.cpp under the project tree. Keep platform/ Bela-safe only;
-# desktop simulator code lives under juce/ (excluded from deploy).
+# platform/meter/ is shared desktop UI metering (stdlib-only, unused on Bela).
+# Desktop simulator code lives under juce/ (excluded from deploy).
 
 .PHONY: all Bela run runide debug projectclean clean
 all: Bela

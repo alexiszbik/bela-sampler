@@ -1,12 +1,10 @@
 #include "HeadlessSampler.h"
 
+#include "PeakMeterDisplay.h"
 #include "SamplerBootstrap.h"
 #include "SamplerLog.h"
 
-#include <iostream>
-#include <poll.h>
 #include <string>
-#include <unistd.h>
 
 extern std::atomic<bool> gShouldStop;
 
@@ -33,6 +31,14 @@ const char* errorTypeName(RtAudioErrorType type) {
 		default: return "unspecified error";
 	}
 }
+
+HeadlessConsoleUI* gActiveConsoleUi = nullptr;
+
+void consoleLogHandler(const char* message) {
+	if(gActiveConsoleUi != nullptr) {
+		gActiveConsoleUi->appendLog(message);
+	}
+}
 }
 
 HeadlessSampler::HeadlessSampler()
@@ -48,6 +54,7 @@ bool HeadlessSampler::initialise(const std::string& inSamplesFolder,
 	const std::string& virtualPortName) {
 	samplesFolder = inSamplesFolder;
 	programFolder = inProgramFolder;
+	this->virtualPortName = virtualPortName;
 
 	if(!SamplerBootstrap::init(samples,
 			programBank,
@@ -107,16 +114,33 @@ void HeadlessSampler::run() {
 		return;
 	}
 
+	consoleUI = std::make_unique<HeadlessConsoleUI>(channelLevels);
+	if(!consoleUI->init()) {
+		SAMPLER_LOG("Could not start console UI\n");
+		stopAudioStream();
+		return;
+	}
+
+	gActiveConsoleUi = consoleUI.get();
+	samplerLogSetHandler(consoleLogHandler);
 	running = true;
 	SAMPLER_LOG("Headless sampler running (sampleRate=%.0f blockSize=%u)\n",
 		kSampleRate, kBlockSize);
 	SAMPLER_LOG("Commands: reload | quit\n");
-	SAMPLER_LOG("Press Ctrl-C to quit\n");
 
 	while(running && !gShouldStop) {
-		pollCommands(100);
+		consoleUI->setProgramName(programBank.getActiveProgramName());
+
+		std::string command;
+		if(consoleUI->pollAndDraw(1000 / PeakMeterDisplay::kRefreshHz, command)) {
+			handleCommand(command);
+		}
 	}
 
+	samplerLogSetHandler(nullptr);
+	gActiveConsoleUi = nullptr;
+	consoleUI->shutdown();
+	consoleUI.reset();
 	stop();
 }
 
@@ -146,24 +170,6 @@ void HeadlessSampler::stopAudioStream() {
 	if(dac->isStreamRunning()) {
 		dac->stopStream();
 	}
-}
-
-void HeadlessSampler::pollCommands(int timeoutMs) {
-	struct pollfd pollDescriptor {};
-	pollDescriptor.fd = STDIN_FILENO;
-	pollDescriptor.events = POLLIN;
-
-	const int pollResult = poll(&pollDescriptor, 1, timeoutMs);
-	if(pollResult <= 0 || (pollDescriptor.revents & POLLIN) == 0) {
-		return;
-	}
-
-	std::string line;
-	if(!std::getline(std::cin, line)) {
-		return;
-	}
-
-	handleCommand(line);
 }
 
 bool HeadlessSampler::handleCommand(const std::string& line) {
@@ -217,6 +223,14 @@ void HeadlessSampler::stop() {
 	}
 
 	running = false;
+	samplerLogSetHandler(nullptr);
+	gActiveConsoleUi = nullptr;
+
+	if(consoleUI != nullptr) {
+		consoleUI->shutdown();
+		consoleUI.reset();
+	}
+
 	stopAudioStream();
 
 	if(midiIn != nullptr) {
@@ -267,9 +281,22 @@ int HeadlessSampler::audioCallback(void* outputBuffer, void* inputBuffer,
 
 		self->engine.nextSamples(mix, MixBusArray::kMasterChannelCount);
 
+		for(size_t channel = 0; channel < MixBusArray::kMasterChannelCount; ++channel) {
+			if(n < self->meterChannels[channel].size()) {
+				self->meterChannels[channel][n] = mix[channel];
+			}
+		}
+
 		const float monoMix = mix[0] + mix[1] + mix[2] + mix[3];
-		out[n * kOutputChannels + 0] = mix[4] + mix[6] + monoMix;
-		out[n * kOutputChannels + 1] = mix[5] + mix[7] + monoMix;
+		const float left = mix[4] + mix[6] + monoMix;
+		const float right = mix[5] + mix[7] + monoMix;
+		out[n * kOutputChannels + 0] = left;
+		out[n * kOutputChannels + 1] = right;
+	}
+
+	for(size_t channel = 0; channel < MixBusArray::kMasterChannelCount; ++channel) {
+		const float* channelData = self->meterChannels[channel].data();
+		self->channelLevels[channel].processBlock(&channelData, 1, static_cast<int>(nFrames));
 	}
 
 	return 0;

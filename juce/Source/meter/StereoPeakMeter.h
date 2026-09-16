@@ -16,8 +16,6 @@ public:
 private:
 	void timerCallback() override;
 
-	static float rmsToNormalised(float rms);
-	static float peakToNormalised(float peak);
 	static juce::Colour colourForLevel(float normalisedLevel);
 
 	void drawChannelMeter(juce::Graphics& g,
@@ -32,5 +30,7 @@ private:
 	float peakHoldL = 0.f;
 	float peakHoldR = 0.f;
 
-	static constexpr int kRefreshHz = 30;
+	static constexpr float kPeakTextHeight = 16.f;
+	static constexpr float kLabelHeight = 14.f;
+	static constexpr float kChannelGap = 6.f;
 };

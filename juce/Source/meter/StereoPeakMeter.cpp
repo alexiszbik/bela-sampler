@@ -1,38 +1,10 @@
 #include "StereoPeakMeter.h"
 
-#include <cmath>
-
-namespace {
-constexpr float kMinDb = -48.f;
-constexpr float kMaxDb = 0.f;
-constexpr float kPeakTextHeight = 16.f;
-constexpr float kLabelHeight = 14.f;
-constexpr float kChannelGap = 6.f;
-
-float amplitudeToDb(float amplitude) {
-	if(amplitude <= 0.f) {
-		return kMinDb;
-	}
-
-	return 20.f * std::log10(amplitude);
-}
-
-float dbToNormalised(float db) {
-	return juce::jlimit(0.f, 1.f, (db - kMinDb) / (kMaxDb - kMinDb));
-}
-
-juce::String formatPeakDb(float peak) {
-	if(peak <= 0.f) {
-		return juce::String(kMinDb, 1);
-	}
-
-	return juce::String(juce::jlimit(kMinDb, kMaxDb + 6.f, amplitudeToDb(peak)), 1);
-}
-}
+#include "PeakMeterDisplay.h"
 
 StereoPeakMeter::StereoPeakMeter(PreviewOutputLevels& inLevels)
 	: levels(inLevels) {
-	startTimerHz(kRefreshHz);
+	startTimerHz(PeakMeterDisplay::kRefreshHz);
 }
 
 StereoPeakMeter::~StereoPeakMeter() {
@@ -44,24 +16,16 @@ void StereoPeakMeter::timerCallback() {
 	repaint();
 }
 
-float StereoPeakMeter::rmsToNormalised(float rms) {
-	return dbToNormalised(amplitudeToDb(rms));
-}
-
-float StereoPeakMeter::peakToNormalised(float peak) {
-	return dbToNormalised(amplitudeToDb(peak));
-}
-
 juce::Colour StereoPeakMeter::colourForLevel(float normalisedLevel) {
-	if(normalisedLevel >= 0.92f) {
-		return juce::Colour(0xffe74c3c);
+	switch(PeakMeterDisplay::colourForLevel(normalisedLevel)) {
+		case PeakMeterDisplay::LevelColour::Red:
+			return juce::Colour(0xffe74c3c);
+		case PeakMeterDisplay::LevelColour::Yellow:
+			return juce::Colour(0xfff1c40f);
+		case PeakMeterDisplay::LevelColour::Green:
+		default:
+			return juce::Colour(0xff2ecc71);
 	}
-
-	if(normalisedLevel >= 0.75f) {
-		return juce::Colour(0xfff1c40f);
-	}
-
-	return juce::Colour(0xff2ecc71);
 }
 
 void StereoPeakMeter::drawChannelMeter(juce::Graphics& g,
@@ -79,8 +43,8 @@ void StereoPeakMeter::drawChannelMeter(juce::Graphics& g,
 	g.drawRoundedRectangle(meterBounds, 3.f, 1.f);
 
 	const float meterHeight = meterBounds.getHeight();
-	const float normalisedRms = rmsToNormalised(rms);
-	const float normalisedPeak = peakToNormalised(peakHold);
+	const float normalisedRms = PeakMeterDisplay::rmsToNormalised(rms);
+	const float normalisedPeak = PeakMeterDisplay::peakToNormalised(peakHold);
 
 	if(normalisedRms > 0.f) {
 		auto fillArea = meterBounds.withTop(meterBounds.getBottom() - meterHeight * normalisedRms);
@@ -96,7 +60,7 @@ void StereoPeakMeter::drawChannelMeter(juce::Graphics& g,
 
 	g.setColour(juce::Colours::white);
 	g.setFont(juce::FontOptions(10.f));
-	g.drawText(formatPeakDb(peakHold), peakTextArea, juce::Justification::centred, false);
+	g.drawText(PeakMeterDisplay::formatPeakDb(peakHold), peakTextArea, juce::Justification::centred, false);
 
 	g.setColour(juce::Colours::lightgrey);
 	g.setFont(juce::FontOptions(11.f));

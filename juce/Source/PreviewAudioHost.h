@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SamplerPreviewEngine.h"
-#include "meter/PreviewOutputLevels.h"
+#include "PreviewOutputLevels.h"
 
 #include <juce_audio_devices/juce_audio_devices.h>
 

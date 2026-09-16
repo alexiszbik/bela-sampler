@@ -3,7 +3,7 @@
 <JUCERPROJECT id="bSaMp1" name="BelaSampler" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" version="1.0.0"
               companyName="YMNK" bundleIdentifier="com.ymnk.belasampler.editor"
-              headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source">
+              headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../../platform/meter&#10;../../platform&#10;../../platform/meter&#10;../../Source">
   <MAINGROUP id="mainGroup" name="BelaSampler">
     <GROUP id="juceSource" name="Source">
       <FILE id="mainCpp" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
@@ -38,11 +38,7 @@
             resource="0" file="Source/EditorRootComponent.cpp"/>
       <FILE id="editorRootH" name="EditorRootComponent.h" compile="0" resource="0"
             file="Source/EditorRootComponent.h"/>
-      <GROUP id="meterGroup" name="meter">
-        <FILE id="previewOutputLevelsCpp" name="PreviewOutputLevels.cpp" compile="1"
-              resource="0" file="Source/meter/PreviewOutputLevels.cpp"/>
-        <FILE id="previewOutputLevelsH" name="PreviewOutputLevels.h" compile="0"
-              resource="0" file="Source/meter/PreviewOutputLevels.h"/>
+      <GROUP id="juceMeterGroup" name="meter">
         <FILE id="stereoPeakMeterCpp" name="StereoPeakMeter.cpp" compile="1"
               resource="0" file="Source/meter/StereoPeakMeter.cpp"/>
         <FILE id="stereoPeakMeterH" name="StereoPeakMeter.h" compile="0" resource="0"
@@ -72,6 +68,14 @@
             resource="0" file="platform/ProgramSamplesExporter.h"/>
       <FILE id="samplerOptionsH" name="SamplerOptions.h" compile="0" resource="0"
             file="platform/SamplerOptions.h"/>
+      <GROUP id="platformMeterGroup" name="meter">
+        <FILE id="previewOutputLevelsCpp" name="PreviewOutputLevels.cpp" compile="1"
+              resource="0" file="../platform/meter/PreviewOutputLevels.cpp"/>
+        <FILE id="previewOutputLevelsH" name="PreviewOutputLevels.h" compile="0"
+              resource="0" file="../platform/meter/PreviewOutputLevels.h"/>
+        <FILE id="peakMeterDisplayH" name="PeakMeterDisplay.h" compile="0" resource="0"
+              file="../platform/meter/PeakMeterDisplay.h"/>
+      </GROUP>
     </GROUP>
     <GROUP id="srcGroup" name="SamplerCore">
       <GROUP id="srcDsp" name="dsp">
@@ -145,8 +149,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" extraDefs="JUCE_SILENCE_XCODE_15_LINKER_WARNING=1&#10;SAMPLER_DESKTOP">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../platform&#10;../../Source"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../../platform/meter&#10;../../platform&#10;../../platform/meter&#10;../../Source"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="BelaSampler" headerPath="../../../src/program&#10;../../../src/playback&#10;../../../src/playback/sample&#10;../../../src/mix&#10;../../../src/dsp&#10;../../../platform&#10;../../../platform/meter&#10;../../platform&#10;../../platform/meter&#10;../../Source"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../external/JUCE/modules"/>

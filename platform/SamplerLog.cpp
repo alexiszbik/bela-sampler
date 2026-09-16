@@ -9,7 +9,17 @@
 
 namespace {
 constexpr size_t kLogLineLength = 256;
+
+#if defined(SAMPLER_HEADLESS)
+SamplerLogHandler gLogHandler = nullptr;
+#endif
 }
+
+#if defined(SAMPLER_HEADLESS)
+void samplerLogSetHandler(SamplerLogHandler handler) {
+	gLogHandler = handler;
+}
+#endif
 
 void samplerLog(const char* format, ...) {
 	char buffer[kLogLineLength];
@@ -25,6 +35,13 @@ void samplerLog(const char* format, ...) {
 
 #if defined(SAMPLER_BELA)
 	rt_printf("%s", buffer);
+#elif defined(SAMPLER_HEADLESS)
+	if(gLogHandler != nullptr) {
+		gLogHandler(buffer);
+	} else {
+		std::fputs(buffer, stdout);
+		std::fflush(stdout);
+	}
 #else
 	std::fputs(buffer, stdout);
 	std::fflush(stdout);

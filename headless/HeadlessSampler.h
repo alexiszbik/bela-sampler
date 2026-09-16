@@ -1,5 +1,7 @@
 #pragma once
 
+#include "HeadlessConsoleUI.h"
+#include "PreviewOutputLevels.h"
 #include "MidiInputDelegate.h"
 #include "MixBusArray.h"
 #include "ProgramBank.h"
@@ -10,6 +12,7 @@
 #include <RtAudio.h>
 #include <RtMidi.h>
 
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
@@ -34,7 +37,6 @@ private:
 		std::vector<unsigned char>* message,
 		void* userData);
 
-	void pollCommands(int timeoutMs);
 	bool handleCommand(const std::string& line);
 	bool reloadAll();
 	bool startAudioStream();
@@ -50,5 +52,10 @@ private:
 
 	std::string samplesFolder;
 	std::string programFolder;
+	std::string virtualPortName;
+	static constexpr unsigned int kBlockSize = 512;
+	std::array<PreviewOutputLevels, MixBusArray::kMasterChannelCount> channelLevels {};
+	std::array<std::array<float, kBlockSize>, MixBusArray::kMasterChannelCount> meterChannels {};
+	std::unique_ptr<HeadlessConsoleUI> consoleUI;
 	bool running = false;
 };

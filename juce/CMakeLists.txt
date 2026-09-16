@@ -15,6 +15,7 @@ set(SAMPLER_EDITOR_SOURCES
     ../src/program/ProgramMapJson.cpp
     ../src/dsp/PitchHelper.cpp
     ../src/dsp/GainHelper.cpp
+    ../src/dsp/PanHelper.cpp
     ../src/playback/SamplerVoice.cpp
     ../src/playback/SamplePlayer.cpp
     ../src/playback/sample/Sample.cpp
@@ -26,7 +27,7 @@ set(SAMPLER_EDITOR_SOURCES
     Source/ProgramGridComponent.cpp
     Source/ProgramEditorWindow.cpp
     Source/EditorRootComponent.cpp
-    Source/meter/PreviewOutputLevels.cpp
+    ../platform/meter/PreviewOutputLevels.cpp
     Source/meter/StereoPeakMeter.cpp
     Source/waveform/SampleWaveform.cpp
     Source/MainWindow.cpp
@@ -49,6 +50,7 @@ target_include_directories(BelaSampler PRIVATE
     ../src/playback
     ../src/playback/sample
     ../src/mix
+    ../platform/meter
     ../src/dsp
     Source
 )

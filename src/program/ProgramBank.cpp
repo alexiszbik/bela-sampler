@@ -14,12 +14,28 @@ std::string joinPath(const std::string& folder, const std::string& file) {
 
 	return folder + "/" + file;
 }
+
+std::string fileStem(const std::string& file) {
+	if(file.empty()) {
+		return {};
+	}
+
+	const size_t slash = file.find_last_of('/');
+	const size_t nameStart = slash == std::string::npos ? 0 : slash + 1;
+	const size_t dot = file.find_last_of('.');
+	if(dot == std::string::npos || dot <= nameStart) {
+		return file.substr(nameStart);
+	}
+
+	return file.substr(nameStart, dot - nameStart);
+}
 }
 
 bool ProgramBank::load(const std::string& programFolder,
 	const std::vector<Sample>& samples,
 	int preserveActivePc) {
 	programs.clear();
+	programNames.clear();
 	pcToProgramIndex.clear();
 	activeProgramIndex = 0;
 	activePc = 0;
@@ -51,6 +67,7 @@ bool ProgramBank::load(const std::string& programFolder,
 			}
 
 			programIndex = programs.size() - 1;
+			programNames.push_back(entry.file);
 			fileToProgramIndex.emplace(entry.file, programIndex);
 			SAMPLER_LOG("ProgramBank: loaded %s (%zu slots)\n",
 				entry.file.c_str(),
@@ -113,6 +130,14 @@ const Program* ProgramBank::getActiveProgram() const {
 	}
 
 	return &programs[activeProgramIndex];
+}
+
+std::string ProgramBank::getActiveProgramName() const {
+	if(activeProgramIndex >= programNames.size()) {
+		return "No program";
+	}
+
+	return fileStem(programNames[activeProgramIndex]);
 }
 
 bool ProgramBank::selectProgram(int pc) {
