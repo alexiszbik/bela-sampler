@@ -6,7 +6,6 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 HEADLESS_DIR="$REPO_ROOT/headless"
 BUILD_DIR="$HEADLESS_DIR/build"
 BINARY="$BUILD_DIR/sampler_headless"
-
 MIDI_DEVICE="Sampler Virtual"
 SAMPLES_FOLDER="$REPO_ROOT/samplesfolder"
 PROGRAM_FOLDER="$REPO_ROOT/program"
@@ -19,12 +18,16 @@ Usage: $(basename "$0") [options] [-- args passed to sampler_headless]
 Build and run the headless sampler locally (RtAudio + RtMidi).
 Run from the repo root so samplesfolder/ and program/ resolve.
 
+Dependencies must be configured first:
+  ./scripts/install_local_deps.sh
+
 Options:
   -m "device"   Virtual MIDI port name (default: "$MIDI_DEVICE")
   -s "folder"   Samples folder      (default: $SAMPLES_FOLDER)
   -p "folder"   Program folder      (default: $PROGRAM_FOLDER)
   -b            Build only, don't run
-  -c            Clean build before building
+  -c            Clean build artifacts before building
+  -r            Reconfigure (cmake), requires network if deps are missing
   -h            Show this help
 
 Examples:
@@ -36,6 +39,7 @@ EOF
 
 BUILD_ONLY=0
 CLEAN=0
+RECONFIGURE=0
 while [ $# -gt 0 ]; do
 	case "$1" in
 		-m) shift; MIDI_DEVICE="$1" ;;
@@ -43,6 +47,7 @@ while [ $# -gt 0 ]; do
 		-p) shift; PROGRAM_FOLDER="$1" ;;
 		-b) BUILD_ONLY=1 ;;
 		-c) CLEAN=1 ;;
+		-r) RECONFIGURE=1 ;;
 		-h|--help) usage; exit 0 ;;
 		--) shift; EXTRA_ARGS="$*"; break ;;
 		*)
@@ -54,13 +59,20 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-echo "→ Configuring headless build..."
-if [ "$CLEAN" = 1 ] && [ -d "$BUILD_DIR" ]; then
-	echo "→ Cleaning previous build..."
-	rm -rf "$BUILD_DIR"
+if [ ! -f "$BUILD_DIR/CMakeCache.txt" ]; then
+	echo "Build not configured. Run ./scripts/install_local_deps.sh first." >&2
+	exit 1
 fi
 
-cmake -S "$HEADLESS_DIR" -B "$BUILD_DIR" -G "Unix Makefiles"
+if [ "$RECONFIGURE" = 1 ]; then
+	echo "→ Reconfiguring headless build..."
+	cmake -S "$HEADLESS_DIR" -B "$BUILD_DIR" -G "Unix Makefiles"
+fi
+
+if [ "$CLEAN" = 1 ]; then
+	echo "→ Cleaning build artifacts..."
+	cmake --build "$BUILD_DIR" --target clean
+fi
 
 echo "→ Building..."
 cmake --build "$BUILD_DIR" -j

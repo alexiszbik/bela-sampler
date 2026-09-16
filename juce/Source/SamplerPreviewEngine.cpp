@@ -21,21 +21,20 @@ Program::SlotPlayMode toProgramSlotPlayMode(ProgramSlotPlayMode playMode) {
 }
 
 Program::Slot makePreviewSlot(const ProgramSlotDesc& desc, const Sample* samplePtr) {
-	return {
-		0,
-		desc.midiNote,
-		samplePtr,
-		toProgramSlotMode(desc.mode),
-		desc.muteGroup,
-		desc.pitchSemitones,
-		toProgramSlotPlayMode(desc.playMode),
-		desc.granularSpeed,
-		desc.reversed,
-		desc.volumeDb,
-		desc.bus,
-        desc.pan
-	};
-    //TODO : this is risk business here
+	Program::Slot slot;
+	slot.id = 0;
+	slot.midiNote = desc.midiNote;
+	slot.sample = samplePtr;
+	slot.mode = toProgramSlotMode(desc.mode);
+	slot.muteGroup = desc.muteGroup;
+	slot.pitchSemitones = desc.pitchSemitones;
+	slot.playMode = toProgramSlotPlayMode(desc.playMode);
+	slot.granularSpeed = desc.granularSpeed;
+	slot.reversed = desc.reversed;
+	slot.volumeDb = desc.volumeDb;
+	slot.bus = desc.bus;
+	slot.pan = desc.pan;
+	return slot;
 }
 }
 

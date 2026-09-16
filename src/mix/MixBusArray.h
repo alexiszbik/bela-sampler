@@ -19,6 +19,15 @@ public:
 	void processAll(float* master, size_t masterChannelCount);
 
 private:
+	template<typename TBus>
+	void initBus(MixBusIndex busIndex, double sampleRate, const MixBusRoute& route);
+
+	template<typename TBus>
+	void createMonoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel);
+
+	template<typename TBus>
+	void createStereoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel0, size_t outputChannel1);
+
 	std::unique_ptr<MixBusBase> buses[kBusCount];
 	TriLfo lfo;
 };

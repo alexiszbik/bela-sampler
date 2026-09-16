@@ -16,10 +16,15 @@ OK !!!
 
 ##2.B => LFO modulation simple
 
+OKOK
+
+##3 => faire du clean côté code
+
+OKOKO
 
 ##2.C => builder en local c'est un pb quand pas internet
 
-##3 => faire du clean côté code
+OKOK
 
 ##3.B => LFO modulation quadriphonique
 

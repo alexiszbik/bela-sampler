@@ -6,60 +6,46 @@
 #include "SnareMixBus.h"
 #include "HatMixBus.h"
 
-#include <utility>
+template<typename TBus>
+void MixBusArray::initBus(MixBusIndex busIndex, double sampleRate, const MixBusRoute& route) {
+	buses[busIndex] = std::make_unique<TBus>();
+	buses[busIndex]->init(sampleRate, route);
+}
+
+template<typename TBus>
+void MixBusArray::createMonoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel) {
+	MixBusRoute route;
+	route.mono = true;
+	route.outputChannel0 = outputChannel;
+	initBus<TBus>(busIndex, sampleRate, route);
+}
+
+template<typename TBus>
+void MixBusArray::createStereoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel0, size_t outputChannel1) {
+	MixBusRoute route;
+	route.mono = false;
+	route.outputChannel0 = outputChannel0;
+	route.outputChannel1 = outputChannel1;
+	initBus<TBus>(busIndex, sampleRate, route);
+}
+
+template void MixBusArray::createMonoBus<FilterMixBus>(MixBusIndex, double, size_t);
+template void MixBusArray::createMonoBus<SnareMixBus>(MixBusIndex, double, size_t);
+template void MixBusArray::createMonoBus<TomMixBus>(MixBusIndex, double, size_t);
+template void MixBusArray::createMonoBus<HatMixBus>(MixBusIndex, double, size_t);
+
+template void MixBusArray::createStereoBus<MixBusBase>(MixBusIndex, double, size_t, size_t);
+template void MixBusArray::createStereoBus<FXMixBus>(MixBusIndex, double, size_t, size_t);
 
 void MixBusArray::init(double sampleRate) {
-	MixBusRoute masterRoute;
-	masterRoute.mono = false;
-	masterRoute.outputChannel0 = 4;
-	masterRoute.outputChannel1 = 5;
-	buses[kBusMaster] = std::make_unique<MixBusBase>();
-	buses[kBusMaster]->init(sampleRate, masterRoute);
-
-	MixBusRoute masterRouteRear;
-	masterRouteRear.mono = false;
-	masterRouteRear.outputChannel0 = 6;
-	masterRouteRear.outputChannel1 = 7;
-	buses[kBusMasterRear] = std::make_unique<MixBusBase>();
-	buses[kBusMasterRear]->init(sampleRate, masterRouteRear);
-
-	MixBusRoute sampleRoute;
-	sampleRoute.mono = false;
-	sampleRoute.outputChannel0 = 4;
-	sampleRoute.outputChannel1 = 5;
-	buses[kBusSample] = std::make_unique<FXMixBus>();
-	buses[kBusSample]->init(sampleRate, sampleRoute);
-
-	MixBusRoute sampleRouteRear;
-	sampleRouteRear.mono = false;
-	sampleRouteRear.outputChannel0 = 6;
-	sampleRouteRear.outputChannel1 = 7;
-	buses[kBusSampleRear] = std::make_unique<FXMixBus>();
-	buses[kBusSampleRear]->init(sampleRate, sampleRoute);
-
-	MixBusRoute kickRoute;
-	kickRoute.mono = true;
-	kickRoute.outputChannel0 = 0;
-	buses[kBusKick] = std::make_unique<FilterMixBus>();
-	buses[kBusKick]->init(sampleRate, kickRoute);
-
-	MixBusRoute snareRoute;
-	snareRoute.mono = true;
-	snareRoute.outputChannel0 = 1;
-	buses[kBusSnare] = std::make_unique<SnareMixBus>();
-	buses[kBusSnare]->init(sampleRate, snareRoute);
-
-	MixBusRoute tomsRoute;
-	tomsRoute.mono = true;
-	tomsRoute.outputChannel0 = 2;
-	buses[kBusToms] = std::make_unique<TomMixBus>();
-	buses[kBusToms]->init(sampleRate, tomsRoute);
-
-	MixBusRoute hatsRoute;
-	hatsRoute.mono = true;
-	hatsRoute.outputChannel0 = 3;
-	buses[kBusHats] = std::make_unique<HatMixBus>();
-	buses[kBusHats]->init(sampleRate, hatsRoute);
+	createStereoBus<MixBusBase>(kBusMaster, sampleRate, 4, 5);
+	createStereoBus<MixBusBase>(kBusMasterRear, sampleRate, 6, 7);
+	createStereoBus<FXMixBus>(kBusSample, sampleRate, 4, 5);
+	createStereoBus<FXMixBus>(kBusSampleRear, sampleRate, 6, 7);
+	createMonoBus<FilterMixBus>(kBusKick, sampleRate, 0);
+	createMonoBus<SnareMixBus>(kBusSnare, sampleRate, 1);
+	createMonoBus<TomMixBus>(kBusToms, sampleRate, 2);
+	createMonoBus<HatMixBus>(kBusHats, sampleRate, 3);
 
 	lfo.init(sampleRate);
 	lfo.setFrequency(0.25f);

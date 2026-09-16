@@ -9,8 +9,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace {
-int modeToIndex(ProgramSlotMode mode) {
+int ProgramGridComponent::modeToIndex(ProgramSlotMode mode) {
 	switch(mode) {
 		case ProgramSlotMode::Poly: return 0;
 		case ProgramSlotMode::Mono: return 1;
@@ -20,7 +19,7 @@ int modeToIndex(ProgramSlotMode mode) {
 	return 0;
 }
 
-ProgramSlotMode indexToMode(int index) {
+ProgramSlotMode ProgramGridComponent::indexToMode(int index) {
 	switch(index) {
 		case 1: return ProgramSlotMode::Mono;
 		case 2: return ProgramSlotMode::Gate;
@@ -28,7 +27,7 @@ ProgramSlotMode indexToMode(int index) {
 	}
 }
 
-int playModeToIndex(ProgramSlotPlayMode mode) {
+int ProgramGridComponent::playModeToIndex(ProgramSlotPlayMode mode) {
 	switch(mode) {
 		case ProgramSlotPlayMode::Normal: return 0;
 		case ProgramSlotPlayMode::Granular: return 1;
@@ -37,11 +36,11 @@ int playModeToIndex(ProgramSlotPlayMode mode) {
 	return 0;
 }
 
-ProgramSlotPlayMode indexToPlayMode(int index) {
+ProgramSlotPlayMode ProgramGridComponent::indexToPlayMode(int index) {
 	return index == 1 ? ProgramSlotPlayMode::Granular : ProgramSlotPlayMode::Normal;
 }
 
-int muteGroupToIndex(MuteGroup group) {
+int ProgramGridComponent::muteGroupToIndex(MuteGroup group) {
 	switch(group) {
 		case MuteGroup::None: return 0;
 		case MuteGroup::A: return 1;
@@ -53,7 +52,7 @@ int muteGroupToIndex(MuteGroup group) {
 	return 0;
 }
 
-MuteGroup indexToMuteGroup(int index) {
+MuteGroup ProgramGridComponent::indexToMuteGroup(int index) {
 	switch(index) {
 		case 1: return MuteGroup::A;
 		case 2: return MuteGroup::B;
@@ -63,15 +62,15 @@ MuteGroup indexToMuteGroup(int index) {
 	}
 }
 
-int busToIndex(MixBusIndex bus) {
-    return static_cast<int>(bus);
+int ProgramGridComponent::busToIndex(MixBusIndex bus) {
+	return static_cast<int>(bus);
 }
 
-MixBusIndex indexToBus(int index) {
-    return static_cast<MixBusIndex>(index);
+MixBusIndex ProgramGridComponent::indexToBus(int index) {
+	return static_cast<MixBusIndex>(index);
 }
 
-bool samplePathExistsCaseSensitive(const juce::File& samplesRoot, const std::string& relativePath) {
+bool ProgramGridComponent::samplePathExists(const std::string& relativePath) const {
 	if(relativePath.empty()) {
 		return true;
 	}
@@ -83,7 +82,7 @@ bool samplePathExistsCaseSensitive(const juce::File& samplesRoot, const std::str
 		return false;
 	}
 
-	juce::File current = samplesRoot;
+	juce::File current = juce::File(SamplerDesktopPaths::getSamplesFolder());
 	for(int partIndex = 0; partIndex < parts.size(); ++partIndex) {
 		if(!current.isDirectory()) {
 			return false;
@@ -112,48 +111,213 @@ bool samplePathExistsCaseSensitive(const juce::File& samplesRoot, const std::str
 	return current.existsAsFile();
 }
 
-juce::Colour normalRowBandColour(size_t rowIndex) {
-	static constexpr juce::uint32 colours[4] = {
-		0xff3d4f63,
-		0xff3d634f,
-		0xff634f3d,
-		0xff4f3d63,
+std::unique_ptr<juce::Label> ProgramGridComponent::makeEditableLabel(const juce::String& text) {
+	auto label = std::make_unique<juce::Label>();
+	label->setEditable(true, false, false);
+	label->setText(text, juce::dontSendNotification);
+	return label;
+}
+
+void ProgramGridComponent::addRowWidget(juce::Component& component) {
+	addAndMakeVisible(component);
+}
+
+void ProgramGridComponent::bindComboBox(juce::ComboBox& combo, const juce::StringArray& options, int selectedIndex, std::function<void(int)> onSelected) {
+	combo.addItemList(options, 1);
+	combo.setSelectedId(selectedIndex + 1, juce::dontSendNotification);
+	combo.onChange = [onSelected = std::move(onSelected), &combo] {
+		onSelected(combo.getSelectedId() - 1);
 	};
-
-	return juce::Colour(colours[rowIndex % 4]);
 }
 
-void applyLabelRowColour(juce::Label& label, const juce::Colour& background) {
-	label.setOpaque(true);
-	label.setColour(juce::Label::backgroundColourId, background);
-	label.setColour(juce::Label::outlineColourId, background);
-	label.setColour(juce::Label::textColourId, juce::Colours::white);
+void ProgramGridComponent::setupNoteLabel(RowComponents& row, size_t rowIndex) {
+	row.noteLabel = makeEditableLabel(juce::String(slots[rowIndex].midiNote));
+	row.noteLabel->onEditorHide = [this, rowIndex, notePtr = row.noteLabel.get()] {
+		const int newNote = juce::jlimit(0, 127, notePtr->getText().getIntValue());
+		if(slots[rowIndex].midiNote == newNote) {
+			return;
+		}
+
+		slots[rowIndex].midiNote = newNote;
+		notePtr->setText(juce::String(newNote), juce::dontSendNotification);
+		sortSlotsByNote();
+		rebuildRows();
+		repaint();
+		if(onModified) {
+			onModified();
+		}
+	};
+	addRowWidget(*row.noteLabel);
 }
 
-void applyComboRowColour(juce::ComboBox& combo, const juce::Colour& background) {
-	combo.setOpaque(true);
-	combo.setColour(juce::ComboBox::backgroundColourId, background);
-	combo.setColour(juce::ComboBox::outlineColourId, background.darker(0.2f));
-	combo.setColour(juce::ComboBox::buttonColourId, background.brighter(0.12f));
-	combo.setColour(juce::ComboBox::textColourId, juce::Colours::white);
+void ProgramGridComponent::setupSampleLabel(RowComponents& row, size_t rowIndex) {
+	row.sampleLabel = makeEditableLabel(juce::String(slots[rowIndex].sample));
+	row.sampleLabel->onTextChange = [this, rowIndex, samplePtr = row.sampleLabel.get()] {
+		slots[rowIndex].sample = samplePtr->getText().toStdString();
+		applyRowAppearance(rowIndex);
+		onRowModified(rowIndex);
+	};
+	addRowWidget(*row.sampleLabel);
 }
 
-void applyTextButtonRowColour(juce::Button& button, const juce::Colour& background) {
-	button.setOpaque(true);
-	button.setColour(juce::TextButton::buttonColourId, background.brighter(0.15f));
-	button.setColour(juce::TextButton::buttonOnColourId, background.brighter(0.25f));
-	button.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
-	button.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
+void ProgramGridComponent::setupModeCombo(RowComponents& row, size_t rowIndex) {
+	row.modeCombo = std::make_unique<juce::ComboBox>();
+	bindComboBox(*row.modeCombo, SamplerOptions::modeOptions(), modeToIndex(slots[rowIndex].mode),
+		[this, rowIndex](int index) {
+			slots[rowIndex].mode = indexToMode(index);
+			onRowModified(rowIndex);
+		});
+	addRowWidget(*row.modeCombo);
 }
 
-void applyToggleRowColour(juce::ToggleButton& toggle, const juce::Colour& background) {
-	toggle.setOpaque(false);
-	toggle.setColour(juce::ToggleButton::textColourId, juce::Colours::white);
-	toggle.setColour(juce::ToggleButton::tickColourId, juce::Colours::white);
-	toggle.setColour(juce::ToggleButton::tickDisabledColourId, background.brighter(0.35f));
-	toggle.setColour(juce::TextButton::buttonColourId, background.brighter(0.15f));
-	toggle.setColour(juce::TextButton::buttonOnColourId, background.brighter(0.25f));
+void ProgramGridComponent::setupBusCombo(RowComponents& row, size_t rowIndex) {
+	row.busCombo = std::make_unique<juce::ComboBox>();
+	bindComboBox(*row.busCombo, SamplerOptions::busOptions(), busToIndex(slots[rowIndex].bus),
+		[this, rowIndex](int index) {
+			slots[rowIndex].bus = indexToBus(index);
+			onRowModified(rowIndex);
+		});
+	addRowWidget(*row.busCombo);
 }
+
+void ProgramGridComponent::setupVolumeLabel(RowComponents& row, size_t rowIndex) {
+	row.volumeLabel = makeEditableLabel(juce::String(slots[rowIndex].volumeDb, 2));
+	row.volumeLabel->onTextChange = [this, rowIndex] {
+		slots[rowIndex].volumeDb = static_cast<float>(rows[rowIndex].volumeLabel->getText().getDoubleValue());
+		onRowModified(rowIndex);
+	};
+	row.volumeLabel->onEditorHide = [this, rowIndex, volumePtr = row.volumeLabel.get()] {
+		const float value = std::round(static_cast<float>(volumePtr->getText().getDoubleValue()) * 100.f) / 100.f;
+		slots[rowIndex].volumeDb = value;
+		volumePtr->setText(juce::String(value, 2), juce::dontSendNotification);
+	};
+	addRowWidget(*row.volumeLabel);
+}
+
+void ProgramGridComponent::setupPitchLabel(RowComponents& row, size_t rowIndex) {
+	row.pitchLabel = makeEditableLabel(juce::String(slots[rowIndex].pitchSemitones, 2));
+	row.pitchLabel->onTextChange = [this, rowIndex] {
+		slots[rowIndex].pitchSemitones = static_cast<float>(rows[rowIndex].pitchLabel->getText().getDoubleValue());
+		onRowModified(rowIndex);
+	};
+	row.pitchLabel->onEditorHide = [this, rowIndex, pitchPtr = row.pitchLabel.get()] {
+		const float value = std::round(static_cast<float>(pitchPtr->getText().getDoubleValue()) * 100.f) / 100.f;
+		slots[rowIndex].pitchSemitones = value;
+		pitchPtr->setText(juce::String(value, 2), juce::dontSendNotification);
+	};
+	addRowWidget(*row.pitchLabel);
+}
+
+void ProgramGridComponent::setupPanLabel(RowComponents& row, size_t rowIndex) {
+	row.panLabel = makeEditableLabel(juce::String(slots[rowIndex].pan, 0));
+	row.panLabel->onTextChange = [this, rowIndex] {
+		slots[rowIndex].pan = static_cast<float>(rows[rowIndex].panLabel->getText().getDoubleValue());
+		onRowModified(rowIndex);
+	};
+	row.panLabel->onEditorHide = [this, rowIndex, panPtr = row.panLabel.get()] {
+		const float value = static_cast<float>(panPtr->getText().getDoubleValue());
+		slots[rowIndex].pan = value;
+		panPtr->setText(juce::String(value, 0), juce::dontSendNotification);
+	};
+	addRowWidget(*row.panLabel);
+}
+
+void ProgramGridComponent::setupMuteGroupCombo(RowComponents& row, size_t rowIndex) {
+	row.muteGroupCombo = std::make_unique<juce::ComboBox>();
+	bindComboBox(*row.muteGroupCombo, SamplerOptions::muteGroupOptions(), muteGroupToIndex(slots[rowIndex].muteGroup),
+		[this, rowIndex](int index) {
+			slots[rowIndex].muteGroup = indexToMuteGroup(index);
+			onRowModified(rowIndex);
+		});
+	addRowWidget(*row.muteGroupCombo);
+}
+
+void ProgramGridComponent::setupReversedToggle(RowComponents& row, size_t rowIndex) {
+	row.reversedToggle = std::make_unique<juce::ToggleButton>();
+	row.reversedToggle->setToggleState(slots[rowIndex].reversed, juce::dontSendNotification);
+	row.reversedToggle->onClick = [this, rowIndex] {
+		slots[rowIndex].reversed = rows[rowIndex].reversedToggle->getToggleState();
+		onRowModified(rowIndex);
+	};
+	addRowWidget(*row.reversedToggle);
+}
+
+void ProgramGridComponent::setupPlayModeCombo(RowComponents& row, size_t rowIndex) {
+	row.playModeCombo = std::make_unique<juce::ComboBox>();
+	bindComboBox(*row.playModeCombo, SamplerOptions::playModeOptions(), playModeToIndex(slots[rowIndex].playMode),
+		[this, rowIndex](int index) {
+			slots[rowIndex].playMode = indexToPlayMode(index);
+			onRowModified(rowIndex);
+		});
+	addRowWidget(*row.playModeCombo);
+}
+
+void ProgramGridComponent::setupGranularSpeedLabel(RowComponents& row, size_t rowIndex) {
+	row.granularSpeedLabel = makeEditableLabel(juce::String(slots[rowIndex].granularSpeed, 2));
+	row.granularSpeedLabel->onTextChange = [this, rowIndex] {
+		slots[rowIndex].granularSpeed = static_cast<float>(rows[rowIndex].granularSpeedLabel->getText().getDoubleValue());
+		onRowModified(rowIndex);
+	};
+	addRowWidget(*row.granularSpeedLabel);
+}
+
+void ProgramGridComponent::setupDeleteButton(RowComponents& row, size_t rowIndex) {
+	row.deleteButton = std::make_unique<juce::TextButton>("X");
+	row.deleteButton->onClick = [this, rowIndex] { deleteLayer(rowIndex); };
+	addRowWidget(*row.deleteButton);
+}
+
+void ProgramGridComponent::setupShowButton(RowComponents& row, size_t rowIndex) {
+	row.showButton = std::make_unique<juce::TextButton>("Show");
+	row.showButton->onClick = [this, rowIndex] {
+		if(slots[rowIndex].sample.empty()) {
+			return;
+		}
+
+		const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
+			.getChildFile(slots[rowIndex].sample);
+		if(!sampleFile.existsAsFile()) {
+			sampleFile.getParentDirectory().revealToUser();
+			return;
+		}
+
+		sampleFile.revealToUser();
+	};
+	addRowWidget(*row.showButton);
+}
+
+void ProgramGridComponent::setupPlayButton(RowComponents& row, size_t rowIndex) {
+	row.playButton = std::make_unique<juce::TextButton>(juce::String::fromUTF8("▶"));
+	row.playButton->onClick = [this, rowIndex] {
+		if(slots[rowIndex].sample.empty()) {
+			return;
+		}
+
+		const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
+			.getChildFile(slots[rowIndex].sample);
+		previewPlayer.playSlot(slots[rowIndex], sampleFile);
+	};
+	addRowWidget(*row.playButton);
+}
+
+ProgramGridComponent::RowComponents ProgramGridComponent::buildRow(size_t rowIndex) {
+	RowComponents row;
+	setupNoteLabel(row, rowIndex);
+	setupSampleLabel(row, rowIndex);
+	setupModeCombo(row, rowIndex);
+	setupBusCombo(row, rowIndex);
+	setupVolumeLabel(row, rowIndex);
+	setupPitchLabel(row, rowIndex);
+	setupPanLabel(row, rowIndex);
+	setupMuteGroupCombo(row, rowIndex);
+	setupReversedToggle(row, rowIndex);
+	setupPlayModeCombo(row, rowIndex);
+	setupGranularSpeedLabel(row, rowIndex);
+	setupDeleteButton(row, rowIndex);
+	setupShowButton(row, rowIndex);
+	setupPlayButton(row, rowIndex);
+	collectRowCells(row);
+	return row;
 }
 
 ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots, SamplerPreviewEngine& inPreviewPlayer)
@@ -170,166 +334,7 @@ void ProgramGridComponent::rebuildRows() {
 	rows.reserve(slots.size());
 
 	for(size_t i = 0; i < slots.size(); ++i) {
-		RowComponents row;
-		row.noteLabel = std::make_unique<juce::Label>();
-		row.noteLabel->setEditable(true, false, false);
-		row.noteLabel->setText(juce::String(slots[i].midiNote), juce::dontSendNotification);
-		row.noteLabel->onEditorHide = [this, i, notePtr = row.noteLabel.get()] {
-			const int newNote = juce::jlimit(0, 127, notePtr->getText().getIntValue());
-			if(slots[i].midiNote == newNote) {
-				return;
-			}
-
-			slots[i].midiNote = newNote;
-			notePtr->setText(juce::String(newNote), juce::dontSendNotification);
-			sortSlotsByNote();
-			rebuildRows();
-			repaint();
-			if(onModified) {
-				onModified();
-			}
-		};
-		addAndMakeVisible(*row.noteLabel);
-
-		row.sampleLabel = std::make_unique<juce::Label>();
-		row.sampleLabel->setEditable(true, false, false);
-		row.sampleLabel->setText(juce::String(slots[i].sample), juce::dontSendNotification);
-		row.sampleLabel->onTextChange = [this, i, samplePtr = row.sampleLabel.get()] {
-			slots[i].sample = samplePtr->getText().toStdString();
-			applyRowAppearance(i);
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.sampleLabel);
-
-		row.modeCombo = std::make_unique<juce::ComboBox>();
-		row.modeCombo->addItemList(SamplerOptions::modeOptions(), 1);
-		row.modeCombo->setSelectedId(modeToIndex(slots[i].mode) + 1, juce::dontSendNotification);
-		row.modeCombo->onChange = [this, i] {
-			slots[i].mode = indexToMode(rows[i].modeCombo->getSelectedId() - 1);
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.modeCombo);
-
-		row.busCombo = std::make_unique<juce::ComboBox>();
-		row.busCombo->addItemList(SamplerOptions::busOptions(), 1);
-		row.busCombo->setSelectedId(busToIndex(slots[i].bus) + 1, juce::dontSendNotification);
-		row.busCombo->onChange = [this, i] {
-			slots[i].bus = indexToBus(rows[i].busCombo->getSelectedId() - 1);
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.busCombo);
-
-		row.volumeLabel = std::make_unique<juce::Label>();
-		row.volumeLabel->setEditable(true, false, false);
-		row.volumeLabel->setText(juce::String(slots[i].volumeDb, 2), juce::dontSendNotification);
-		row.volumeLabel->onTextChange = [this, i] {
-			slots[i].volumeDb = static_cast<float>(rows[i].volumeLabel->getText().getDoubleValue());
-			onRowModified(i);
-		};
-		row.volumeLabel->onEditorHide = [this, i, volumePtr = row.volumeLabel.get()] {
-			const float value = std::round(static_cast<float>(volumePtr->getText().getDoubleValue()) * 100.f) / 100.f;
-			slots[i].volumeDb = value;
-			volumePtr->setText(juce::String(value, 2), juce::dontSendNotification);
-		};
-		addAndMakeVisible(*row.volumeLabel);
-
-		row.pitchLabel = std::make_unique<juce::Label>();
-		row.pitchLabel->setEditable(true, false, false);
-		row.pitchLabel->setText(juce::String(slots[i].pitchSemitones, 2), juce::dontSendNotification);
-		row.pitchLabel->onTextChange = [this, i] {
-			slots[i].pitchSemitones = static_cast<float>(rows[i].pitchLabel->getText().getDoubleValue());
-			onRowModified(i);
-		};
-		row.pitchLabel->onEditorHide = [this, i, pitchPtr = row.pitchLabel.get()] {
-			const float value = std::round(static_cast<float>(pitchPtr->getText().getDoubleValue()) * 100.f) / 100.f;
-			slots[i].pitchSemitones = value;
-			pitchPtr->setText(juce::String(value, 2), juce::dontSendNotification);
-		};
-		addAndMakeVisible(*row.pitchLabel);
-        
-        row.panLabel = std::make_unique<juce::Label>();
-        row.panLabel->setEditable(true, false, false);
-        row.panLabel->setText(juce::String(slots[i].pan, 0), juce::dontSendNotification);
-        row.panLabel->onTextChange = [this, i] {
-            slots[i].pan = static_cast<float>(rows[i].panLabel->getText().getDoubleValue());
-            onRowModified(i);
-        };
-        row.panLabel->onEditorHide = [this, i, panPtr = row.panLabel.get()] {
-            const float value = panPtr->getText().getDoubleValue();
-            slots[i].pan = value;
-            panPtr->setText(juce::String(value, 0), juce::dontSendNotification);
-        };
-        addAndMakeVisible(*row.panLabel);
-
-		row.muteGroupCombo = std::make_unique<juce::ComboBox>();
-		row.muteGroupCombo->addItemList(SamplerOptions::muteGroupOptions(), 1);
-		row.muteGroupCombo->setSelectedId(muteGroupToIndex(slots[i].muteGroup) + 1, juce::dontSendNotification);
-		row.muteGroupCombo->onChange = [this, i] {
-			slots[i].muteGroup = indexToMuteGroup(rows[i].muteGroupCombo->getSelectedId() - 1);
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.muteGroupCombo);
-
-		row.reversedToggle = std::make_unique<juce::ToggleButton>();
-		row.reversedToggle->setToggleState(slots[i].reversed, juce::dontSendNotification);
-		row.reversedToggle->onClick = [this, i] {
-			slots[i].reversed = rows[i].reversedToggle->getToggleState();
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.reversedToggle);
-
-		row.playModeCombo = std::make_unique<juce::ComboBox>();
-		row.playModeCombo->addItemList(SamplerOptions::playModeOptions(), 1);
-		row.playModeCombo->setSelectedId(playModeToIndex(slots[i].playMode) + 1, juce::dontSendNotification);
-		row.playModeCombo->onChange = [this, i] {
-			slots[i].playMode = indexToPlayMode(rows[i].playModeCombo->getSelectedId() - 1);
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.playModeCombo);
-
-		row.granularSpeedLabel = std::make_unique<juce::Label>();
-		row.granularSpeedLabel->setEditable(true, false, false);
-		row.granularSpeedLabel->setText(juce::String(slots[i].granularSpeed, 2), juce::dontSendNotification);
-		row.granularSpeedLabel->onTextChange = [this, i] {
-			slots[i].granularSpeed = static_cast<float>(rows[i].granularSpeedLabel->getText().getDoubleValue());
-			onRowModified(i);
-		};
-		addAndMakeVisible(*row.granularSpeedLabel);
-
-		row.deleteButton = std::make_unique<juce::TextButton>("X");
-		row.deleteButton->onClick = [this, i] { deleteLayer(i); };
-		addAndMakeVisible(*row.deleteButton);
-
-		row.showButton = std::make_unique<juce::TextButton>("Show");
-		row.showButton->onClick = [this, i] {
-			if(slots[i].sample.empty()) {
-				return;
-			}
-
-			const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
-				.getChildFile(slots[i].sample);
-			if(!sampleFile.existsAsFile()) {
-				sampleFile.getParentDirectory().revealToUser();
-				return;
-			}
-
-			sampleFile.revealToUser();
-		};
-		addAndMakeVisible(*row.showButton);
-
-		row.playButton = std::make_unique<juce::TextButton>(juce::String::fromUTF8("▶"));
-		row.playButton->onClick = [this, i] {
-			if(slots[i].sample.empty()) {
-				return;
-			}
-
-			const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
-				.getChildFile(slots[i].sample);
-			previewPlayer.playSlot(slots[i], sampleFile);
-		};
-		addAndMakeVisible(*row.playButton);
-
-		rows.push_back(std::move(row));
+		rows.push_back(buildRow(i));
 		applyRowAppearance(i);
 	}
 
@@ -360,7 +365,18 @@ bool ProgramGridComponent::isSampleMissing(size_t row) const {
 		return false;
 	}
 
-	return !samplePathExistsCaseSensitive(juce::File(SamplerDesktopPaths::getSamplesFolder()), sample);
+	return !samplePathExists(sample);
+}
+
+juce::Colour ProgramGridComponent::normalRowBandColour(size_t rowIndex) const {
+	static constexpr juce::uint32 colours[4] = {
+		0xff3d4f63,
+		0xff3d634f,
+		0xff634f3d,
+		0xff4f3d63,
+	};
+
+	return juce::Colour(colours[rowIndex % 4]);
 }
 
 juce::Colour ProgramGridComponent::rowBackgroundColour(size_t rowIndex) const {
@@ -371,28 +387,93 @@ juce::Colour ProgramGridComponent::rowBackgroundColour(size_t rowIndex) const {
 	return normalRowBandColour(rowIndex);
 }
 
+void ProgramGridComponent::collectRowCells(RowComponents& row) {
+	row.cells = {
+		{row.playButton.get(), kColPlay},
+		{row.noteLabel.get(), kColNote},
+		{row.sampleLabel.get(), kColSample},
+		{row.modeCombo.get(), kColMode},
+		{row.busCombo.get(), kColBus},
+		{row.volumeLabel.get(), kColVolume},
+		{row.pitchLabel.get(), kColPitch},
+		{row.panLabel.get(), kColPan},
+		{row.muteGroupCombo.get(), kColMute},
+		{row.reversedToggle.get(), kColReversed},
+		{row.playModeCombo.get(), kColPlayMode},
+		{row.granularSpeedLabel.get(), kColGranular},
+		{row.deleteButton.get(), kColDelete},
+		{row.showButton.get(), kColShow},
+	};
+}
+
+void ProgramGridComponent::applyLabelRowColour(juce::Label& label, const juce::Colour& background) const {
+	label.setOpaque(true);
+	label.setColour(juce::Label::backgroundColourId, background);
+	label.setColour(juce::Label::outlineColourId, background);
+	label.setColour(juce::Label::textColourId, juce::Colours::white);
+}
+
+void ProgramGridComponent::applyComboRowColour(juce::ComboBox& combo, const juce::Colour& background) const {
+	combo.setOpaque(true);
+	combo.setColour(juce::ComboBox::backgroundColourId, background);
+	combo.setColour(juce::ComboBox::outlineColourId, background.darker(0.2f));
+	combo.setColour(juce::ComboBox::buttonColourId, background.brighter(0.12f));
+	combo.setColour(juce::ComboBox::textColourId, juce::Colours::white);
+}
+
+void ProgramGridComponent::applyTextButtonRowColour(juce::Button& button, const juce::Colour& background) const {
+	button.setOpaque(true);
+	button.setColour(juce::TextButton::buttonColourId, background.brighter(0.15f));
+	button.setColour(juce::TextButton::buttonOnColourId, background.brighter(0.25f));
+	button.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+	button.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
+}
+
+void ProgramGridComponent::applyToggleRowColour(juce::ToggleButton& toggle, const juce::Colour& background) const {
+	toggle.setOpaque(false);
+	toggle.setColour(juce::ToggleButton::textColourId, juce::Colours::white);
+	toggle.setColour(juce::ToggleButton::tickColourId, juce::Colours::white);
+	toggle.setColour(juce::ToggleButton::tickDisabledColourId, background.brighter(0.35f));
+	toggle.setColour(juce::TextButton::buttonColourId, background.brighter(0.15f));
+	toggle.setColour(juce::TextButton::buttonOnColourId, background.brighter(0.25f));
+}
+
+void ProgramGridComponent::applyComponentRowColour(juce::Component* component, const juce::Colour& background) const {
+	if(component == nullptr) {
+		return;
+	}
+
+	if(auto* label = dynamic_cast<juce::Label*>(component)) {
+		applyLabelRowColour(*label, background);
+		return;
+	}
+
+	if(auto* combo = dynamic_cast<juce::ComboBox*>(component)) {
+		applyComboRowColour(*combo, background);
+		return;
+	}
+
+	if(auto* toggle = dynamic_cast<juce::ToggleButton*>(component)) {
+		applyToggleRowColour(*toggle, background);
+		return;
+	}
+
+	if(auto* button = dynamic_cast<juce::TextButton*>(component)) {
+		applyTextButtonRowColour(*button, background);
+	}
+}
+
 void ProgramGridComponent::applyRowAppearance(size_t rowIndex) {
 	if(rowIndex >= rows.size()) {
 		return;
 	}
 
 	const juce::Colour background = rowBackgroundColour(rowIndex);
-	RowComponents& row = rows[rowIndex];
+	const RowComponents& row = rows[rowIndex];
 
-	if(row.noteLabel != nullptr) applyLabelRowColour(*row.noteLabel, background);
-	if(row.sampleLabel != nullptr) applyLabelRowColour(*row.sampleLabel, background);
-	if(row.modeCombo != nullptr) applyComboRowColour(*row.modeCombo, background);
-	if(row.busCombo != nullptr) applyComboRowColour(*row.busCombo, background);
-	if(row.volumeLabel != nullptr) applyLabelRowColour(*row.volumeLabel, background);
-	if(row.pitchLabel != nullptr) applyLabelRowColour(*row.pitchLabel, background);
-    if(row.panLabel != nullptr) applyLabelRowColour(*row.panLabel, background);
-	if(row.muteGroupCombo != nullptr) applyComboRowColour(*row.muteGroupCombo, background);
-	if(row.reversedToggle != nullptr) applyToggleRowColour(*row.reversedToggle, background);
-	if(row.playModeCombo != nullptr) applyComboRowColour(*row.playModeCombo, background);
-	if(row.granularSpeedLabel != nullptr) applyLabelRowColour(*row.granularSpeedLabel, background);
-	if(row.deleteButton != nullptr) applyTextButtonRowColour(*row.deleteButton, background);
-	if(row.showButton != nullptr) applyTextButtonRowColour(*row.showButton, background);
-	if(row.playButton != nullptr) applyTextButtonRowColour(*row.playButton, background);
+	for(const RowComponents::Cell& cell : row.cells) {
+		applyComponentRowColour(cell.component, background);
+	}
 
 	repaint();
 }
@@ -400,7 +481,7 @@ void ProgramGridComponent::applyRowAppearance(size_t rowIndex) {
 void ProgramGridComponent::addLayer(int midiNote, const std::string& sample) {
 	ProgramSlotDesc newLayer;
 	newLayer.midiNote = midiNote;
-	newLayer.mode = ProgramSlotMode::Poly;
+	newLayer.mode = ProgramSlotMode::Mono;
 	newLayer.volumeDb = -6.f;
 	newLayer.sample = sample;
 	slots.push_back(newLayer);
@@ -475,7 +556,7 @@ int ProgramGridComponent::columnWidth(int col) const {
 		case kColBus: return 110;
 		case kColVolume: return 55;
 		case kColPitch: return 55;
-        case kColPan: return 55;
+		case kColPan: return 55;
 		case kColMute: return 60;
 		case kColReversed: return 35;
 		case kColPlayMode: return 100;
@@ -486,25 +567,21 @@ int ProgramGridComponent::columnWidth(int col) const {
 	}
 }
 
+void ProgramGridComponent::layoutCell(juce::Component* component, int rowY, int column) const {
+	if(component == nullptr) {
+		return;
+	}
+
+	component->setBounds(columnX(column) + 2, rowY + 2, columnWidth(column) - 4, kRowHeight - 4);
+}
+
 void ProgramGridComponent::resized() {
 	for(size_t i = 0; i < rows.size(); ++i) {
 		const int y = kHeaderHeight + static_cast<int>(i) * kRowHeight;
-		RowComponents& r = rows[i];
 
-		if(r.playButton != nullptr) r.playButton->setBounds(columnX(kColPlay) + 2, y + 2, columnWidth(kColPlay) - 4, kRowHeight - 4);
-		if(r.noteLabel != nullptr) r.noteLabel->setBounds(columnX(kColNote) + 2, y + 2, columnWidth(kColNote) - 4, kRowHeight - 4);
-		if(r.sampleLabel != nullptr) r.sampleLabel->setBounds(columnX(kColSample) + 2, y + 2, columnWidth(kColSample) - 4, kRowHeight - 4);
-		if(r.modeCombo != nullptr) r.modeCombo->setBounds(columnX(kColMode) + 2, y + 2, columnWidth(kColMode) - 4, kRowHeight - 4);
-		if(r.busCombo != nullptr) r.busCombo->setBounds(columnX(kColBus) + 2, y + 2, columnWidth(kColBus) - 4, kRowHeight - 4);
-		if(r.volumeLabel != nullptr) r.volumeLabel->setBounds(columnX(kColVolume) + 2, y + 2, columnWidth(kColVolume) - 4, kRowHeight - 4);
-		if(r.pitchLabel != nullptr) r.pitchLabel->setBounds(columnX(kColPitch) + 2, y + 2, columnWidth(kColPitch) - 4, kRowHeight - 4);
-        if(r.panLabel != nullptr) r.panLabel->setBounds(columnX(kColPan) + 2, y + 2, columnWidth(kColPan) - 4, kRowHeight - 4);
-		if(r.muteGroupCombo != nullptr) r.muteGroupCombo->setBounds(columnX(kColMute) + 2, y + 2, columnWidth(kColMute) - 4, kRowHeight - 4);
-		if(r.reversedToggle != nullptr) r.reversedToggle->setBounds(columnX(kColReversed) + 2, y + 2, columnWidth(kColReversed) - 4, kRowHeight - 4);
-		if(r.playModeCombo != nullptr) r.playModeCombo->setBounds(columnX(kColPlayMode) + 2, y + 2, columnWidth(kColPlayMode) - 4, kRowHeight - 4);
-		if(r.granularSpeedLabel != nullptr) r.granularSpeedLabel->setBounds(columnX(kColGranular) + 2, y + 2, columnWidth(kColGranular) - 4, kRowHeight - 4);
-		if(r.deleteButton != nullptr) r.deleteButton->setBounds(columnX(kColDelete) + 2, y + 2, columnWidth(kColDelete) - 4, kRowHeight - 4);
-		if(r.showButton != nullptr) r.showButton->setBounds(columnX(kColShow) + 2, y + 2, columnWidth(kColShow) - 4, kRowHeight - 4);
+		for(const RowComponents::Cell& cell : rows[i].cells) {
+			layoutCell(cell.component, y, cell.column);
+		}
 	}
 
 	setSize(getWidth(), kHeaderHeight + static_cast<int>(rows.size()) * kRowHeight);
