@@ -44,7 +44,10 @@ inline juce::StringArray dispatchOptions() {
 	return {
 		ProgramJson::kDispatchFront,
 		ProgramJson::kDispatchRear,
-		ProgramJson::kDispatchAll
+		ProgramJson::kDispatchAll,
+		ProgramJson::kDispatchRandom,
+		ProgramJson::kDispatchForward,
+		ProgramJson::kDispatchBackward
 	};
 }
 }

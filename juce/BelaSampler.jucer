@@ -107,6 +107,10 @@
               file="../src/mix/MixBusNames.cpp"/>
         <FILE id="mixBusNamesH" name="MixBusNames.h" compile="0" resource="0"
               file="../src/mix/MixBusNames.h"/>
+        <FILE id="quadDispatchCpp" name="QuadDispatch.cpp" compile="1" resource="0"
+              file="../src/mix/QuadDispatch.cpp"/>
+        <FILE id="quadDispatchH" name="QuadDispatch.h" compile="0" resource="0"
+              file="../src/mix/QuadDispatch.h"/>
       </GROUP>
       <GROUP id="srcProgram" name="program">
         <FILE id="programJsonCpp" name="ProgramJson.cpp" compile="1" resource="0"

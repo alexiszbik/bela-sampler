@@ -48,6 +48,9 @@ public:
 	static constexpr const char* kDispatchFront = "front";
 	static constexpr const char* kDispatchRear = "rear";
 	static constexpr const char* kDispatchAll = "all";
+	static constexpr const char* kDispatchRandom = "random";
+	static constexpr const char* kDispatchForward = "forward";
+	static constexpr const char* kDispatchBackward = "backward";
 
 	bool parseFile(const std::string& filepath, std::vector<ProgramSlotDesc>& slots);
 

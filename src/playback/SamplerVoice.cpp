@@ -8,7 +8,7 @@ void SamplerVoice::init(double sampleRate) {
 	player.init(sampleRate);
 }
 
-void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
+void SamplerVoice::playOn(Program::Slot& slot, int velocity, size_t busChannelCount) {
 	if(slot.sample == nullptr) {
 		return;
 	}
@@ -22,6 +22,7 @@ void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
 	busIndex = slot.bus;
 	dispatch = slot.dispatch;
 	isMonoSample = slot.sample->getChannelCount() <= 1;
+	resolveDispatch(slot, busChannelCount);
 
 	balance[0] = panToRms(slot.pan, false);
 	balance[1] = panToRms(slot.pan, true);
@@ -66,9 +67,43 @@ void SamplerVoice::clearActiveSlot() {
 	voiceBinding.activeSlotId = VoiceBinding::kInvalidSlot;
 }
 
+void SamplerVoice::resolveDispatch(Program::Slot& slot, size_t busChannelCount) {
+	mixToAllChannels = false;
+	mixLeftChannel = 0;
+	mixRightChannel = busChannelCount > 1 ? 1 : 0;
+
+	switch(slot.dispatch) {
+		case SlotDispatch::Rear:
+			mixLeftChannel = 2;
+			mixRightChannel = 3;
+			break;
+
+		case SlotDispatch::All:
+			mixToAllChannels = true;
+			break;
+
+		case SlotDispatch::Random:
+		case SlotDispatch::Forward:
+		case SlotDispatch::Backward: {
+			const DispatchChannels channels = slot.dispatchState.resolve(slot.dispatch, !isMonoSample, busChannelCount);
+			mixLeftChannel = channels.left;
+			mixRightChannel = channels.right;
+			break;
+		}
+
+		case SlotDispatch::Front:
+		default:
+			break;
+	}
+}
+
 void SamplerVoice::mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) const {
 	sum[leftChannel] += left;
 	sum[rightChannel] += isMono ? left : right;
+}
+
+void SamplerVoice::mixToMonoChannel(float* sum, size_t channel, float sample) const {
+	sum[channel] += sample;
 }
 
 void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
@@ -83,28 +118,26 @@ void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
 		return;
 	}
 
-	switch(dispatch) {
-		case SlotDispatch::Rear:
-			mixToStereoPair(sum, 2, 3, left, right, isMonoSample);
-			break;
-
-
-		case SlotDispatch::All:
-			if(isMonoSample) {
-				const float mono = dry[0] * gain;
-				for(size_t channel = 0; channel < 4; ++channel) {
-					sum[channel] += mono;
-				}
-			} else {
-				mixToStereoPair(sum, 0, 1, left, right, false);
-				mixToStereoPair(sum, 2, 3, left, right, false);
+	if(mixToAllChannels) {
+		if(isMonoSample) {
+			const float mono = dry[0] * gain;
+			for(size_t channel = 0; channel < 4; ++channel) {
+				sum[channel] += mono;
 			}
-			break;
+		} else {
+			mixToStereoPair(sum, 0, 1, left, right, false);
+			mixToStereoPair(sum, 2, 3, left, right, false);
+		}
+		return;
+	}
 
-		case SlotDispatch::Front:
-		default:
-			mixToStereoPair(sum, 0, 1, left, right, isMonoSample);
-			break;
+	const bool mixMonoToPair = isMonoSample && mixLeftChannel != mixRightChannel;
+	if(mixMonoToPair) {
+		mixToStereoPair(sum, mixLeftChannel, mixRightChannel, left, right, true);
+	} else if(isMonoSample) {
+		mixToMonoChannel(sum, mixLeftChannel, dry[0] * gain);
+	} else {
+		mixToStereoPair(sum, mixLeftChannel, mixRightChannel, left, right, false);
 	}
 }
 

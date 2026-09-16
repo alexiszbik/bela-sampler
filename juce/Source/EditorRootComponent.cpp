@@ -69,24 +69,14 @@ void EditorRootComponent::onSamplePreviewed(const Sample& sample,
 		return;
 	}
 
-	const float* waveformData = sample.getChannelSamples(0);
-	if(waveformData == nullptr) {
+	const float* leftData = sample.getChannelSamples(0);
+	if(leftData == nullptr) {
 		return;
 	}
 
+	const float* rightData = nullptr;
 	if(sample.getChannelCount() > 1) {
-		monoWaveformScratch.resize(length);
-		for(unsigned int i = 0; i < length; ++i) {
-			float sum = 0.f;
-			for(unsigned int channel = 0; channel < sample.getChannelCount(); ++channel) {
-				const float* channelData = sample.getChannelSamples(channel);
-				if(channelData != nullptr) {
-					sum += channelData[i];
-				}
-			}
-			monoWaveformScratch[i] = sum / static_cast<float>(sample.getChannelCount());
-		}
-		waveformData = monoWaveformScratch.data();
+		rightData = sample.getChannelSamples(1);
 	}
 
 	waveformView.setReverse(reversed);
@@ -94,5 +84,5 @@ void EditorRootComponent::onSamplePreviewed(const Sample& sample,
 	waveformView.updateWindow(0.f, 1.f);
 	waveformView.setStart(0.f);
 	waveformView.setEnd(1.f);
-	waveformView.updateSampleBuf(waveformData, length);
+	waveformView.updateSampleBuf(leftData, length, rightData);
 }

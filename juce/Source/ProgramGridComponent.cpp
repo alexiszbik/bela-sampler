@@ -74,6 +74,9 @@ int ProgramGridComponent::dispatchToIndex(SlotDispatch dispatch) {
 	switch(dispatch) {
 		case SlotDispatch::Rear: return 1;
 		case SlotDispatch::All: return 2;
+		case SlotDispatch::Random: return 3;
+		case SlotDispatch::Forward: return 4;
+		case SlotDispatch::Backward: return 5;
 		default: return 0;
 	}
 }
@@ -82,6 +85,9 @@ SlotDispatch ProgramGridComponent::indexToDispatch(int index) {
 	switch(index) {
 		case 1: return SlotDispatch::Rear;
 		case 2: return SlotDispatch::All;
+		case 3: return SlotDispatch::Random;
+		case 4: return SlotDispatch::Forward;
+		case 5: return SlotDispatch::Backward;
 		default: return SlotDispatch::Front;
 	}
 }
@@ -582,7 +588,7 @@ int ProgramGridComponent::columnWidth(int col) const {
 		case kColSample: return 190;
 		case kColMode: return 80;
 		case kColBus: return 110;
-		case kColDispatch: return 70;
+		case kColDispatch: return 80;
 		case kColVolume: return 55;
 		case kColPitch: return 55;
 		case kColPan: return 55;

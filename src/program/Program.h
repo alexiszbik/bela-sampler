@@ -3,6 +3,7 @@
 #include "MuteGroup.h"
 #include "MixBusNames.h"
 #include "Sample.h"
+#include "QuadDispatch.h"
 #include "SlotDispatch.h"
 
 #include <vector>
@@ -39,6 +40,7 @@ public:
 		MixBusIndex bus = kBusMaster;
 		float pan = 0.f;
 		SlotDispatch dispatch = SlotDispatch::Front;
+		mutable QuadDispatch dispatchState;
 
 		bool isMuteOnly() const { return sample == nullptr; }
 	};
@@ -46,7 +48,8 @@ public:
 	void addSlot(const ProgramSlotDesc& desc, const Sample* sample);
 
 	bool loadFromFile(const std::string& filepath, const std::vector<Sample>& samples);
-	
+
+	std::vector<Slot>& getSlots() { return slots; }
 	const std::vector<Slot>& getSlots() const { return slots; }
 	size_t getSlotCount() const { return slots.size(); }
 

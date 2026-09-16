@@ -11,7 +11,7 @@ class SamplePlayerPool
 {
 public:
 	void init(double sampleRate, size_t count);
-	void playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity);
+	void playOn(SamplerVoice* voice, Program::Slot& slot, int velocity, size_t busChannelCount);
 	void stop(SamplerVoice* voice);
 	void nextSamples(MixBusArray& mixBuses);
 

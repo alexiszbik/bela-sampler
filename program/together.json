@@ -222,7 +222,8 @@
           "sample": "together/TGT_BASS.WAV",
           "mode": "mono",
           "volume": -9.0,
-          "bus": "kick"
+          "bus": "kick",
+          "dispatch": "all"
         }
       ]
     },
@@ -234,7 +235,7 @@
           "mode": "mono",
           "volume": -9.0,
           "muteGroup": "C",
-          "dispatch": "all"
+          "dispatch": "forward"
         }
       ]
     },
@@ -247,7 +248,7 @@
           "volume": -9.0,
           "pitch": 4.0,
           "muteGroup": "C",
-          "dispatch": "all"
+          "dispatch": "backward"
         }
       ]
     },

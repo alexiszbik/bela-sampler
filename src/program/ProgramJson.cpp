@@ -288,6 +288,12 @@ bool ProgramJson::parseDispatch(SlotDispatch& dispatch) {
 		dispatch = SlotDispatch::Rear;
 	} else if(dispatchName == kDispatchAll) {
 		dispatch = SlotDispatch::All;
+	} else if(dispatchName == kDispatchRandom) {
+		dispatch = SlotDispatch::Random;
+	} else if(dispatchName == kDispatchForward) {
+		dispatch = SlotDispatch::Forward;
+	} else if(dispatchName == kDispatchBackward) {
+		dispatch = SlotDispatch::Backward;
 	} else {
 		return false;
 	}

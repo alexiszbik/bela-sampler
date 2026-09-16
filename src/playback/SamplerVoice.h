@@ -8,7 +8,7 @@ class SamplerVoice
 {
 public:
 	void init(double sampleRate);
-	void playOn(const Program::Slot& slot, int velocity);
+	void playOn(Program::Slot& slot, int velocity, size_t busChannelCount);
 	void stop();
 	void nextSamples(float* sum, size_t sumChannelCount);
 
@@ -22,8 +22,10 @@ public:
 	void clearActiveSlot();
 
 private:
+	void resolveDispatch(Program::Slot& slot, size_t busChannelCount);
 	void mixDryToSum(float* sum, size_t sumChannelCount);
 	void mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) const;
+	void mixToMonoChannel(float* sum, size_t channel, float sample) const;
 
 	SamplePlayer player;
 	VoiceBinding voiceBinding;
@@ -35,5 +37,8 @@ private:
 	float dry[kMaxChannels] = {0.f, 0.f};
 	SlotDispatch dispatch = SlotDispatch::Front;
 	bool isMonoSample = false;
+	size_t mixLeftChannel = 0;
+	size_t mixRightChannel = 1;
+	bool mixToAllChannels = false;
 
 };

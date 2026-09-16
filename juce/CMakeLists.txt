@@ -20,6 +20,7 @@ set(SAMPLER_EDITOR_SOURCES
     ../src/playback/SamplePlayer.cpp
     ../src/playback/sample/Sample.cpp
     ../src/mix/MixBusNames.cpp
+    ../src/mix/QuadDispatch.cpp
     Source/SamplerDesktopPaths.cpp
     Source/SharedAudioFormatManager.cpp
     Source/SamplerPreviewEngine.cpp

@@ -9,7 +9,6 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include <string>
-#include <vector>
 
 class EditorRootComponent : public juce::Component
 {
@@ -30,7 +29,6 @@ private:
 	juce::Label waveformTitle;
 	SampleWaveform waveformView;
 	StereoPeakMeter peakMeter;
-	std::vector<float> monoWaveformScratch;
 
 	static constexpr int kEditorHeightPercent = 65;
 	static constexpr int kPeakMeterWidth = 76;

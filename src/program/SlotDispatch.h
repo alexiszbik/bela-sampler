@@ -3,5 +3,8 @@
 enum class SlotDispatch {
 	Front,
 	Rear,
-	All
+	All,
+	Random,
+	Forward,
+	Backward
 };

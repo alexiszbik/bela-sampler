@@ -57,6 +57,7 @@ set(SAMPLER_CORE_SOURCES
     ../src/mix/HatMixBus.cpp
     ../src/mix/MixBusArray.cpp
     ../src/mix/MixBusBase.cpp
+    ../src/mix/QuadDispatch.cpp
     ../src/mix/MixBusFilterSection.cpp
     ../src/mix/MixBusNames.cpp
     ../src/mix/ReverbEffect.cpp

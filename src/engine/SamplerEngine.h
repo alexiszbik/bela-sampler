@@ -36,7 +36,7 @@ public:
 	size_t getPlayerCount() const { return playerPool.getCount(); }
 
 private:
-	void triggerSlot(const Program::Slot& slot, int velocity);
+	void triggerSlot(Program::Slot& slot, int velocity);
 
 	ProgramBank* programBank = nullptr;
 	SamplePlayerPool playerPool;

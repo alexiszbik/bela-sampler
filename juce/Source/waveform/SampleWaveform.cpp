@@ -50,6 +50,44 @@ void tableReadMono(const float* indexes, const float* table, size_t tableLength,
 		output[i] = static_cast<float>((1.0 - fraction) * sample0 + fraction * sample1);
 	}
 }
+
+void buildEnvelopePath(juce::Path& path,
+	float centerY,
+	float amplitude,
+	WaveformBuffer<float>& maxSamples,
+	WaveformBuffer<float>& minSamples,
+	float minX,
+	float widthPerPoint,
+	size_t resolution) {
+	path.startNewSubPath(minX, centerY - maxSamples[0] * amplitude);
+	for(size_t i = 1; i < resolution; ++i) {
+		const float x = minX + static_cast<float>(i) * widthPerPoint;
+		const float y = centerY - maxSamples[i] * amplitude;
+		path.lineTo(x, y);
+	}
+
+	for(int i = static_cast<int>(resolution) - 1; i >= 0; --i) {
+		path.lineTo(minX + static_cast<float>(i) * widthPerPoint,
+			centerY - minSamples[static_cast<size_t>(i)] * amplitude);
+	}
+
+	path.closeSubPath();
+}
+
+void buildLinePath(juce::Path& path,
+	float centerY,
+	float amplitude,
+	WaveformBuffer<float>& samples,
+	float minX,
+	float widthPerPoint,
+	size_t resolution) {
+	path.startNewSubPath(minX, centerY - samples[0] * amplitude);
+	for(size_t i = 1; i < resolution; ++i) {
+		const float x = minX + static_cast<float>(i) * widthPerPoint;
+		const float y = centerY - samples[i] * amplitude;
+		path.lineTo(x, y);
+	}
+}
 }
 
 SampleWaveform::SampleWaveform() {
@@ -58,69 +96,107 @@ SampleWaveform::SampleWaveform() {
 
 SampleWaveform::~SampleWaveform() = default;
 
-void SampleWaveform::paint(juce::Graphics& g) {
-	const float midY = static_cast<float>(getHeight()) * 0.5f;
+void SampleWaveform::clearWaveformPaths() {
+	waveformPaths[0].clear();
+	waveformPaths[1].clear();
+}
 
-	if(waveformPath.isEmpty()) {
-		const float amplitude = static_cast<float>(getHeight()) * 0.5f * amplitudeFactor;
-		const float widthPerPoint = (windowEnd - windowStart) * static_cast<float>(getWidth())
-			/ static_cast<float>(kResolution);
-		const float minX = windowStart * static_cast<float>(getWidth());
+void SampleWaveform::buildWaveformPaths() {
+	clearWaveformPaths();
 
-		waveformPath.startNewSubPath(minX, midY - uiSampleData[0][0] * amplitude);
-		for(size_t i = 1; i < kResolution; ++i) {
-			const float x = minX + static_cast<float>(i) * widthPerPoint;
-			const float y = midY - uiSampleData[0][i] * amplitude;
-			waveformPath.lineTo(x, y);
-		}
+	const float height = static_cast<float>(getHeight());
+	const float widthPerPoint = (windowEnd - windowStart) * static_cast<float>(getWidth())
+		/ static_cast<float>(kResolution);
+	const float minX = windowStart * static_cast<float>(getWidth());
 
-		if(!renderSingleLine) {
-			for(int i = static_cast<int>(kResolution) - 1; i >= 0; --i) {
-				waveformPath.lineTo(minX + static_cast<float>(i) * widthPerPoint,
-					midY - uiSampleData[1][static_cast<size_t>(i)] * amplitude);
-			}
-			waveformPath.closeSubPath();
+	const size_t channelCount = isStereoDisplay ? 2u : 1u;
+	const float laneHeight = height / static_cast<float>(channelCount);
+
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		const float centerY = laneHeight * (static_cast<float>(channel) + 0.5f);
+		const float amplitude = laneHeight * 0.5f * amplitudeFactor;
+
+		if(renderSingleLine) {
+			buildLinePath(waveformPaths[channel],
+				centerY,
+				amplitude,
+				uiSampleMax[channel],
+				minX,
+				widthPerPoint,
+				kResolution);
+		} else {
+			buildEnvelopePath(waveformPaths[channel],
+				centerY,
+				amplitude,
+				uiSampleMax[channel],
+				uiSampleMin[channel],
+				minX,
+				widthPerPoint,
+				kResolution);
 		}
 	}
+}
+
+void SampleWaveform::paint(juce::Graphics& g) {
+	if(waveformPaths[0].isEmpty()) {
+		buildWaveformPaths();
+	}
+
+	const float height = static_cast<float>(getHeight());
+	const size_t channelCount = isStereoDisplay ? 2u : 1u;
+	const float laneHeight = height / static_cast<float>(channelCount);
 
 	g.setColour(juce::Colours::darkgrey);
-	if(!renderSingleLine) {
-		g.fillPath(waveformPath);
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		if(!renderSingleLine) {
+			g.fillPath(waveformPaths[channel]);
+		}
+		g.strokePath(waveformPaths[channel], juce::PathStrokeType(kLineWidth));
 	}
-	g.strokePath(waveformPath, juce::PathStrokeType(kLineWidth));
+
+	if(isStereoDisplay) {
+		g.setColour(juce::Colour(0xff505050));
+		g.drawHorizontalLine(static_cast<int>(laneHeight), 0.f, static_cast<float>(getWidth()));
+	}
 
 	g.reduceClipRegion(static_cast<int>(playStart * static_cast<float>(getWidth())),
 		0,
 		static_cast<int>(std::max((playEnd - playStart), 0.f) * static_cast<float>(getWidth())),
 		getHeight());
 
-	const float gradRatio = 0.2f;
-	juce::ColourGradient gradient(juce::Colours::blue,
-		0.f,
-		midY - gradRatio * static_cast<float>(getHeight()),
-		juce::Colours::blue,
-		0.f,
-		midY + gradRatio * static_cast<float>(getHeight()),
-		false);
-	gradient.addColour(0.5f, juce::Colours::white);
-	g.setGradientFill(gradient);
-	if(!renderSingleLine) {
-		g.fillPath(waveformPath);
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		const float centerY = laneHeight * (static_cast<float>(channel) + 0.5f);
+		const float gradRatio = 0.2f;
+		juce::ColourGradient gradient(juce::Colours::blue,
+			0.f,
+			centerY - gradRatio * laneHeight,
+			juce::Colours::blue,
+			0.f,
+			centerY + gradRatio * laneHeight,
+			false);
+		gradient.addColour(0.5f, juce::Colours::white);
+		g.setGradientFill(gradient);
+
+		if(!renderSingleLine) {
+			g.fillPath(waveformPaths[channel]);
+		}
+		g.strokePath(waveformPaths[channel], juce::PathStrokeType(kLineWidth));
 	}
-	g.strokePath(waveformPath, juce::PathStrokeType(kLineWidth));
 }
 
 void SampleWaveform::resized() {
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
-void SampleWaveform::updateSampleBuf(const float* data, size_t bufLength) {
-	sampleData = data;
+void SampleWaveform::updateSampleBuf(const float* left, size_t bufLength, const float* right) {
+	sampleDataLeft = left;
+	sampleDataRight = right;
 	sampleLength = bufLength;
+	isStereoDisplay = right != nullptr;
 
 	processSampleData();
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
@@ -129,37 +205,37 @@ void SampleWaveform::updateWindow(float relativeStart, float relativeEnd) {
 	windowEnd = relativeEnd;
 
 	processSampleData();
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
 void SampleWaveform::setStart(float start) {
 	playStart = start;
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
 void SampleWaveform::setEnd(float end) {
 	playEnd = end;
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
 void SampleWaveform::setAmplitudeFactor(float factor) {
 	amplitudeFactor = factor;
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
 void SampleWaveform::setReverse(bool isReverse) {
 	reverse = isReverse;
 	processSampleData();
-	waveformPath.clear();
+	clearWaveformPaths();
 	repaint();
 }
 
 void SampleWaveform::processSampleData() {
-	if(sampleData == nullptr || sampleLength == 0 || kResolution == 0) {
+	if(sampleDataLeft == nullptr || sampleLength == 0 || kResolution == 0) {
 		return;
 	}
 
@@ -175,22 +251,41 @@ void SampleWaveform::processSampleData() {
 		fillRamp(windowStart * static_cast<float>(sampleLength), windowSize, readRamp, kResolution);
 	}
 
+	const size_t channelCount = isStereoDisplay ? 2u : 1u;
+	const float* channelData[2] = {sampleDataLeft, sampleDataRight};
+
 	if(windowSize >= 2.f) {
 		renderSingleLine = false;
-		for(size_t i = 0; i < kResolution; ++i) {
-			const size_t readPosition = static_cast<size_t>(std::floor(readRamp[i]));
-			const size_t count = static_cast<size_t>(windowSize);
-			if(readPosition + count > sampleLength) {
-				uiSampleData[0][i] = 0.f;
-				uiSampleData[1][i] = 0.f;
+
+		for(size_t channel = 0; channel < channelCount; ++channel) {
+			const float* data = channelData[channel];
+			if(data == nullptr) {
 				continue;
 			}
 
-			uiSampleData[0][i] = maxInRange(sampleData + readPosition, count);
-			uiSampleData[1][i] = minInRange(sampleData + readPosition, count);
+			for(size_t i = 0; i < kResolution; ++i) {
+				const size_t readPosition = static_cast<size_t>(std::floor(readRamp[i]));
+				const size_t count = static_cast<size_t>(windowSize);
+				if(readPosition + count > sampleLength) {
+					uiSampleMax[channel][i] = 0.f;
+					uiSampleMin[channel][i] = 0.f;
+					continue;
+				}
+
+				uiSampleMax[channel][i] = maxInRange(data + readPosition, count);
+				uiSampleMin[channel][i] = minInRange(data + readPosition, count);
+			}
 		}
 	} else {
 		renderSingleLine = true;
-		tableReadMono(readRamp, sampleData, sampleLength, uiSampleData[0], kResolution);
+
+		for(size_t channel = 0; channel < channelCount; ++channel) {
+			const float* data = channelData[channel];
+			if(data == nullptr) {
+				continue;
+			}
+
+			tableReadMono(readRamp, data, sampleLength, uiSampleMax[channel], kResolution);
+		}
 	}
 }

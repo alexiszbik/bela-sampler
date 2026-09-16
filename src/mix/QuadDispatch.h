@@ -1,35 +1,23 @@
 #pragma once
 
-enum QuadMode {
-	kNone = 0,
-	kForward,
-	kBackward,
-	kRandom,
-};
+#include "SlotDispatch.h"
 
+#include <cstddef>
+
+struct DispatchChannels {
+	size_t left = 0;
+	size_t right = 1;
+};
 
 class QuadDispatch {
 public:
-	QuadDispatch() {
+	static constexpr size_t kMaxChannels = 4;
 
-	}
-	~QuadDispatch() {
+	DispatchChannels resolve(SlotDispatch mode, bool isStereo, size_t busChannelCount);
 
-	}
-
-	void moveForward() {
-		currentIndex++;
-		if (currentIndex >= 4) {
-			currentIndex = 0;
-		}
-	}
-
-	int getIndex() {
-		return currentIndex;
-	}
-	
 private:
-	int currentIndex = 0;
+	DispatchChannels leftChannelToOutput(size_t leftChannel, bool isStereo) const;
+	size_t randomLeftChannel() const;
 
-
+	size_t currentIndex = 0;
 };

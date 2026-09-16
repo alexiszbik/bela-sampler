@@ -27,6 +27,9 @@ const char* dispatchToString(SlotDispatch dispatch) {
 		case SlotDispatch::Front: return ProgramJson::kDispatchFront;
 		case SlotDispatch::Rear: return ProgramJson::kDispatchRear;
 		case SlotDispatch::All: return ProgramJson::kDispatchAll;
+		case SlotDispatch::Random: return ProgramJson::kDispatchRandom;
+		case SlotDispatch::Forward: return ProgramJson::kDispatchForward;
+		case SlotDispatch::Backward: return ProgramJson::kDispatchBackward;
 	}
 
 	return ProgramJson::kDispatchFront;

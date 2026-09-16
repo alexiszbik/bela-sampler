@@ -9,7 +9,7 @@ void SamplerEngine::init(ProgramBank* inProgramBank, double sampleRate, size_t p
 	mixBuses.init(sampleRate);
 }
 
-void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
+void SamplerEngine::triggerSlot(Program::Slot& slot, int velocity) {
 	if(slot.isMuteOnly()) {
 		voiceAllocator.stopMuteGroupExceptNote(slot.muteGroup, slot.midiNote);
 		return;
@@ -20,7 +20,8 @@ void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
 		return;
 	}
 
-	playerPool.playOn(voice, slot, velocity);
+	const size_t busChannelCount = mixBuses.getBus(slot.bus).getChannelCount();
+	playerPool.playOn(voice, slot, velocity, busChannelCount);
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
@@ -33,7 +34,7 @@ void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
 		return;
 	}
 
-	for(const Program::Slot& slot : program->getSlots()) {
+	for(Program::Slot& slot : program->getSlots()) {
 		if(slot.midiNote != note) {
 			continue;
 		}
