@@ -20,9 +20,11 @@ void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
 	gain = velocityGain * velocityGain * dBtoRMS(slot.volumeDb);
 
 	busIndex = slot.bus;
+	dispatch = slot.dispatch;
+	isMonoSample = slot.sample->getChannelCount() <= 1;
 
-    balance[0] = panToRms(slot.pan, false);
-    balance[1] = panToRms(slot.pan, true);
+	balance[0] = panToRms(slot.pan, false);
+	balance[1] = panToRms(slot.pan, true);
 
 	player.setSample(slot.sample);
 	player.setLoop(loop);
@@ -64,10 +66,46 @@ void SamplerVoice::clearActiveSlot() {
 	voiceBinding.activeSlotId = VoiceBinding::kInvalidSlot;
 }
 
+namespace {
+void mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) {
+	sum[leftChannel] += left;
+	sum[rightChannel] += isMono ? left : right;
+}
+}
+
 void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
-	const size_t mixChannels = sumChannelCount < kMaxChannels ? sumChannelCount : kMaxChannels;
-	for(size_t channel = 0; channel < mixChannels; ++channel) {
-		sum[channel] += dry[channel] * gain * balance[channel];
+	const float left = dry[0] * gain * balance[0];
+	const float right = dry[1] * gain * balance[1];
+
+	if(sumChannelCount < 4) {
+		sum[0] += left;
+		if(sumChannelCount > 1) {
+			sum[1] += isMonoSample ? left : right;
+		}
+		return;
+	}
+
+	switch(dispatch) {
+		case SlotDispatch::Rear:
+			mixToStereoPair(sum, 2, 3, left, right, isMonoSample);
+			break;
+
+		case SlotDispatch::All:
+			if(isMonoSample) {
+				const float mono = dry[0] * gain;
+				for(size_t channel = 0; channel < 4; ++channel) {
+					sum[channel] += mono;
+				}
+			} else {
+				mixToStereoPair(sum, 0, 1, left, right, false);
+				mixToStereoPair(sum, 2, 3, left, right, false);
+			}
+			break;
+
+		case SlotDispatch::Front:
+		default:
+			mixToStereoPair(sum, 0, 1, left, right, isMonoSample);
+			break;
 	}
 }
 

@@ -276,6 +276,25 @@ bool ProgramJson::parseReversed(bool& reversed) {
 	return true;
 }
 
+bool ProgramJson::parseDispatch(SlotDispatch& dispatch) {
+	std::string dispatchName;
+	if(!parseQuotedString(dispatchName)) {
+		return false;
+	}
+
+	if(dispatchName == kDispatchFront) {
+		dispatch = SlotDispatch::Front;
+	} else if(dispatchName == kDispatchRear) {
+		dispatch = SlotDispatch::Rear;
+	} else if(dispatchName == kDispatchAll) {
+		dispatch = SlotDispatch::All;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseBus(MixBusIndex& bus) {
 	skipSpace();
 
@@ -364,6 +383,10 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 			}
 		} else if(matchKey(kBus)) {
 			if(!matchLiteral(':') || !parseBus(slot.bus)) {
+				return false;
+			}
+		} else if(matchKey(kDispatch)) {
+			if(!matchLiteral(':') || !parseDispatch(slot.dispatch)) {
 				return false;
 			}
 		} else {

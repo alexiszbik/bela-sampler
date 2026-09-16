@@ -39,4 +39,12 @@ inline juce::StringArray busOptions() {
 	}
 	return result;
 }
+
+inline juce::StringArray dispatchOptions() {
+	return {
+		ProgramJson::kDispatchFront,
+		ProgramJson::kDispatchRear,
+		ProgramJson::kDispatchAll
+	};
+}
 }

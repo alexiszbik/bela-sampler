@@ -22,6 +22,16 @@ const char* playModeToString(ProgramSlotPlayMode mode) {
 	return ProgramJson::kPlayModeNormal;
 }
 
+const char* dispatchToString(SlotDispatch dispatch) {
+	switch(dispatch) {
+		case SlotDispatch::Front: return ProgramJson::kDispatchFront;
+		case SlotDispatch::Rear: return ProgramJson::kDispatchRear;
+		case SlotDispatch::All: return ProgramJson::kDispatchAll;
+	}
+
+	return ProgramJson::kDispatchFront;
+}
+
 const char* muteGroupToString(MuteGroup group) {
 	switch(group) {
 		case MuteGroup::None: return nullptr;
@@ -62,6 +72,9 @@ std::unique_ptr<juce::DynamicObject> layerToObject(const ProgramSlotDesc& layer)
 	}
 	if(layer.bus != kBusMaster) {
 		obj->setProperty("bus", juce::String(mixBusNickname(layer.bus)));
+	}
+	if(layer.dispatch != SlotDispatch::Front) {
+		obj->setProperty("dispatch", juce::String(dispatchToString(layer.dispatch)));
 	}
 
 	return obj;

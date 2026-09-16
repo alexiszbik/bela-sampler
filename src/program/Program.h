@@ -3,6 +3,7 @@
 #include "MuteGroup.h"
 #include "MixBusNames.h"
 #include "Sample.h"
+#include "SlotDispatch.h"
 
 #include <vector>
 
@@ -37,6 +38,7 @@ public:
 		float volumeDb = 0.f;
 		MixBusIndex bus = kBusMaster;
 		float pan = 0.f;
+		SlotDispatch dispatch = SlotDispatch::Front;
 
 		bool isMuteOnly() const { return sample == nullptr; }
 	};

@@ -2,6 +2,7 @@
 
 #include "MuteGroup.h"
 #include "MixBusNames.h"
+#include "SlotDispatch.h"
 
 #include <string>
 #include <vector>
@@ -29,6 +30,7 @@ struct ProgramSlotDesc {
 	float volumeDb = 0.f;
 	float pan = 0.f;
 	MixBusIndex bus = kBusMaster;
+	SlotDispatch dispatch = SlotDispatch::Front;
 };
 
 class ProgramJson
@@ -43,6 +45,9 @@ public:
 	static constexpr const char* kMuteGroupB = "B";
 	static constexpr const char* kMuteGroupC = "C";
 	static constexpr const char* kMuteGroupD = "D";
+	static constexpr const char* kDispatchFront = "front";
+	static constexpr const char* kDispatchRear = "rear";
+	static constexpr const char* kDispatchAll = "all";
 
 	bool parseFile(const std::string& filepath, std::vector<ProgramSlotDesc>& slots);
 
@@ -60,6 +65,7 @@ private:
 	bool parsePlayMode(ProgramSlotPlayMode& playMode);
 	bool parseReversed(bool& reversed);
 	bool parseBus(MixBusIndex& bus);
+	bool parseDispatch(SlotDispatch& dispatch);
 
 	void skipSpace();
 	bool matchLiteral(char expected);
@@ -83,6 +89,7 @@ private:
 	static constexpr const char* kReversed = "reversed";
 	static constexpr const char* kVolume = "volume";
 	static constexpr const char* kBus = "bus";
+	static constexpr const char* kDispatch = "dispatch";
 	static constexpr const char* kLayers = "layers";
 	static constexpr const char* kSlots = "slots";
 };

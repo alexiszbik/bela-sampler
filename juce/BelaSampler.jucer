@@ -118,6 +118,7 @@
         <FILE id="programMapJsonH" name="ProgramMapJson.h" compile="0" resource="0"
               file="../src/program/ProgramMapJson.h"/>
         <FILE id="muteGroupH" name="MuteGroup.h" compile="0" resource="0" file="../src/program/MuteGroup.h"/>
+        <FILE id="slotDispatchH" name="SlotDispatch.h" compile="0" resource="0" file="../src/program/SlotDispatch.h"/>
         <FILE id="programH" name="Program.h" compile="0" resource="0" file="../src/program/Program.h"/>
       </GROUP>
     </GROUP>

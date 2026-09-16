@@ -88,7 +88,8 @@ void Program::addSlot(const ProgramSlotDesc& desc, const Sample* sample) {
 		desc.reversed,
 		desc.volumeDb,
 		desc.bus,
-		desc.pan
+		desc.pan,
+		desc.dispatch
 	});
 }
 

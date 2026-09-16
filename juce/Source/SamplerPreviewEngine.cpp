@@ -34,6 +34,7 @@ Program::Slot makePreviewSlot(const ProgramSlotDesc& desc, const Sample* sampleP
 	slot.volumeDb = desc.volumeDb;
 	slot.bus = desc.bus;
 	slot.pan = desc.pan;
+	slot.dispatch = desc.dispatch;
 	return slot;
 }
 }

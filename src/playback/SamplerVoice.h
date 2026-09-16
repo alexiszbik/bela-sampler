@@ -2,6 +2,7 @@
 
 #include "Program.h"
 #include "SamplePlayer.h"
+#include "SlotDispatch.h"
 #include "VoiceBinding.h"
 class SamplerVoice
 {
@@ -31,5 +32,7 @@ private:
 	float gain = 1.f;
 	float balance[kMaxChannels] = {1.f, 1.f};
 	float dry[kMaxChannels] = {0.f, 0.f};
+	SlotDispatch dispatch = SlotDispatch::Front;
+	bool isMonoSample = false;
 
 };

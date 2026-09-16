@@ -30,6 +30,7 @@ private:
 		kColSample,
 		kColMode,
 		kColBus,
+		kColDispatch,
 		kColVolume,
 		kColPitch,
 		kColPan,
@@ -47,6 +48,7 @@ private:
 		std::unique_ptr<juce::Label> sampleLabel;
 		std::unique_ptr<juce::ComboBox> modeCombo;
 		std::unique_ptr<juce::ComboBox> busCombo;
+		std::unique_ptr<juce::ComboBox> dispatchCombo;
 		std::unique_ptr<juce::Label> volumeLabel;
 		std::unique_ptr<juce::Label> pitchLabel;
 		std::unique_ptr<juce::Label> panLabel;
@@ -79,6 +81,7 @@ private:
 	void setupSampleLabel(RowComponents& row, size_t rowIndex);
 	void setupModeCombo(RowComponents& row, size_t rowIndex);
 	void setupBusCombo(RowComponents& row, size_t rowIndex);
+	void setupDispatchCombo(RowComponents& row, size_t rowIndex);
 	void setupVolumeLabel(RowComponents& row, size_t rowIndex);
 	void setupPitchLabel(RowComponents& row, size_t rowIndex);
 	void setupPanLabel(RowComponents& row, size_t rowIndex);
@@ -97,6 +100,8 @@ private:
 	static MuteGroup indexToMuteGroup(int index);
 	static int busToIndex(MixBusIndex bus);
 	static MixBusIndex indexToBus(int index);
+	static int dispatchToIndex(SlotDispatch dispatch);
+	static SlotDispatch indexToDispatch(int index);
 	juce::Colour normalRowBandColour(size_t rowIndex) const;
 	juce::Colour rowBackgroundColour(size_t rowIndex) const;
 	void collectRowCells(RowComponents& row);

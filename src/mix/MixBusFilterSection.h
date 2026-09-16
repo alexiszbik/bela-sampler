@@ -13,7 +13,7 @@ enum class MixBusFilterType {
 class MixBusFilterSection
 {
 public:
-	static constexpr size_t kMaxChannels = 2;
+	static constexpr size_t kMaxChannels = 4;
 
 	void init(float sampleRate, MixBusFilterType type, size_t channelCount);
 
