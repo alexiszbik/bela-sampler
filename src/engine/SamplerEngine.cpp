@@ -11,7 +11,7 @@ void SamplerEngine::init(ProgramBank* inProgramBank, double sampleRate, size_t p
 
 void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
 	if(slot.isMuteOnly()) {
-		voiceAllocator.stopMuteGroup(slot.muteGroup);
+		voiceAllocator.stopMuteGroupExceptNote(slot.muteGroup, slot.midiNote);
 		return;
 	}
 

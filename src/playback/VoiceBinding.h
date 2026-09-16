@@ -12,6 +12,7 @@ struct VoiceBinding
 	size_t activeSlotId = kInvalidSlot;
 	bool isMonoOwner = false;
 	MuteGroup muteGroup = MuteGroup::None;
+	int muteGroupNote = -1;
 
 	bool isBound() const { return slotId != kInvalidSlot; }
 	bool isBoundTo(size_t id) const { return slotId == id; }

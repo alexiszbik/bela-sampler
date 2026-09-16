@@ -19,13 +19,16 @@ SamplerVoice* VoiceAllocator::findDedicatedPlayerForSlot(size_t slotId) const {
 	return nullptr;
 }
 
-SamplerVoice* VoiceAllocator::findMuteGroupPlayer(MuteGroup group) const {
-	if(playerPool == nullptr || group == MuteGroup::None) {
+SamplerVoice* VoiceAllocator::findMuteGroupVoiceForSlot(const Program::Slot& slot) const {
+	if(playerPool == nullptr || slot.muteGroup == MuteGroup::None) {
 		return nullptr;
 	}
 
 	for(SamplerVoice& voice : *playerPool) {
-		if(voice.getVoiceBinding().muteGroup == group) {
+		const VoiceBinding& binding = voice.getVoiceBinding();
+		if(binding.muteGroup == slot.muteGroup
+			&& binding.muteGroupNote == slot.midiNote
+			&& binding.isActiveSlot(slot.id)) {
 			return &voice;
 		}
 	}
@@ -99,28 +102,37 @@ SamplerVoice* VoiceAllocator::acquireGatePlayer(size_t slotId) {
 	return voice;
 }
 
-SamplerVoice* VoiceAllocator::acquireMuteGroupPlayer(MuteGroup group) {
-	SamplerVoice* voice = findMuteGroupPlayer(group);
-	if(voice != nullptr) {
-		return voice;
+SamplerVoice* VoiceAllocator::acquireMuteGroupPlayer(const Program::Slot& slot) {
+	stopMuteGroupExceptNote(slot.muteGroup, slot.midiNote);
+
+	SamplerVoice* existingVoice = findMuteGroupVoiceForSlot(slot);
+	if(existingVoice != nullptr) {
+		return existingVoice;
 	}
 
-	SamplerVoice* candidate = findUnassignedPlayer();
+	SamplerVoice* candidate = findFreePolyPlayer();
+	if(candidate == nullptr) {
+		candidate = findUnassignedPlayer();
+	}
+
 	if(candidate == nullptr) {
 		return nullptr;
 	}
 
+	candidate->clearVoiceBinding();
+
 	VoiceBinding binding;
-	binding.muteGroup = group;
+	binding.muteGroup = slot.muteGroup;
+	binding.muteGroupNote = slot.midiNote;
 	candidate->setVoiceBinding(binding);
 	return candidate;
 }
 
 SamplerVoice* VoiceAllocator::acquire(const Program::Slot& slot) {
-	releaseFinishedMonoVoices();
+	releaseFinishedVoices();
 
 	if(slot.muteGroup != MuteGroup::None) {
-		return acquireMuteGroupPlayer(slot.muteGroup);
+		return acquireMuteGroupPlayer(slot);
 	}
 
 	if(slot.mode == Program::SlotMode::Poly) {
@@ -134,29 +146,36 @@ SamplerVoice* VoiceAllocator::acquire(const Program::Slot& slot) {
 	return acquireDedicatedPlayer(slot.id);
 }
 
-void VoiceAllocator::releaseFinishedMonoVoices() {
+void VoiceAllocator::releaseFinishedVoices() {
 	if(playerPool == nullptr) {
 		return;
 	}
 
 	for(SamplerVoice& voice : *playerPool) {
 		const VoiceBinding& binding = voice.getVoiceBinding();
-		if(!binding.isMonoOwner || voice.getIsPlaying()) {
+		if(voice.getIsPlaying()) {
 			continue;
 		}
 
-		voice.clearVoiceBinding();
+		if(binding.isMonoOwner || binding.muteGroup != MuteGroup::None) {
+			voice.clearVoiceBinding();
+		}
 	}
 }
 
-void VoiceAllocator::stopMuteGroup(MuteGroup group) {
+void VoiceAllocator::stopMuteGroupExceptNote(MuteGroup group, int midiNote) {
 	if(playerPool == nullptr || group == MuteGroup::None) {
 		return;
 	}
 
-	SamplerVoice* voice = findMuteGroupPlayer(group);
-	if(voice != nullptr) {
-		playerPool->stop(voice);
+	for(SamplerVoice& voice : *playerPool) {
+		const VoiceBinding& binding = voice.getVoiceBinding();
+		if(binding.muteGroup != group || binding.muteGroupNote == midiNote) {
+			continue;
+		}
+
+		playerPool->stop(&voice);
+		voice.clearVoiceBinding();
 	}
 }
 
@@ -166,9 +185,11 @@ void VoiceAllocator::releaseGate(const Program::Slot& slot) {
 	}
 
 	if(slot.muteGroup != MuteGroup::None) {
-		SamplerVoice* voice = findMuteGroupPlayer(slot.muteGroup);
-		if(voice != nullptr && voice->getVoiceBinding().isActiveSlot(slot.id)) {
-			playerPool->stop(voice);
+		for(SamplerVoice& voice : *playerPool) {
+			if(voice.getVoiceBinding().isActiveSlot(slot.id)) {
+				playerPool->stop(&voice);
+				voice.clearVoiceBinding();
+			}
 		}
 
 		return;
