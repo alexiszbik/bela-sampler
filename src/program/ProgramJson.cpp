@@ -259,6 +259,23 @@ bool ProgramJson::parsePlayMode(ProgramSlotPlayMode& playMode) {
 	return true;
 }
 
+bool ProgramJson::parseQuadDispatch(bool& quadDispatch) {
+	int value = 0;
+	if(!parseInt(value)) {
+		return false;
+	}
+
+	if(value == 0) {
+		quadDispatch = false;
+	} else if(value == 1) {
+		quadDispatch = true;
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
 bool ProgramJson::parseReversed(bool& reversed) {
 	int value = 0;
 	if(!parseInt(value)) {
@@ -358,6 +375,10 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 			if(!matchLiteral(':') || !parseReversed(slot.reversed)) {
 				return false;
 			}
+		} else if(matchKey(kQuadDispatch)) {
+			if(!matchLiteral(':') || !parseQuadDispatch(slot.quadDispatch)) {
+				return false;
+			}
 		} else if(matchKey(kVolume)) {
 			if(!matchLiteral(':') || !parseFloat(slot.volumeDb)) {
 				return false;
@@ -394,12 +415,12 @@ bool ProgramJson::parseLayersArray(std::vector<ProgramSlotDesc>& layers) {
 		}
 
 		ProgramSlotDesc layer;
-		if(!parseLayerObject(layer)) {
-			return false;
+		if(parseLayerObject(layer)) {
+			layers.push_back(layer);
+			layerCount++;
+		} else {
+			SAMPLER_LOG("ProgramJson: skipping invalid layer (missing sample and muteGroup)\n");
 		}
-
-		layers.push_back(layer);
-		layerCount++;
 
 		skipSpace();
 		if(*cursor == ',') {

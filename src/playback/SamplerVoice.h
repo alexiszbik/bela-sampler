@@ -3,12 +3,13 @@
 #include "Program.h"
 #include "SamplePlayer.h"
 #include "VoiceBinding.h"
+#include "QuadDispatch.h"
 
 class SamplerVoice
 {
 public:
 	void init(double sampleRate);
-	void playOn(const Program::Slot& slot, int velocity);
+	void playOn(const Program::Slot& slot, int velocity, QuadDispatch& QuadDispatch);
 	void stop();
 	void nextSamples(float* sum, size_t sumChannelCount, size_t playerOutputChannels);
 

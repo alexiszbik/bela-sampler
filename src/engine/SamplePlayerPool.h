@@ -7,11 +7,13 @@
 #include <cstddef>
 #include <vector>
 
+#include "QuadDispatch.h"
+
 class SamplePlayerPool
 {
 public:
 	void init(double sampleRate, size_t count);
-	void playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity);
+	void playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity, QuadDispatch& quadDispatch);
 	void stop(SamplerVoice* voice);
 	void nextSamples(MixBusArray& mixBuses);
 
@@ -27,4 +29,5 @@ public:
 
 private:
 	std::vector<SamplerVoice> voices;
+	QuadDispatch quadDispatch;
 };

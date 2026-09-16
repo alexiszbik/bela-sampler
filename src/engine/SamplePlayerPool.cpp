@@ -1,9 +1,6 @@
 #include "SamplePlayerPool.h"
-
 #include "MixBusNames.h"
-
 #include "ProgramJson.h"
-
 #include "SamplerLog.h"
 
 void SamplePlayerPool::init(double sampleRate, size_t count) {
@@ -15,12 +12,12 @@ void SamplePlayerPool::init(double sampleRate, size_t count) {
 	}
 }
 
-void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity) {
+void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity, QuadDispatch& quadDispatch) {
 	if(voice == nullptr || slot.sample == nullptr) {
 		return;
 	}
 
-	voice->playOn(slot, velocity);
+	voice->playOn(slot, velocity, quadDispatch);
 
 	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
 	const bool loop = slot.mode == Program::SlotMode::Gate;
@@ -35,6 +32,7 @@ void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, in
 			: ProgramJson::kPlayModeNormal,
 		slot.reversed ? 1 : 0,
 		velocity);
+
 	
 }
 

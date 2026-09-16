@@ -33,4 +33,6 @@ private:
 	SamplerVoice voice;
 	double sampleRate = 44100.0;
 	int blockSize = 512;
+    
+    QuadDispatch dispatch;
 };

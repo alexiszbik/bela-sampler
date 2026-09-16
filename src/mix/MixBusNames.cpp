@@ -63,3 +63,7 @@ const char* mixBusNickname(MixBusIndex index) {
 
 	return nullptr;
 }
+
+bool isRear(MixBusIndex index) {
+	return index == kBusSampleRear || index == kBusMasterRear;
+}

@@ -53,6 +53,9 @@ std::unique_ptr<juce::DynamicObject> layerToObject(const ProgramSlotDesc& layer)
 	if(layer.reversed) {
 		obj->setProperty("reversed", 1);
 	}
+	if(layer.quadDispatch) {
+		obj->setProperty("quadDispatch", 1);
+	}
 	if(layer.playMode == ProgramSlotPlayMode::Granular) {
 		obj->setProperty("playmode", juce::String(playModeToString(layer.playMode)));
 		obj->setProperty("granularSpeed", layer.granularSpeed);

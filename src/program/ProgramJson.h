@@ -26,6 +26,7 @@ struct ProgramSlotDesc {
 	ProgramSlotPlayMode playMode = ProgramSlotPlayMode::Normal;
 	float granularSpeed = 1.f;
 	bool reversed = false;
+	bool quadDispatch = false;
 	float volumeDb = 0.f;
 	float pan = 0.f;
 	MixBusIndex bus = kBusMaster;
@@ -59,6 +60,7 @@ private:
 	bool parsePan(float& pan);
 	bool parsePlayMode(ProgramSlotPlayMode& playMode);
 	bool parseReversed(bool& reversed);
+	bool parseQuadDispatch(bool& quadDispatch);
 	bool parseBus(MixBusIndex& bus);
 
 	void skipSpace();
@@ -81,6 +83,7 @@ private:
 	static constexpr const char* kPlayMode = "playmode";
 	static constexpr const char* kGranularSpeed = "granularSpeed";
 	static constexpr const char* kReversed = "reversed";
+	static constexpr const char* kQuadDispatch = "quadDispatch";
 	static constexpr const char* kVolume = "volume";
 	static constexpr const char* kBus = "bus";
 	static constexpr const char* kLayers = "layers";

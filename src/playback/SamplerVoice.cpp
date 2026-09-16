@@ -8,7 +8,7 @@ void SamplerVoice::init(double sampleRate) {
 	player.init(sampleRate);
 }
 
-void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
+void SamplerVoice::playOn(const Program::Slot& slot, int velocity, QuadDispatch& quadDispatch) {
 	if(slot.sample == nullptr) {
 		return;
 	}
@@ -19,10 +19,23 @@ void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
 	const float velocityGain = static_cast<float>(velocity) / 127.f;
 	gain = velocityGain * velocityGain * dBtoRMS(slot.volumeDb);
 
-	balance[0] = panToRms(slot.pan, false);
-	balance[1] = panToRms(slot.pan, true);
-
 	busIndex = slot.bus;
+
+	bool useDispatch = slot.quadDispatch;
+
+	if (useDispatch) {
+		int index = quadDispatch.getIndex();
+		if (!isRear(busIndex)) {
+			balance[0] = index == 0 ? 1.f : 0.f;
+			balance[1] = index == 1 ? 1.f : 0.f;
+		} else {
+			balance[0] = index == 2 ? 1.f : 0.f;
+			balance[1] = index == 3 ? 1.f : 0.f;
+		}
+	} else {
+		balance[0] = panToRms(slot.pan, false);
+		balance[1] = panToRms(slot.pan, true);
+	}
 
 	player.setSample(slot.sample);
 	player.setLoop(loop);

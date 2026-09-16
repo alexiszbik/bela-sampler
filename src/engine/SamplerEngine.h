@@ -43,6 +43,8 @@ private:
 	VoiceAllocator voiceAllocator;
 	MixBusArray mixBuses;
 
+	QuadDispatch quadDispatch;
+
 	std::vector<CCMap> ccMaps = {
 		//============== SAMPLES
 

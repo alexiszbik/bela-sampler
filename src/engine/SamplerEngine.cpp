@@ -20,7 +20,7 @@ void SamplerEngine::triggerSlot(const Program::Slot& slot, int velocity) {
 		return;
 	}
 
-	playerPool.playOn(voice, slot, velocity);
+	playerPool.playOn(voice, slot, velocity, quadDispatch);
 }
 
 void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
@@ -33,9 +33,16 @@ void SamplerEngine::onNoteOn(int note, int velocity, int channel) {
 		return;
 	}
 
+	bool quadDispatchIsTrig = false;
+
 	for(const Program::Slot& slot : program->getSlots()) {
 		if(slot.midiNote != note) {
 			continue;
+		}
+
+		if (slot.quadDispatch && !quadDispatchIsTrig) {
+			quadDispatchIsTrig = true;
+			quadDispatch.moveForward();
 		}
 
 		triggerSlot(slot, velocity);

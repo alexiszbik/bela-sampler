@@ -16,3 +16,4 @@ enum MixBusIndex {
 
 bool mixBusIndexFromNickname(const std::string& name, MixBusIndex& outIndex);
 const char* mixBusNickname(MixBusIndex index);
+bool isRear(MixBusIndex);

@@ -176,8 +176,15 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -12.0,
-          "muteGroup": "B",
-          "bus": "sample rear"
+          "quadDispatch": 1,
+          "bus": "master rear"
+        },
+        {
+          "sample": "together/TGT_SPL1.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "quadDispatch": 1
         }
       ]
     },
@@ -189,8 +196,16 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -12.0,
-          "muteGroup": "B",
+          "quadDispatch": 1,
           "bus": "sample"
+        },
+        {
+          "sample": "together/TGT_SPL2.WAV",
+          "mode": "mono",
+          "volume": -6.0,
+          "pitch": -12.0,
+          "quadDispatch": 1,
+          "bus": "sample rear"
         }
       ]
     },
