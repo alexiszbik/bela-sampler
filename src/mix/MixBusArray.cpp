@@ -46,10 +46,11 @@ void MixBusArray::setBusParameter(MixBusIndex busIndex, ParameterIndex parameter
 
 void MixBusArray::processAll(float* master, size_t masterChannelCount) {
 
-	float lfoValue = lfo.process();
 	for(const std::unique_ptr<MixBusBase>& bus : buses) {
 		if(bus != nullptr) {
-			bus->processAndMixTo(master, masterChannelCount, lfoValue);
+			bus->processAndMixTo(master, masterChannelCount, lfo);
 		}
 	}
+
+	lfo.process();
 }

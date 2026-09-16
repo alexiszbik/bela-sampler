@@ -10,7 +10,7 @@ public:
 	void setParameterValue(ParameterIndex index, float value) override;
 
 protected:
-	void processEffects(float lfoBuf) override;
+	void processEffects(const TriLfo& lfo) override;
 
 private:
 	ReverbEffect reverbEffect;

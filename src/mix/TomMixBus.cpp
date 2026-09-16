@@ -28,8 +28,8 @@ void TomMixBus::setParameterValue(ParameterIndex index, float value) {
 	FilterMixBus::setParameterValue(index, value);
 }
 
-void TomMixBus::processEffects(float lfoBuf) {
-	FilterMixBus::processEffects(lfoBuf);
+void TomMixBus::processEffects(const TriLfo& lfo) {
+	FilterMixBus::processEffects(lfo);
 
 	const float delayLevelValue = delayLevel.getAndStep();
 	float t = delayTime.getAndStep();

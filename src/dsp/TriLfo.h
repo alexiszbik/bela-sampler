@@ -8,9 +8,10 @@ public:
 	void reset();
 
 	float process();
+	float valueAtPhaseOffset(float offset) const;
 
 private:
-	float triangleFromPhase(float phase);
+	float triangleFromPhase(float phase) const;
 
 	double sampleRate = 44100.0;
 	float frequencyHz = 1.0f;

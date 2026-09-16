@@ -2,6 +2,7 @@
 
 #include "ParameterIndex.h"
 #include "SmoothValue.h"
+#include "TriLfo.h"
 
 #include <cstddef>
 
@@ -57,7 +58,7 @@ public:
 	bool isMono() const { return channelCount <= 1; }
 
 	virtual void setParameterValue(ParameterIndex index, float value);
-	void processAndMixTo(float* master, size_t masterChannelCount, float lfoValue);
+	void processAndMixTo(float* master, size_t masterChannelCount, const TriLfo& lfo);
 
 protected:
 	static constexpr size_t kMaxChannels = MixBusRoute::kMaxChannels;
@@ -65,7 +66,7 @@ protected:
 	void applyGain();
 	void mixToMaster(float* master, size_t masterChannelCount);
 
-	virtual void processEffects(float lfoBuf);
+	virtual void processEffects(const TriLfo& lfo);
 
 	size_t channelCount = 2;
 	size_t outputChannels[kMaxChannels] = {0, 1, 2, 3};

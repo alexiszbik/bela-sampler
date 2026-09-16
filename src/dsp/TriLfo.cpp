@@ -2,8 +2,18 @@
 
 #include <cmath>
 
-float TriLfo::triangleFromPhase(float p) {
+float TriLfo::triangleFromPhase(float p) const {
 	return p < 0.5f ? (4.0f * p - 1.0f) : (3.0f - 4.0f * p);
+}
+
+float TriLfo::valueAtPhaseOffset(float offset) const {
+	float p = phase + offset;
+	if(p >= 1.f) {
+		p -= 1.f;
+	} else if(p < 0.f) {
+		p += 1.f;
+	}
+	return triangleFromPhase(p);
 }
 
 void TriLfo::init(double sampleRateIn) {

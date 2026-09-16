@@ -51,21 +51,46 @@ void MixBusBase::setParameterValue(ParameterIndex index, float value) {
 	}
 }
 
-void MixBusBase::processEffects(float lfoBuf) {
+void MixBusBase::processEffects(const TriLfo& lfo) {
 	/* tremolo */
 	/*
-	float tremolo = (lfoBuf + 1.f) / 2.f;
+	const float tremolo = (lfo.valueAtPhaseOffset(0.f) + 1.f) / 2.f;
 	for(size_t channel = 0; channel < channelCount; channel++) {
 		sum[channel] *= tremolo;
 	}
 	*/
 
 	/* auto pan */
+
+	
+	//THIS DISTRIB is tooo focus
 	/*
-	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] *= panToRms(lfoBuf * 100, channel == 1);
+	if(channelCount >= 4) {
+		for(size_t channel = 0; channel < channelCount; ++channel) {
+			const float phaseOffset = 0.25f * static_cast<float>(channel);
+			const float lfoValue = lfo.valueAtPhaseOffset(phaseOffset);
+			sum[channel] *= lfoValue >= 0 ? lfoValue : 0.f;
+		}
 	}
 	*/
+
+	//THIS DISTRIB is tooo genereous
+	/*
+	if(channelCount >= 4) {
+		for(size_t channel = 0; channel < channelCount; ++channel) {
+			const float phaseOffset = 0.25f * static_cast<float>(channel);
+			const float lfoValue = (lfo.valueAtPhaseOffset(phaseOffset) + 1.f) / 2.f;
+			sum[channel] *= lfoValue;
+		}
+	}*/
+
+	if(channelCount >= 4) {
+		for(size_t channel = 0; channel < channelCount; ++channel) {
+			const float phaseOffset = 0.25f * static_cast<float>(channel);
+			const float lfoValue = (lfo.valueAtPhaseOffset(phaseOffset) + 1.f) / 2.f;
+			sum[channel] *= lfoValue * lfoValue;
+		}
+	}
 }
 
 void MixBusBase::applyGain() {
@@ -86,12 +111,12 @@ void MixBusBase::mixToMaster(float* master, size_t masterChannelCount) {
 	}
 }
 
-void MixBusBase::processAndMixTo(float* master, size_t masterChannelCount, float inLfo) {
+void MixBusBase::processAndMixTo(float* master, size_t masterChannelCount, const TriLfo& lfo) {
 	if(master == nullptr || masterChannelCount == 0) {
 		return;
 	}
 
-	processEffects(inLfo);
+	processEffects(lfo);
 	applyGain();
 	mixToMaster(master, masterChannelCount);
 }
