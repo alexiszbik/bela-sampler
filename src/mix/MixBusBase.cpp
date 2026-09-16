@@ -19,11 +19,9 @@ void MixBusBase::init(double sampleRate, const MixBusRoute& route) {
 		break;
 	}
 
-	
-	outputChannel0 = route.outputChannel0;
-	outputChannel1 = route.outputChannel1;
-	outputChannel2 = route.outputChannel2;
-	outputChannel3 = route.outputChannel3;
+	for(size_t channel = 0; channel < kMaxChannels; ++channel) {
+		outputChannels[channel] = route.outputChannels[channel];
+	}
 
 	clearSum();
 }
@@ -80,20 +78,11 @@ void MixBusBase::applyGain() {
 }
 
 void MixBusBase::mixToMaster(float* master, size_t masterChannelCount) {
-	if(outputChannel0 < masterChannelCount) {
-		master[outputChannel0] += sum[0];
-	}
-
-	if(channelCount > 1 && outputChannel1 < masterChannelCount) {
-		master[outputChannel1] += sum[1];
-	}
-
-	if(channelCount > 2 && outputChannel2 < masterChannelCount) {
-		master[outputChannel2] += sum[2];
-	}
-
-	if(channelCount > 3 && outputChannel3 < masterChannelCount) {
-		master[outputChannel3] += sum[3];
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		const size_t outputChannel = outputChannels[channel];
+		if(outputChannel < masterChannelCount) {
+			master[outputChannel] += sum[channel];
+		}
 	}
 }
 

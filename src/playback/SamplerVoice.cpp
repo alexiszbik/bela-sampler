@@ -66,11 +66,9 @@ void SamplerVoice::clearActiveSlot() {
 	voiceBinding.activeSlotId = VoiceBinding::kInvalidSlot;
 }
 
-namespace {
-void mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) {
+void SamplerVoice::mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) const {
 	sum[leftChannel] += left;
 	sum[rightChannel] += isMono ? left : right;
-}
 }
 
 void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
@@ -89,6 +87,7 @@ void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
 		case SlotDispatch::Rear:
 			mixToStereoPair(sum, 2, 3, left, right, isMonoSample);
 			break;
+
 
 		case SlotDispatch::All:
 			if(isMonoSample) {

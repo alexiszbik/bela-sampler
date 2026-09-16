@@ -23,6 +23,7 @@ public:
 
 private:
 	void mixDryToSum(float* sum, size_t sumChannelCount);
+	void mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) const;
 
 	SamplePlayer player;
 	VoiceBinding voiceBinding;

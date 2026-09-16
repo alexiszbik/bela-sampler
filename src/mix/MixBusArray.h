@@ -22,16 +22,6 @@ private:
 	template<typename TBus>
 	void initBus(MixBusIndex busIndex, double sampleRate, const MixBusRoute& route);
 
-	template<typename TBus>
-	void createMonoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel);
-
-	template<typename TBus>
-	void createStereoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel0, size_t outputChannel1);
-
-	template<typename TBus>
-	void createQuadBus(MixBusIndex busIndex, double sampleRate,
-		size_t outputChannel0, size_t outputChannel1, size_t outputChannel2, size_t outputChannel3);
-
 	std::unique_ptr<MixBusBase> buses[kBusCount];
 	TriLfo lfo;
 };

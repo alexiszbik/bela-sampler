@@ -7,6 +7,8 @@
 
 struct MixBusRoute
 {
+	static constexpr size_t kMaxChannels = 4;
+
 	enum Format {
 		kMono,
 		kStereo,
@@ -14,11 +16,32 @@ struct MixBusRoute
 	};
 
 	Format format = kMono;
-	size_t outputChannel0 = 0;
-	size_t outputChannel1 = 1;
-	size_t outputChannel2 = 2;
-	size_t outputChannel3 = 3;
+	size_t outputChannels[kMaxChannels] = {0, 1, 2, 3};
 
+	static MixBusRoute mono(size_t outputChannel) {
+		MixBusRoute route;
+		route.format = kMono;
+		route.outputChannels[0] = outputChannel;
+		return route;
+	}
+
+	static MixBusRoute stereo(size_t ch0, size_t ch1) {
+		MixBusRoute route;
+		route.format = kStereo;
+		route.outputChannels[0] = ch0;
+		route.outputChannels[1] = ch1;
+		return route;
+	}
+
+	static MixBusRoute quad(size_t ch0, size_t ch1, size_t ch2, size_t ch3) {
+		MixBusRoute route;
+		route.format = kQuad;
+		route.outputChannels[0] = ch0;
+		route.outputChannels[1] = ch1;
+		route.outputChannels[2] = ch2;
+		route.outputChannels[3] = ch3;
+		return route;
+	}
 };
 
 class MixBusBase
@@ -37,7 +60,7 @@ public:
 	void processAndMixTo(float* master, size_t masterChannelCount, float lfoValue);
 
 protected:
-	static constexpr size_t kMaxChannels = 4;
+	static constexpr size_t kMaxChannels = MixBusRoute::kMaxChannels;
 
 	void applyGain();
 	void mixToMaster(float* master, size_t masterChannelCount);
@@ -45,11 +68,7 @@ protected:
 	virtual void processEffects(float lfoBuf);
 
 	size_t channelCount = 2;
-
-	size_t outputChannel0 = 0;
-	size_t outputChannel1 = 1;
-	size_t outputChannel2 = 2;
-	size_t outputChannel3 = 3;
+	size_t outputChannels[kMaxChannels] = {0, 1, 2, 3};
 
 	float sum[kMaxChannels] = {0.f, 0.f, 0.f, 0.f};
 

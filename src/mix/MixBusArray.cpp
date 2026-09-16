@@ -12,51 +12,13 @@ void MixBusArray::initBus(MixBusIndex busIndex, double sampleRate, const MixBusR
 	buses[busIndex]->init(sampleRate, route);
 }
 
-template<typename TBus>
-void MixBusArray::createMonoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel) {
-	MixBusRoute route;
-	route.format = MixBusRoute::kMono;
-	route.outputChannel0 = outputChannel;
-	initBus<TBus>(busIndex, sampleRate, route);
-}
-
-template<typename TBus>
-void MixBusArray::createStereoBus(MixBusIndex busIndex, double sampleRate, size_t outputChannel0, size_t outputChannel1) {
-	MixBusRoute route;
-	route.format = MixBusRoute::kStereo;
-	route.outputChannel0 = outputChannel0;
-	route.outputChannel1 = outputChannel1;
-	initBus<TBus>(busIndex, sampleRate, route);
-}
-
-template<typename TBus>
-void MixBusArray::createQuadBus(MixBusIndex busIndex, double sampleRate, 
-	size_t outputChannel0, size_t outputChannel1, size_t outputChannel2, size_t outputChannel3) {
-
-	MixBusRoute route;
-	route.format = MixBusRoute::kQuad;
-	route.outputChannel0 = outputChannel0;
-	route.outputChannel1 = outputChannel1;
-	route.outputChannel2 = outputChannel2;
-	route.outputChannel3 = outputChannel3;
-	initBus<TBus>(busIndex, sampleRate, route);
-}
-
-template void MixBusArray::createMonoBus<FilterMixBus>(MixBusIndex, double, size_t);
-template void MixBusArray::createMonoBus<SnareMixBus>(MixBusIndex, double, size_t);
-template void MixBusArray::createMonoBus<TomMixBus>(MixBusIndex, double, size_t);
-template void MixBusArray::createMonoBus<HatMixBus>(MixBusIndex, double, size_t);
-
-template void MixBusArray::createStereoBus<MixBusBase>(MixBusIndex, double, size_t, size_t);
-template void MixBusArray::createStereoBus<FXMixBus>(MixBusIndex, double, size_t, size_t);
-
 void MixBusArray::init(double sampleRate) {
-	createQuadBus<MixBusBase>(kBusMaster, sampleRate, 4, 5, 6, 7);
-	createQuadBus<FXMixBus>(kBusSample, sampleRate, 4, 5, 6, 7);
-	createMonoBus<FilterMixBus>(kBusKick, sampleRate, 0);
-	createMonoBus<SnareMixBus>(kBusSnare, sampleRate, 1);
-	createMonoBus<TomMixBus>(kBusToms, sampleRate, 2);
-	createMonoBus<HatMixBus>(kBusHats, sampleRate, 3);
+	initBus<MixBusBase>(kBusMaster, sampleRate, MixBusRoute::quad(4, 5, 6, 7));
+	initBus<FXMixBus>(kBusSample, sampleRate, MixBusRoute::quad(4, 5, 6, 7));
+	initBus<FilterMixBus>(kBusKick, sampleRate, MixBusRoute::mono(0));
+	initBus<SnareMixBus>(kBusSnare, sampleRate, MixBusRoute::mono(1));
+	initBus<TomMixBus>(kBusToms, sampleRate, MixBusRoute::mono(2));
+	initBus<HatMixBus>(kBusHats, sampleRate, MixBusRoute::mono(3));
 
 	lfo.init(sampleRate);
 	lfo.setFrequency(0.25f);
