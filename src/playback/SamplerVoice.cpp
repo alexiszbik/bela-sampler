@@ -8,7 +8,7 @@ void SamplerVoice::init(double sampleRate) {
 	player.init(sampleRate);
 }
 
-void SamplerVoice::playOn(const Program::Slot& slot, int velocity, QuadDispatch& quadDispatch) {
+void SamplerVoice::playOn(const Program::Slot& slot, int velocity) {
 	if(slot.sample == nullptr) {
 		return;
 	}
@@ -21,21 +21,8 @@ void SamplerVoice::playOn(const Program::Slot& slot, int velocity, QuadDispatch&
 
 	busIndex = slot.bus;
 
-	bool useDispatch = slot.quadDispatch;
-
-	if (useDispatch) {
-		int index = quadDispatch.getIndex();
-		if (!isRear(busIndex)) {
-			balance[0] = index == 0 ? 1.f : 0.f;
-			balance[1] = index == 1 ? 1.f : 0.f;
-		} else {
-			balance[0] = index == 2 ? 1.f : 0.f;
-			balance[1] = index == 3 ? 1.f : 0.f;
-		}
-	} else {
-		balance[0] = panToRms(slot.pan, false);
-		balance[1] = panToRms(slot.pan, true);
-	}
+    balance[0] = panToRms(slot.pan, false);
+    balance[1] = panToRms(slot.pan, true);
 
 	player.setSample(slot.sample);
 	player.setLoop(loop);
@@ -78,16 +65,16 @@ void SamplerVoice::clearActiveSlot() {
 }
 
 void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
-	for(size_t channel = 0; channel < sumChannelCount; channel++) {
+	const size_t mixChannels = sumChannelCount < kMaxChannels ? sumChannelCount : kMaxChannels;
+	for(size_t channel = 0; channel < mixChannels; ++channel) {
 		sum[channel] += dry[channel] * gain * balance[channel];
 	}
 }
 
-void SamplerVoice::nextSamples(float* sum, size_t sumChannelCount, size_t playerOutputChannels) {
-
+void SamplerVoice::nextSamples(float* sum, size_t sumChannelCount) {
 	dry[0] = 0.f;
 	dry[1] = 0.f;
 
-	player.nextSamples(dry, playerOutputChannels);
+	player.nextSamples(dry, kMaxChannels);
 	mixDryToSum(sum, sumChannelCount);
 }

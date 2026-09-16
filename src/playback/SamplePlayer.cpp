@@ -244,6 +244,7 @@ void SamplePlayer::nextSamplesGranular(float* buf, size_t bufSize) {
 }
 
 void SamplePlayer::nextSamples(float* buf, size_t bufSize) {
+	bufSize = 2;
 	if(!isPlaying || sample == nullptr || sample->getLength() == 0) {
 		return;
 	}

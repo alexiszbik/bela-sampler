@@ -2,7 +2,7 @@
 
 class BitCrusher {
 public:
-    static constexpr int kMaxChannels = 2;
+    static constexpr int kMaxChannels = 4;
     static constexpr float kMaxHoldSamples = 64.f;
 
     void init(int channelCount = kMaxChannels);

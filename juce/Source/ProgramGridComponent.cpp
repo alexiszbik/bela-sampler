@@ -242,16 +242,6 @@ void ProgramGridComponent::setupReversedToggle(RowComponents& row, size_t rowInd
 	addRowWidget(*row.reversedToggle);
 }
 
-void ProgramGridComponent::setupQuadDispatchToggle(RowComponents& row, size_t rowIndex) {
-	row.quadDispatchToggle = std::make_unique<juce::ToggleButton>();
-	row.quadDispatchToggle->setToggleState(slots[rowIndex].quadDispatch, juce::dontSendNotification);
-	row.quadDispatchToggle->onClick = [this, rowIndex] {
-		slots[rowIndex].quadDispatch = rows[rowIndex].quadDispatchToggle->getToggleState();
-		onRowModified(rowIndex);
-	};
-	addRowWidget(*row.quadDispatchToggle);
-}
-
 void ProgramGridComponent::setupPlayModeCombo(RowComponents& row, size_t rowIndex) {
 	row.playModeCombo = std::make_unique<juce::ComboBox>();
 	bindComboBox(*row.playModeCombo, SamplerOptions::playModeOptions(), playModeToIndex(slots[rowIndex].playMode),
@@ -321,7 +311,6 @@ ProgramGridComponent::RowComponents ProgramGridComponent::buildRow(size_t rowInd
 	setupPanLabel(row, rowIndex);
 	setupMuteGroupCombo(row, rowIndex);
 	setupReversedToggle(row, rowIndex);
-	setupQuadDispatchToggle(row, rowIndex);
 	setupPlayModeCombo(row, rowIndex);
 	setupGranularSpeedLabel(row, rowIndex);
 	setupDeleteButton(row, rowIndex);
@@ -410,7 +399,6 @@ void ProgramGridComponent::collectRowCells(RowComponents& row) {
 		{row.panLabel.get(), kColPan},
 		{row.muteGroupCombo.get(), kColMute},
 		{row.reversedToggle.get(), kColReversed},
-		{row.quadDispatchToggle.get(), kColQuadDispatch},
 		{row.playModeCombo.get(), kColPlayMode},
 		{row.granularSpeedLabel.get(), kColGranular},
 		{row.deleteButton.get(), kColDelete},
@@ -527,7 +515,7 @@ void ProgramGridComponent::paint(juce::Graphics& g) {
 	g.setColour(juce::Colour(0xffcccccc));
 	g.setFont(juce::Font(13.f, juce::Font::bold));
 
-	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Vol", "Pitch", "Pan", "Mute", "Rev", "QuadD", "Play", "Gran", "", "Show"};
+	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Vol", "Pitch", "Pan", "Mute", "Rev", "Play", "Gran", "", "Show"};
 	for(int col = 0; col < kColumnCount; ++col) {
 		g.drawText(headers[col], columnX(col) + 4, 0, columnWidth(col) - 8, kHeaderHeight, juce::Justification::left);
 	}
@@ -571,7 +559,6 @@ int ProgramGridComponent::columnWidth(int col) const {
 		case kColPan: return 55;
 		case kColMute: return 60;
 		case kColReversed: return 35;
-		case kColQuadDispatch: return 45;
 		case kColPlayMode: return 100;
 		case kColGranular: return 50;
 		case kColDelete: return 30;

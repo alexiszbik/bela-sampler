@@ -34,7 +34,6 @@ public:
 		SlotPlayMode playMode = SlotPlayMode::Normal;
 		float granularSpeed = 1.f;
 		bool reversed = false;
-		bool quadDispatch = false;
 		float volumeDb = 0.f;
 		MixBusIndex bus = kBusMaster;
 		float pan = 0.f;

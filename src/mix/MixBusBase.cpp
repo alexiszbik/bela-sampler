@@ -4,16 +4,34 @@
 void MixBusBase::init(double sampleRate, const MixBusRoute& route) {
 	(void)sampleRate;
 
-	channelCount = route.mono ? 1u : 2u;
+	switch (route.format)
+	{
+	case MixBusRoute::kStereo:
+		channelCount = 2u;
+		break;
+
+	case MixBusRoute::kQuad:
+		channelCount = 4u;
+		break;
+	
+	default:
+		channelCount = 1u;
+		break;
+	}
+
+	
 	outputChannel0 = route.outputChannel0;
 	outputChannel1 = route.outputChannel1;
+	outputChannel2 = route.outputChannel2;
+	outputChannel3 = route.outputChannel3;
 
 	clearSum();
 }
 
 void MixBusBase::clearSum() {
-	sum[0] = 0.f;
-	sum[1] = 0.f;
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		sum[channel] = 0.f;
+	}
 }
 
 float* MixBusBase::getSum() {
@@ -68,6 +86,14 @@ void MixBusBase::mixToMaster(float* master, size_t masterChannelCount) {
 
 	if(channelCount > 1 && outputChannel1 < masterChannelCount) {
 		master[outputChannel1] += sum[1];
+	}
+
+	if(channelCount > 2 && outputChannel2 < masterChannelCount) {
+		master[outputChannel2] += sum[2];
+	}
+
+	if(channelCount > 3 && outputChannel3 < masterChannelCount) {
+		master[outputChannel3] += sum[3];
 	}
 }
 

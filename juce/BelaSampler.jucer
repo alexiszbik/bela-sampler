@@ -73,8 +73,8 @@
               resource="0" file="../platform/meter/PreviewOutputLevels.cpp"/>
         <FILE id="previewOutputLevelsH" name="PreviewOutputLevels.h" compile="0"
               resource="0" file="../platform/meter/PreviewOutputLevels.h"/>
-        <FILE id="peakMeterDisplayH" name="PeakMeterDisplay.h" compile="0" resource="0"
-              file="../platform/meter/PeakMeterDisplay.h"/>
+        <FILE id="peakMeterDisplayH" name="PeakMeterDisplay.h" compile="0"
+              resource="0" file="../platform/meter/PeakMeterDisplay.h"/>
       </GROUP>
     </GROUP>
     <GROUP id="srcGroup" name="SamplerCore">
@@ -107,8 +107,6 @@
               file="../src/mix/MixBusNames.cpp"/>
         <FILE id="mixBusNamesH" name="MixBusNames.h" compile="0" resource="0"
               file="../src/mix/MixBusNames.h"/>
-        <FILE id="quadModeH" name="QuadMode.h" compile="0" resource="0"
-              file="../src/mix/QuadMode.h"/>
       </GROUP>
       <GROUP id="srcProgram" name="program">
         <FILE id="programJsonCpp" name="ProgramJson.cpp" compile="1" resource="0"

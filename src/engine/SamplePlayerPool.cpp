@@ -12,12 +12,12 @@ void SamplePlayerPool::init(double sampleRate, size_t count) {
 	}
 }
 
-void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity, QuadDispatch& quadDispatch) {
+void SamplePlayerPool::playOn(SamplerVoice* voice, const Program::Slot& slot, int velocity) {
 	if(voice == nullptr || slot.sample == nullptr) {
 		return;
 	}
 
-	voice->playOn(slot, velocity, quadDispatch);
+	voice->playOn(slot, velocity);
 
 	const size_t voiceIndex = static_cast<size_t>(voice - &voices[0]);
 	const bool loop = slot.mode == Program::SlotMode::Gate;
@@ -56,6 +56,6 @@ void SamplePlayerPool::nextSamples(MixBusArray& mixBuses) {
 
 		MixBusBase& bus = mixBuses.getBus(busIndex);
 		const size_t busChannels = bus.getChannelCount();
-		voice.nextSamples(bus.getSum(), busChannels, busChannels);
+		voice.nextSamples(bus.getSum(), busChannels);
 	}
 }

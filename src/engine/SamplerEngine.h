@@ -43,29 +43,27 @@ private:
 	VoiceAllocator voiceAllocator;
 	MixBusArray mixBuses;
 
-	QuadDispatch quadDispatch;
-
 	std::vector<CCMap> ccMaps = {
 		//============== SAMPLES
 
-		CCMap{38, {{kBusSample, Volume}, {kBusMaster, Volume}, {kBusSampleRear, Volume}, {kBusMasterRear, Volume}}},
+		CCMap{38, {{kBusSample, Volume}, {kBusMaster, Volume}}},
 
-		CCMap{52, {{kBusSample, Mute}, {kBusMaster, Mute}, {kBusSampleRear, Mute}, {kBusMasterRear, Mute}}},
+		CCMap{52, {{kBusSample, Mute}, {kBusMaster, Mute}}},
 
-		CCMap{13, {{kBusSample, LowPassCutoff}, {kBusSampleRear, LowPassCutoff}}},
-		CCMap{12, {{kBusSample, HiPassCutoff}, {kBusSampleRear, HiPassCutoff}}},
+		CCMap{13, {{kBusSample, LowPassCutoff}}},
+		CCMap{12, {{kBusSample, HiPassCutoff}}},
 
-		CCMap{8, {{kBusSample, RepeatState}, {kBusSampleRear, RepeatState}}},
-		CCMap{10, {{kBusSample, RepeatRate}, {kBusSampleRear, RepeatRate}}},
+		CCMap{8, {{kBusSample, RepeatState}}},
+		CCMap{10, {{kBusSample, RepeatRate}}},
 		
-		CCMap{11, {{kBusSample, BitCrushRate}, {kBusSampleRear, BitCrushRate}}},
+		CCMap{11, {{kBusSample, BitCrushRate}}},
 
-		CCMap{14, {{kBusSample, FlangerSpeed}, {kBusSampleRear, FlangerSpeed}}},
-		CCMap{15, {{kBusSample, FlangerLevel}, {kBusSampleRear, FlangerLevel}}},
+		CCMap{14, {{kBusSample, FlangerSpeed}}},
+		CCMap{15, {{kBusSample, FlangerLevel}}},
 
-		CCMap{41, {{kBusSample, DelayLevel}, {kBusSampleRear, DelayLevel}}},
-		CCMap{40, {{kBusSample, DelayTime}, {kBusSampleRear, DelayTime}}},
-		CCMap{39, {{kBusSample, DelayFeedback}, {kBusSampleRear, DelayFeedback}}},
+		CCMap{41, {{kBusSample, DelayLevel}}},
+		CCMap{40, {{kBusSample, DelayTime}}},
+		CCMap{39, {{kBusSample, DelayFeedback}}},
 
 		// ============= DRUMS
 

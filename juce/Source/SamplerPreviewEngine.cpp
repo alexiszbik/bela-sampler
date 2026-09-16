@@ -31,7 +31,6 @@ Program::Slot makePreviewSlot(const ProgramSlotDesc& desc, const Sample* sampleP
 	slot.playMode = toProgramSlotPlayMode(desc.playMode);
 	slot.granularSpeed = desc.granularSpeed;
 	slot.reversed = desc.reversed;
-	slot.quadDispatch = desc.quadDispatch;
 	slot.volumeDb = desc.volumeDb;
 	slot.bus = desc.bus;
 	slot.pan = desc.pan;
@@ -82,7 +81,7 @@ void SamplerPreviewEngine::playSlot(const ProgramSlotDesc& slotDesc, const juce:
 	}
 
 	const Program::Slot slot = makePreviewSlot(slotDesc, &sample);
-	voice.playOn(slot, 127, dispatch);
+	voice.playOn(slot, 127);
 
 	if(onSamplePreviewed) {
 		const std::string displayName = sample.getName().empty() ? slotDesc.sample : sample.getName();
@@ -97,7 +96,7 @@ void SamplerPreviewEngine::mixInto(float* const* output, int numChannels, int nu
 
 	for(int sampleIndex = 0; sampleIndex < numSamples; ++sampleIndex) {
 		float stereo[2] = {0.f, 0.f};
-		voice.nextSamples(stereo, 2, 2);
+		voice.nextSamples(stereo, 2);
 
 		if(output[0] != nullptr) {
 			output[0][sampleIndex] += stereo[0];

@@ -8,7 +8,7 @@ void FilterMixBus::init(double sampleRate, const MixBusRoute& route) {
 	lowpassSection.init(fsr, MixBusFilterType::Lowpass, channelCount);
 	highpassSection.init(fsr, MixBusFilterType::Highpass, channelCount);
 
-	beatRepeat.init(channelCount, sampleRate);
+	beatRepeat.init(static_cast<int>(channelCount), sampleRate);
 
 	lowpassSection.setCutoffRatio(1.0f);
 	highpassSection.setCutoffRatio(0.0f);
@@ -20,7 +20,7 @@ void FilterMixBus::init(double sampleRate, const MixBusRoute& route) {
 	highpassSection.reset();
 
 	bitCrushRate.setValue(1.f);
-	bitCrush.init(channelCount);
+	bitCrush.init(static_cast<int>(channelCount));
 
 	brRate.setValue(1.f);
 }
@@ -63,22 +63,22 @@ void FilterMixBus::processEffects(float lfoBuf) {
 		beatRepeat.setRepeatRate(brRate.getValue());
 	}
 
-	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] = beatRepeat.process(sum[channel], channel);
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		sum[channel] = beatRepeat.process(sum[channel], static_cast<int>(channel));
 	}
-	
+
 	if(bitCrushRate.valueHasChanged) {
 		bitCrush.setRepeatRate(bitCrushRate.getValue());
 	}
 
-	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] = bitCrush.process(sum[channel], channel);
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		sum[channel] = bitCrush.process(sum[channel], static_cast<int>(channel));
 	}
 
 	lowpassSection.applyPending();
 	highpassSection.applyPending();
 
-	for(size_t channel = 0; channel < channelCount; channel++) {
+	for(size_t channel = 0; channel < channelCount; ++channel) {
 		sum[channel] = lowpassSection.process(channel, sum[channel]);
 		sum[channel] = highpassSection.process(channel, sum[channel]);
 	}

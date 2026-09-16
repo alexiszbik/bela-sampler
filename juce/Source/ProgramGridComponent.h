@@ -35,7 +35,6 @@ private:
 		kColPan,
 		kColMute,
 		kColReversed,
-		kColQuadDispatch,
 		kColPlayMode,
 		kColGranular,
 		kColDelete,
@@ -53,7 +52,6 @@ private:
 		std::unique_ptr<juce::Label> panLabel;
 		std::unique_ptr<juce::ComboBox> muteGroupCombo;
 		std::unique_ptr<juce::ToggleButton> reversedToggle;
-		std::unique_ptr<juce::ToggleButton> quadDispatchToggle;
 		std::unique_ptr<juce::ComboBox> playModeCombo;
 		std::unique_ptr<juce::Label> granularSpeedLabel;
 		std::unique_ptr<juce::TextButton> deleteButton;
@@ -86,7 +84,6 @@ private:
 	void setupPanLabel(RowComponents& row, size_t rowIndex);
 	void setupMuteGroupCombo(RowComponents& row, size_t rowIndex);
 	void setupReversedToggle(RowComponents& row, size_t rowIndex);
-	void setupQuadDispatchToggle(RowComponents& row, size_t rowIndex);
 	void setupPlayModeCombo(RowComponents& row, size_t rowIndex);
 	void setupGranularSpeedLabel(RowComponents& row, size_t rowIndex);
 	void setupDeleteButton(RowComponents& row, size_t rowIndex);

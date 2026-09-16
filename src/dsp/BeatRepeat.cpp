@@ -1,7 +1,9 @@
 #include "BeatRepeat.h"
 
+#include <algorithm>
+
 void BeatRepeat::init(int inChannelCount, double inSampleRate) {
-    channelCount = inChannelCount;
+    channelCount = std::min(inChannelCount, kMaxChannels);
     sampleRate = inSampleRate;
 
     repeatSize = sampleRate*currentRate;

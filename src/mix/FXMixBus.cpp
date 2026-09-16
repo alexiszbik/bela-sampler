@@ -7,11 +7,11 @@ void FXMixBus::init(double sampleRate, const MixBusRoute& route) {
 
 	const float fsr = static_cast<float>(sampleRate);
 
-	delayLine.init(static_cast<int>(channelCount), fsr);
+	delayLine.init(channelCount, fsr);
 
 	flangerSpeed.setValue(0.f);
 	flangerLevel.setValue(0.f);
-	flanger.init(static_cast<int>(channelCount), sampleRate);
+	flanger.init(channelCount, sampleRate);
 	flanger.setDepth(0.5f);
 	flanger.setFeedback(0.6f);
 }
@@ -58,8 +58,8 @@ void FXMixBus::processEffects(float lfoBuf) {
 		flanger.setMix(level * level);
 	}
 
-	for(size_t channel = 0; channel < channelCount; channel++) {
-		sum[channel] = flanger.process(sum[channel], channel);
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		sum[channel] = flanger.process(sum[channel], static_cast<int>(channel));
 	}
 
 	const float delayLevelValue = delayLevel.getAndStep();
@@ -69,31 +69,27 @@ void FXMixBus::processEffects(float lfoBuf) {
 	float* feedbackBuf = &feedback;
 	const size_t frameCount = 1;
 
-	float* out = sum;
+	float bufferIn[kMaxChannels][1] = {};
 
-	float bufferIn[2][1];
-
-	for(size_t channel = 0; channel < channelCount; channel++) {
+	for(size_t channel = 0; channel < channelCount; ++channel) {
 		bufferIn[channel][0] = sum[channel];
 	}
 
-	for(size_t channel = 0; channel < channelCount; channel++) {
-		delayLine.process(workBuf, frameCount, channel, timeBuf, nullptr, false, true);
+	for(size_t channel = 0; channel < channelCount; ++channel) {
+		delayLine.process(workBuf, frameCount, static_cast<int>(channel), timeBuf, nullptr, false, true);
 
-		for(size_t i = 0; i < frameCount; i++) {
-			out[i * channelCount + channel] = workBuf[i] * delayLevelValue;
-		}
+		sum[channel] = workBuf[0] * delayLevelValue;
 
 		BufferMath::mul(workBuf, feedbackBuf, workBuf, frameCount);
 
-		for(size_t i = 0; i < frameCount; i++) {
+		for(size_t i = 0; i < frameCount; ++i) {
 			workBuf[i] += bufferIn[channel][i];
 		}
 
-		delayLine.write(workBuf, frameCount, channel);
+		delayLine.write(workBuf, frameCount, static_cast<int>(channel));
 
-		for(size_t i = 0; i < frameCount; i++) {
-			out[i * channelCount + channel] += bufferIn[channel][i];
+		for(size_t i = 0; i < frameCount; ++i) {
+			sum[channel] += bufferIn[channel][i];
 		}
 	}
 }

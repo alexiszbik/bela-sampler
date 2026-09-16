@@ -86,7 +86,6 @@ void Program::addSlot(const ProgramSlotDesc& desc, const Sample* sample) {
 		toProgramSlotPlayMode(desc.playMode),
 		desc.granularSpeed,
 		desc.reversed,
-		desc.quadDispatch,
 		desc.volumeDb,
 		desc.bus,
 		desc.pan

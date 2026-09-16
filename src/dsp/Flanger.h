@@ -5,7 +5,7 @@
 
 class Flanger {
 public:
-    static constexpr int kMaxChannels = 2;
+    static constexpr int kMaxChannels = 4;
     static constexpr float kMaxDelayMs = 40.f;
     static constexpr float kMaxDepthMs = 5.f;
 

@@ -10,9 +10,7 @@ struct MixBusNicknameEntry {
 
 constexpr MixBusNicknameEntry kMixBusNicknames[] = {
 	{"master", kBusMaster},
-    {"master rear", kBusMasterRear},
 	{"sample", kBusSample},
-    {"sample rear", kBusSampleRear},
 	{"kick", kBusKick},
 	{"snare", kBusSnare},
 	{"toms", kBusToms},
@@ -62,8 +60,4 @@ const char* mixBusNickname(MixBusIndex index) {
 	}
 
 	return nullptr;
-}
-
-bool isRear(MixBusIndex index) {
-	return index == kBusSampleRear || index == kBusMasterRear;
 }
