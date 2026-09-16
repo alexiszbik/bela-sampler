@@ -13,7 +13,7 @@ public:
 	void setParameterValue(ParameterIndex index, float value) override;
 
 protected:
-	void processEffects() override;
+	void processEffects(float lfoBuf) override;
 
 	MixBusFilterSection lowpassSection;
 	MixBusFilterSection highpassSection;

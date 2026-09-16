@@ -87,7 +87,8 @@ void Program::addSlot(const ProgramSlotDesc& desc, const Sample* sample) {
 		desc.granularSpeed,
 		desc.reversed,
 		desc.volumeDb,
-		desc.bus
+		desc.bus,
+		desc.pan
 	});
 }
 

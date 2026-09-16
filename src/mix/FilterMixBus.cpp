@@ -54,7 +54,9 @@ void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
 	MixBusBase::setParameterValue(index, value);
 }
 
-void FilterMixBus::processEffects() {
+void FilterMixBus::processEffects(float lfoBuf) {
+	
+	MixBusBase::processEffects(lfoBuf);
 
 	beatRepeat.setState(brState);
 	if (brRate.valueHasChanged) {

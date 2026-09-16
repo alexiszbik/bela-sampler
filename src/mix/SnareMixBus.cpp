@@ -14,7 +14,7 @@ void SnareMixBus::setParameterValue(ParameterIndex index, float value) {
 	FilterMixBus::setParameterValue(index, value);
 }
 
-void SnareMixBus::processEffects() {
-	FilterMixBus::processEffects();
+void SnareMixBus::processEffects(float lfoBuf) {
+	FilterMixBus::processEffects(lfoBuf);
 	reverbEffect.process(sum, channelCount);
 }

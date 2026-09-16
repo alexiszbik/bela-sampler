@@ -2,6 +2,7 @@
 
 #include "MixBusBase.h"
 #include "MixBusNames.h"
+#include "TriLfo.h"
 
 #include <cstddef>
 #include <memory>
@@ -19,4 +20,5 @@ public:
 
 private:
 	std::unique_ptr<MixBusBase> buses[kBusCount];
+	TriLfo lfo;
 };

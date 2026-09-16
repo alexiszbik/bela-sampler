@@ -64,26 +64,11 @@ MuteGroup indexToMuteGroup(int index) {
 }
 
 int busToIndex(MixBusIndex bus) {
-	switch(bus) {
-		case kBusMaster: return 0;
-		case kBusSample: return 1;
-		case kBusKick: return 2;
-		case kBusSnare: return 3;
-		case kBusToms: return 4;
-		case kBusHats: return 5;
-		default: return 0;
-	}
+    return static_cast<int>(bus);
 }
 
 MixBusIndex indexToBus(int index) {
-	switch(index) {
-		case 1: return kBusSample;
-		case 2: return kBusKick;
-		case 3: return kBusSnare;
-		case 4: return kBusToms;
-		case 5: return kBusHats;
-		default: return kBusMaster;
-	}
+    return static_cast<MixBusIndex>(index);
 }
 
 bool samplePathExistsCaseSensitive(const juce::File& samplesRoot, const std::string& relativePath) {
@@ -482,13 +467,12 @@ int ProgramGridComponent::columnX(int col) const {
 }
 
 int ProgramGridComponent::columnWidth(int col) const {
-	const int w = getWidth();
 	switch(col) {
 		case kColPlay: return 30;
 		case kColNote: return 50;
-		case kColSample: return w * 25 / 100;
+		case kColSample: return 190;
 		case kColMode: return 80;
-		case kColBus: return 80;
+		case kColBus: return 110;
 		case kColVolume: return 55;
 		case kColPitch: return 55;
         case kColPan: return 55;

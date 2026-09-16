@@ -33,8 +33,8 @@ void HatMixBus::setParameterValue(ParameterIndex index, float value) {
 	FilterMixBus::setParameterValue(index, value);
 }
 
-void HatMixBus::processEffects() {
-	FilterMixBus::processEffects();
+void HatMixBus::processEffects(float lfoBuf) {
+	FilterMixBus::processEffects(lfoBuf);
 
 	if(flangerSpeed.valueHasChanged) {
 		const float speed = flangerSpeed.getValue();

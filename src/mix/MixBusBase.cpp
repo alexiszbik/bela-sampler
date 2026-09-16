@@ -1,4 +1,5 @@
 #include "MixBusBase.h"
+#include "PanHelper.h"
 
 void MixBusBase::init(double sampleRate, const MixBusRoute& route) {
 	(void)sampleRate;
@@ -34,7 +35,21 @@ void MixBusBase::setParameterValue(ParameterIndex index, float value) {
 	}
 }
 
-void MixBusBase::processEffects() {
+void MixBusBase::processEffects(float lfoBuf) {
+	/* tremolo */
+	/*
+	float tremolo = (lfoBuf + 1.f) / 2.f;
+	for(size_t channel = 0; channel < channelCount; channel++) {
+		sum[channel] *= tremolo;
+	}
+	*/
+
+	/* auto pan */
+	/*
+	for(size_t channel = 0; channel < channelCount; channel++) {
+		sum[channel] *= panToRms(lfoBuf * 100, channel == 1);
+	}
+	*/
 }
 
 void MixBusBase::applyGain() {
@@ -56,12 +71,12 @@ void MixBusBase::mixToMaster(float* master, size_t masterChannelCount) {
 	}
 }
 
-void MixBusBase::processAndMixTo(float* master, size_t masterChannelCount) {
+void MixBusBase::processAndMixTo(float* master, size_t masterChannelCount, float inLfo) {
 	if(master == nullptr || masterChannelCount == 0) {
 		return;
 	}
 
-	processEffects();
+	processEffects(inLfo);
 	applyGain();
 	mixToMaster(master, masterChannelCount);
 }

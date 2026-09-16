@@ -25,7 +25,7 @@ public:
 	bool isMono() const { return channelCount <= 1; }
 
 	virtual void setParameterValue(ParameterIndex index, float value);
-	virtual void processAndMixTo(float* master, size_t masterChannelCount);
+	void processAndMixTo(float* master, size_t masterChannelCount, float lfoValue);
 
 protected:
 	static constexpr size_t kMaxChannels = 2;
@@ -33,7 +33,7 @@ protected:
 	void applyGain();
 	void mixToMaster(float* master, size_t masterChannelCount);
 
-	virtual void processEffects();
+	virtual void processEffects(float lfoBuf);
 
 	size_t channelCount = 2;
 	size_t outputChannel0 = 0;

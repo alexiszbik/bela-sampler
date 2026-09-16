@@ -16,13 +16,26 @@ void MixBusArray::init(double sampleRate) {
 	buses[kBusMaster] = std::make_unique<MixBusBase>();
 	buses[kBusMaster]->init(sampleRate, masterRoute);
 
+	MixBusRoute masterRouteRear;
+	masterRouteRear.mono = false;
+	masterRouteRear.outputChannel0 = 6;
+	masterRouteRear.outputChannel1 = 7;
+	buses[kBusMasterRear] = std::make_unique<MixBusBase>();
+	buses[kBusMasterRear]->init(sampleRate, masterRouteRear);
+
 	MixBusRoute sampleRoute;
 	sampleRoute.mono = false;
-	//will be 0 & 1
 	sampleRoute.outputChannel0 = 4;
 	sampleRoute.outputChannel1 = 5;
 	buses[kBusSample] = std::make_unique<FXMixBus>();
 	buses[kBusSample]->init(sampleRate, sampleRoute);
+
+	MixBusRoute sampleRouteRear;
+	sampleRouteRear.mono = false;
+	sampleRouteRear.outputChannel0 = 6;
+	sampleRouteRear.outputChannel1 = 7;
+	buses[kBusSampleRear] = std::make_unique<FXMixBus>();
+	buses[kBusSampleRear]->init(sampleRate, sampleRoute);
 
 	MixBusRoute kickRoute;
 	kickRoute.mono = true;
@@ -47,6 +60,9 @@ void MixBusArray::init(double sampleRate) {
 	hatsRoute.outputChannel0 = 3;
 	buses[kBusHats] = std::make_unique<HatMixBus>();
 	buses[kBusHats]->init(sampleRate, hatsRoute);
+
+	lfo.init(sampleRate);
+	lfo.setFrequency(0.25f);
 }
 
 void MixBusArray::clearBusSums() {
@@ -70,9 +86,11 @@ void MixBusArray::setBusParameter(MixBusIndex busIndex, ParameterIndex parameter
 }
 
 void MixBusArray::processAll(float* master, size_t masterChannelCount) {
+
+	float lfoValue = lfo.process();
 	for(const std::unique_ptr<MixBusBase>& bus : buses) {
 		if(bus != nullptr) {
-			bus->processAndMixTo(master, masterChannelCount);
+			bus->processAndMixTo(master, masterChannelCount, lfoValue);
 		}
 	}
 }

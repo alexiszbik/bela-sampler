@@ -4,12 +4,14 @@
 
 enum MixBusIndex {
 	kBusMaster = 0,
-	kBusSample = 1,
-	kBusKick = 2,
-	kBusSnare = 3,
-	kBusToms = 4,
-	kBusHats = 5,
-	kBusCount = 6,
+    kBusMasterRear,
+	kBusSample,
+    kBusSampleRear,
+	kBusKick,
+	kBusSnare,
+	kBusToms,
+	kBusHats,
+	kBusCount,
 };
 
 bool mixBusIndexFromNickname(const std::string& name, MixBusIndex& outIndex);

@@ -10,7 +10,9 @@ struct MixBusNicknameEntry {
 
 constexpr MixBusNicknameEntry kMixBusNicknames[] = {
 	{"master", kBusMaster},
+    {"master rear", kBusMasterRear},
 	{"sample", kBusSample},
+    {"sample rear", kBusSampleRear},
 	{"kick", kBusKick},
 	{"snare", kBusSnare},
 	{"toms", kBusToms},

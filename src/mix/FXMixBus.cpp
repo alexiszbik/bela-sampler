@@ -45,8 +45,8 @@ void FXMixBus::setParameterValue(ParameterIndex index, float value) {
 	FilterMixBus::setParameterValue(index, value);
 }
 
-void FXMixBus::processEffects() {
-	FilterMixBus::processEffects();
+void FXMixBus::processEffects(float lfoBuf) {
+	FilterMixBus::processEffects(lfoBuf);
 
 	if(flangerSpeed.valueHasChanged) {
 		const float speed = flangerSpeed.getValue();
