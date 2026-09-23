@@ -5,6 +5,7 @@ enum ParameterIndex {
 	Mute,
 	LowPassCutoff,
 	HiPassCutoff,
+	/*LowPassLfoAmount,*/
     DelayTime,
     DelayFeedback,
 	DelayLevel,
@@ -14,4 +15,5 @@ enum ParameterIndex {
 	FlangerLevel,
 	RepeatState,
 	RepeatRate,
+	PanLfoAmount
 };

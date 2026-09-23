@@ -75,4 +75,6 @@ protected:
 
 	SmoothValue mute = 1.f;
 	SmoothValue volume = 1.f;
+
+	float panLfoLevel = 0.0f;
 };

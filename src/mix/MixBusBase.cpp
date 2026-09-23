@@ -45,6 +45,10 @@ void MixBusBase::setParameterValue(ParameterIndex index, float value) {
 		case Mute:
 			mute.setValue(value > 0.5f ? 0.f : 1.f);
 			break;
+		
+		case PanLfoAmount:
+			panLfoLevel = value;
+			break;
 
 		default:
 			break;
@@ -84,11 +88,15 @@ void MixBusBase::processEffects(const TriLfo& lfo) {
 		}
 	}*/
 
-	if(channelCount >= 4) {
-		for(size_t channel = 0; channel < channelCount; ++channel) {
-			const float phaseOffset = 0.25f * static_cast<float>(channel);
-			const float lfoValue = (lfo.valueAtPhaseOffset(phaseOffset) + 1.f) / 2.f;
-			sum[channel] *= lfoValue * lfoValue;
+	//I'LL CHOSE THIS ONE
+	
+	if (panLfoLevel > 0.0f) {
+		if(channelCount >= 4) {
+			for(size_t channel = 0; channel < channelCount; ++channel) {
+				const float phaseOffset = 0.25f * static_cast<float>(channel);
+				const float lfoValue = (lfo.valueAtPhaseOffset(phaseOffset) + 1.f) / 2.f;
+				sum[channel] *= lfoValue * lfoValue;
+			}
 		}
 	}
 }
