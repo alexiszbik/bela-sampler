@@ -362,6 +362,7 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 
 	bool hasSample = false;
 	bool hasMuteGroup = false;
+	bool hasRef = false;
 
 	while(*cursor != '\0') {
 		skipSpace();
@@ -420,6 +421,15 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 			if(!matchLiteral(':') || !parseDispatchGroup(slot.dispatchGroup)) {
 				return false;
 			}
+		} else if(matchKey(kRefPc)) {
+			if(!matchLiteral(':') || !parseInt(slot.refPc)) {
+				return false;
+			}
+			hasRef = true;
+		} else if(matchKey(kRefMidiNote)) {
+			if(!matchLiteral(':') || !parseInt(slot.refMidiNote)) {
+				return false;
+			}
 		} else {
 			skipValue();
 		}
@@ -428,6 +438,14 @@ bool ProgramJson::parseLayerObject(ProgramSlotDesc& slot) {
 		if(*cursor == ',') {
 			++cursor;
 		}
+	}
+
+	if(hasRef && hasSample) {
+		return false;
+	}
+
+	if(hasRef) {
+		return slot.refPc >= 0 && slot.refMidiNote >= 0 && slot.refMidiNote <= 127;
 	}
 
 	return hasSample || hasMuteGroup;

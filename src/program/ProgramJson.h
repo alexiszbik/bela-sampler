@@ -4,6 +4,7 @@
 #include "MuteGroup.h"
 #include "MixBusNames.h"
 #include "SlotDispatch.h"
+#include "SlotRef.h"
 
 #include <string>
 #include <vector>
@@ -33,6 +34,10 @@ struct ProgramSlotDesc {
 	MixBusIndex bus = kBusMaster;
 	SlotDispatch dispatch = SlotDispatch::Front;
 	DispatchGroup dispatchGroup = DispatchGroup::None;
+	int refPc = -1;
+	int refMidiNote = 0;
+
+	bool isSlotRef() const { return isSlotRefPc(refPc); }
 };
 
 class ProgramJson
@@ -53,6 +58,8 @@ public:
 	static constexpr const char* kDispatchRandom = "random";
 	static constexpr const char* kDispatchForward = "forward";
 	static constexpr const char* kDispatchBackward = "backward";
+	static constexpr const char* kRefPc = "refPc";
+	static constexpr const char* kRefMidiNote = "refMidiNote";
 
 	bool parseFile(const std::string& filepath, std::vector<ProgramSlotDesc>& slots);
 

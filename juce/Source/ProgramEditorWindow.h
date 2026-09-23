@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ProgramEditorBank.h"
 #include "ProgramMapJson.h"
 #include "ProgramJson.h"
 
@@ -28,7 +29,8 @@ private:
 	void comboBoxChanged(juce::ComboBox* comboBox) override;
 	void loadSelectedProgram();
 	void updateLayout();
-	void saveCurrentProgram();
+	void saveAllPrograms();
+	void reloadAllPrograms();
 	void exportSamplesHeader();
 	void addSampleWithDialog();
 	void markDirty();
@@ -37,7 +39,7 @@ private:
 	bool dirty = false;
 
 	juce::ComboBox programSelector;
-	juce::TextButton saveButton {"Save"};
+	juce::TextButton saveButton {"Save all"};
 	juce::TextButton reloadButton {"Recharger"};
 	juce::TextButton addLayerButton {"+ Layer"};
 	juce::TextButton addSampleButton {"+ Sample"};
@@ -48,9 +50,8 @@ private:
 
 	std::unique_ptr<ProgramGridComponent> programGrid;
 
-	ProgramMap programMap;
-	std::vector<ProgramSlotDesc> currentSlots;
-	std::string currentFilepath;
+	ProgramEditorBank editorBank;
+	std::string currentProgramFileKey;
 	SamplerPreviewEngine* previewPlayer = nullptr;
 
 	std::unique_ptr<juce::FileChooser> exportHeaderFileChooser;

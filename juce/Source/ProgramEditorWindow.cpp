@@ -24,10 +24,10 @@ ProgramEditorWindow::ProgramEditorWindow() {
 	programSelector.addListener(this);
 
 	addAndMakeVisible(saveButton);
-	saveButton.onClick = [this] { saveCurrentProgram(); };
+	saveButton.onClick = [this] { saveAllPrograms(); };
 
 	addAndMakeVisible(reloadButton);
-	reloadButton.onClick = [this] { loadSelectedProgram(); };
+	reloadButton.onClick = [this] { reloadAllPrograms(); };
 
 	addAndMakeVisible(addLayerButton);
 	addLayerButton.onClick = [this] {
@@ -35,7 +35,7 @@ ProgramEditorWindow::ProgramEditorWindow() {
 			return;
 		}
 
-		programGrid->addLayer(nextMidiNoteForNewLayer(currentSlots));
+		programGrid->addLayer(nextMidiNoteForNewLayer(editorBank.slotsForFile(currentProgramFileKey)));
 		updateLayout();
 	};
 
@@ -62,8 +62,14 @@ void ProgramEditorWindow::loadPrograms(const std::string& inProgramFolder) {
 
 	const std::string mapPath = programFolder + "/program_map.json";
 	ProgramMapJson parser;
+	ProgramMap programMap;
 	if(!parser.parseFile(mapPath, programMap)) {
 		SAMPLER_LOG("Editor: could not load program_map.json\n");
+		return;
+	}
+
+	if(!editorBank.loadFromMap(programFolder, programMap)) {
+		SAMPLER_LOG("Editor: could not load program files\n");
 		return;
 	}
 
@@ -92,51 +98,71 @@ void ProgramEditorWindow::loadSelectedProgram() {
 	programGrid.reset();
 
 	const int selectedIndex = programSelector.getSelectedId() - 1;
+	const ProgramMap& programMap = editorBank.getProgramMap();
 	if(selectedIndex < 0 || selectedIndex >= static_cast<int>(programMap.entries.size())) {
 		return;
 	}
 
-	currentFilepath = programFolder + "/" + programMap.entries[selectedIndex].file;
-	currentSlots.clear();
-
-	ProgramJson parser;
-	if(!parser.parseFile(currentFilepath, currentSlots)) {
-		SAMPLER_LOG("Editor: could not load %s\n", currentFilepath.c_str());
-		return;
-	}
+	currentProgramFileKey = programMap.entries[static_cast<size_t>(selectedIndex)].file;
 
 	if(previewPlayer == nullptr) {
 		SAMPLER_LOG("Editor: preview player not set\n");
 		return;
 	}
 
-	programGrid = std::make_unique<ProgramGridComponent>(currentSlots, *previewPlayer);
-	programGrid->onModified = [this] { markDirty(); };
+	programGrid = std::make_unique<ProgramGridComponent>(
+		editorBank.slotsForFile(currentProgramFileKey),
+		*previewPlayer,
+		editorBank);
+	programGrid->onModified = [this] {
+		editorBank.markDirty(currentProgramFileKey);
+		markDirty();
+		if(programGrid != nullptr) {
+			programGrid->refreshRefRowPreviews();
+		}
+	};
 	contentContainer.addAndMakeVisible(*programGrid);
 
 	updateLayout();
 }
 
-void ProgramEditorWindow::saveCurrentProgram() {
-	if(currentFilepath.empty()) {
-		return;
+void ProgramEditorWindow::saveAllPrograms() {
+	const ProgramMap& programMap = editorBank.getProgramMap();
+
+	for(const ProgramMapEntry& entry : programMap.entries) {
+		const std::string filepath = editorBank.filepathForFile(entry.file);
+		if(!ProgramWriter::writeProgram(filepath, editorBank.slotsForFile(entry.file))) {
+			SAMPLER_LOG("Editor: could not save %s\n", filepath.c_str());
+			return;
+		}
+
+		editorBank.clearDirty(entry.file);
+		SAMPLER_LOG("Editor: saved %s\n", filepath.c_str());
 	}
 
-	if(!ProgramWriter::writeProgram(currentFilepath, currentSlots)) {
-		SAMPLER_LOG("Editor: could not save %s\n", currentFilepath.c_str());
-		return;
-	}
-
-	SAMPLER_LOG("Editor: saved %s\n", currentFilepath.c_str());
 	dirty = false;
 }
 
+void ProgramEditorWindow::reloadAllPrograms() {
+	const int selectedId = programSelector.getSelectedId();
+	const ProgramMap& programMap = editorBank.getProgramMap();
+	if(!editorBank.loadFromMap(programFolder, programMap)) {
+		SAMPLER_LOG("Editor: reload failed\n");
+		return;
+	}
+
+	dirty = false;
+	programSelector.setSelectedId(selectedId, juce::dontSendNotification);
+	loadSelectedProgram();
+}
+
 void ProgramEditorWindow::exportSamplesHeader() {
-	if(currentFilepath.empty()) {
+	if(currentProgramFileKey.empty()) {
 		return;
 	}
 
 	const int selectedIndex = programSelector.getSelectedId() - 1;
+	const ProgramMap& programMap = editorBank.getProgramMap();
 	if(selectedIndex < 0 || selectedIndex >= static_cast<int>(programMap.entries.size())) {
 		return;
 	}
@@ -172,9 +198,10 @@ void ProgramEditorWindow::exportSamplesHeader() {
 			outputFile = outputFile.withFileExtension("h");
 		}
 
+		const std::vector<ProgramSlotDesc> exportSlots = editorBank.materializedLayersForFile(programJsonFile);
 		if(!ProgramSamplesExporter::writeHeader(outputFile.getFullPathName().toStdString(),
 				programJsonFile,
-				currentSlots)) {
+				exportSlots)) {
 			SAMPLER_LOG("Editor: no samples to export for %s\n", programJsonFile.c_str());
 			return;
 		}
@@ -215,7 +242,8 @@ void ProgramEditorWindow::addSampleWithDialog() {
 			.replaceCharacter('\\', '/')
 			.toStdString();
 
-		programGrid->addLayer(nextMidiNoteForNewLayer(currentSlots), relativeSamplePath);
+		programGrid->addLayer(nextMidiNoteForNewLayer(editorBank.slotsForFile(currentProgramFileKey)),
+			relativeSamplePath);
 		updateLayout();
 	});
 }

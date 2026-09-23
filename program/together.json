@@ -283,6 +283,15 @@
           "volume": -7.0
         }
       ]
+    },
+    {
+      "midiNote": 80,
+      "layers": [
+        {
+          "refPc": 1,
+          "refMidiNote": 38
+        }
+      ]
     }
   ]
 }

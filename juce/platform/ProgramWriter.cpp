@@ -62,6 +62,12 @@ const char* muteGroupToString(MuteGroup group) {
 std::unique_ptr<juce::DynamicObject> layerToObject(const ProgramSlotDesc& layer) {
 	auto obj = std::make_unique<juce::DynamicObject>();
 
+	if(layer.isSlotRef()) {
+		obj->setProperty(ProgramJson::kRefPc, layer.refPc);
+		obj->setProperty(ProgramJson::kRefMidiNote, layer.refMidiNote);
+		return obj;
+	}
+
 	if(!layer.sample.empty()) {
 		obj->setProperty("sample", juce::String(layer.sample));
 	}

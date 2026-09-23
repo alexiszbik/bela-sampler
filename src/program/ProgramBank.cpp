@@ -85,6 +85,27 @@ bool ProgramBank::load(const std::string& programFolder,
 		return false;
 	}
 
+	for(size_t pass = 0; pass < Program::kMaxRefResolvePasses; ++pass) {
+		bool resolvedAny = false;
+		for(Program& program : programs) {
+			resolvedAny |= program.resolvePendingSlotRefsOnce(*this);
+		}
+
+		if(!resolvedAny) {
+			break;
+		}
+	}
+
+	for(Program& program : programs) {
+		program.finalizeUnresolvedSlotRefs();
+	}
+
+	for(size_t programIndex = 0; programIndex < programs.size(); ++programIndex) {
+		SAMPLER_LOG("ProgramBank: %s resolved (%zu slots)\n",
+			programNames[programIndex].c_str(),
+			programs[programIndex].getSlotCount());
+	}
+
 	if(preserveActivePc >= 0) {
 		const auto preserved = pcToProgramIndex.find(preserveActivePc);
 		if(preserved != pcToProgramIndex.end()) {
@@ -130,6 +151,24 @@ const Program* ProgramBank::getActiveProgram() const {
 	}
 
 	return &programs[activeProgramIndex];
+}
+
+Program* ProgramBank::getProgramByPc(int pc) {
+	const auto entry = pcToProgramIndex.find(pc);
+	if(entry == pcToProgramIndex.end()) {
+		return nullptr;
+	}
+
+	return &programs[entry->second];
+}
+
+const Program* ProgramBank::getProgramByPc(int pc) const {
+	const auto entry = pcToProgramIndex.find(pc);
+	if(entry == pcToProgramIndex.end()) {
+		return nullptr;
+	}
+
+	return &programs[entry->second];
 }
 
 std::string ProgramBank::getActiveProgramName() const {

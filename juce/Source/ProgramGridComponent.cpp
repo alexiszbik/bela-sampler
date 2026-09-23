@@ -112,6 +112,165 @@ DispatchGroup ProgramGridComponent::indexToDispatchGroup(int index) {
 	}
 }
 
+juce::StringArray ProgramGridComponent::buildRefPcComboItems() const {
+	juce::StringArray items;
+	items.add("(none)");
+	for(const ProgramMapEntry& entry : editorBank.getProgramMap().entries) {
+		items.add("PC " + juce::String(entry.pc));
+	}
+
+	return items;
+}
+
+int ProgramGridComponent::refPcComboIndexForRow(size_t rowIndex) const {
+	if(rowIndex >= slots.size() || !slots[rowIndex].isSlotRef()) {
+		return 0;
+	}
+
+	const ProgramMap& programMap = editorBank.getProgramMap();
+	for(size_t i = 0; i < programMap.entries.size(); ++i) {
+		if(programMap.entries[i].pc == slots[rowIndex].refPc) {
+			return static_cast<int>(i) + 1;
+		}
+	}
+
+	return 0;
+}
+
+namespace {
+bool pickPrimaryResolvedLayer(const std::vector<ProgramSlotDesc>& layers, ProgramSlotDesc& outLayer) {
+	for(const ProgramSlotDesc& layer : layers) {
+		if(!layer.sample.empty()) {
+			outLayer = layer;
+			return true;
+		}
+	}
+
+	if(layers.empty()) {
+		return false;
+	}
+
+	outLayer = layers.front();
+	return true;
+}
+}
+
+bool ProgramGridComponent::resolvedRefLayerForDisplay(size_t rowIndex, ProgramSlotDesc& outLayer) const {
+	if(rowIndex >= slots.size() || !slots[rowIndex].isSlotRef()) {
+		return false;
+	}
+
+	const std::vector<ProgramSlotDesc> layers = editorBank.layersAtRefSource(
+		slots[rowIndex].refPc,
+		slots[rowIndex].refMidiNote);
+
+	return pickPrimaryResolvedLayer(layers, outLayer);
+}
+
+bool ProgramGridComponent::playableRefLayer(size_t rowIndex, ProgramSlotDesc& outLayer) const {
+	if(!resolvedRefLayerForDisplay(rowIndex, outLayer)) {
+		return false;
+	}
+
+	return !outLayer.sample.empty();
+}
+
+juce::String ProgramGridComponent::refSampleDisplayText(size_t rowIndex) const {
+	ProgramSlotDesc previewLayer;
+	if(!playableRefLayer(rowIndex, previewLayer)) {
+		return "(ref: no sample)";
+	}
+
+	return juce::String(previewLayer.sample);
+}
+
+void ProgramGridComponent::updateRefProgramLabel(RowComponents& row, size_t rowIndex) {
+	if(row.refProgramLabel == nullptr) {
+		return;
+	}
+
+	if(rowIndex >= slots.size() || !slots[rowIndex].isSlotRef()) {
+		row.refProgramLabel->setText({}, juce::dontSendNotification);
+		return;
+	}
+
+	const std::string file = editorBank.fileForPc(slots[rowIndex].refPc);
+	row.refProgramLabel->setText(juce::String(file), juce::dontSendNotification);
+}
+
+void ProgramGridComponent::updateRefRowControlValues(size_t rowIndex) {
+	if(rowIndex >= rows.size() || rowIndex >= slots.size() || !slots[rowIndex].isSlotRef()) {
+		return;
+	}
+
+	ProgramSlotDesc display;
+	if(!resolvedRefLayerForDisplay(rowIndex, display)) {
+		return;
+	}
+
+	RowComponents& row = rows[rowIndex];
+
+	if(row.modeCombo != nullptr) {
+		row.modeCombo->setSelectedId(modeToIndex(display.mode) + 1, juce::dontSendNotification);
+	}
+
+	if(row.busCombo != nullptr) {
+		row.busCombo->setSelectedId(busToIndex(display.bus) + 1, juce::dontSendNotification);
+	}
+
+	if(row.dispatchCombo != nullptr) {
+		row.dispatchCombo->setSelectedId(dispatchToIndex(display.dispatch) + 1, juce::dontSendNotification);
+	}
+
+	if(row.dispatchGroupCombo != nullptr) {
+		row.dispatchGroupCombo->setSelectedId(dispatchGroupToIndex(display.dispatchGroup) + 1,
+			juce::dontSendNotification);
+	}
+
+	if(row.muteGroupCombo != nullptr) {
+		row.muteGroupCombo->setSelectedId(muteGroupToIndex(display.muteGroup) + 1, juce::dontSendNotification);
+	}
+
+	if(row.playModeCombo != nullptr) {
+		row.playModeCombo->setSelectedId(playModeToIndex(display.playMode) + 1, juce::dontSendNotification);
+	}
+
+	if(row.reversedToggle != nullptr) {
+		row.reversedToggle->setToggleState(display.reversed, juce::dontSendNotification);
+	}
+
+	auto setReadOnlyLabel = [](juce::Label* label, const juce::String& text) {
+		if(label == nullptr) {
+			return;
+		}
+
+		label->setEditable(false, false, false);
+		label->setText(text, juce::dontSendNotification);
+	};
+
+	setReadOnlyLabel(row.volumeLabel.get(), juce::String(display.volumeDb, 2));
+	setReadOnlyLabel(row.pitchLabel.get(), juce::String(display.pitchSemitones, 2));
+	setReadOnlyLabel(row.panLabel.get(), juce::String(display.pan, 0));
+	setReadOnlyLabel(row.granularSpeedLabel.get(), juce::String(display.granularSpeed, 2));
+
+	if(row.sampleLabel != nullptr) {
+		row.sampleLabel->setText(refSampleDisplayText(rowIndex), juce::dontSendNotification);
+	}
+
+	updateRefProgramLabel(row, rowIndex);
+}
+
+void ProgramGridComponent::refreshRefRowPreviews() {
+	for(size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex) {
+		if(rowIndex >= slots.size() || !slots[rowIndex].isSlotRef()) {
+			continue;
+		}
+
+		updateRefRowControlValues(rowIndex);
+		applyRowAppearance(rowIndex);
+	}
+}
+
 bool ProgramGridComponent::samplePathExists(const std::string& relativePath) const {
 	if(relativePath.empty()) {
 		return true;
@@ -193,13 +352,86 @@ void ProgramGridComponent::setupNoteLabel(RowComponents& row, size_t rowIndex) {
 }
 
 void ProgramGridComponent::setupSampleLabel(RowComponents& row, size_t rowIndex) {
-	row.sampleLabel = makeEditableLabel(juce::String(slots[rowIndex].sample));
-	row.sampleLabel->onTextChange = [this, rowIndex, samplePtr = row.sampleLabel.get()] {
-		slots[rowIndex].sample = samplePtr->getText().toStdString();
-		applyRowAppearance(rowIndex);
-		onRowModified(rowIndex);
-	};
+	const bool isRef = slots[rowIndex].isSlotRef();
+	if(isRef) {
+		row.sampleLabel = std::make_unique<juce::Label>();
+		row.sampleLabel->setText(refSampleDisplayText(rowIndex), juce::dontSendNotification);
+	} else {
+		row.sampleLabel = makeEditableLabel(juce::String(slots[rowIndex].sample));
+		row.sampleLabel->onTextChange = [this, rowIndex, samplePtr = row.sampleLabel.get()] {
+			slots[rowIndex].sample = samplePtr->getText().toStdString();
+			slots[rowIndex].refPc = -1;
+			slots[rowIndex].refMidiNote = 0;
+			applyRowAppearance(rowIndex);
+			onRowModified(rowIndex);
+		};
+	}
+
 	addRowWidget(*row.sampleLabel);
+}
+
+void ProgramGridComponent::setupRefPcCombo(RowComponents& row, size_t rowIndex) {
+	row.refPcCombo = std::make_unique<juce::ComboBox>();
+	const juce::StringArray items = buildRefPcComboItems();
+	const int selectedIndex = refPcComboIndexForRow(rowIndex);
+	bindComboBox(*row.refPcCombo, items, selectedIndex, [this, rowIndex](int index) {
+		if(index <= 0) {
+			if(!slots[rowIndex].isSlotRef()) {
+				return;
+			}
+
+			slots[rowIndex].refPc = -1;
+			slots[rowIndex].refMidiNote = 0;
+			rebuildRows();
+			onRowModified(rowIndex);
+			return;
+		}
+
+		const ProgramMap& programMap = editorBank.getProgramMap();
+		const size_t mapIndex = static_cast<size_t>(index - 1);
+		if(mapIndex >= programMap.entries.size()) {
+			return;
+		}
+
+		slots[rowIndex].refPc = programMap.entries[mapIndex].pc;
+		if(slots[rowIndex].refMidiNote < 0 || slots[rowIndex].refMidiNote > 127) {
+			slots[rowIndex].refMidiNote = 60;
+		}
+
+		slots[rowIndex].sample.clear();
+		rebuildRows();
+		onRowModified(rowIndex);
+	});
+	addRowWidget(*row.refPcCombo);
+}
+
+void ProgramGridComponent::setupRefNoteLabel(RowComponents& row, size_t rowIndex) {
+	const bool isRef = slots[rowIndex].isSlotRef();
+	if(isRef) {
+		row.refNoteLabel = makeEditableLabel(juce::String(slots[rowIndex].refMidiNote));
+		row.refNoteLabel->onEditorHide = [this, rowIndex, notePtr = row.refNoteLabel.get()] {
+			const int newNote = juce::jlimit(0, 127, notePtr->getText().getIntValue());
+			if(slots[rowIndex].refMidiNote == newNote) {
+				return;
+			}
+
+			slots[rowIndex].refMidiNote = newNote;
+			notePtr->setText(juce::String(newNote), juce::dontSendNotification);
+			rebuildRows();
+			onRowModified(rowIndex);
+		};
+	} else {
+		row.refNoteLabel = std::make_unique<juce::Label>();
+		row.refNoteLabel->setText("-", juce::dontSendNotification);
+	}
+
+	addRowWidget(*row.refNoteLabel);
+}
+
+void ProgramGridComponent::setupRefProgramLabel(RowComponents& row, size_t rowIndex) {
+	row.refProgramLabel = std::make_unique<juce::Label>();
+	updateRefProgramLabel(row, rowIndex);
+	addRowWidget(*row.refProgramLabel);
 }
 
 void ProgramGridComponent::setupModeCombo(RowComponents& row, size_t rowIndex) {
@@ -333,12 +565,24 @@ void ProgramGridComponent::setupDeleteButton(RowComponents& row, size_t rowIndex
 void ProgramGridComponent::setupShowButton(RowComponents& row, size_t rowIndex) {
 	row.showButton = std::make_unique<juce::TextButton>("Show");
 	row.showButton->onClick = [this, rowIndex] {
-		if(slots[rowIndex].sample.empty()) {
+		std::string samplePath;
+		if(slots[rowIndex].isSlotRef()) {
+			ProgramSlotDesc previewLayer;
+			if(!playableRefLayer(rowIndex, previewLayer)) {
+				return;
+			}
+
+			samplePath = previewLayer.sample;
+		} else {
+			samplePath = slots[rowIndex].sample;
+		}
+
+		if(samplePath.empty()) {
 			return;
 		}
 
 		const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
-			.getChildFile(slots[rowIndex].sample);
+			.getChildFile(samplePath);
 		if(!sampleFile.existsAsFile()) {
 			sampleFile.getParentDirectory().revealToUser();
 			return;
@@ -352,13 +596,22 @@ void ProgramGridComponent::setupShowButton(RowComponents& row, size_t rowIndex) 
 void ProgramGridComponent::setupPlayButton(RowComponents& row, size_t rowIndex) {
 	row.playButton = std::make_unique<juce::TextButton>(juce::String::fromUTF8("▶"));
 	row.playButton->onClick = [this, rowIndex] {
-		if(slots[rowIndex].sample.empty()) {
+		ProgramSlotDesc previewLayer;
+		bool hasPreview = false;
+		if(slots[rowIndex].isSlotRef()) {
+			hasPreview = playableRefLayer(rowIndex, previewLayer);
+		} else if(!slots[rowIndex].sample.empty()) {
+			previewLayer = slots[rowIndex];
+			hasPreview = true;
+		}
+
+		if(!hasPreview || previewLayer.sample.empty()) {
 			return;
 		}
 
 		const juce::File sampleFile = juce::File(SamplerDesktopPaths::getSamplesFolder())
-			.getChildFile(slots[rowIndex].sample);
-		previewPlayer.playSlot(slots[rowIndex], sampleFile);
+			.getChildFile(previewLayer.sample);
+		previewPlayer.playSlot(previewLayer, sampleFile);
 	};
 	addRowWidget(*row.playButton);
 }
@@ -367,6 +620,9 @@ ProgramGridComponent::RowComponents ProgramGridComponent::buildRow(size_t rowInd
 	RowComponents row;
 	setupNoteLabel(row, rowIndex);
 	setupSampleLabel(row, rowIndex);
+	setupRefPcCombo(row, rowIndex);
+	setupRefNoteLabel(row, rowIndex);
+	setupRefProgramLabel(row, rowIndex);
 	setupModeCombo(row, rowIndex);
 	setupBusCombo(row, rowIndex);
 	setupDispatchCombo(row, rowIndex);
@@ -385,8 +641,11 @@ ProgramGridComponent::RowComponents ProgramGridComponent::buildRow(size_t rowInd
 	return row;
 }
 
-ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots, SamplerPreviewEngine& inPreviewPlayer)
+ProgramGridComponent::ProgramGridComponent(std::vector<ProgramSlotDesc>& inSlots,
+	SamplerPreviewEngine& inPreviewPlayer,
+	ProgramEditorBank& inEditorBank)
 	: slots(inSlots),
+	  editorBank(inEditorBank),
 	  previewPlayer(inPreviewPlayer) {
 	sortSlotsByNote();
 	rebuildRows();
@@ -400,6 +659,10 @@ void ProgramGridComponent::rebuildRows() {
 
 	for(size_t i = 0; i < slots.size(); ++i) {
 		rows.push_back(buildRow(i));
+		if(slots[i].isSlotRef()) {
+			updateRefRowControlValues(i);
+		}
+
 		applyRowAppearance(i);
 	}
 
@@ -423,6 +686,15 @@ void ProgramGridComponent::onRowModified(size_t row) {
 bool ProgramGridComponent::isSampleMissing(size_t row) const {
 	if(row >= slots.size()) {
 		return false;
+	}
+
+	if(slots[row].isSlotRef()) {
+		ProgramSlotDesc previewLayer;
+		if(!playableRefLayer(row, previewLayer)) {
+			return true;
+		}
+
+		return !samplePathExists(previewLayer.sample);
 	}
 
 	const std::string& sample = slots[row].sample;
@@ -457,6 +729,9 @@ void ProgramGridComponent::collectRowCells(RowComponents& row) {
 		{row.playButton.get(), kColPlay},
 		{row.noteLabel.get(), kColNote},
 		{row.sampleLabel.get(), kColSample},
+		{row.refPcCombo.get(), kColRefPc},
+		{row.refNoteLabel.get(), kColRefNote},
+		{row.refProgramLabel.get(), kColRefProgram},
 		{row.modeCombo.get(), kColMode},
 		{row.busCombo.get(), kColBus},
 		{row.dispatchCombo.get(), kColDispatch},
@@ -538,8 +813,40 @@ void ProgramGridComponent::applyRowAppearance(size_t rowIndex) {
 	const juce::Colour background = rowBackgroundColour(rowIndex);
 	const RowComponents& row = rows[rowIndex];
 
+	const bool isRef = rowIndex < slots.size() && slots[rowIndex].isSlotRef();
+
 	for(const RowComponents::Cell& cell : row.cells) {
 		applyComponentRowColour(cell.component, background);
+
+		if(cell.component == nullptr) {
+			continue;
+		}
+
+		const bool isRefControl = cell.component == row.refPcCombo.get()
+			|| cell.component == row.refNoteLabel.get()
+			|| cell.component == row.refProgramLabel.get();
+
+		if(isRef) {
+			ProgramSlotDesc previewLayer;
+			const bool canShowSample = playableRefLayer(rowIndex, previewLayer);
+			(void)previewLayer;
+
+			const bool enable = isRefControl
+				|| cell.component == row.noteLabel.get()
+				|| cell.component == row.playButton.get()
+				|| cell.component == row.deleteButton.get()
+				|| (cell.component == row.showButton.get() && canShowSample);
+
+			cell.component->setEnabled(enable);
+		} else if(isRefControl) {
+			cell.component->setEnabled(cell.component == row.refPcCombo.get());
+		} else {
+			cell.component->setEnabled(true);
+		}
+	}
+
+	if(isRef) {
+		updateRefRowControlValues(rowIndex);
 	}
 
 	repaint();
@@ -582,7 +889,27 @@ void ProgramGridComponent::paint(juce::Graphics& g) {
 	g.setColour(juce::Colour(0xffcccccc));
 	g.setFont(juce::Font(13.f, juce::Font::bold));
 
-	const char* headers[kColumnCount] = {"", "Note", "Sample", "Mode", "Bus", "Disp", "DGrp", "Vol", "Pitch", "Pan", "Mute", "Rev", "Play", "Gran", "", "Show"};
+	const char* headers[kColumnCount] = {
+		"",
+		"Note",
+		"Sample",
+		"Ref PC",
+		"Ref note",
+		"Program",
+		"Mode",
+		"Bus",
+		"Disp",
+		"DGrp",
+		"Vol",
+		"Pitch",
+		"Pan",
+		"Mute",
+		"Rev",
+		"Play",
+		"Gran",
+		"",
+		"Show"
+	};
 	for(int col = 0; col < kColumnCount; ++col) {
 		g.drawText(headers[col], columnX(col) + 4, 0, columnWidth(col) - 8, kHeaderHeight, juce::Justification::left);
 	}
@@ -618,7 +945,10 @@ int ProgramGridComponent::columnWidth(int col) const {
 	switch(col) {
 		case kColPlay: return 30;
 		case kColNote: return 50;
-		case kColSample: return 190;
+		case kColSample: return 150;
+		case kColRefPc: return 72;
+		case kColRefNote: return 58;
+		case kColRefProgram: return 120;
 		case kColMode: return 80;
 		case kColBus: return 110;
 		case kColDispatch: return 80;

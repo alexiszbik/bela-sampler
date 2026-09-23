@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ProgramEditorBank.h"
 #include "ProgramJson.h"
 #include "SamplerPreviewEngine.h"
 
@@ -11,7 +12,9 @@
 class ProgramGridComponent : public juce::Component
 {
 public:
-	explicit ProgramGridComponent(std::vector<ProgramSlotDesc>& slots, SamplerPreviewEngine& previewPlayer);
+	explicit ProgramGridComponent(std::vector<ProgramSlotDesc>& slots,
+		SamplerPreviewEngine& previewPlayer,
+		ProgramEditorBank& editorBank);
 	~ProgramGridComponent() override;
 
 	void paint(juce::Graphics& g) override;
@@ -22,12 +25,16 @@ public:
 	std::function<void()> onModified;
     
 	void addLayer(int midiNote, const std::string& sample = {});
+	void refreshRefRowPreviews();
 
 private:
 	enum Column {
 		kColPlay = 0,
 		kColNote,
 		kColSample,
+		kColRefPc,
+		kColRefNote,
+		kColRefProgram,
 		kColMode,
 		kColBus,
 		kColDispatch,
@@ -47,6 +54,9 @@ private:
 	struct RowComponents {
 		std::unique_ptr<juce::Label> noteLabel;
 		std::unique_ptr<juce::Label> sampleLabel;
+		std::unique_ptr<juce::ComboBox> refPcCombo;
+		std::unique_ptr<juce::Label> refNoteLabel;
+		std::unique_ptr<juce::Label> refProgramLabel;
 		std::unique_ptr<juce::ComboBox> modeCombo;
 		std::unique_ptr<juce::ComboBox> busCombo;
 		std::unique_ptr<juce::ComboBox> dispatchCombo;
@@ -81,6 +91,9 @@ private:
 	void bindComboBox(juce::ComboBox& combo, const juce::StringArray& options, int selectedIndex, std::function<void(int)> onSelected);
 	void setupNoteLabel(RowComponents& row, size_t rowIndex);
 	void setupSampleLabel(RowComponents& row, size_t rowIndex);
+	void setupRefPcCombo(RowComponents& row, size_t rowIndex);
+	void setupRefNoteLabel(RowComponents& row, size_t rowIndex);
+	void setupRefProgramLabel(RowComponents& row, size_t rowIndex);
 	void setupModeCombo(RowComponents& row, size_t rowIndex);
 	void setupBusCombo(RowComponents& row, size_t rowIndex);
 	void setupDispatchCombo(RowComponents& row, size_t rowIndex);
@@ -117,8 +130,16 @@ private:
 	void applyTextButtonRowColour(juce::Button& button, const juce::Colour& background) const;
 	void applyToggleRowColour(juce::ToggleButton& toggle, const juce::Colour& background) const;
 	void deleteLayer(size_t row);
+	int refPcComboIndexForRow(size_t rowIndex) const;
+	juce::StringArray buildRefPcComboItems() const;
+	void updateRefProgramLabel(RowComponents& row, size_t rowIndex);
+	juce::String refSampleDisplayText(size_t rowIndex) const;
+	bool playableRefLayer(size_t rowIndex, ProgramSlotDesc& outLayer) const;
+	bool resolvedRefLayerForDisplay(size_t rowIndex, ProgramSlotDesc& outLayer) const;
+	void updateRefRowControlValues(size_t rowIndex);
 
 	std::vector<ProgramSlotDesc>& slots;
+	ProgramEditorBank& editorBank;
 	std::vector<RowComponents> rows;
 	std::vector<int> sampleNoteNumbers;
 	SamplerPreviewEngine& previewPlayer;

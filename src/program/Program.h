@@ -11,9 +11,13 @@
 
 struct ProgramSlotDesc;
 
+class ProgramBank;
+
 class Program
 {
 public:
+	static constexpr size_t kMaxRefResolvePasses = 8;
+
 	enum class SlotMode {
 		Poly,
 		Mono,
@@ -51,6 +55,15 @@ public:
 
 	bool loadFromFile(const std::string& filepath, const std::vector<Sample>& samples);
 
+	bool resolvePendingSlotRefsOnce(ProgramBank& bank);
+	void finalizeUnresolvedSlotRefs();
+
+	struct PendingSlotRef {
+		int localMidiNote = 0;
+		int refPc = -1;
+		int refMidiNote = 0;
+	};
+
 	std::vector<Slot>& getSlots() { return slots; }
 	const std::vector<Slot>& getSlots() const { return slots; }
 	size_t getSlotCount() const { return slots.size(); }
@@ -60,6 +73,9 @@ public:
 private:
 	static constexpr size_t kDispatchGroupCount = 4;
 
+	void cloneSlotFrom(const Slot& source, int localMidiNote);
+
 	std::vector<Slot> slots;
+	std::vector<PendingSlotRef> pendingSlotRefs;
 	QuadDispatch dispatchGroups[kDispatchGroupCount];
 };

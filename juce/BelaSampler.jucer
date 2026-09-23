@@ -121,9 +121,14 @@
               resource="0" file="../src/program/ProgramMapJson.cpp"/>
         <FILE id="programMapJsonH" name="ProgramMapJson.h" compile="0" resource="0"
               file="../src/program/ProgramMapJson.h"/>
+        <FILE id="programEditorBankCpp" name="ProgramEditorBank.cpp" compile="1"
+              resource="0" file="../src/program/ProgramEditorBank.cpp"/>
+        <FILE id="programEditorBankH" name="ProgramEditorBank.h" compile="0" resource="0"
+              file="../src/program/ProgramEditorBank.h"/>
         <FILE id="muteGroupH" name="MuteGroup.h" compile="0" resource="0" file="../src/program/MuteGroup.h"/>
         <FILE id="dispatchGroupH" name="DispatchGroup.h" compile="0" resource="0" file="../src/program/DispatchGroup.h"/>
         <FILE id="slotDispatchH" name="SlotDispatch.h" compile="0" resource="0" file="../src/program/SlotDispatch.h"/>
+        <FILE id="slotRefH" name="SlotRef.h" compile="0" resource="0" file="../src/program/SlotRef.h"/>
         <FILE id="programH" name="Program.h" compile="0" resource="0" file="../src/program/Program.h"/>
       </GROUP>
     </GROUP>

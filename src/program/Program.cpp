@@ -1,6 +1,7 @@
 #include "Program.h"
 
 #include "MixBusNames.h"
+#include "ProgramBank.h"
 #include "ProgramJson.h"
 
 #include "SamplerLog.h"
@@ -94,6 +95,75 @@ void Program::addSlot(const ProgramSlotDesc& desc, const Sample* sample) {
 	});
 }
 
+void Program::cloneSlotFrom(const Slot& source, int localMidiNote) {
+	Slot cloned;
+	cloned.id = slots.size();
+	cloned.midiNote = localMidiNote;
+	cloned.sample = source.sample;
+	cloned.mode = source.mode;
+	cloned.muteGroup = source.muteGroup;
+	cloned.pitchSemitones = source.pitchSemitones;
+	cloned.playMode = source.playMode;
+	cloned.granularSpeed = source.granularSpeed;
+	cloned.reversed = source.reversed;
+	cloned.volumeDb = source.volumeDb;
+	cloned.bus = source.bus;
+	cloned.pan = source.pan;
+	cloned.dispatch = source.dispatch;
+	cloned.dispatchGroup = source.dispatchGroup;
+	cloned.localDispatchState = QuadDispatch{};
+	slots.push_back(cloned);
+}
+
+bool Program::resolvePendingSlotRefsOnce(ProgramBank& bank) {
+	if(pendingSlotRefs.empty()) {
+		return false;
+	}
+
+	bool resolvedAny = false;
+	std::vector<PendingSlotRef> remaining;
+
+	for(const PendingSlotRef& pending : pendingSlotRefs) {
+		Program* targetProgram = bank.getProgramByPc(pending.refPc);
+		if(targetProgram == nullptr) {
+			SAMPLER_LOG("Program: ref PC %d not found for local note %d\n",
+				pending.refPc,
+				pending.localMidiNote);
+			remaining.push_back(pending);
+			continue;
+		}
+
+		bool foundLayer = false;
+		for(const Slot& targetSlot : targetProgram->getSlots()) {
+			if(targetSlot.midiNote != pending.refMidiNote) {
+				continue;
+			}
+
+			foundLayer = true;
+			cloneSlotFrom(targetSlot, pending.localMidiNote);
+			resolvedAny = true;
+		}
+
+		if(!foundLayer) {
+			remaining.push_back(pending);
+		}
+	}
+
+	pendingSlotRefs = std::move(remaining);
+	return resolvedAny;
+}
+
+void Program::finalizeUnresolvedSlotRefs() {
+	for(const PendingSlotRef& pending : pendingSlotRefs) {
+		SAMPLER_LOG("Program: unresolved ref PC %d note %d -> local note %d\n",
+			pending.refPc,
+			pending.refMidiNote,
+			pending.localMidiNote);
+	}
+
+	pendingSlotRefs.clear();
+}
+
 QuadDispatch& Program::dispatchStateFor(Slot& slot) {
 	if(isDispatchGroupAssigned(slot.dispatchGroup)) {
 		return dispatchGroups[dispatchGroupIndex(slot.dispatchGroup)];
@@ -104,6 +174,7 @@ QuadDispatch& Program::dispatchStateFor(Slot& slot) {
 
 bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample>& samples) {
 	slots.clear();
+	pendingSlotRefs.clear();
 	for(QuadDispatch& group : dispatchGroups) {
 		group = QuadDispatch{};
 	}
@@ -115,6 +186,15 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 	}
 
 	for(const ProgramSlotDesc& slotDesc : slotDescs) {
+		if(slotDesc.isSlotRef()) {
+			pendingSlotRefs.push_back({
+				slotDesc.midiNote,
+				slotDesc.refPc,
+				slotDesc.refMidiNote
+			});
+			continue;
+		}
+
 		const char* groupName = muteGroupName(slotDesc.muteGroup);
 
 		if(slotDesc.sample.empty()) {
@@ -148,7 +228,7 @@ bool Program::loadFromFile(const std::string& filepath, const std::vector<Sample
 			mixBusNickname(slotDesc.bus));
 	}
 
-	if(slots.empty()) {
+	if(slots.empty() && pendingSlotRefs.empty()) {
 		SAMPLER_LOG("Program: no valid slots loaded from %s\n", filepath.c_str());
 		return false;
 	}

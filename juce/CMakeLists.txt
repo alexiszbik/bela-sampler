@@ -13,6 +13,7 @@ set(SAMPLER_EDITOR_SOURCES
     platform/ProgramSamplesExporter.cpp
     ../src/program/ProgramJson.cpp
     ../src/program/ProgramMapJson.cpp
+    ../src/program/ProgramEditorBank.cpp
     ../src/dsp/PitchHelper.cpp
     ../src/dsp/GainHelper.cpp
     ../src/dsp/PanHelper.cpp

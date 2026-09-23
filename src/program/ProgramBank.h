@@ -15,6 +15,8 @@ public:
 
 	Program* getActiveProgram();
 	const Program* getActiveProgram() const;
+	Program* getProgramByPc(int pc);
+	const Program* getProgramByPc(int pc) const;
 	int getActivePc() const { return activePc; }
 	std::string getActiveProgramName() const;
 	bool selectProgram(int pc);
