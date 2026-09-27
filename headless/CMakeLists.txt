@@ -52,6 +52,7 @@ set(SAMPLER_CORE_SOURCES
     ../src/engine/SamplePlayerPool.cpp
     ../src/engine/SamplerEngine.cpp
     ../src/engine/VoiceAllocator.cpp
+    ../src/mix/DelayMixBusSection.cpp
     ../src/mix/FilterMixBus.cpp
     ../src/mix/FXMixBus.cpp
     ../src/mix/HatMixBus.cpp
@@ -62,7 +63,6 @@ set(SAMPLER_CORE_SOURCES
     ../src/mix/MixBusNames.cpp
     ../src/mix/ReverbEffect.cpp
     ../src/mix/SnareMixBus.cpp
-    ../src/mix/TomMixBus.cpp
     ../src/playback/SamplePlayer.cpp
     ../src/playback/SamplerVoice.cpp
     ../src/playback/sample/Sample.cpp

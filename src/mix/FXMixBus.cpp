@@ -1,35 +1,23 @@
 #include "FXMixBus.h"
 
-#include "BufferMath.h"
-
 void FXMixBus::init(double sampleRate, const MixBusRoute& route) {
 	FilterMixBus::init(sampleRate, route);
 
-	const float fsr = static_cast<float>(sampleRate);
-
-	delayLine.init(channelCount, fsr);
+	delaySection.init(channelCount, sampleRate);
 
 	flangerSpeed.setValue(0.f);
 	flangerLevel.setValue(0.f);
-	flanger.init(channelCount, sampleRate);
+	flanger.init(static_cast<int>(channelCount), sampleRate);
 	flanger.setDepth(0.5f);
 	flanger.setFeedback(0.6f);
 }
 
 void FXMixBus::setParameterValue(ParameterIndex index, float value) {
+	if(delaySection.setParameterValue(index, value)) {
+		return;
+	}
+
 	switch(index) {
-		case DelayTime:
-			delayTime.setValue(value * 250.f + 10.f);
-			return;
-
-		case DelayFeedback:
-			feedback = value;
-			return;
-
-		case DelayLevel:
-			delayLevel.setValue(value * value);
-			return;
-
 		case FlangerSpeed:
 			flangerSpeed.setValue(value * value * value);
 			return;
@@ -43,6 +31,11 @@ void FXMixBus::setParameterValue(ParameterIndex index, float value) {
 	}
 
 	FilterMixBus::setParameterValue(index, value);
+}
+
+void FXMixBus::setTempo(double tempo) {
+	FilterMixBus::setTempo(tempo);
+	delaySection.setTempo(tempo);
 }
 
 void FXMixBus::processEffects(const TriLfo& lfo) {
@@ -62,34 +55,5 @@ void FXMixBus::processEffects(const TriLfo& lfo) {
 		sum[channel] = flanger.process(sum[channel], static_cast<int>(channel));
 	}
 
-	const float delayLevelValue = delayLevel.getAndStep();
-	float t = delayTime.getAndStep();
-
-	float* timeBuf = &t;
-	float* feedbackBuf = &feedback;
-	const size_t frameCount = 1;
-
-	float bufferIn[kMaxChannels][1] = {};
-
-	for(size_t channel = 0; channel < channelCount; ++channel) {
-		bufferIn[channel][0] = sum[channel];
-	}
-
-	for(size_t channel = 0; channel < channelCount; ++channel) {
-		delayLine.process(workBuf, frameCount, static_cast<int>(channel), timeBuf, nullptr, false, true);
-
-		sum[channel] = workBuf[0] * delayLevelValue;
-
-		BufferMath::mul(workBuf, feedbackBuf, workBuf, frameCount);
-
-		for(size_t i = 0; i < frameCount; ++i) {
-			workBuf[i] += bufferIn[channel][i];
-		}
-
-		delayLine.write(workBuf, frameCount, static_cast<int>(channel));
-
-		for(size_t i = 0; i < frameCount; ++i) {
-			sum[channel] += bufferIn[channel][i];
-		}
-	}
+	delaySection.process(sum, channelCount);
 }

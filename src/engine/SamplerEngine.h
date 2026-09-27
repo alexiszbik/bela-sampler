@@ -65,6 +65,7 @@ private:
 		CCMap{41, {{kBusSample, DelayLevel}}},
 		CCMap{40, {{kBusSample, DelayTime}}},
 		CCMap{39, {{kBusSample, DelayFeedback}}},
+		CCMap{51, {{kBusSample, DelaySync}}},
 
 		// ============= DRUMS
 
@@ -91,6 +92,7 @@ private:
 		CCMap{17, {{kBusHats, FlangerSpeed}}},
 		CCMap{16, {{kBusHats, FlangerLevel}}},
 
+		CCMap{50, {{kBusToms, DelaySync}}},
 		CCMap{31, {{kBusToms, DelayLevel}}},
 		CCMap{32, {{kBusToms, DelayTime}}},
 		CCMap{33, {{kBusToms, DelayFeedback}}},
