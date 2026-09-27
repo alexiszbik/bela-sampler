@@ -7,6 +7,14 @@ void BeatRepeat::init(int inChannelCount, double inSampleRate) {
     sampleRate = inSampleRate;
 
     repeatSize = sampleRate*currentRate;
+
+    memory = (float**)malloc(channelCount*sizeof(float*));
+    for (int c = 0; c < channelCount; c++) {
+        memory[c] = (float*)malloc(kMaxMemSize*sizeof(float));
+        for (int i = 0; i < kMaxMemSize; i++) {
+            memory[c][i] = 0;
+        }
+    }
 }
 
 void BeatRepeat::setState(bool newState) {

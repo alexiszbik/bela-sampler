@@ -6,7 +6,7 @@
 
 class BeatRepeat {
 public:
-    static constexpr int kMaxChannels = 2;
+    static constexpr int kMaxChannels = 4;
     static constexpr int kMaxMemSize = 48000;
 
     void init(int inChannelCount = kMaxChannels, double inSampleRate = 44100.0);
@@ -25,7 +25,7 @@ private:
 
     int writeIdx = 0;
     int readIdx = 0;
-    float memory[2][kMaxMemSize];
+    float** memory = nullptr;
 
     float currentRate = 0.125f;
 

@@ -4,7 +4,7 @@
 #include <cstring>
 #include <cstdlib>
 
-#define MAX_BUFFER_SIZE 128
+#define MAX_BUFFER_SIZE 32
 
 class Memory {
 public:
