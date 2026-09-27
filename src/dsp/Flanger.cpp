@@ -14,6 +14,8 @@ void Flanger::init(int channelCountIn, double sampleRate) {
     delayLine.init(channelCount, sampleRate);
     lfo.init(sampleRate);
     lfo.setFrequency(0.5f);
+
+    phaseOffsetRatio = 1.f/channelCount;
     reset();
 }
 
@@ -57,9 +59,13 @@ float Flanger::process(float in, int channel) {
     }
 
     if (channel == 0) {
-        const float lfoValue = lfo.process();
-        delayMs = clampf(centerDelayMs + depthMs * lfoValue, 0.1f, kMaxDelayMs - 0.1f);
+        lfo.process();
     }
+
+    const float phaseOffset = phaseOffsetRatio * static_cast<float>(channel);
+	const float lfoValue = lfo.valueAtPhaseOffset(phaseOffset);
+
+    delayMs = clampf(centerDelayMs + depthMs * lfoValue, 0.1f, kMaxDelayMs - 0.1f);
 
     float sampleBuf[1] = {in};
     delayLine.process(sampleBuf, 1, channel, &delayMs, &feedback, true, false);

@@ -32,4 +32,5 @@ private:
     float mix = 0.5f;
 
     float delayMs = 2.f;
+    float phaseOffsetRatio = 1.f;
 };
