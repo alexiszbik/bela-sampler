@@ -60,6 +60,8 @@ public:
 	virtual void setParameterValue(ParameterIndex index, float value);
 	void processAndMixTo(float* master, size_t masterChannelCount, const TriLfo& lfo);
 
+	virtual void setTempo(double tempo);
+
 protected:
 	static constexpr size_t kMaxChannels = MixBusRoute::kMaxChannels;
 

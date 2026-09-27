@@ -31,11 +31,22 @@ void BeatRepeat::setRepeatRate(float value) {
     if (frate >= (rateCount - 1)) frate = rateCount-1;
     float newRate = rateList[frate];
     if (newRate != currentRate) {
-        repeatSize = newRate * sampleRate;
         currentRate = newRate;
+        updateRepeatSize();
     }
 
 }
+
+void BeatRepeat::setTempo(double tempo) {
+    this->currentTempo = tempo;
+    updateRepeatSize();
+}
+
+void BeatRepeat::updateRepeatSize() {
+    double halfLength = 60.0/currentTempo * 2.0;
+    repeatSize = fmin(currentRate * sampleRate * halfLength, kMaxMemSize);
+}
+
 
 float BeatRepeat::process(float in, int channel) {
     float out = in;

@@ -68,12 +68,20 @@ void SamplerEngine::onNoteOff(int note, int channel) {
 }
 
 void SamplerEngine::onControlChange(int controller, int value, int channel) {
-    if(channel != kSamplerChannel) {
+    if(channel != kSamplerChannel && channel != kCommonChannel) {
         return;
     }
 
 	SAMPLER_LOG("Control change: ctrl %d value %d\n", controller, value);
     
+	if (channel == kCommonChannel) {
+		if (controller == 10) {
+			double newTempo = value + 60;
+			mixBuses.setTempo(newTempo);
+		}
+		return;
+	}
+
 	const float ratioValue = static_cast<float>(value) / 127.f;
 
 	for(const CCMap& map : ccMaps) {

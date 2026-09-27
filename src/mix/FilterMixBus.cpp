@@ -54,6 +54,12 @@ void FilterMixBus::setParameterValue(ParameterIndex index, float value) {
 	MixBusBase::setParameterValue(index, value);
 }
 
+
+void FilterMixBus::setTempo(double tempo) {
+	MixBusBase::setTempo(tempo);
+	beatRepeat.setTempo(tempo);
+}
+
 void FilterMixBus::processEffects(const TriLfo& lfo) {
 	MixBusBase::processEffects(lfo);
 

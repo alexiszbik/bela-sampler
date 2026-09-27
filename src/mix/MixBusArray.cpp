@@ -44,6 +44,14 @@ void MixBusArray::setBusParameter(MixBusIndex busIndex, ParameterIndex parameter
 	buses[busIndex]->setParameterValue(parameterIndex, value);
 }
 
+void MixBusArray::setTempo(double tempo) {
+	for(const std::unique_ptr<MixBusBase>& bus : buses) {
+		if(bus != nullptr) {
+			bus->setTempo(tempo);
+		}
+	}
+}
+
 void MixBusArray::processAll(float* master, size_t masterChannelCount) {
 
 	for(const std::unique_ptr<MixBusBase>& bus : buses) {

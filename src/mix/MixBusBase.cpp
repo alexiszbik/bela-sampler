@@ -55,6 +55,10 @@ void MixBusBase::setParameterValue(ParameterIndex index, float value) {
 	}
 }
 
+void MixBusBase::setTempo(double tempo) {
+	
+}
+
 void MixBusBase::processEffects(const TriLfo& lfo) {
 	/* tremolo */
 	/*

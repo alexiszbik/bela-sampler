@@ -21,7 +21,8 @@ struct CCMap {
 	std::vector<MapDest> destinations;
 };
 
-constexpr uint8_t kSamplerChannel = 3;
+constexpr uint8_t kSamplerChannel = 3; //4-1
+constexpr uint8_t kCommonChannel = 12; //13-1
 
 class SamplerEngine : public MidiInputDelegate
 {

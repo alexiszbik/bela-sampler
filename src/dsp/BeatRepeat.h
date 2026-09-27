@@ -14,8 +14,13 @@ public:
 
     void setState(bool newState);
     void setRepeatRate(float value);
+    void setTempo(double tempo);
 
 private:
+    void updateRepeatSize();
+
+private:
+
     bool state = false;
 
     int channelCount = kMaxChannels;
@@ -28,6 +33,7 @@ private:
     float** memory = nullptr;
 
     float currentRate = 0.125f;
+    double currentTempo = 120;
 
     std::array<float, 8> rateList = {1.f, 0.5f, 0.25f, 0.125f, 0.0625f, 0.03125f, 0.015625f, 0.0078125f};
 };

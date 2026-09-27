@@ -16,6 +16,7 @@ public:
 	void clearBusSums();
 	MixBusBase& getBus(MixBusIndex busIndex);
 	void setBusParameter(MixBusIndex busIndex, ParameterIndex parameterIndex, float value);
+	void setTempo(double tempo);
 	void processAll(float* master, size_t masterChannelCount);
 
 private:
