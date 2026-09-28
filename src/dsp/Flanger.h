@@ -6,7 +6,7 @@
 class Flanger {
 public:
     static constexpr int kMaxChannels = 4;
-    static constexpr float kMaxDelayMs = 40.f;
+    static constexpr float kMaxFanglerDelayMs = 100.f;
     static constexpr float kMaxDepthMs = 5.f;
 
     void init(int channelCount = kMaxChannels, double sampleRate = 44100.0);
@@ -22,7 +22,7 @@ public:
 private:
     void updateDelayTime();
 
-    DelayLine delayLine{kMaxDelayMs};
+    DelayLine delayLine{kMaxFanglerDelayMs};
     TriLfo lfo;
 
     int channelCount = kMaxChannels;

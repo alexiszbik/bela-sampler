@@ -1,7 +1,7 @@
 
 #include "SmoothValue.h"
 
-SmoothValue::SmoothValue(float value) {
+SmoothValue::SmoothValue(float value, int rampDuration) : rampDuration(rampDuration) {
     setImmediate(value);
 }
 

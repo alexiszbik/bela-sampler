@@ -6,9 +6,10 @@
 class SmoothValue {
 public:
     SmoothValue() {};
+
+    SmoothValue(float value, int rampDuration = 800);
     ~SmoothValue() {};
-    
-    SmoothValue(float value);
+  
     
     void setImmediate(float value);
 
@@ -29,6 +30,6 @@ private:
     
     bool valueChanged = true;
 
-    const int rampDuration = 800;
+    int rampDuration = 800;
 };
 

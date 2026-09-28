@@ -36,7 +36,7 @@ void Flanger::setMix(float mixIn) {
 }
 
 void Flanger::setCenterDelayMs(float centerDelayMsIn) {
-    centerDelayMs = clampf(centerDelayMsIn, 0.1f, kMaxDelayMs - kMaxDepthMs);
+    centerDelayMs = clampf(centerDelayMsIn, 0.1f, kMaxFanglerDelayMs - kMaxDepthMs);
 }
 
 void Flanger::reset() {
@@ -46,10 +46,11 @@ void Flanger::reset() {
 }
 
 void Flanger::updateDelayTime() {
-    delayMs = clampf(centerDelayMs, 0.1f, kMaxDelayMs - 0.1f);
+    delayMs = clampf(centerDelayMs, 0.1f, kMaxFanglerDelayMs - 0.1f);
 }
 
 float Flanger::process(float in, int channel) {
+
     if (channel < 0 || channel >= channelCount) {
         return in;
     }
@@ -65,11 +66,16 @@ float Flanger::process(float in, int channel) {
     const float phaseOffset = phaseOffsetRatio * static_cast<float>(channel);
 	const float lfoValue = lfo.valueAtPhaseOffset(phaseOffset);
 
-    delayMs = clampf(centerDelayMs + depthMs * lfoValue, 0.1f, kMaxDelayMs - 0.1f);
+    delayMs = clampf(centerDelayMs + depthMs * lfoValue, 0.1f, kMaxFanglerDelayMs - 0.1f);
 
-    float sampleBuf[1] = {in};
-    delayLine.process(sampleBuf, 1, channel, &delayMs, &feedback, true, false);
+    float sampleBuf = in;
+    delayLine.process(&sampleBuf, 1, channel, &delayMs, &feedback, true, false);
 
-    const float wet = sampleBuf[0];
-    return in * (1.f - mix) - wet * mix;
+    const float wet = sampleBuf;
+    const float halfpi = 1.57079633;
+
+    const float dryW = std::cos(mix * halfpi);
+    const float wetW = std::sin(mix * halfpi);
+    return in * dryW - wet * wetW;
+    //return in * (1.f - mix) - wet * mix;
 }
