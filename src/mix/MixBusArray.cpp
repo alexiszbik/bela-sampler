@@ -50,6 +50,9 @@ void MixBusArray::setTempo(double tempo) {
 			bus->setTempo(tempo);
 		}
 	}
+	double lfoRate = 60.0/tempo * 0.25;
+
+	lfo.setFrequency(lfoRate);
 }
 
 void MixBusArray::processAll(float* master, size_t masterChannelCount) {

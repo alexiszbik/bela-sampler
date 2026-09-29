@@ -307,6 +307,10 @@ bool ProgramJson::parseDispatch(SlotDispatch& dispatch) {
 		dispatch = SlotDispatch::Front;
 	} else if(dispatchName == kDispatchRear) {
 		dispatch = SlotDispatch::Rear;
+	} else if(dispatchName == kDispatchSideLeft) {
+		dispatch = SlotDispatch::SideLeft;
+	} else if(dispatchName == kDispatchSideRight) {
+		dispatch = SlotDispatch::SideRight;
 	} else if(dispatchName == kDispatchAll) {
 		dispatch = SlotDispatch::All;
 	} else if(dispatchName == kDispatchRandom) {

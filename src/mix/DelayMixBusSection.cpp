@@ -101,7 +101,7 @@ void DelayMixBusSection::process(float* sum, size_t channelCount) {
 	for(size_t channel = 0; channel < channelCount; ++channel) {
 		delayLine.process(workBuf, frameCount, static_cast<int>(channel), timeBuf, nullptr, false, true);
 
-		sum[channel] = workBuf[0];
+		sum[channel] = workBuf[0] * 0.707;
 
 		BufferMath::mul(workBuf, feedbackBuf, workBuf, frameCount);
 

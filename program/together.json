@@ -39,7 +39,8 @@
         {
           "sample": "together/TGT_AH.WAV",
           "mode": "mono",
-          "volume": -9.5
+          "volume": -9.5,
+          "dispatch": "random"
         }
       ]
     },
@@ -95,7 +96,8 @@
           "mode": "mono",
           "volume": -7.5,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -107,7 +109,8 @@
           "mode": "mono",
           "volume": -7.5,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -119,7 +122,8 @@
           "mode": "mono",
           "volume": -7.5,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -131,7 +135,8 @@
           "mode": "mono",
           "volume": -7.5,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -178,7 +183,7 @@
           "pitch": -12.0,
           "muteGroup": "B",
           "bus": "sample",
-          "dispatch": "all"
+          "dispatch": "rear"
         }
       ]
     },
@@ -191,8 +196,7 @@
           "volume": -6.0,
           "pitch": -12.0,
           "muteGroup": "B",
-          "bus": "sample",
-          "dispatch": "all"
+          "bus": "sample"
         }
       ]
     },
@@ -223,7 +227,6 @@
           "sample": "together/TGT_BASS.WAV",
           "mode": "mono",
           "volume": -9.0,
-          "bus": "kick",
           "dispatch": "all"
         }
       ]

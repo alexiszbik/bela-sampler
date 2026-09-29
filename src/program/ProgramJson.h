@@ -54,6 +54,8 @@ public:
 	static constexpr const char* kMuteGroupD = "D";
 	static constexpr const char* kDispatchFront = "front";
 	static constexpr const char* kDispatchRear = "rear";
+	static constexpr const char* kDispatchSideLeft = "sideLeft";
+	static constexpr const char* kDispatchSideRight = "sideRight";
 	static constexpr const char* kDispatchAll = "all";
 	static constexpr const char* kDispatchRandom = "random";
 	static constexpr const char* kDispatchForward = "forward";

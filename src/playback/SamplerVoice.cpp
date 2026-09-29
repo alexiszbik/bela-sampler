@@ -78,6 +78,16 @@ void SamplerVoice::resolveDispatch(const Program::Slot& slot, size_t busChannelC
 			mixRightChannel = 3;
 			break;
 
+		case SlotDispatch::SideLeft:
+			mixLeftChannel = 0;
+			mixRightChannel = 3;
+			break;
+
+		case SlotDispatch::SideRight:
+			mixLeftChannel = 1;
+			mixRightChannel = 2;
+			break;
+
 		case SlotDispatch::All:
 			mixToAllChannels = true;
 			break;

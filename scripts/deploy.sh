@@ -10,7 +10,7 @@ source "$SCRIPT_DIR/.bela_config"
 
 RUN=1
 CLEAN=0
-MAKE_ARGS=""
+ASSETS=0
 COMMAND_ARGS=""
 
 usage() {
@@ -21,7 +21,8 @@ Usage: $(basename "$0") [options]
 
 Options:
   -n          Build only, do not run
-  --clean     Clean project objects on the board before building
+  --clean     Clean project objects on the board, full sync (incl. samples + program), then build
+  --assets    Sync only samplesfolder/ and program/, then run (no build)
   -c "args"   Pass command-line arguments to the Bela program
   -h          Show this help
 
@@ -35,6 +36,7 @@ while [ $# -gt 0 ]; do
 	case "$1" in
 		-n) RUN=0 ;;
 		--clean) CLEAN=1 ;;
+		--assets) ASSETS=1 ;;
 		-c)
 			shift
 			COMMAND_ARGS="$1"
@@ -52,7 +54,47 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
+if [ "$CLEAN" -eq 1 ] && [ "$ASSETS" -eq 1 ]; then
+	echo "Cannot combine --clean and --assets." >&2
+	exit 1
+fi
+
 REMOTE_PROJECT="$BBB_PROJECT_HOME/$PROJECT_NAME"
+
+SAMPLER_CPPFLAGS="-DSAMPLER_BELA=1 -I$REMOTE_PROJECT/platform -I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/dsp/delay -I$REMOTE_PROJECT/src/midi"
+MAKE_BASE="make --no-print-directory QUIET=true -C '$BBB_BELA_HOME' PROJECT='$PROJECT_NAME' CPPFLAGS='$SAMPLER_CPPFLAGS'"
+[ -n "$COMMAND_ARGS" ] && MAKE_BASE="$MAKE_BASE CL='$COMMAND_ARGS'"
+
+sync_assets() {
+	local name="$1"
+	local local_dir="$PROJECT_DIR/$name"
+	if [ ! -d "$local_dir" ]; then
+		echo "→ Skipping $name/ (not found locally)" >&2
+		return 0
+	fi
+	echo "→ Syncing $name/..."
+	rsync -ac --no-t --delete \
+		"$local_dir/" "$BBB_ADDRESS:$REMOTE_PROJECT/$name/"
+}
+
+run_make() {
+	local target="$1"
+	if [ -n "$target" ]; then
+		ssh "$BBB_ADDRESS" "$MAKE_BASE $target"
+	else
+		ssh "$BBB_ADDRESS" "$MAKE_BASE"
+	fi
+}
+
+if [ "$ASSETS" -eq 1 ]; then
+	echo "→ Updating samples and programs on $BBB_ADDRESS:$REMOTE_PROJECT"
+	ssh "$BBB_ADDRESS" "mkdir -p '$REMOTE_PROJECT'"
+	sync_assets samplesfolder
+	sync_assets program
+	echo "→ Running on board..."
+	ssh -t "$BBB_ADDRESS" "$MAKE_BASE run"
+	exit 0
+fi
 
 echo "→ Syncing to $BBB_ADDRESS:$REMOTE_PROJECT"
 ssh "$BBB_ADDRESS" "mkdir -p '$REMOTE_PROJECT' && rm -rf '$REMOTE_PROJECT/external' '$REMOTE_PROJECT/vendor'"
@@ -67,21 +109,6 @@ rsync -ac --no-t --delete-after \
 	"$PROJECT_DIR/" "$BBB_ADDRESS:$REMOTE_PROJECT/"
 # juce/ holds the desktop simulator (including juce/platform/); never deployed to Bela.
 # platform/ at repo root is Bela-safe only (SamplerBootstrap, SamplerLog).
-
-# Build from Bela root (PROJECT_DIR = projects/Sampler). Do not use make -C $REMOTE_PROJECT:
-# Bela resolves PROJECT_DIR as abspath(projects/$(PROJECT)) relative to cwd and breaks in-tree.
-SAMPLER_CPPFLAGS="-DSAMPLER_BELA=1 -I$REMOTE_PROJECT/platform -I$REMOTE_PROJECT/src/program -I$REMOTE_PROJECT/src/playback -I$REMOTE_PROJECT/src/playback/sample -I$REMOTE_PROJECT/src/engine -I$REMOTE_PROJECT/src/mix -I$REMOTE_PROJECT/src/dsp -I$REMOTE_PROJECT/src/dsp/delay -I$REMOTE_PROJECT/src/midi"
-MAKE_BASE="make --no-print-directory QUIET=true -C '$BBB_BELA_HOME' PROJECT='$PROJECT_NAME' CPPFLAGS='$SAMPLER_CPPFLAGS'"
-[ -n "$COMMAND_ARGS" ] && MAKE_BASE="$MAKE_BASE CL='$COMMAND_ARGS'"
-
-run_make() {
-	local target="$1"
-	if [ -n "$target" ]; then
-		ssh "$BBB_ADDRESS" "$MAKE_BASE $target"
-	else
-		ssh "$BBB_ADDRESS" "$MAKE_BASE"
-	fi
-}
 
 if [ "$CLEAN" -eq 1 ]; then
 	echo "→ Cleaning project on board..."

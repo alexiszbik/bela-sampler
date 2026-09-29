@@ -73,10 +73,12 @@ MixBusIndex ProgramGridComponent::indexToBus(int index) {
 int ProgramGridComponent::dispatchToIndex(SlotDispatch dispatch) {
 	switch(dispatch) {
 		case SlotDispatch::Rear: return 1;
-		case SlotDispatch::All: return 2;
-		case SlotDispatch::Random: return 3;
-		case SlotDispatch::Forward: return 4;
-		case SlotDispatch::Backward: return 5;
+		case SlotDispatch::SideLeft: return 2;
+		case SlotDispatch::SideRight: return 3;
+		case SlotDispatch::All: return 4;
+		case SlotDispatch::Random: return 5;
+		case SlotDispatch::Forward: return 6;
+		case SlotDispatch::Backward: return 7;
 		default: return 0;
 	}
 }
@@ -84,10 +86,12 @@ int ProgramGridComponent::dispatchToIndex(SlotDispatch dispatch) {
 SlotDispatch ProgramGridComponent::indexToDispatch(int index) {
 	switch(index) {
 		case 1: return SlotDispatch::Rear;
-		case 2: return SlotDispatch::All;
-		case 3: return SlotDispatch::Random;
-		case 4: return SlotDispatch::Forward;
-		case 5: return SlotDispatch::Backward;
+		case 2: return SlotDispatch::SideLeft;
+		case 3: return SlotDispatch::SideRight;
+		case 4: return SlotDispatch::All;
+		case 5: return SlotDispatch::Random;
+		case 6: return SlotDispatch::Forward;
+		case 7: return SlotDispatch::Backward;
 		default: return SlotDispatch::Front;
 	}
 }

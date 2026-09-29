@@ -67,6 +67,8 @@ private:
 		CCMap{39, {{kBusSample, DelayFeedback}}},
 		CCMap{51, {{kBusSample, DelaySync}}},
 
+		CCMap{80, {{kBusSample, PanLfoAmount}}},
+
 		// ============= DRUMS
 
 		CCMap{37, {{kBusKick, Volume}}},

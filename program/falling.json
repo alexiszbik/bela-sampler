@@ -170,11 +170,22 @@
       "midiNote": 65,
       "layers": [
         {
-          "sample": "Falling/fa intld.WAV",
+          "sample": "Falling/fa_interludeWave.wav",
           "mode": "mono",
           "volume": -5.0,
-          "pitch": -12.0,
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
+        },
+        {
+          "sample": "Falling/fa_interludvoxA.wav",
+          "mode": "mono",
+          "volume": -6.0
+        },
+        {
+          "sample": "Falling/fa_interludvoxB.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "dispatch": "rear"
         }
       ]
     },
@@ -186,7 +197,16 @@
           "mode": "mono",
           "volume": -9.0,
           "pitch": -12.0,
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideLeft"
+        },
+        {
+          "sample": "Falling/padsrear.wav",
+          "mode": "mono",
+          "volume": -9.0,
+          "pitch": -12.0,
+          "bus": "sample",
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -210,7 +230,8 @@
           "mode": "mono",
           "volume": -7.0,
           "pitch": -7.0,
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "rear"
         }
       ]
     }

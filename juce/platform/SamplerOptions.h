@@ -54,6 +54,8 @@ inline juce::StringArray dispatchOptions() {
 	return {
 		ProgramJson::kDispatchFront,
 		ProgramJson::kDispatchRear,
+		ProgramJson::kDispatchSideLeft,
+		ProgramJson::kDispatchSideRight,
 		ProgramJson::kDispatchAll,
 		ProgramJson::kDispatchRandom,
 		ProgramJson::kDispatchForward,

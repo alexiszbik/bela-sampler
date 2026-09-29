@@ -3,6 +3,8 @@
 enum class SlotDispatch {
 	Front,
 	Rear,
+	SideLeft,
+	SideRight,
 	All,
 	Random,
 	Forward,

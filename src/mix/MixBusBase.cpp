@@ -72,15 +72,17 @@ void MixBusBase::processEffects(const TriLfo& lfo) {
 
 	
 	//THIS DISTRIB is tooo focus
-	/*
+	
 	if(channelCount >= 4) {
-		for(size_t channel = 0; channel < channelCount; ++channel) {
-			const float phaseOffset = 0.25f * static_cast<float>(channel);
-			const float lfoValue = lfo.valueAtPhaseOffset(phaseOffset);
-			sum[channel] *= lfoValue >= 0 ? lfoValue : 0.f;
+		if (panLfoLevel > 0.0f) {
+			for(size_t channel = 0; channel < channelCount; ++channel) {
+				const float phaseOffset = 0.25f * static_cast<float>(channel);
+				const float lfoValue = lfo.valueAtPhaseOffset(phaseOffset);
+				sum[channel] *= lfoValue >= 0 ? lfoValue : 0.f;
+			}
 		}
 	}
-	*/
+	
 
 	//THIS DISTRIB is tooo genereous
 	/*
@@ -93,7 +95,7 @@ void MixBusBase::processEffects(const TriLfo& lfo) {
 	}*/
 
 	//I'LL CHOSE THIS ONE
-	
+	/*
 	if (panLfoLevel > 0.0f) {
 		if(channelCount >= 4) {
 			for(size_t channel = 0; channel < channelCount; ++channel) {
@@ -102,7 +104,7 @@ void MixBusBase::processEffects(const TriLfo& lfo) {
 				sum[channel] *= lfoValue * lfoValue;
 			}
 		}
-	}
+	}*/
 }
 
 void MixBusBase::applyGain() {
