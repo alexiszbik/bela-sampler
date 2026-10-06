@@ -39,7 +39,7 @@
         {
           "sample": "together/TGT_AH.WAV",
           "mode": "mono",
-          "volume": -9.5,
+          "volume": -8.0,
           "dispatch": "random"
         }
       ]
@@ -50,7 +50,7 @@
         {
           "sample": "together/TGT_HAT.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -5.0,
           "bus": "hats"
         }
       ]
@@ -179,11 +179,11 @@
         {
           "sample": "together/TGT_SPL1.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -2.0,
           "pitch": -12.0,
           "muteGroup": "B",
           "bus": "sample",
-          "dispatch": "rear"
+          "dispatch": "all"
         }
       ]
     },
@@ -193,10 +193,11 @@
         {
           "sample": "together/TGT_SPL2.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -2.0,
           "pitch": -12.0,
           "muteGroup": "B",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -237,7 +238,7 @@
         {
           "sample": "together/DX7BASS.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -14.0,
           "muteGroup": "C",
           "dispatch": "all"
         }
@@ -249,7 +250,7 @@
         {
           "sample": "together/DX7BASS.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -14.0,
           "pitch": 4.0,
           "muteGroup": "C",
           "dispatch": "all"

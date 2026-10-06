@@ -4,7 +4,7 @@
       "midiNote": 36,
       "layers": [
         {
-          "sample": "fantasy/ftsy kick.WAV",
+          "sample": "fantasy/fantasy_kick.wav",
           "mode": "mono",
           "volume": -3.0,
           "bus": "kick"
@@ -18,7 +18,8 @@
           "sample": "fantasy/FANT_909.WAV",
           "mode": "mono",
           "volume": -8.0,
-          "bus": "snare"
+          "bus": "snare",
+          "dispatch": "forward"
         }
       ]
     },
@@ -50,7 +51,7 @@
         {
           "sample": "fantasy/ftsy hat.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -2.0,
           "bus": "hats"
         }
       ]
@@ -61,7 +62,7 @@
         {
           "sample": "fantasy/fminishake.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -6.0,
           "pitch": -0.819999992847443,
           "bus": "hats"
         }
@@ -73,7 +74,6 @@
         {
           "sample": "fantasy/ftsy shake.WAV",
           "mode": "mono",
-          "volume": -6.0,
           "bus": "hats"
         }
       ]
@@ -98,7 +98,8 @@
           "mode": "mono",
           "volume": -10.0,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -110,7 +111,8 @@
           "mode": "mono",
           "volume": -10.0,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -132,9 +134,10 @@
         {
           "sample": "fantasy/fant_voc5.WAV",
           "mode": "mono",
-          "volume": -12.0,
+          "volume": -14.0,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -142,7 +145,7 @@
       "midiNote": 50,
       "layers": [
         {
-          "sample": "fantasy/FSNR2.WAV",
+          "sample": "fantasy/FSNR2.wav",
           "mode": "mono",
           "volume": -8.0,
           "pitch": 1.0,
@@ -179,8 +182,9 @@
         {
           "sample": "fantasy/Fantasy_intro.wav",
           "mode": "mono",
-          "volume": -6.0,
-          "muteGroup": "D"
+          "volume": -2.0,
+          "muteGroup": "D",
+          "dispatch": "rear"
         }
       ]
     },
@@ -190,8 +194,9 @@
         {
           "sample": "fantasy/Fantasy_sidekick.wav",
           "mode": "mono",
-          "volume": -6.0,
-          "muteGroup": "D"
+          "volume": -2.0,
+          "muteGroup": "D",
+          "dispatch": "all"
         }
       ]
     },
@@ -201,8 +206,8 @@
         {
           "sample": "fantasy/Fantasy_cut.wav",
           "mode": "mono",
-          "volume": -6.0,
-          "muteGroup": "D"
+          "muteGroup": "D",
+          "dispatch": "rear"
         }
       ]
     },
@@ -212,8 +217,8 @@
         {
           "sample": "fantasy/Fantasy_filterA.wav",
           "mode": "mono",
-          "volume": -6.0,
-          "muteGroup": "D"
+          "muteGroup": "D",
+          "dispatch": "rear"
         }
       ]
     },
@@ -223,8 +228,8 @@
         {
           "sample": "fantasy/Fantasy_filterB.wav",
           "mode": "mono",
-          "volume": -6.0,
-          "muteGroup": "D"
+          "muteGroup": "D",
+          "dispatch": "rear"
         }
       ]
     },
@@ -234,7 +239,8 @@
         {
           "sample": "fantasy/bigriz1.wav",
           "mode": "mono",
-          "volume": -6.0
+          "volume": -4.0,
+          "dispatch": "all"
         }
       ]
     },
@@ -242,9 +248,10 @@
       "midiNote": 64,
       "layers": [
         {
-          "sample": "fantasy/bigriz2.wav",
+          "sample": "fantasy/bigriz2_fadein.wav",
           "mode": "mono",
-          "volume": -6.0
+          "volume": -8.0,
+          "dispatch": "all"
         }
       ]
     },
@@ -252,9 +259,16 @@
       "midiNote": 65,
       "layers": [
         {
-          "sample": "fantasy/Fantasy_breakFX.wav",
-          "mode": "poly",
-          "volume": -6.0
+          "sample": "fantasy/Fantasy_breakFXA.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "dispatch": "sideLeft"
+        },
+        {
+          "sample": "fantasy/Fantasy_breakFXB.wav",
+          "mode": "mono",
+          "volume": -6.0,
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -264,8 +278,9 @@
         {
           "sample": "fantasy/fant_gtr1.wav",
           "mode": "mono",
-          "volume": -9.0,
-          "muteGroup": "C"
+          "volume": -8.0,
+          "muteGroup": "C",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -275,8 +290,9 @@
         {
           "sample": "fantasy/fant_gtr2.wav",
           "mode": "mono",
-          "volume": -9.0,
-          "muteGroup": "C"
+          "volume": -8.0,
+          "muteGroup": "C",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -286,7 +302,8 @@
         {
           "sample": "fantasy/fant_gtr3.wav",
           "mode": "mono",
-          "volume": -9.0
+          "volume": -9.0,
+          "dispatch": "sideRight"
         }
       ]
     }

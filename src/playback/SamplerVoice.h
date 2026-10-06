@@ -34,6 +34,7 @@ private:
 
 	static constexpr size_t kMaxChannels = 2;
 	float gain = 1.f;
+	float postGain = 1.f;
 	float balance[kMaxChannels] = {1.f, 1.f};
 	float dry[kMaxChannels] = {0.f, 0.f};
 	SlotDispatch dispatch = SlotDispatch::Front;

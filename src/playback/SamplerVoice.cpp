@@ -105,6 +105,12 @@ void SamplerVoice::resolveDispatch(const Program::Slot& slot, size_t busChannelC
 		default:
 			break;
 	}
+
+	if (slot.dispatch == SlotDispatch::All) {
+		postGain = 0.707;
+	} else {
+		postGain = 0.501;
+	}
 }
 
 void SamplerVoice::mixToStereoPair(float* sum, size_t leftChannel, size_t rightChannel, float left, float right, bool isMono) const {
@@ -117,8 +123,8 @@ void SamplerVoice::mixToMonoChannel(float* sum, size_t channel, float sample) co
 }
 
 void SamplerVoice::mixDryToSum(float* sum, size_t sumChannelCount) {
-	const float left = dry[0] * gain * balance[0];
-	const float right = dry[1] * gain * balance[1];
+	const float left = dry[0] * gain * balance[0] * postGain;
+	const float right = dry[1] * gain * balance[1] * postGain;
 
 	if(sumChannelCount < 4) {
 		sum[0] += left;

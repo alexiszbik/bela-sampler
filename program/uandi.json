@@ -4,7 +4,7 @@
       "midiNote": 36,
       "layers": [
         {
-          "sample": "u&i/UAI_KICK.WAV",
+          "sample": "u&i/uandi_kick.wav",
           "mode": "mono",
           "volume": -6.0,
           "bus": "kick"
@@ -15,7 +15,7 @@
       "midiNote": 38,
       "layers": [
         {
-          "sample": "u&i/UAI_SNR.WAV",
+          "sample": "u&i/uandi_snare.wav",
           "mode": "mono",
           "volume": -4.0,
           "bus": "snare"
@@ -28,7 +28,7 @@
         {
           "sample": "u&i/SST.WAV",
           "mode": "mono",
-          "volume": -11.0,
+          "volume": -13.0,
           "bus": "snare"
         }
       ]
@@ -108,7 +108,8 @@
           "volume": -5.0,
           "pitch": -0.079999998211861,
           "muteGroup": "C",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "rear"
         }
       ]
     },
@@ -121,7 +122,8 @@
           "volume": -5.0,
           "pitch": -0.079999998211861,
           "muteGroup": "C",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "rear"
         }
       ]
     },
@@ -166,9 +168,10 @@
         {
           "sample": "u&i/UI_PIANO.WAV",
           "mode": "mono",
-          "volume": -8.0,
+          "volume": -6.0,
           "pitch": -12.0,
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -178,8 +181,9 @@
         {
           "sample": "u&i/uai_sweep7.WAV",
           "mode": "mono",
-          "volume": -6.0,
-          "pitch": -6.269999980926514
+          "volume": -5.0,
+          "pitch": -6.269999980926514,
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -189,9 +193,8 @@
         {
           "sample": "u&i/ui_clpverb.WAV",
           "mode": "mono",
-          "volume": -2.0,
           "pitch": -11.319999694824219,
-          "bus": "snare"
+          "dispatch": "rear"
         }
       ]
     },
@@ -223,9 +226,10 @@
         {
           "sample": "u&i/EXPLODE.WAV",
           "mode": "mono",
-          "volume": -5.5,
+          "volume": -6.0,
           "pitch": -12.0,
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "all"
         }
       ]
     },
@@ -245,7 +249,8 @@
         {
           "sample": "u&i/uandi_chineseecho.wav",
           "mode": "mono",
-          "volume": -4.5
+          "volume": -2.0,
+          "dispatch": "rear"
         }
       ]
     }

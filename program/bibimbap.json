@@ -28,7 +28,7 @@
         {
           "sample": "bibimbap/BBB_SNR.WAV",
           "mode": "mono",
-          "volume": -4.0,
+          "volume": -6.0,
           "bus": "snare"
         }
       ]
@@ -40,7 +40,7 @@
           "sample": "bibimbap/BBB_RIM.WAV",
           "mode": "mono",
           "volume": -6.0,
-          "bus": "snare"
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -73,7 +73,8 @@
           "sample": "bibimbap/BBB_CL.WAV",
           "mode": "mono",
           "volume": -9.0,
-          "bus": "toms"
+          "bus": "toms",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -128,8 +129,7 @@
         {
           "sample": "bibimbap/BBB_DZ.WAV",
           "mode": "mono",
-          "volume": -2.0,
-          "bus": "toms"
+          "dispatch": "random"
         }
       ]
     },
@@ -139,8 +139,7 @@
         {
           "sample": "bibimbap/bbb_guiro.WAV",
           "mode": "mono",
-          "volume": -9.0,
-          "bus": "toms"
+          "volume": -9.0
         }
       ]
     },
@@ -209,7 +208,8 @@
           "mode": "mono",
           "volume": -8.0,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -221,7 +221,8 @@
           "mode": "mono",
           "volume": -9.0,
           "muteGroup": "A",
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -231,7 +232,8 @@
         {
           "sample": "bibimbap/marimbaLoop.wav",
           "mode": "mono",
-          "volume": -3.0
+          "volume": -3.0,
+          "dispatch": "rear"
         }
       ]
     }

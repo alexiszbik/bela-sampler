@@ -4,7 +4,7 @@
       "midiNote": 36,
       "layers": [
         {
-          "sample": "Falling/fa kick.WAV",
+          "sample": "Falling/falling_kick.wav",
           "mode": "mono",
           "volume": -6.0,
           "bus": "kick"
@@ -17,7 +17,7 @@
         {
           "sample": "Falling/fa snr.WAV",
           "mode": "mono",
-          "volume": -5.0,
+          "volume": -3.0,
           "bus": "snare"
         }
       ]
@@ -81,10 +81,10 @@
       "midiNote": 44,
       "layers": [
         {
-          "sample": "Falling/TOM2.WAV",
+          "sample": "Falling/falling_tomSlap.wav",
           "mode": "mono",
-          "volume": -5.0,
-          "pitch": -3.0,
+          "volume": -3.0,
+          "pitch": -2.0,
           "bus": "toms"
         }
       ]
@@ -195,7 +195,7 @@
         {
           "sample": "Falling/fa pads.WAV",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -12.0,
           "pitch": -12.0,
           "bus": "sample",
           "dispatch": "sideLeft"
@@ -203,7 +203,7 @@
         {
           "sample": "Falling/padsrear.wav",
           "mode": "mono",
-          "volume": -9.0,
+          "volume": -12.0,
           "pitch": -12.0,
           "bus": "sample",
           "dispatch": "sideRight"

@@ -4,7 +4,7 @@
       "midiNote": 36,
       "layers": [
         {
-          "sample": "tired/tired_kick.WAV",
+          "sample": "tired/tired_kickNew.wav",
           "mode": "mono",
           "volume": -2.0,
           "bus": "kick"
@@ -29,7 +29,7 @@
         {
           "sample": "tired/CLAP.WAV",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -7.0,
           "pitch": 3.0,
           "bus": "snare"
         }
@@ -41,7 +41,7 @@
         {
           "sample": "tired/HANDCLP1.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -8.0,
           "bus": "snare"
         }
       ]
@@ -159,7 +159,7 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": 0.600000023841858,
-          "bus": "hats"
+          "dispatch": "rear"
         }
       ]
     },
@@ -172,7 +172,7 @@
           "volume": -8.0,
           "pitch": 0.600000023841858,
           "muteGroup": "A",
-          "bus": "hats"
+          "dispatch": "rear"
         }
       ]
     },
@@ -182,7 +182,7 @@
         {
           "sample": "tired/t_clapecho.WAV",
           "mode": "mono",
-          "volume": -3.0,
+          "volume": -2.0,
           "pitch": -11.399999618530273,
           "bus": "toms"
         }
@@ -227,11 +227,11 @@
       "midiNote": 58,
       "layers": [
         {
-          "sample": "tired/tired psysynth.WAV",
+          "sample": "tired/roboto.wav",
           "mode": "poly",
-          "volume": -6.0,
-          "pitch": -12.0,
-          "bus": "sample"
+          "volume": -3.0,
+          "bus": "sample",
+          "dispatch": "sideLeft"
         }
       ]
     },
@@ -243,7 +243,8 @@
           "mode": "mono",
           "volume": -6.0,
           "pitch": -12.0,
-          "bus": "sample"
+          "bus": "sample",
+          "dispatch": "sideRight"
         }
       ]
     },
@@ -277,7 +278,7 @@
         {
           "sample": "tired/techKickLong.wav",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "kick"
         }
       ]
@@ -288,7 +289,7 @@
         {
           "sample": "tired/techKickShort.wav",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -8.0,
           "bus": "kick"
         }
       ]
@@ -299,7 +300,7 @@
         {
           "sample": "tired/techSnare.wav",
           "mode": "mono",
-          "volume": -6.0,
+          "volume": -12.0,
           "bus": "snare"
         }
       ]
@@ -322,7 +323,8 @@
           "sample": "tired/UP.WAV",
           "mode": "gate",
           "volume": -12.0,
-          "pitch": -12.0
+          "pitch": -12.0,
+          "dispatch": "rear"
         }
       ]
     },
